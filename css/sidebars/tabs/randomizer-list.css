@@ -1,0 +1,31 @@
+
+.randomizer-list {
+    background-color: #eee;
+}
+
+.randomizer-list .panel-header {
+    padding: 0 5px;
+
+    background-color: #ddd;
+
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+}
+
+
+
+.randomizer-list .property > div > i.icon-button:hover {
+    color: #d72e2c;
+
+    cursor: pointer;
+}
+
+.new-randomizer-panel .property > div.new-randomizer-input-container {
+    width: 160px;
+}
+
+.new-randomizer-panel .property > div > i.icon-button:hover {
+    color: dodgerblue;
+
+    cursor: pointer;
+}

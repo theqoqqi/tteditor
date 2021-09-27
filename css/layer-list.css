@@ -1,0 +1,8 @@
+
+.map-layer-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    background-color: #eee;
+}

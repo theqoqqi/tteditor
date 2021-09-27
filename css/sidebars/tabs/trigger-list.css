@@ -1,0 +1,110 @@
+
+.trigger-list-controls {
+    background-color: #eee;
+    border-bottom: 1px solid #aaa;
+}
+
+.trigger-list-controls .property > div {
+    flex-grow: 1;
+}
+
+.trigger-list-controls .property > div > i.icon-button:hover {
+    color: dodgerblue;
+
+    cursor: pointer;
+}
+
+/* Trigger List */
+
+.trigger-list {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+
+    padding-bottom: 24px;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.trigger-list .trigger-list-item {
+    display: flex;
+    flex-direction: row;
+
+    padding: 4px 0;
+
+    font-size: 12px;
+
+    cursor: default;
+}
+
+.trigger-list .trigger-list-item:hover {
+    background-color: #eee;
+}
+
+.trigger-list .trigger-list-item.selected {
+    background-color: #57bdff;
+    color: white;
+}
+
+.trigger-list .trigger-list-item > * {
+    padding: 0 5px;
+
+    line-height: 1;
+}
+
+.trigger-list .trigger-list-item > i {
+    margin: -1px 0;
+
+    font-size: 16px;
+
+    text-align: center;
+}
+
+.trigger-list .trigger-list-item > *:not(:first-child):not(.trigger-button) {
+    border-left: 1px solid #ddd;
+}
+
+.trigger-list .trigger-list-item.selected > *:not(:first-child):not(.trigger-button) {
+    border-left-color: lightblue;
+}
+
+.trigger-list .trigger-list-item .trigger-icon {
+    width: 30px;
+}
+
+.trigger-list .trigger-list-item .trigger-title {
+    width: 293px; /* -17px for scrollbar */
+
+    font-size: 14px;
+    font-weight: 600;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.trigger-list .trigger-list-item .trigger-repeat {
+    width: 50px;
+
+    text-align: center;
+}
+
+.trigger-list .trigger-list-item .trigger-button {
+    padding: 0 2px;
+
+    cursor: pointer;
+}
+
+.trigger-list .trigger-list-item .trigger-button:hover {
+    color: #0d6efd;
+}
+
+.trigger-list .trigger-list-item .repeat-trigger-button:not(.repeating) {
+    color: lightgray;
+}
+
+.trigger-list .trigger-list-item .toggle-trigger-button:not(.enabled) {
+    color: lightgray;
+}

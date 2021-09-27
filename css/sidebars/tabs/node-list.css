@@ -1,0 +1,106 @@
+
+.node-list {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    padding-bottom: 24px;
+
+    overflow-y: auto;
+}
+
+.node-list .node-list-item {
+    display: flex;
+    flex-direction: row;
+
+    padding: 4px 0;
+
+    font-size: 12px;
+
+    user-select: none;
+    cursor: default;
+}
+
+.node-list .node-list-item:hover {
+    background-color: #eee;
+}
+
+.node-list .node-list-item.selected {
+    background-color: #57bdff;
+    color: white;
+}
+
+.node-list .node-list-item > * {
+    padding: 0 5px;
+
+    line-height: 1;
+}
+
+.node-list .node-list-item > i {
+    margin: -1px 0;
+
+    font-size: 16px;
+
+    text-align: center;
+}
+
+.node-list .node-list-item > *:not(:first-child):not(.node-button) {
+    border-left: 1px solid #ddd;
+}
+
+.node-list .node-list-item.selected > *:not(:first-child):not(.node-button) {
+    border-left-color: lightblue;
+}
+
+.node-list .node-list-item .node-icon {
+    width: 30px;
+}
+
+.node-list .node-list-item .node-tag {
+    width: 60px;
+}
+
+.node-list .node-list-item .node-title {
+    width: 153px; /* -17px for scrollbar */
+
+    font-size: 14px;
+    font-weight: 600;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.node-list .node-list-item .node-pos {
+    width: 40px;
+
+    text-align: center;
+}
+
+.node-list .node-list-item .node-button {
+    padding: 0 2px;
+
+    cursor: pointer;
+}
+
+.node-list .node-list-item .node-button:hover {
+    color: #0d6efd;
+}
+
+.node-list .node-list-item .toggle-node-button:not(.visible) {
+    color: lightgray;
+}
+
+
+
+.node-list:not(.landmark-layer-active) .node-list-item.landmark,
+.node-list:not(.structure-layer-active) .node-list-item.structure,
+.node-list:not(.building-layer-active) .node-list-item.building,
+.node-list:not(.unit-layer-active) .node-list-item.unit,
+.node-list:not(.item-layer-active) .node-list-item.item,
+.node-list:not(.magic-layer-active) .node-list-item.magic,
+.node-list:not(.ambient-layer-active) .node-list-item.ambient,
+.node-list:not(.waypoint-layer-active) .node-list-item.waypoint,
+.node-list:not(.area-layer-active) .node-list-item.area {
+    display: none;
+}

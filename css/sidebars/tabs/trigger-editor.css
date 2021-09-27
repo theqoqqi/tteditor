@@ -1,0 +1,37 @@
+
+.trigger-properties {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+
+    height: 450px;
+
+    background-color: #eee;
+}
+
+.trigger-properties .panel-header {
+    padding: 0 5px;
+
+    background-color: #ddd;
+
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+}
+
+.trigger-properties .trigger-editor-container {
+    display: flex;
+    justify-content: stretch;
+    align-items: stretch;
+
+    flex-grow: 1;
+}
+
+.trigger-properties .trigger-editor-container .trigger-editor {
+    flex-grow: 1;
+
+    font-family: monospace;
+
+    white-space: nowrap;
+    resize: none;
+}

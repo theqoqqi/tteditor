@@ -1,0 +1,73 @@
+
+.status-bar {
+    display: flex;
+    align-self: flex-end;
+
+    height: 24px;
+    padding-left: 6px;
+
+    background-color: #ddd;
+
+    border: 1px solid #aaa;
+    border-right: none;
+    border-bottom: none;
+    border-top-left-radius: 8px;
+
+    box-sizing: content-box;
+    user-select: none;
+    z-index: 120000;
+}
+
+.status-bar-button {
+    padding: 0 6px;
+
+    color: #444;
+    background-color: initial;
+
+    border: none;
+    text-decoration: none;
+}
+
+.status-bar .status-bar-separator {
+    width: 1px;
+    height: 24px;
+
+    margin: 0 4px;
+
+    background-color: #aaa;
+}
+
+.status-bar .status-bar-button:hover {
+    background-color: #ccc;
+}
+
+.status-bar .workspace {
+    display: flex;
+}
+
+.status-bar .workspace-label {
+    padding: 0 6px;
+}
+
+.workspace-path-span {
+    max-width: 400px;
+
+    padding-left: 4px;
+    padding-right: 8px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.status-bar .workspace-path-input {
+    min-width: 100px;
+    max-width: 400px;
+    height: 24px;
+
+    border: 1px solid #aaa;
+    border-top: none;
+    border-bottom: none;
+
+    outline: none;
+}

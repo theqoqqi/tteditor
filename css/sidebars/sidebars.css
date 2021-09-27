@@ -1,0 +1,121 @@
+
+@import 'tabs/level-list.css';
+@import 'tabs/palette.css';
+@import 'tabs/node-list.css';
+@import 'tabs/property-list.css';
+@import 'tabs/trigger-list.css';
+@import 'tabs/trigger-editor.css';
+@import 'tabs/trigger-editor-codemirror.css';
+@import 'tabs/map-options.css';
+@import 'tabs/randomizer-list.css';
+
+/* Sidebar */
+
+.sidebar {
+    display: flex;
+
+    z-index: 110000;
+}
+
+.sidebar .collapsing {
+    -webkit-transition: none;
+    transition: none;
+    display: none;
+}
+
+/* Tab Links */
+
+.sidebar-tab-links {
+    display: flex;
+    flex-direction: column;
+
+    width: 24px;
+
+    background-color: #ddd;
+}
+
+.sidebar-tab-links .sidebar-tab-link {
+    display: flex;
+    flex-direction: column;
+
+    padding: 10px 0 5px;
+
+    color: #444;
+    text-decoration: none;
+
+    cursor: pointer;
+    user-select: none;
+}
+
+.sidebar-tab-links .sidebar-tab-link:hover {
+    background-color: #ccc;
+}
+
+.sidebar-tab-links .sidebar-tab-link:not(.collapsed) {
+    background-color: #999;
+    color: white;
+}
+
+.sidebar-tab-links .sidebar-tab-link .title {
+    transform: rotate(180.1deg);
+    writing-mode: vertical-lr;
+}
+
+.sidebar-tab-links .sidebar-tab-link i {
+    text-align: center;
+    margin-top: 2px;
+}
+
+/* Tabs */
+
+.sidebar .sidebar-tabs {
+    display: flex;
+
+    overflow: hidden;
+}
+
+.sidebar.active .sidebar-tabs {
+    width: 300px;
+}
+
+.sidebar .sidebar-tabs .sidebar-tab.show {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* Left Side */
+
+.left-sidebar {
+    flex-direction: row;
+}
+
+.left-sidebar .sidebar-tab-links  {
+    border-right: 1px solid #aaa;
+}
+
+/* Right Side */
+
+.right-sidebar {
+    flex-direction: row-reverse;
+}
+
+.right-sidebar.active .sidebar-tabs {
+    width: 400px;
+}
+
+.right-sidebar .sidebar-tab {
+
+}
+
+.right-sidebar .sidebar-tab-links {
+    border-left: 1px solid #aaa;
+}
+
+.right-sidebar .sidebar-tab-link {
+    transform: rotate(180deg);
+}
+
+.right-sidebar .sidebar-tab-link i {
+    transform: rotate(180deg);
+}

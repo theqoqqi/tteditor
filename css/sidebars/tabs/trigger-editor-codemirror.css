@@ -1,0 +1,47 @@
+
+.CodeMirror {
+    width: 100%;
+    height: 100%;
+}
+
+.CodeMirror-focused {
+
+}
+
+.CodeMirror-sizer {
+    margin-left: 30px !important;
+}
+
+.CodeMirror-gutters {
+
+}
+
+.CodeMirror-linenumbers {
+
+}
+
+.CodeMirror-linenumber {
+
+}
+
+.CodeMirror-lines {
+    font-family: 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.2;
+}
+
+.CodeMirror-cursor {
+
+}
+
+.CodeMirror-selected {
+
+}
+
+.CodeMirror-matchingbracket {
+
+}
+
+.CodeMirror-nonmatchingbracket {
+
+}

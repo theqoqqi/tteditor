@@ -1,0 +1,239 @@
+
+@import 'sidebars/sidebars.css';
+@import 'toolbar.css';
+@import 'status-bar.css';
+
+html, body {
+    height: 100%;
+
+    overflow: hidden;
+}
+
+.page-root {
+    display: flex;
+
+    width: 100%;
+    height: 100%;
+}
+
+.main-area-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+
+    flex: 1;
+
+    overflow: hidden;
+    outline: none;
+}
+
+.main-area-panels {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    width: 100%;
+    height: 100%;
+}
+
+.map-scroll-container {
+    display: flex;
+    justify-content: stretch;
+    align-items: stretch;
+
+    flex: 1;
+
+    background-color: #ddd;
+
+    overflow: hidden;
+}
+
+.map-scroll {
+    background-attachment: local;
+    overflow: hidden;
+}
+
+.map-container {
+    padding: 300px;
+    width: fit-content;
+}
+
+.map {
+    position: relative;
+}
+
+.map-border {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+    left: -2px;
+    top: -2px;
+
+    border-width: 2px;
+    border-style: ridge groove groove ridge;
+    border-color: yellowgreen;
+
+    box-sizing: content-box;
+    z-index: 110000;
+    pointer-events: none;
+}
+
+.main-area-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+
+    z-index: 100000;
+    mix-blend-mode: color;
+    pointer-events: none;
+}
+
+.map:not(.terrain-layer-active) {
+    background-image: none !important;
+}
+
+.map-node {
+    position: absolute;
+}
+
+.map-node.selected {
+
+}
+
+.map-node.hidden {
+    visibility: hidden;
+}
+
+.map-node .selection-box {
+    position: absolute;
+}
+
+.map-node .selection-box:hover {
+    border: 1px solid white;
+    /*z-index: 1000000 !important;*/
+}
+
+.map-node.selected .selection-box {
+    border: 1px solid black;
+    z-index: 1000000 !important;
+    cursor: all-scroll;
+}
+
+.map-node .mesh {
+    position: absolute;
+
+    pointer-events: none;
+}
+
+.map-node.marker-map-node {
+    pointer-events: none;
+}
+
+.map-node.marker-map-node { /* > .marker-mesh { */
+    border-radius: 50%;
+}
+
+.map-node.marker-map-node > .selection-box {
+    pointer-events: auto;
+}
+
+.map-node.marker-map-node > i {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    left: 50%;
+    top: 50%;
+    width: 100%;
+    height: 100%;
+
+    font-size: 20px;
+
+    border-radius: 50%;
+
+    transform: translate(-50%, -50%);
+
+    pointer-events: none;
+}
+
+.map-node.waypoint { /* > .marker-mesh { */
+    color: white;
+    background-color: red;
+    border: 2px solid black;
+}
+
+.map-node.waypoint > .selection-box {
+    margin-left: -2px;
+    margin-top: -2px;
+}
+
+
+.map-node.magic { /* > .marker-mesh { */
+    color: white;
+    background-color: purple;
+    border: 1px solid black;
+}
+
+.map-node.magic > .selection-box {
+    margin-left: -1px;
+    margin-top: -1px;
+}
+
+
+.map-node.ambient { /* > .marker-mesh { */
+    color: white;
+    background-color: dodgerblue;
+    border: 1px solid black;
+}
+
+.map-node.ambient > .selection-box {
+    margin-left: -1px;
+    margin-top: -1px;
+}
+
+
+.map-node.area { /* > .marker-mesh { */
+    background-color: rgba(255, 192, 0, 0.1);
+    border: 2px solid orange;
+}
+
+.map-node.area > .selection-box {
+    margin-left: -2px;
+    margin-top: -2px;
+}
+
+
+
+.map:not(.landmark-layer-active) .map-node.landmark,
+.map:not(.structure-layer-active) .map-node.structure,
+.map:not(.building-layer-active) .map-node.building,
+.map:not(.unit-layer-active) .map-node.unit,
+.map:not(.item-layer-active) .map-node.item,
+.map:not(.item-layer-active) .map-node.chest,
+.map:not(.magic-layer-active) .map-node.magic,
+.map:not(.ambient-layer-active) .map-node.ambient,
+.map:not(.waypoint-layer-active) .map-node.waypoint,
+.map:not(.area-layer-active) .map-node.area {
+    opacity: 0.25;
+    pointer-events: none !important;
+}
+
+.map:not(.landmark-layer-active) .map-node.landmark *,
+.map:not(.structure-layer-active) .map-node.structure *,
+.map:not(.building-layer-active) .map-node.building *,
+.map:not(.unit-layer-active) .map-node.unit *,
+.map:not(.item-layer-active) .map-node.item *,
+.map:not(.item-layer-active) .map-node.chest *,
+.map:not(.magic-layer-active) .map-node.magic *,
+.map:not(.ambient-layer-active) .map-node.ambient *,
+.map:not(.waypoint-layer-active) .map-node.waypoint *,
+.map:not(.area-layer-active) .map-node.area * {
+    pointer-events: none !important;
+}

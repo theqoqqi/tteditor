@@ -1,0 +1,70 @@
+
+@import 'layer-list.css';
+
+.toolbar {
+    display: flex;
+    align-self: center;
+
+    background-color: #ddd;
+    border: 1px solid #aaa;
+    border-top: none;
+
+    z-index: 120000;
+}
+
+.toolbar-separator {
+    width: 1px;
+    margin: 4px;
+
+    background-color: #aaa;
+}
+
+.toolbar .toolbar-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 40px;
+    height: 40px;
+    padding: 0;
+
+    color: #444;
+    text-align: center;
+    text-decoration: none;
+
+    cursor: pointer;
+    user-select: none;
+}
+
+.toolbar .toolbar-icon:hover {
+    background-color: #ccc;
+}
+
+.toolbar .toolbar-icon i {
+    margin: auto 0;
+
+    font-size: 24px;
+    line-height: 1;
+
+    text-align: center;
+}
+
+.toolbar .toolbar-icon-switcher.active {
+    background-color: cornflowerblue;
+}
+
+.toolbar .toolbar-icon-switcher.active i {
+    color: white;
+}
+
+.toolbar .toolbar-icon-switcher .title {
+    font-size: 14px;
+}
+
+.toolbar .toolbar-icon-switcher i {
+    color: cornflowerblue;
+}
+
+.toolbar .toolbar-icon-switcher:not(.active):not(:hover) i {
+    opacity: 0.25;
+}

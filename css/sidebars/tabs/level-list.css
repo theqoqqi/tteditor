@@ -1,0 +1,22 @@
+
+.level-list {
+    border-radius: 0;
+
+    padding-bottom: 24px;
+
+    overflow-y: auto;
+}
+
+.level-list a {
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.level-list a .path {
+    font-size: 12px;
+    color: gray;
+}
+
+.level-list a.active .path {
+    color: white;
+}
