@@ -1,6 +1,7 @@
 
 Element.prototype.getTextContentOf = function (selector, defaultValue = null) {
-    let element = this.querySelector(selector);
+    // let element = this.querySelector(selector);
+    let element = this.querySelector(`:scope > ${selector}`);
     return element?.textContent ?? defaultValue;
 }
 
@@ -85,12 +86,21 @@ function componentToHex(c) {
 
 function verticesToBounds(vertices) {
     let positions = verticesToPositions(vertices);
-    let bounds = {
-        minX: Math.min(positions[0].x, positions[1].x),
-        minY: Math.min(positions[0].y, positions[2].y),
-        maxX: Math.max(positions[2].x, positions[3].x),
-        maxY: Math.max(positions[1].y, positions[3].y),
-    };
+
+    return createBounds(
+        Math.min(positions[0].x, positions[1].x),
+        Math.min(positions[0].y, positions[2].y),
+        Math.max(positions[2].x, positions[3].x),
+        Math.max(positions[1].y, positions[3].y)
+    );
+}
+
+function createBoundsWithSize(x, y, w, h) {
+    return createBounds(x, y, x + w, y + h);
+}
+
+function createBounds(minX, minY, maxX, maxY) {
+    let bounds = { minX, minY, maxX, maxY };
 
     if (bounds.minX > bounds.maxX) {
         swapFields(bounds, 'minX', 'maxX');
@@ -100,12 +110,16 @@ function verticesToBounds(vertices) {
         swapFields(bounds, 'minY', 'maxY');
     }
 
+    fillBoundsFields(bounds);
+
+    return bounds;
+}
+
+function fillBoundsFields(bounds) {
     bounds.x = bounds.minX;
     bounds.y = bounds.minY;
     bounds.width = bounds.maxX - bounds.minX;
     bounds.height = bounds.maxY - bounds.minY;
-
-    return bounds;
 }
 
 function swapFields(object, a, b) {

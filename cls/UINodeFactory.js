@@ -8,7 +8,7 @@ export default class UINodeFactory {
         this.context = context;
     }
 
-    createMarkerNode(tagName, mapNode) {
+    createMarkerNode(tagName, typeName, mapNode) {
         let $node = this.createGenericNode(tagName, mapNode);
         let x = mapNode.x;
         let y = mapNode.y;
@@ -79,7 +79,9 @@ export default class UINodeFactory {
         return null;
     }
 
-    createNode(tagName, node, mapNode, $parentNode) {
+    createNode(tagName, typeName, mapNode, $parentNode = null, node = null) {
+        node ??= this.context.getNodeByName(tagName, typeName);
+
         try {
             let $node = this.createGenericNode(tagName, mapNode, node, $parentNode);
             let {x, y, z} = this.getCoordsForNode(tagName, mapNode, node, $parentNode);
@@ -95,7 +97,7 @@ export default class UINodeFactory {
 
             if (node.querySelector(':scope > mesh') && node.querySelector(':scope > texture')) {
 
-                let $mesh = this.createMesh(node);
+                let $mesh = this.createMesh(tagName, typeName, node);
 
                 $mesh.css('z-index', z);
                 $node.append($mesh);
@@ -106,11 +108,11 @@ export default class UINodeFactory {
             }
 
             for (let subNode of node.querySelectorAll(':scope > node')) {
-                let $subNode = this.createNode(tagName, subNode, mapNode, $node);
+                let $subNode = this.createNode(tagName, typeName, mapNode, $node, subNode);
                 $node.append($subNode);
             }
 
-            if (!$parentNode) {
+            if (!$parentNode && !mapNode.isFake) {
                 let $mesh = $node.find('.mesh').first();
 
                 // TODO: no mesh - создавать хоть какой-то маркер? <?>
@@ -130,7 +132,7 @@ export default class UINodeFactory {
 
             return $node;
         } catch (e) {
-            console.error(e.message);
+            console.error(e);
             console.log(tagName, node, mapNode);
             return null;
         }
@@ -150,19 +152,16 @@ export default class UINodeFactory {
         return $node;
     }
 
-    createMesh(node) {
+    createMesh(tagName, typeName, node = null) {
+        node ??= this.context.getNodeByName(tagName, typeName);
 
         let mesh = node.querySelector(':scope > mesh');
 
-        let width = mesh.getNumericContentOf('width');
-        let height = mesh.getNumericContentOf('height');
-        let offsetX = mesh.getNumericContentOf('textureoffsetx', 0);
-        let offsetY = mesh.getNumericContentOf('textureoffsety', 0);
-
-        // TODO: индекс фрейма анимации считается с 0 по порядку, переходя на новую строку
-        // if () {
-        //
-        // }
+        let frameBounds = this.getDefaultFrameBoundsFor(tagName, typeName, node);
+        let offsetX = frameBounds.x;
+        let offsetY = frameBounds.y;
+        let width = frameBounds.width;
+        let height = frameBounds.height;
 
         let $mesh;
 
@@ -176,7 +175,7 @@ export default class UINodeFactory {
 
         $mesh.data('mesh', mesh);
 
-        let color = node.getTextContentOf('color');
+        let color = node.getTextContentOf('mesh > color');
         if (color) {
             if (src) {
                 // Add the tint to texture? It's hard with CSS
@@ -186,6 +185,8 @@ export default class UINodeFactory {
         }
 
         $mesh.css('clip', `rect(${offsetY}px, ${offsetX + width}px, ${offsetY + height}px, ${offsetX}px)`);
+        $mesh.css('left', `${-offsetX}px`);
+        $mesh.css('top', `${-offsetY}px`);
         $mesh.data('width', width);
         $mesh.data('height', height);
 
@@ -193,11 +194,64 @@ export default class UINodeFactory {
         let targetVertices = this.getMeshTargetVertices(mesh);
 
         applyTransform($mesh[0], initialVertices, targetVertices);
+
         $mesh.css('transform-origin', `${offsetX}px ${offsetY}px`);
         $mesh.data('initial-vertices', initialVertices);
         $mesh.data('target-vertices', targetVertices);
 
         return $mesh;
+    }
+
+    getDefaultFrameBoundsFor(tagName, typeName, node) {
+        let rootNode = this.context.getNodeByName(tagName, typeName);
+
+        if (rootNode !== node) {
+            return this.getFrameBoundsFor(node, 0);
+        }
+
+        let frameIndex = this.getDefaultFrameIndexFor(tagName, typeName);
+
+        return this.getFrameBoundsFor(node, frameIndex);
+    }
+
+    getDefaultFrameIndexFor(tagName, typeName) {
+        let nodeInfo = this.context.getNodeInfoByName(tagName, typeName);
+        let animation = nodeInfo.querySelector('animation');
+
+        if (!animation) {
+            return 0;
+        }
+
+        let southAnimation = animation.querySelector('s');
+        let standIndex = +southAnimation?.getAttribute('stand');
+
+        return standIndex || 0;
+    }
+
+    getFrameBoundsFor(node, frameIndex) {
+        let mesh = node.querySelector(':scope > mesh');
+
+        let width = mesh.getNumericContentOf('width');
+        let height = mesh.getNumericContentOf('height');
+        let x = mesh.getNumericContentOf('textureoffsetx', 0);
+        let y = mesh.getNumericContentOf('textureoffsety', 0);
+
+        let texturePath = node.getTextContentOf('texture');
+
+        if (texturePath) {
+            let textureSize = this.context.getImageSize(texturePath);
+
+            if (frameIndex > 0) {
+                let framesPerRow = Math.floor(textureSize.width / width);
+                let cellX = frameIndex % framesPerRow;
+                let cellY = Math.floor(frameIndex / framesPerRow);
+
+                x += cellX * width;
+                y += cellY * height;
+            }
+        }
+
+        return createBoundsWithSize(x, y, width, height);
     }
 
     getMeshTargetVertices(mesh) {
@@ -362,11 +416,18 @@ export default class UINodeFactory {
             z += -Math.ceil(position.getNumericContentOf('z', 0));
         }
 
+        let layerZ = this.getLayerZForTagName(tagName);
+
         if ($parentNode) {
-            z += +$parentNode.find('> .mesh').css('z-index');
+            let $mesh = $parentNode.find('> .mesh');
+            if ($mesh.length) {
+                z += +$mesh.css('z-index');
+            } else {
+                z += mapNode.y;
+                z += layerZ;
+            }
 
         } else {
-            let layerZ = this.getLayerZForTagName(tagName);
 
             x += mapNode.x;
             y += mapNode.y;

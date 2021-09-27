@@ -1,3 +1,4 @@
+import MapNode from '../../map/MapNode.js';
 
 let ICON_SIZE = 64;
 let ICON_PADDING = 0;
@@ -111,8 +112,7 @@ export default class PaletteView {
 
         for (const item of items) {
             let typeName = item.getAttribute('name');
-            let nodePath = item.getTextContentOf('node');
-            let $item = this.createPaletteItem(item.tagName, typeName, nodePath);
+            let $item = this.createPaletteItem(item.tagName, typeName);
 
             $itemList.append($item);
         }
@@ -122,7 +122,7 @@ export default class PaletteView {
         let $items = [
             this.createPaletteItem('waypoint'),
             this.createPaletteItem('area'),
-            this.createPaletteItem('area', null, null, 'startup')
+            this.createPaletteItem('area', null, 'startup')
         ];
 
         for (const $item of $items) {
@@ -130,7 +130,7 @@ export default class PaletteView {
         }
     }
 
-    createPaletteItem(tagName, typeName = null, nodePath = null, name = null) {
+    createPaletteItem(tagName, typeName = null, name = null) {
         let $item = $(`
             <div class='palette-item'>
                 <div class='palette-item-preview'></div>
@@ -145,7 +145,6 @@ export default class PaletteView {
         $item.attr('data-name', name);
         $item.attr('data-tag-name', tagName);
         $item.attr('data-type-name', typeName);
-        $item.attr('data-node-path', nodePath);
 
         return $item;
     }
@@ -174,22 +173,30 @@ export default class PaletteView {
         $item.data('init-done', true);
 
         let tagName = $item.data('tag-name');
-        let nodePath = $item.data('node-path');
+        let typeName = $item.data('type-name');
         let $preview = $item.find('.palette-item-preview');
-        let itemNode = this.context.getNodeXml(nodePath);
+        let nodeInfo = this.context.getNodeInfoByName(tagName, typeName);
+        let itemNode;
+
+        if (nodeInfo) {
+            itemNode = this.context.getNodeXml(nodeInfo);
+        }
 
         if (this.context.isMarkerNode(tagName)) {
             let $icon = this.createIcon(tagName);
 
             $preview.append($icon);
 
-        } else if (itemNode.querySelector(':scope > mesh')) {
-            let $mesh = this.createMesh(itemNode);
+        } else if (tagName === 'terrain') {
+            let $mesh = this.createMesh(tagName, typeName, itemNode);
 
             $preview.append($mesh);
 
-        } else if (itemNode.querySelector(':scope > noise')) {
-            console.warn('node with noise:', itemNode);
+        } else {
+            let mapNode = new MapNode(tagName, 0, 0, true);
+            let $node = this.uiNodeFactory.createNode(tagName, typeName, mapNode);
+
+            $preview.append($node);
         }
 
         $item.data('node', itemNode);
@@ -201,8 +208,8 @@ export default class PaletteView {
         return $(`<i class='${iconClass}'>`);
     }
 
-    createMesh(itemNode) {
-        let $mesh = this.uiNodeFactory.createMesh(itemNode);
+    createMesh(tagName, typeName, itemNode) {
+        let $mesh = this.uiNodeFactory.createMesh(tagName, typeName, itemNode);
 
         if ($mesh.css('background-color')) {
             $mesh.css({
@@ -232,17 +239,15 @@ export default class PaletteView {
             let node = $paletteItem.data('node');
             let scale = this.resolveScaleForMesh($mesh, node);
 
-            // TODO: Возможно те превьюшки, которые съезжают, имеют flipX или flipY
-
             $mesh.css('transform', 'translate(32px, 32px) ' + $mesh.css('transform'));
             $preview.css('transform', `scale(${scale}, ${scale})`);
         });
     }
 
     resolveScaleForMesh($mesh, node) {
-        let texture = node.getTextContentOf('texture');
+        let texture = node.querySelector('texture')?.textContent;
 
-        let imageSize = this.context.getImageSize('data' + texture);
+        let imageSize = this.context.getImageSize(texture);
         let imageWidth = imageSize?.width;
         let imageHeight = imageSize?.height;
 

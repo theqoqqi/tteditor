@@ -439,7 +439,7 @@ export default class MapEditor {
     }
 
     findMapNodeElement(mapNode) {
-        return this.$map.find(`.map-node[data-editor-id='${mapNode.editorId}']`);
+        return this.$map.find(`.map-node.map-node-root[data-editor-id='${mapNode.editorId}']`);
     }
 
     createScrollController() {
@@ -539,10 +539,9 @@ export default class MapEditor {
                 let $node;
 
                 if (this.context.isMarkerNode(tagName)) {
-                    $node = this.uiNodeFactory.createMarkerNode(tagName, mapNode);
+                    $node = this.uiNodeFactory.createMarkerNode(tagName, mapNode.type, mapNode);
                 } else {
-                    let node = this.context.getNodeByName(tagName, mapNode.type);
-                    $node = this.uiNodeFactory.createNode(tagName, node, mapNode);
+                    $node = this.uiNodeFactory.createNode(tagName, mapNode.type, mapNode);
                 }
 
                 this.$mapNodeList.append($node);
@@ -605,14 +604,13 @@ export default class MapEditor {
         let $node;
 
         if (this.context.isMarkerNode(tagName)) {
-            $node = this.uiNodeFactory.createMarkerNode(tagName, mapNode);
+            $node = this.uiNodeFactory.createMarkerNode(tagName, typeName, mapNode);
         } else {
             if (tagName === 'item' && typeName === 'Chest') {
                 tagName = 'chest';
             }
 
-            let node = this.context.getNodeByName(tagName, typeName);
-            $node = this.uiNodeFactory.createNode(tagName, node, mapNode);
+            $node = this.uiNodeFactory.createNode(tagName, typeName, mapNode);
         }
 
         return $node;

@@ -3,8 +3,9 @@ let nextEditorId = 1;
 
 export default class MapNode {
 
-    constructor(tag, x, y) {
+    constructor(tag, x, y, isFake = false) {
         this.editorId = nextEditorId++;
+        this.isFake = isFake;
         this.tag = tag;
         this.x = x;
         this.y = y;

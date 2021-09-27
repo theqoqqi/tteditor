@@ -1,7 +1,7 @@
 
-// noinspection CssInvalidHtmlTagReference
 import MapTerrain from './map/MapTerrain.js';
 
+// noinspection CssInvalidHtmlTagReference
 export default class EditorContext {
 
     workspacePath = null;
@@ -105,7 +105,7 @@ export default class EditorContext {
         }
 
         if (terrainXml.querySelector('color')) {
-            let color = terrainXml.getTextContentOf('color');
+            let color = terrainXml.getTextContentOf('mesh > color');
 
             terrain.color = hexIntColorToColor(color);
         }
@@ -124,22 +124,30 @@ export default class EditorContext {
     }
 
     getImageSize(imagePath) {
+        imagePath = this.normalizeDataPath(imagePath);
         return this.imageSizes[imagePath.toLowerCase()];
     }
 
-    getNodeByName(tagName, nodeName) {
-        let configTagName = this.getConfigTagNameByTagName(tagName);
-        let objectList = this.getConfigByTagName(tagName);
+    getNodeByName(tagName, typeName) {
+        let nodeInfo = this.getNodeInfoByName(tagName, typeName);
 
-        return this.loadNodeXmlByName(configTagName, objectList, nodeName);
+        return this.getNodeXml(nodeInfo);
     }
 
-    getNodeXml(path) {
-        return this.loadXml('data' + path);
+    getNodeInfoByName(tagName, typeName) {
+        let configTagName = this.getConfigTagNameByTagName(tagName);
+        let nodeList = this.getConfigByTagName(tagName);
+
+        if (!nodeList) {
+            return null;
+        }
+
+        return nodeList.querySelector(`${configTagName}[name='${typeName}']`);
     }
 
     getConfigByTagName(tagName) {
         let configName = this.getConfigNameByTagName(tagName);
+
         return this.getConfigByName(configName);
     }
 
@@ -155,10 +163,12 @@ export default class EditorContext {
         return this.nodeTagToConfigTagNameMap[tagName];
     }
 
-    loadNodeXmlByName(configTagName, objectList, typeName) {
-        let nodeInfo = objectList.querySelector(`${configTagName}[name='${typeName}']`);
-        let nodePath = nodeInfo.getTextContentOf('node');
-        return this.loadXml('data' + nodePath);
+    getNodeXml(nodeInfo) {
+        let nodePath = nodeInfo.getTextContentOf('node')
+            || nodeInfo.getTextContentOf('animation > node')
+            || nodeInfo.getTextContentOf('structure > node');
+
+        return this.loadXml(nodePath);
     }
 
     getElementByXpath(dom, path) {
@@ -167,6 +177,7 @@ export default class EditorContext {
 
     getLocalizedString(path) {
         let result = this.getElementByXpath(this.locale, path.replace(/[$.]/g, '/'));
+
         return result ? result.textContent.replace(/#{!0x\w{8}}/g, '') : path;
     }
 
@@ -269,6 +280,8 @@ export default class EditorContext {
     }
 
     loadXml(filename) {
+        filename = this.normalizeDataPath(filename);
+
         if (this.loadedXmlFiles[filename]) {
             return this.loadedXmlFiles[filename];
         }
@@ -292,6 +305,18 @@ export default class EditorContext {
 
     post(options) {
         return this.executeHttpRequest('post', options);
+    }
+
+    normalizeDataPath(path) {
+        if (!path) {
+            return '';
+        }
+
+        if (!path.startsWith('data')) {
+            path = 'data' + path;
+        }
+
+        return path;
     }
 
     executeHttpRequest(method, options) {
