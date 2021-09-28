@@ -52,13 +52,16 @@ require_once 'print_utils.php';
     <div class='main-area-container'>
         <div class='main-area-panels'>
             <div class='toolbar'>
-                <div id='file-toolbar'>
+                <div id='file-toolbar' class='toolbar-group'>
+                    <div id='reset-level-button' class='toolbar-icon'>
+                        <i class='bi-file-earmark-x-fill'></i>
+                    </div>
                     <div id='save-level-button' class='toolbar-icon'>
                         <i class='bi-file-earmark-check-fill'></i>
                     </div>
                 </div>
                 <div class='toolbar-separator'></div>
-                <div id='map-layer-list' class='map-layer-list'>
+                <div id='map-layer-list' class='toolbar-group map-layer-list'>
                     <!-- Injected by JS -->
                 </div>
             </div>
@@ -125,8 +128,6 @@ require_once 'print_utils.php';
     import EditorContext from './cls/EditorContext.js';
     import MapEditor from './cls/MapEditor.js';
     import UINodeFactory from './cls/UINodeFactory.js';
-    import MapReader from './cls/MapReader.js';
-    import MapWriter from './cls/MapWriter.js';
 
     $(function () {
         let context = new EditorContext();

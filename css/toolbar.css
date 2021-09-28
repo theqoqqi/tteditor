@@ -19,6 +19,11 @@
     background-color: #aaa;
 }
 
+.toolbar-group {
+    display: flex;
+    flex-direction: row;
+}
+
 .toolbar .toolbar-icon {
     display: flex;
     justify-content: center;

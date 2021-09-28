@@ -163,6 +163,7 @@ export default class MapEditor {
         });
 
 
+
         this.levelListView.addFileClickListener(filename => {
             if (this.currentLevelFilename === filename) {
                 return;
@@ -177,10 +178,12 @@ export default class MapEditor {
         });
 
 
+
         this.layerListView.setSelectionChangedListener(layerNames => {
             this.setActiveLayers(layerNames);
             this.nodeListView.setActiveLayers(layerNames);
         });
+
 
 
         this.nodeListView.setSelectionChangedListener(mapNodes => {
@@ -335,6 +338,13 @@ export default class MapEditor {
 
 
 
+        this.toolbarView.setResetLevelButtonListener(() => {
+            MapEditor.#showModal('confirm', {
+                message: 'Сбросить все несохраненные изменения?',
+                onConfirm: () => this.resetCurrentLevel(),
+            });
+        });
+
         this.toolbarView.setSaveLevelButtonListener(() => {
             this.saveCurrentLevel();
         });
@@ -435,11 +445,10 @@ export default class MapEditor {
         });
     }
 
-    saveCurrentLevel() {
+    resetCurrentLevel() {
         let filename = this.levelListView.getSelectedFile();
-        let levelXml = this.mapToXml(this.map);
 
-        this.context.saveLevel(filename, levelXml);
+        this.loadLevel(filename);
     }
 
     saveCurrentLevel() {
