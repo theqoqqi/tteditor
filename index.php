@@ -134,11 +134,6 @@ require_once 'print_utils.php';
         let context = new EditorContext();
         let uiNodeFactory = new UINodeFactory(context);
         let mapEditor = new MapEditor(context, uiNodeFactory);
-
-
-        var editor = ace.edit("trigger-editor");
-        editor.setTheme("ace/theme/monokai");
-        editor.session.setMode("ace/mode/xml");
     });
 </script>
 </body>
