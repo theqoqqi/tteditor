@@ -51,7 +51,7 @@ export default class MapEditor {
 
         // BUG: Элемент с mix-blend-mode вызывает глитчи в интерфейсе, на местах, где нет background-color/image,
         // поэтому просто удаляю этот элемент, чтобы эта фича не работала, но код для нее остался.
-        this.$mainAreaOverlay.remove();
+        // this.$mainAreaOverlay.remove();
 
         this.bindListeners();
         this.createScrollController();
