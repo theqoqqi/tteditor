@@ -7,6 +7,7 @@ export default class ToolbarView {
 
         this.$resetLevelButton = $('#reset-level-button');
         this.$saveLevelButton = $('#save-level-button');
+        this.$downloadLevelButton = $('#download-level-button');
     }
 
     setResetLevelButtonListener(listener) {
@@ -17,6 +18,12 @@ export default class ToolbarView {
 
     setSaveLevelButtonListener(listener) {
         this.$saveLevelButton.click(() => {
+            listener();
+        });
+    }
+
+    setDownloadLevelButtonListener(listener) {
+        this.$downloadLevelButton.click(() => {
             listener();
         });
     }

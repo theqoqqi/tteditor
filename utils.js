@@ -253,3 +253,18 @@ function reformatXml(xml) {
 
     return formatted;
 }
+
+function downloadXml(filename, xml) {
+
+    let element = document.createElement('a');
+
+    element.setAttribute('href', 'data:application/xml;charset=utf-8,' + encodeURIComponent(xml));
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}

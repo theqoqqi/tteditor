@@ -349,6 +349,10 @@ export default class MapEditor {
             this.saveCurrentLevel();
         });
 
+        this.toolbarView.setDownloadLevelButtonListener(() => {
+            this.downloadCurrentLevel();
+        });
+
 
 
         this.statusBarView.setEditWorkspacePathButtonListener(() => {
@@ -457,6 +461,18 @@ export default class MapEditor {
 
         this.context.saveLevel(filename, levelXml);
         this.setLevelClear();
+    }
+
+    downloadCurrentLevel() {
+        let fullPath = this.levelListView.getSelectedFile();
+        let filename = fullPath.split(/\//g).pop();
+        let levelXml = this.mapToXml(this.map);
+
+        downloadXml(filename, levelXml);
+
+        MapEditor.#showModal('alert', {
+            message: `В игре файл должен храниться здесь:\nИГРА/${fullPath}`,
+        });
     }
 
     setMapPropertyValue(propertyName, value) {

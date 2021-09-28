@@ -59,6 +59,9 @@ require_once 'print_utils.php';
                     <div id='save-level-button' class='toolbar-icon'>
                         <i class='bi-file-earmark-check-fill'></i>
                     </div>
+                    <div id='download-level-button' class='toolbar-icon'>
+                        <i class='bi-file-earmark-arrow-down-fill'></i>
+                    </div>
                 </div>
                 <div class='toolbar-separator'></div>
                 <div id='map-layer-list' class='toolbar-group map-layer-list'>
