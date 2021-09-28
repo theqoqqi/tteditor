@@ -594,6 +594,8 @@ export default class MapEditor {
             this.triggerListView.addTrigger(trigger);
         }
 
+        this.setViewportCenter(map.startX ?? map.playerBaseX, map.startY ?? map.playerBaseY);
+
         this.setLevelClear();
     }
 
