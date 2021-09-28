@@ -168,6 +168,11 @@ export default class MapEditor {
                 return;
             }
 
+            if (this.isLevelDirty()) {
+                MapEditor.#showModal('alert', 'Сперва необходимо сохранить изменения');
+                return;
+            }
+
             this.loadLevel(filename);
         });
 
@@ -732,5 +737,24 @@ export default class MapEditor {
 
     hasLoadedLevel() {
         return this.currentLevelFilename !== null;
+    }
+
+    static #showModal(modalType, options) {
+        if (modalType === 'alert') {
+            alert(options.message);
+            return;
+        }
+
+        if (modalType === 'confirm') {
+            let confirmed = confirm(options.message);
+
+            if (confirmed) {
+                options.onConfirm();
+            }
+
+            return;
+        }
+
+        throw new Error('Unsupported modalType: ' + modalType);
     }
 }
