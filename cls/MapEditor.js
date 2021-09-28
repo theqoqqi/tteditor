@@ -307,6 +307,10 @@ export default class MapEditor {
         this.triggerEditorView.setContentChangedListener(statements => {
             let trigger = this.triggerListView.getSelectedTrigger();
 
+            if (!trigger) {
+                return;
+            }
+
             trigger.statements = statements;
 
             let isEnabled = !trigger.hasStatementOfType('never');

@@ -9,8 +9,6 @@
     <link rel='stylesheet' href='css/reset.css' />
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css' />
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css' />
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/codemirror.min.css'/>
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/theme/material-darker.min.css'/>
     <link rel='stylesheet' href='css/style.css' />
     <script src='https://code.jquery.com/jquery-3.5.1.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js'></script>
@@ -18,11 +16,11 @@
     <script src='https://code.jquery.com/jquery-migrate-3.0.0.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js'></script>
     <script src='https://unpkg.com/scrollbooster@3.0.2/dist/scrollbooster.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/codemirror.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/mode/xml/xml.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/addon/selection/active-line.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/addon/edit/matchbrackets.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/addon/edit/matchtags.min.js'></script>
+    <script src='https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/ace.js'></script>
+    <script src='https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/worker-xml.js'></script>
+    <script src='https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/mode-xml.js'></script>
+    <script src='https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/theme-monokai.js'></script>
+    <script src='https://unpkg.com/ace-builds@1.4.12/src-min-noconflict/ext-language_tools.js'></script>
     <script src='utils.js'></script>
     <script src='matrix.js'></script>
 </head>
@@ -136,6 +134,11 @@ require_once 'print_utils.php';
         let context = new EditorContext();
         let uiNodeFactory = new UINodeFactory(context);
         let mapEditor = new MapEditor(context, uiNodeFactory);
+
+
+        var editor = ace.edit("trigger-editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/xml");
     });
 </script>
 </body>

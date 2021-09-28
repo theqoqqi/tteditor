@@ -6,14 +6,37 @@ export default class TriggerEditorView {
         this.uiNodeFactory = uiNodeFactory;
 
         this.$triggerTitleInput = $('#trigger-title-input');
-        this.$triggerEditor = $('#trigger-editor');
 
-        this.editor = CodeMirror.fromTextArea(this.$triggerEditor[0], {
-            mode: 'application/xml',
-            theme: 'material-darker',
-            styleActiveLine: true,
-            lineNumbers: true,
-            lineWrapping: true,
+        // https://ace.c9.io/#nav=howto&api=ace
+        // https://github.com/ajaxorg/ace/wiki/Configuring-Ace
+        // https://github.com/ajaxorg/ace-builds
+
+        this.editor = ace.edit('trigger-editor', {
+
+            // editor options
+            selectionStyle: 'line',
+            highlightActiveLine: true,
+            highlightSelectedWord: true,
+            cursorStyle: 'ace',
+            behavioursEnabled: true,
+            copyWithEmptySelection: true,
+            tabSize: 2,
+            useSoftTabs: true,
+            enableMultiselect: true,
+
+            // renderer options
+            highlightGutterLine: true,
+            fontSize: 12,
+            fontFamily: `'Consolas', monospace`,
+            scrollPastEnd: 0.5,
+            theme: 'ace/theme/monokai',
+
+            // session options
+            mode: 'ace/mode/xml',
+
+            // extension options
+            enableBasicAutocompletion: true,
+            enableLiveAutocompletion: true,
         });
     }
 
@@ -31,24 +54,18 @@ export default class TriggerEditorView {
 
             listener(statements);
         });
-        // this.$triggerEditor.on('change', e => {
-        //     let statements = this.$triggerEditor.val().split('\n');
-        //
-        //     listener(statements);
-        // });
     }
 
     fillFromTrigger(trigger) {
         let text = trigger.statements.join('\n');
 
         this.$triggerTitleInput.val(trigger.title);
-        // this.$triggerEditor.val(text);
         this.editor.setValue(text);
+        this.editor.clearSelection();
     }
 
     clearInputs() {
         this.$triggerTitleInput.val('');
-        // this.$triggerEditor.val('');
         this.editor.setValue('');
     }
 }

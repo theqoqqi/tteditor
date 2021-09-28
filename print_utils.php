@@ -242,7 +242,7 @@ function printSidebarTriggerListTab() {
             ?>
         </div>
         <div class='trigger-editor-container'>
-            <textarea id='trigger-editor' class='trigger-editor form-control' aria-label=''></textarea>
+            <div id='trigger-editor' class='trigger-editor'></div>
         </div>
     </div>
     <?

@@ -5,7 +5,7 @@
 @import 'tabs/property-list.css';
 @import 'tabs/trigger-list.css';
 @import 'tabs/trigger-editor.css';
-@import 'tabs/trigger-editor-codemirror.css';
+@import 'tabs/trigger-editor-ace.css';
 @import 'tabs/map-options.css';
 @import 'tabs/randomizer-list.css';
 

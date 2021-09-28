@@ -29,9 +29,4 @@
 
 .trigger-properties .trigger-editor-container .trigger-editor {
     flex-grow: 1;
-
-    font-family: monospace;
-
-    white-space: nowrap;
-    resize: none;
 }
