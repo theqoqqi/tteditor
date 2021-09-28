@@ -16,6 +16,7 @@ export default class LevelListView {
             let $listItem = this.createListItem(level);
 
             this.$levelList.append($listItem);
+            LevelListView.#setLevelDirty($listItem);
         }
     }
 
@@ -30,6 +31,30 @@ export default class LevelListView {
         });
     }
 
+    isSelectedLevelDirty() {
+        let $selectedLevel = this.#getSelectedLevel();
+
+        return LevelListView.#isLevelDirty($selectedLevel);
+    }
+
+    setSelectedLevelDirty(isDirty) {
+        let $selectedLevel = this.#getSelectedLevel();
+
+        LevelListView.#setLevelDirty($selectedLevel, isDirty);
+    }
+
+    static #isLevelDirty($level) {
+        return $level.find('.modified-mark').is(':visible');
+    }
+
+    static #setLevelDirty($level, isDirty) {
+        $level.find('.modified-mark').toggle(isDirty);
+    }
+
+    #getSelectedLevel() {
+        return this.$levelList.find('> a.active');
+    }
+
     setSelectedFile(filename) {
         let $link = this.$levelList.find('> a').filter(`[data-filename='${filename}']`);
 
@@ -38,7 +63,7 @@ export default class LevelListView {
     }
 
     getSelectedFile() {
-        return this.$levelList.find('> a.active').data('filename');
+        return this.#getSelectedLevel().data('filename');
     }
 
     createListItem(level) {
@@ -46,7 +71,10 @@ export default class LevelListView {
         return $(`
             <a href='#' class='list-group-item list-group-item-action px-3 py-1'
                data-filename='${level.path}'>
-                ${level.map_name}
+                <div class='level-header'>
+                    ${level.map_name}
+                    <span class='modified-mark'>изменен</span>
+                </div>
                 <div class='path'>
                     ${level.path}
                 </div>

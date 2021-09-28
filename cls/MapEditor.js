@@ -102,6 +102,7 @@ export default class MapEditor {
 
             if (this.$brush) {
                 this.addNodeFromBrush();
+                this.setLevelDirty();
             } else {
                 if (e.shiftKey) {
                     this.nodeListView.addNodeToSelection(mapNode);
@@ -146,6 +147,7 @@ export default class MapEditor {
 
                     this.map.setTerrain(terrain);
                     this.setTerrain(terrain);
+                    this.setLevelDirty();
                 } else {
                     this.setBrush(tagName, typeName, name);
                 }
@@ -205,6 +207,7 @@ export default class MapEditor {
 
         this.nodeListView.setRemoveNodeButtonClickListener(mapNode => {
             this.removeNode(mapNode);
+            this.setLevelDirty();
         });
 
 
@@ -215,6 +218,7 @@ export default class MapEditor {
                 let $node = this.findMapNodeElement(mapNode);
 
                 this.uiNodeFactory.setNodeProperty($node, propertyName, newValue);
+                this.setLevelDirty();
             }
         });
 
@@ -228,13 +232,16 @@ export default class MapEditor {
                         let value = this.mapOptionsView.getPropertyValue(propertyName);
 
                         this.setMapPropertyValue(propertyName, value);
+                        this.setLevelDirty();
                     } else {
                         this.setMapPropertyValue(propertyName, null);
+                        this.setLevelDirty();
                     }
                 }
 
             } else {
                 this.setMapPropertyValue(e.propertyName, e.newValue);
+                this.setLevelDirty();
             }
         });
 
@@ -248,6 +255,7 @@ export default class MapEditor {
             this.triggerListView.clearNewTriggerInputs();
             this.triggerListView.scrollToTrigger(trigger);
             this.triggerEditorView.clearInputs();
+            this.setLevelDirty();
         });
 
         this.triggerListView.setSelectionChangedListener(trigger => {
@@ -260,6 +268,7 @@ export default class MapEditor {
 
         this.triggerListView.setTriggerRepeatingChangedListener((trigger, isRepeating) => {
             trigger.repeat = isRepeating;
+            this.setLevelDirty();
         });
 
         this.triggerListView.setTriggerActivityChangedListener((trigger, isEnabled) => {
@@ -269,12 +278,14 @@ export default class MapEditor {
                 trigger.addStatement('<never/>');
             }
             this.triggerEditorView.fillFromTrigger(trigger);
+            this.setLevelDirty();
         });
 
         this.triggerListView.setRemoveTriggerButtonClickListener(trigger => {
             this.map.removeTrigger(trigger);
             this.triggerListView.removeTrigger(trigger);
             this.triggerEditorView.clearInputs();
+            this.setLevelDirty();
         });
 
 
@@ -282,6 +293,7 @@ export default class MapEditor {
             let trigger = this.triggerListView.getSelectedTrigger();
 
             trigger.title = title;
+            this.setLevelDirty();
         });
 
         this.triggerEditorView.setContentChangedListener(statements => {
@@ -292,11 +304,13 @@ export default class MapEditor {
             let isEnabled = !trigger.hasStatementOfType('never');
 
             this.triggerListView.setTriggerActive(trigger, isEnabled);
+            this.setLevelDirty();
         });
 
 
         this.randomizerListView.setRandomizerChangedListener((randomizer, newCount) => {
             randomizer.count = newCount;
+            this.setLevelDirty();
         });
 
         this.randomizerListView.setAddRandomizerButtonListener((item, count) => {
@@ -305,11 +319,13 @@ export default class MapEditor {
             this.map.options.addRandomizer(randomizer);
             this.randomizerListView.addRandomizer(randomizer);
             this.randomizerListView.clearAddRandomizerInputs();
+            this.setLevelDirty();
         });
 
         this.randomizerListView.setRemoveRandomizerButtonClickListener(randomizer => {
             this.map.options.removeRandomizer(randomizer);
             this.randomizerListView.removeRandomizer(randomizer);
+            this.setLevelDirty();
         });
 
 
@@ -371,6 +387,7 @@ export default class MapEditor {
                     let $node = this.findMapNodeElement(mapNode);
 
                     this.uiNodeFactory.moveNodeBy($node, x, y);
+                    this.setLevelDirty();
                 }
             }
         });
@@ -399,6 +416,7 @@ export default class MapEditor {
 
                     for (const mapNode of selectedMapNodes) {
                         this.removeNode(mapNode);
+                        this.setLevelDirty();
                     }
                 }
 
@@ -417,6 +435,14 @@ export default class MapEditor {
         let levelXml = this.mapToXml(this.map);
 
         this.context.saveLevel(filename, levelXml);
+    }
+
+    saveCurrentLevel() {
+        let filename = this.levelListView.getSelectedFile();
+        let levelXml = this.mapToXml(this.map);
+
+        this.context.saveLevel(filename, levelXml);
+        this.setLevelClear();
     }
 
     setMapPropertyValue(propertyName, value) {
@@ -493,6 +519,7 @@ export default class MapEditor {
                     }
 
                     this.propertyListView.fillFromMapNodes(selectedMapNodes);
+                    this.setLevelDirty();
                 }
             },
         });
@@ -552,6 +579,8 @@ export default class MapEditor {
         for (const trigger of map.triggers) {
             this.triggerListView.addTrigger(trigger);
         }
+
+        this.setLevelClear();
     }
 
     addNodeFromBrush() {
@@ -679,6 +708,18 @@ export default class MapEditor {
     setMapHeight(height) {
         this.$map.css('height', height + 'px');
         $(window).resize();
+    }
+
+    isLevelDirty() {
+        return this.levelListView.isSelectedLevelDirty();
+    }
+
+    setLevelDirty() {
+        this.levelListView.setSelectedLevelDirty(true);
+    }
+
+    setLevelClear() {
+        this.levelListView.setSelectedLevelDirty(false);
     }
 
     setViewportCenter(x, y) {

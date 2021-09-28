@@ -12,11 +12,21 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 
+.level-list .level-header {
+    display: flex;
+    justify-content: space-between;
+}
+
 .level-list a .path {
-    font-size: 12px;
     color: gray;
+    font-size: 12px;
 }
 
 .level-list a.active .path {
     color: white;
+}
+
+.level-list a.active .modified-mark {
+    color: white;
+    font-size: 12px;
 }
