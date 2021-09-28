@@ -749,6 +749,12 @@ export default class MapEditor {
     }
 
     static #showModal(modalType, options) {
+        if (typeof options === 'string') {
+            options = {
+                message: options,
+            };
+        }
+
         if (modalType === 'alert') {
             alert(options.message);
             return;
