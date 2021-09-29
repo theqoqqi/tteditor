@@ -51,7 +51,7 @@ export default class UINodeFactory {
             $node.append($icon);
         }
 
-        let $selectionBox = this.createMarkerSelectionBox($node, radiusX, radiusY);
+        let $selectionBox = this.createMarkerSelectionBox(mapNode, radiusX, radiusY);
         let selectionBoxZ = this.getSelectionBoxZIndex(tagName, x, y, z, radiusX * 2, radiusY * 2);
 
         $selectionBox.css('z-index', selectionBoxZ);
