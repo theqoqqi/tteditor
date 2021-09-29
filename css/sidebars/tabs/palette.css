@@ -125,7 +125,7 @@
     height: 64px;
 }
 
-.palette .palette-item .palette-item-preview i {
+.palette .palette-item .palette-item-preview > i {
     display: block;
 
     width: 64px;

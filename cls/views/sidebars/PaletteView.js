@@ -215,8 +215,6 @@ export default class PaletteView {
             $mesh.css({
                 width: ICON_SIZE + 'px',
                 height: ICON_SIZE + 'px',
-                left: ICON_SIZE / 2 + ICON_PADDING + 'px',
-                top: ICON_SIZE / 2 + ICON_PADDING + 'px',
             });
         }
 
@@ -227,7 +225,8 @@ export default class PaletteView {
         this.$palette.find('.palette-item-preview:not([data-size-is-set])').each((index, preview) => {
 
             let $preview = $(preview);
-            let $mesh = $preview.find('.mesh');
+            let $node = $preview.find('> .map-node');
+            let $mesh = $preview.find('.mesh, .marker-mesh').first();
             let $paletteItem = $preview.closest('.palette-item');
 
             if (!$mesh.length || !$mesh[0].getBoundingClientRect().width) {
@@ -239,25 +238,39 @@ export default class PaletteView {
             let node = $paletteItem.data('node');
             let scale = this.resolveScaleForMesh($mesh, node);
 
-            $mesh.css('transform', 'translate(32px, 32px) ' + $mesh.css('transform'));
+            if ($node.length) {
+                $node.css('left', ICON_SIZE / 2 + 'px');
+                $node.css('top', ICON_SIZE / 2 + 'px');
+            } else {
+                $mesh.css('left', ICON_SIZE / 2 + 'px');
+                $mesh.css('top', ICON_SIZE / 2 + 'px');
+            }
+
             $preview.css('transform', `scale(${scale}, ${scale})`);
         });
     }
 
     resolveScaleForMesh($mesh, node) {
-        let texture = node.querySelector('texture')?.textContent;
-
-        let imageSize = this.context.getImageSize(texture);
-        let imageWidth = imageSize?.width;
-        let imageHeight = imageSize?.height;
-
-        let mesh = $mesh.data('mesh');
-        let meshWidth = mesh.getNumericContentOf('width');
-        let meshHeight = mesh.getNumericContentOf('height');
 
         let rect = $mesh[0].getBoundingClientRect();
-        let ratioX = ICON_SIZE / rect.width * (imageWidth / meshWidth);
-        let ratioY = ICON_SIZE / rect.height * (imageHeight / meshHeight);
+
+        let ratioX = ICON_SIZE / rect.width;
+        let ratioY = ICON_SIZE / rect.height;
+
+        if (!$mesh.is('.marker-mesh')) {
+            let texture = node.querySelector('texture')?.textContent;
+
+            let imageSize = this.context.getImageSize(texture);
+            let imageWidth = imageSize?.width;
+            let imageHeight = imageSize?.height;
+
+            let mesh = $mesh.data('mesh');
+            let meshWidth = mesh.getNumericContentOf('width');
+            let meshHeight = mesh.getNumericContentOf('height');
+
+            ratioX *= imageWidth / meshWidth;
+            ratioY *= imageHeight / meshHeight;
+        }
 
         return Math.min(1, ratioX, ratioY);
     }
