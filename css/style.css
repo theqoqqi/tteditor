@@ -152,7 +152,8 @@ html, body {
     pointer-events: none;
 }
 
-.map-node.marker-map-node { /* > .marker-mesh { */
+.map-node > .marker-mesh {
+    position: absolute;
     border-radius: 50%;
 }
 
@@ -180,50 +181,27 @@ html, body {
     pointer-events: none;
 }
 
-.map-node.waypoint { /* > .marker-mesh { */
+.map-node.waypoint > .marker-mesh {
     color: white;
     background-color: red;
     border: 2px solid black;
 }
 
-.map-node.waypoint > .selection-box {
-    margin-left: -2px;
-    margin-top: -2px;
-}
-
-
-.map-node.magic { /* > .marker-mesh { */
+.map-node.magic > .marker-mesh {
     color: white;
     background-color: purple;
     border: 1px solid black;
 }
 
-.map-node.magic > .selection-box {
-    margin-left: -1px;
-    margin-top: -1px;
-}
-
-
-.map-node.ambient { /* > .marker-mesh { */
+.map-node.ambient > .marker-mesh {
     color: white;
     background-color: dodgerblue;
     border: 1px solid black;
 }
 
-.map-node.ambient > .selection-box {
-    margin-left: -1px;
-    margin-top: -1px;
-}
-
-
-.map-node.area { /* > .marker-mesh { */
+.map-node.area > .marker-mesh {
     background-color: rgba(255, 192, 0, 0.1);
     border: 2px solid orange;
-}
-
-.map-node.area > .selection-box {
-    margin-left: -2px;
-    margin-top: -2px;
 }
 
 

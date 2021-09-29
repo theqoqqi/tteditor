@@ -31,24 +31,18 @@ export default class UINodeFactory {
         z += layerZ;
 
         $node.addClass('marker-map-node');
-        $node.css('left', x + 'px');
-        $node.css('top', y + 'px');
+        $node.css('left', x + radiusX + 'px');
+        $node.css('top', y + radiusY + 'px');
 
-        // without smart z-index
-        $node.css('width', radiusX * 2 + 'px');
-        $node.css('height', radiusY * 2 + 'px');
-        $node.css('z-index', z);
+        let $markerMesh = this.createMarkerMesh(radiusX, radiusY);
 
-        // with smart z-index
-        // let $markerMesh = this.createMarkerMesh(radiusX, radiusY);
-        //
-        // $markerMesh.css('z-index', z);
-        // $node.append($markerMesh);
+        $markerMesh.css('z-index', z);
+        $node.append($markerMesh);
 
         if (tagName !== 'area') {
             let $icon = this.createMarkerIcon(tagName);
 
-            $node.append($icon);
+            $markerMesh.append($icon);
         }
 
         let $selectionBox = this.createMarkerSelectionBox(mapNode, radiusX, radiusY);
@@ -63,6 +57,8 @@ export default class UINodeFactory {
     createMarkerMesh(radiusX, radiusY) {
         let $markerMesh = $(`<div class='marker-mesh'>`);
 
+        $markerMesh.css('left', -radiusX + 'px');
+        $markerMesh.css('top', -radiusY + 'px');
         $markerMesh.css('width', radiusX * 2 + 'px');
         $markerMesh.css('height', radiusY * 2 + 'px');
 
@@ -304,7 +300,7 @@ export default class UINodeFactory {
     }
 
     createMarkerSelectionBox(mapNode, radiusX, radiusY) {
-        return this.createSelectionBox(mapNode, 0, 0, radiusX * 2, radiusY * 2);
+        return this.createSelectionBox(mapNode, -radiusX, -radiusY, radiusX * 2, radiusY * 2);
     }
 
     createSelectionBox(mapNode, x, y, w, h) {
@@ -449,10 +445,8 @@ export default class UINodeFactory {
             return z;
         }
 
-        let layerZ = 20000; //this.getLayerZForTagName(tagName);
-        let weight = width + height;
-
-        // console.log(tagName, width, height, layerZ - weight)
+        let layerZ = 80000;
+        let weight = Math.ceil(width + height);
 
         return layerZ - weight;
     }
