@@ -7,19 +7,12 @@ export default class EditorContext {
 
     workspacePath = null;
 
-    loadedXmlFiles = {};
-
     imageSizes = null;
 
     locale = null;
     palette = null;
-    terrains = null;
-    landmarks = null;
-    structures = null;
-    buildings = null;
-    units = null;
-    magics = null;
-    items = null;
+
+    loadedXmlFiles = {};
 
     nodeTagToConfigNameMap = {
         terrain: 'terrain',
@@ -64,22 +57,15 @@ export default class EditorContext {
     reloadConfigs() {
         this.locale = this.loadXml('data/language/Russian-1251.xml');
         this.palette = this.loadXml('data/cfg/palette.xml');
-        this.terrains = this.loadXml('data/cfg/terrain.xml');
-        this.landmarks = this.loadXml('data/cfg/landmark.xml');
-        this.structures = this.loadXml('data/cfg/structure.xml');
-        this.buildings = this.loadXml('data/cfg/building.xml');
-        this.units = this.loadXml('data/cfg/unit.xml');
-        this.magics = this.loadXml('data/cfg/magic.xml');
-        this.items = this.loadXml('data/cfg/item.xml');
 
         this.configsByNames = {
-            terrain: this.terrains,
-            landmark: this.landmarks,
-            structure: this.structures,
-            building: this.buildings,
-            unit: this.units,
-            magic: this.magics,
-            item: this.items,
+            terrain: this.loadXml('data/cfg/terrain.xml'),
+            landmark: this.loadXml('data/cfg/landmark.xml'),
+            structure: this.loadXml('data/cfg/structure.xml'),
+            building: this.loadXml('data/cfg/building.xml'),
+            unit: this.loadXml('data/cfg/unit.xml'),
+            magic: this.loadXml('data/cfg/magic.xml'),
+            item: this.loadXml('data/cfg/item.xml'),
         };
     }
 
