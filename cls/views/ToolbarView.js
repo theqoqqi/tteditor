@@ -1,9 +1,9 @@
 
 export default class ToolbarView {
 
-    constructor(context, uiNodeFactory) {
+    constructor(context) {
         this.context = context;
-        this.uiNodeFactory = uiNodeFactory;
+        this.uiNodeFactory = context.getUiNodeFactory();
 
         this.$resetLevelButton = $('#reset-level-button');
         this.$saveLevelButton = $('#save-level-button');

@@ -1,9 +1,9 @@
 
 export default class RandomizerListView {
 
-    constructor(context, uiNodeFactory) {
+    constructor(context) {
         this.context = context;
-        this.uiNodeFactory = uiNodeFactory;
+        this.uiNodeFactory = context.getUiNodeFactory();
 
         this.$randomizerList = $('#randomizer-list');
         this.$newRandomizerTypeInput = $('#new-randomizer-type-input');

@@ -3,9 +3,9 @@ import ItemButtonView from '../util/ItemButtonView.js';
 
 export default class TriggerListView {
 
-    constructor(context, uiNodeFactory) {
+    constructor(context) {
         this.context = context;
-        this.uiNodeFactory = uiNodeFactory;
+        this.uiNodeFactory = context.getUiNodeFactory();
 
         this.$newTriggerTitleInput = $('#new-trigger-title-input');
         this.$addNewTriggerButton = $('#add-new-trigger-button');

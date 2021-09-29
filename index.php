@@ -128,12 +128,10 @@ require_once 'print_utils.php';
 <script type='module'>
     import EditorContext from './cls/EditorContext.js';
     import MapEditor from './cls/MapEditor.js';
-    import UINodeFactory from './cls/UINodeFactory.js';
 
     $(function () {
         let context = new EditorContext();
-        let uiNodeFactory = new UINodeFactory(context);
-        let mapEditor = new MapEditor(context, uiNodeFactory);
+        let mapEditor = new MapEditor(context);
     });
 </script>
 </body>

@@ -1,9 +1,9 @@
 
 export default class TriggerEditorView {
 
-    constructor(context, uiNodeFactory) {
+    constructor(context) {
         this.context = context;
-        this.uiNodeFactory = uiNodeFactory;
+        this.uiNodeFactory = context.getUiNodeFactory();
 
         this.$triggerTitleInput = $('#trigger-title-input');
 

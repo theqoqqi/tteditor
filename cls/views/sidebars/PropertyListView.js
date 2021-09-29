@@ -3,9 +3,9 @@ export default class PropertyListView {
 
     #multipleValuesSymbol = Symbol();
 
-    constructor(context, uiNodeFactory) {
+    constructor(context) {
         this.context = context;
-        this.uiNodeFactory = uiNodeFactory;
+        this.uiNodeFactory = context.getUiNodeFactory();
 
         this.$propertyList = $('#property-list');
         this.$nodeProperties = this.$propertyList.find('.property');

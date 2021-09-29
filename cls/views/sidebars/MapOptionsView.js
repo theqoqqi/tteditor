@@ -1,9 +1,9 @@
 
 export default class MapOptionsView {
 
-    constructor(context, uiNodeFactory) {
+    constructor(context) {
         this.context = context;
-        this.uiNodeFactory = uiNodeFactory;
+        this.uiNodeFactory = context.getUiNodeFactory();
 
         this.$mapOptions = $('#map-options');
         this.$controls = this.$mapOptions.find('.property');

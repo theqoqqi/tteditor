@@ -1,9 +1,9 @@
 
 export default class StatusBarView {
 
-    constructor(context, uiNodeFactory) {
+    constructor(context) {
         this.context = context;
-        this.uiNodeFactory = uiNodeFactory;
+        this.uiNodeFactory = context.getUiNodeFactory();
 
         this.$xPosition = $('#x-position');
         this.$yPosition = $('#y-position');

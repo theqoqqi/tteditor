@@ -6,9 +6,9 @@ let ICON_PADDING = 0;
 // noinspection CssInvalidHtmlTagReference
 export default class PaletteView {
 
-    constructor(context, uiNodeFactory) {
+    constructor(context) {
         this.context = context;
-        this.uiNodeFactory = uiNodeFactory;
+        this.uiNodeFactory = context.getUiNodeFactory();
 
         this.$palette = $('#palette');
 

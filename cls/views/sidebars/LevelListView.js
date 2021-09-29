@@ -2,9 +2,9 @@
 // noinspection CssInvalidHtmlTagReference
 export default class LevelListView {
 
-    constructor(context, uiNodeFactory) {
+    constructor(context) {
         this.context = context;
-        this.uiNodeFactory = uiNodeFactory;
+        this.uiNodeFactory = context.getUiNodeFactory();
 
         this.$levelList = $('#level-list');
     }

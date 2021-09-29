@@ -1,9 +1,9 @@
 
 export default class LayerListView {
 
-    constructor(context, uiNodeFactory) {
+    constructor(context) {
         this.context = context;
-        this.uiNodeFactory = uiNodeFactory;
+        this.uiNodeFactory = context.getUiNodeFactory();
 
         this.$layerList = $('#map-layer-list');
 

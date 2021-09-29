@@ -3,9 +3,9 @@ import ItemButtonView from '../util/ItemButtonView.js';
 
 export default class NodeListView {
 
-    constructor(context, uiNodeFactory) {
+    constructor(context) {
         this.context = context;
-        this.uiNodeFactory = uiNodeFactory;
+        this.uiNodeFactory = context.getUiNodeFactory();
 
         this.$nodeList = $('#node-list');
         this.itemListView = new ItemListView(this.$nodeList);

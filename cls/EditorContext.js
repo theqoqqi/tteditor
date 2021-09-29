@@ -1,5 +1,6 @@
 
 import MapTerrain from './map/MapTerrain.js';
+import UINodeFactory from './UINodeFactory.js';
 
 // noinspection CssInvalidHtmlTagReference
 export default class EditorContext {
@@ -11,7 +12,6 @@ export default class EditorContext {
     imageSizes = null;
 
     locale = null;
-
     palette = null;
     terrains = null;
     landmarks = null;
@@ -46,6 +46,8 @@ export default class EditorContext {
     };
 
     constructor() {
+        this.uiNodeFactory = new UINodeFactory(this);
+
         this.loadWorkspacePath();
         this.reloadDataFromServer();
     }
@@ -337,5 +339,9 @@ export default class EditorContext {
         $[method](options);
 
         return resultResponseText;
+    }
+
+    getUiNodeFactory() {
+        return this.uiNodeFactory;
     }
 }

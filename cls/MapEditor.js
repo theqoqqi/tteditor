@@ -18,22 +18,22 @@ import MapWriter from './MapWriter.js';
 // noinspection CssInvalidHtmlTagReference
 export default class MapEditor {
 
-    constructor(context, uiNodeFactory) {
+    constructor(context) {
         this.context = context;
-        this.uiNodeFactory = uiNodeFactory;
+        this.uiNodeFactory = context.getUiNodeFactory();
         this.reader = new MapReader(context);
         this.writer = new MapWriter(context);
-        this.toolbarView = new ToolbarView(context, uiNodeFactory);
-        this.statusBarView = new StatusBarView(context, uiNodeFactory);
-        this.levelListView = new LevelListView(context, uiNodeFactory);
-        this.paletteView = new PaletteView(context, uiNodeFactory);
-        this.layerListView = new LayerListView(context, uiNodeFactory);
-        this.nodeListView = new NodeListView(context, uiNodeFactory);
-        this.propertyListView = new PropertyListView(context, uiNodeFactory);
-        this.triggerListView = new TriggerListView(context, uiNodeFactory);
-        this.triggerEditorView = new TriggerEditorView(context, uiNodeFactory);
-        this.mapOptionsView = new MapOptionsView(context, uiNodeFactory);
-        this.randomizerListView = new RandomizerListView(context, uiNodeFactory);
+        this.toolbarView = new ToolbarView(context);
+        this.statusBarView = new StatusBarView(context);
+        this.levelListView = new LevelListView(context);
+        this.paletteView = new PaletteView(context);
+        this.layerListView = new LayerListView(context);
+        this.nodeListView = new NodeListView(context);
+        this.propertyListView = new PropertyListView(context);
+        this.triggerListView = new TriggerListView(context);
+        this.triggerEditorView = new TriggerEditorView(context);
+        this.mapOptionsView = new MapOptionsView(context);
+        this.randomizerListView = new RandomizerListView(context);
 
         this.$sidebars = $('.sidebar');
         this.$mainAreaContainer = $('.main-area-container');
