@@ -91,16 +91,28 @@ export default class UINodeFactory {
                 $node.attr('title', this.context.getLocalizedString(path));
             }
 
-            if (node.querySelector(':scope > mesh') && node.querySelector(':scope > texture')) {
+            let $mesh;
 
-                let $mesh = this.createMesh(tagName, typeName, node);
+            if (node.querySelector(':scope > mesh')) {
 
-                $mesh.css('z-index', z);
-                $node.append($mesh);
+                $mesh = this.createMesh(tagName, typeName, node);
 
                 if (node.querySelector(':scope > keyframe')) {
                     console.warn('node with keyframe:', node, tagName, mapNode);
                 }
+            }
+
+            if (!$parentNode && !$mesh && !node.querySelector('mesh')) {
+                $mesh = this.createMarkerMesh(12, 12);
+
+                let $icon = this.createMarkerIcon(tagName);
+
+                $mesh.append($icon);
+            }
+
+            if ($mesh) {
+                $mesh.css('z-index', z);
+                $node.append($mesh);
             }
 
             for (let subNode of node.querySelectorAll(':scope > node')) {
@@ -109,20 +121,32 @@ export default class UINodeFactory {
             }
 
             if (!$parentNode && !mapNode.isFake) {
-                let $mesh = $node.find('.mesh').first();
 
-                // TODO: no mesh - создавать хоть какой-то маркер? <?>
+                let $firstMesh = $node.find('.mesh, .marker-mesh').first();
 
-                if ($mesh.length) {
-                    let $selectionBox = this.createMeshSelectionBox($node, $mesh, mapNode);
-                    let width = $mesh.data('width');
-                    let height = $mesh.data('height');
-                    let selectionBoxZ = this.getSelectionBoxZIndex(tagName, x, y, z, width, height);
+                if ($firstMesh) {
+                    let $selectionBox;
+                    let selectionBoxZ;
+
+                    if ($firstMesh.is('.marker-mesh')) {
+                        let width = $firstMesh.width();
+                        let height = $firstMesh.height();
+
+                        $selectionBox = this.createMarkerSelectionBox(mapNode, width / 2, height / 2);
+                        selectionBoxZ = this.getSelectionBoxZIndex(tagName, x, y, z, width, height);
+
+                    } else {
+                        let width = $firstMesh.data('width');
+                        let height = $firstMesh.data('height');
+
+                        $selectionBox = this.createMeshSelectionBox($node, $firstMesh, mapNode);
+                        selectionBoxZ = this.getSelectionBoxZIndex(tagName, x, y, z, width, height);
+                    }
 
                     $selectionBox.css('z-index', selectionBoxZ);
                     $node.append($selectionBox);
                 } else {
-                    console.warn('Unable to create selection box: no mesh', $node, node, tagName, mapNode);
+                    console.error('Unable to create selection box: no mesh', $node, node, tagName, mapNode);
                 }
             }
 
@@ -152,6 +176,22 @@ export default class UINodeFactory {
         node ??= this.context.getNodeByName(tagName, typeName);
 
         let mesh = node.querySelector(':scope > mesh');
+
+        if (!mesh.getNumericContentOf('width') || !mesh.getNumericContentOf('height')) {
+            return null;
+        }
+
+        if (!node.querySelector(':scope > texture')) {
+            let width = mesh.getNumericContentOf('width');
+            let height = mesh.getNumericContentOf('height');
+            let color = mesh.getTextContentOf('color');
+
+            let $markerMesh = this.createMarkerMesh(width / 2, height / 2);
+
+            $markerMesh.css('background-color', colorToCssRgba(hexIntColorToColor(color)));
+
+            return $markerMesh;
+        }
 
         let frameBounds = this.getDefaultFrameBoundsFor(tagName, typeName, node);
         let offsetX = frameBounds.x;
@@ -439,12 +479,6 @@ export default class UINodeFactory {
     }
 
     getSelectionBoxZIndex(tagName, x, y, z, width, height) {
-        let useSmartZIndex = true;
-
-        if (!useSmartZIndex) {
-            return z;
-        }
-
         let layerZ = 80000;
         let weight = Math.ceil(width + height);
 

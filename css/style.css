@@ -157,11 +157,7 @@ html, body {
     border-radius: 50%;
 }
 
-.map-node.marker-map-node > .selection-box {
-    pointer-events: auto;
-}
-
-.map-node.marker-map-node > i {
+.map-node > .marker-mesh > i {
     position: absolute;
     display: flex;
     justify-content: center;
@@ -179,6 +175,16 @@ html, body {
     transform: translate(-50%, -50%);
 
     pointer-events: none;
+}
+
+.map-node.marker-map-node > .selection-box {
+    pointer-events: auto;
+}
+
+.map-node > .marker-mesh {
+    color: black;
+    background-color: white;
+    border: 2px solid black;
 }
 
 .map-node.waypoint > .marker-mesh {
