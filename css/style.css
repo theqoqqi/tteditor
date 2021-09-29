@@ -29,6 +29,22 @@ html, body {
     outline: none;
 }
 
+.main-area-overlay {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+
+    z-index: 110000;
+    pointer-events: none;
+}
+
+.main-area-overlay * {
+    pointer-events: none !important;
+}
+
 .main-area-panels {
     position: absolute;
     display: flex;
@@ -82,8 +98,9 @@ html, body {
     pointer-events: none;
 }
 
-.main-area-overlay {
+.map-scroll-overlay {
     position: absolute;
+
     width: 100%;
     height: 100%;
     left: 0;

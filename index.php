@@ -97,9 +97,12 @@ require_once 'print_utils.php';
                     </div>
                 </div>
             </div>
-            <div class='main-area-overlay'>
+            <div class='map-scroll-overlay'>
 
             </div>
+        </div>
+        <div class='main-area-overlay'>
+
         </div>
     </div>
     <?
