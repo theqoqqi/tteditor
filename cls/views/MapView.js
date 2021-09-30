@@ -14,8 +14,6 @@ export default class MapView {
 
         this.scrollPadding = 300;
 
-        this.$mapScrollOverlay.remove();
-
         this.clickListener = () => {};
         this.doubleClickListener = () => {};
         this.mouseMoveListener = () => {};
