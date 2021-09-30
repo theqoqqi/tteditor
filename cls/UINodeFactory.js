@@ -297,8 +297,6 @@ export default class UINodeFactory {
 
         let width = mesh.getNumericContentOf('width');
         let height = mesh.getNumericContentOf('height');
-        let offsetX = mesh.getNumericContentOf('textureoffsetx', 0);
-        let offsetY = mesh.getNumericContentOf('textureoffsety', 0);
         let anchorX = mesh.getNumericContentOf('anchorx', width / 2);
         let anchorY = mesh.getNumericContentOf('anchory', height / 2);
         let flipX = mesh.getNumericContentOf('fliphorizontal', 0);
@@ -308,8 +306,8 @@ export default class UINodeFactory {
 
         let boundScaleX = boundWidth / width;
         let boundScaleY = boundHeight / height;
-        let boundAnchorX = (anchorX + offsetX) * boundScaleX;
-        let boundAnchorY = (anchorY + offsetY) * boundScaleY;
+        let boundAnchorX = anchorX * boundScaleX;
+        let boundAnchorY = anchorY * boundScaleY;
 
         let vertices = createBoxVertices(-boundAnchorX, -boundAnchorY, boundWidth, boundHeight);
 
