@@ -445,9 +445,13 @@ export default class UINodeFactory {
         let position = node.querySelector(':scope > position');
 
         if (position) {
+            let decimalZ = position.getNumericContentOf('z', 0);
+            let absoluteZ = Math.abs(decimalZ);
+            let signZ = z > 0 ? 1 : -1;
+
             x += Math.ceil(position.getNumericContentOf('x', 0));
             y += Math.ceil(position.getNumericContentOf('y', 0));
-            z += -Math.ceil(position.getNumericContentOf('z', 0));
+            z += -Math.ceil(absoluteZ) * signZ;
         }
 
         let layerZ = this.getLayerZForTagName(tagName);
