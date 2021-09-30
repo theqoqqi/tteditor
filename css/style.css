@@ -7,6 +7,10 @@ html, body {
     height: 100%;
 
     overflow: hidden;
+
+    /* Элемент с mix-blend-mode в WebKit вызывает глитчи в интерфейсе, на местах, где нет background */
+    /* Просто указываем явно белый цвет фона */
+    background: white;
 }
 
 .page-root {
