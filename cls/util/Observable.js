@@ -25,7 +25,7 @@ export default class Observable {
         let observers = this.getPropertyObservers(propertyName);
 
         for (const observer of observers) {
-            observer(value);
+            observer(value, this);
         }
     }
 
