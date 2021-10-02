@@ -8,8 +8,12 @@ export default class ObservableArray extends Array {
 
     #observable = new Observable();
 
-    constructor() {
+    constructor(items) {
         super();
+
+        if (items && items.length) {
+            this.push(...items);
+        }
     }
 
     push(...items) {
