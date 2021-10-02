@@ -29,6 +29,14 @@ export default class Observable {
         }
     }
 
+    observeArray(propertyName, observer) {
+        this[propertyName].observeList(observer);
+    }
+
+    unobserveArray(propertyName, observer) {
+        this[propertyName].unobserveList(observer);
+    }
+
     observeProperty(propertyName, observer) {
         let observers = this.getPropertyObservers(propertyName);
 

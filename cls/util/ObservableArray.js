@@ -1,5 +1,6 @@
 import Observable from './Observable.js';
 
+let listChangedSymbol = Symbol();
 let elementAddedSymbol = Symbol();
 let elementRemovedSymbol = Symbol();
 
@@ -17,6 +18,8 @@ export default class ObservableArray extends Array {
         for (const item of items) {
             this.#observable.triggerPropertyObservers(elementAddedSymbol, item);
         }
+
+        this.#observable.triggerPropertyObservers(listChangedSymbol, this);
     }
 
     splice(start, deleteCount) {
@@ -25,6 +28,16 @@ export default class ObservableArray extends Array {
         for (const item of removedItems) {
             this.#observable.triggerPropertyObservers(elementRemovedSymbol, item);
         }
+
+        this.#observable.triggerPropertyObservers(listChangedSymbol, this);
+    }
+
+    observeList(observer) {
+        this.#observable.observeProperty(listChangedSymbol, observer);
+    }
+
+    unobserveList(observer) {
+        this.#observable.unobserveProperty(listChangedSymbol, observer);
     }
 
     observeElementAdded(observer) {
