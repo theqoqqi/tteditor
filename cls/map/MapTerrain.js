@@ -1,7 +1,10 @@
+import Observable from '../util/Observable.js';
 
-export default class MapTerrain {
+export default class MapTerrain extends Observable {
 
     constructor(name) {
+        super();
+
         this.name = name;
         this.width = null;
         this.height = null;

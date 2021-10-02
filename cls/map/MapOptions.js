@@ -1,7 +1,10 @@
+import Observable from '../util/Observable.js';
 
-export default class MapOptions {
+export default class MapOptions extends Observable {
 
     constructor() {
+        super();
+
         this.id = null;
         this.music = null;
         this.coloring = null;

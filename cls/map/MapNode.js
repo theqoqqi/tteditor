@@ -1,7 +1,8 @@
+import Observable from '../util/Observable.js';
 
 let nextEditorId = 1;
 
-export default class MapNode {
+export default class MapNode extends Observable {
 
     radius = null;
     type = null;
@@ -12,6 +13,8 @@ export default class MapNode {
     group = null;
 
     constructor(tag, x, y, isFake = false) {
+        super();
+
         this.editorId = nextEditorId++;
         this.isFake = isFake;
         this.tag = tag;

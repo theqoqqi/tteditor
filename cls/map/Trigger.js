@@ -1,7 +1,10 @@
+import Observable from '../util/Observable.js';
 
-export default class Trigger {
+export default class Trigger extends Observable {
 
     constructor(title) {
+        super();
+
         this.title = title;
         this.repeat = false;
         this.statements = [];

@@ -1,10 +1,11 @@
-
-import MapNode from './MapNode.js';
+import Observable from '../util/Observable.js';
 
 // noinspection CssInvalidHtmlTagReference
-export default class GameMap {
+export default class GameMap extends Observable {
 
     constructor(context) {
+        super();
+
         this.context = context;
 
         this.options = null;
