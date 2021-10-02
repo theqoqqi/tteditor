@@ -1,11 +1,11 @@
+import Observable from './Observable.js';
 
-let allObserversSymbol = Symbol();
 let elementAddedSymbol = Symbol();
 let elementRemovedSymbol = Symbol();
 
 export default class ObservableArray extends Array {
 
-    [allObserversSymbol] = new Map();
+    #observable = new Observable();
 
     constructor() {
         super();
@@ -15,7 +15,7 @@ export default class ObservableArray extends Array {
         super.push(...items);
 
         for (const item of items) {
-            this.triggerObservers(elementAddedSymbol, item);
+            this.#observable.triggerPropertyObservers(elementAddedSymbol, item);
         }
     }
 
@@ -23,35 +23,23 @@ export default class ObservableArray extends Array {
         let removedItems = super.splice(start, deleteCount);
 
         for (const item of removedItems) {
-            this.triggerObservers(elementRemovedSymbol, item);
-        }
-    }
-
-    triggerObservers(eventName, value) {
-        let observers = this.getObservers(eventName);
-
-        for (const observer of observers) {
-            observer(value);
+            this.#observable.triggerPropertyObservers(elementRemovedSymbol, item);
         }
     }
 
     observeElementAdded(observer) {
-        let observers = this.getObservers(elementAddedSymbol);
+        this.#observable.observeProperty(elementAddedSymbol, observer);
+    }
 
-        observers.push(observer);
+    unobserveElementAdded(observer) {
+        this.#observable.unobserveProperty(elementAddedSymbol, observer);
     }
 
     observeElementRemoved(observer) {
-        let observers = this.getObservers(elementRemovedSymbol);
-
-        observers.push(observer);
+        this.#observable.observeProperty(elementRemovedSymbol, observer);
     }
 
-    getObservers(eventName) {
-        if (!this[allObserversSymbol].has(eventName)) {
-            this[allObserversSymbol].set(eventName, []);
-        }
-
-        return this[allObserversSymbol].get(eventName);
+    unobserveElementRemoved(observer) {
+        this.#observable.unobserveProperty(elementRemovedSymbol, observer);
     }
 }

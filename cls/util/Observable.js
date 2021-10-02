@@ -35,6 +35,15 @@ export default class Observable {
         observers.push(observer);
     }
 
+    unobserveProperty(propertyName, observer) {
+        let observers = this.getPropertyObservers(propertyName);
+        let index = observers.indexOf(observer);
+
+        if (index !== -1) {
+            observers.splice(index, 1);
+        }
+    }
+
     getPropertyObservers(propertyName) {
         if (!this[allObserversSymbol].has(propertyName)) {
             this[allObserversSymbol].set(propertyName, []);
