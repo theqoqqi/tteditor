@@ -1,4 +1,4 @@
-
+@import 'util/context-menu.css';
 @import 'sidebars/sidebars.css';
 @import 'toolbar.css';
 @import 'status-bar.css';
@@ -74,6 +74,7 @@ html, body {
 .map-scroll {
     background-attachment: local;
     overflow: hidden;
+    outline: none;
 }
 
 .map-container {
@@ -137,12 +138,11 @@ html, body {
 
 .map-node .selection-box:hover {
     border: 1px solid white;
-    /*z-index: 1000000 !important;*/
 }
 
 .map-node.selected .selection-box {
     border: 1px solid black;
-    z-index: 1000000 !important;
+    z-index: 100000 !important;
     cursor: all-scroll;
 }
 

@@ -15,6 +15,7 @@ import ToolbarView from './views/ToolbarView.js';
 import StatusBarView from './views/StatusBarView.js';
 import MapWriter from './MapWriter.js';
 import MapView from './views/MapView.js';
+import MapNodeContextMenuView from './views/MapNodeContextMenuView.js';
 
 // noinspection CssInvalidHtmlTagReference
 export default class MapEditor {
@@ -36,6 +37,7 @@ export default class MapEditor {
         this.triggerEditorView = new TriggerEditorView(context);
         this.mapOptionsView = new MapOptionsView(context);
         this.randomizerListView = new RandomizerListView(context);
+        this.mapNodeContextMenuView = new MapNodeContextMenuView();
 
         this.$sidebars = $('.sidebar');
         this.$brush = null;
@@ -88,10 +90,19 @@ export default class MapEditor {
                 } else if (e.ctrlKey) {
                     this.nodeListView.removeNodeFromSelection(mapNode);
 
+                } else if (e.altKey) {
+                    setTimeout(() => {
+                        this.mapNodeContextMenuView.showAt(e.clientX, e.clientY);
+                    }, 100);
+
                 } else {
                     this.nodeListView.setSelectedNodes([mapNode]);
                 }
             }
+        });
+
+        this.mapView.setRightClickListener((mapNode, e) => {
+            this.mapNodeContextMenuView.showAt(e.clientX, e.clientY);
         });
 
         this.mapView.setDoubleClickListener(mapNode => {

@@ -15,6 +15,7 @@ export default class MapView {
         this.scrollPadding = 300;
 
         this.clickListener = () => {};
+        this.rightClickListener = () => {};
         this.doubleClickListener = () => {};
         this.mouseMoveListener = () => {};
         this.moveActionListener = () => {};
@@ -45,6 +46,24 @@ export default class MapView {
 
             this.$mapScroll.focus();
         });
+
+        this.$map.on('mousedown', e => {
+
+            if (e.which !== 3) {
+                return;
+            }
+
+            let $node = $(e.target).closest('.map-node-root');
+            let mapNode = $node.data('map-node');
+
+            e.preventDefault();
+
+            this.rightClickListener(mapNode, e);
+
+            this.$mapScroll.focus();
+        });
+
+        // this.$map.contextmenu(e => false);
 
         this.$map.on('dblclick', e => {
             let $node = $(e.target).closest('.map-node-root');
@@ -145,6 +164,10 @@ export default class MapView {
 
     setClickListener(listener) {
         this.clickListener = listener;
+    }
+
+    setRightClickListener(listener) {
+        this.rightClickListener = listener;
     }
 
     setDoubleClickListener(listener) {

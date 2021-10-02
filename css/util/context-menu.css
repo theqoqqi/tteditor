@@ -1,0 +1,31 @@
+
+.context-menu {
+    padding: 5px 0;
+
+    z-index: 120000;
+    user-select: none;
+}
+
+.context-menu .context-menu-item {
+    display: flex;
+    align-items: center;
+
+    height: 24px;
+    padding: 0 10px;
+
+    font-size: 14px;
+}
+
+.context-menu .context-menu-item-icon {
+    display: flex;
+
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+
+    font-size: 16px;
+}
+
+.context-menu .context-menu-item-title {
+
+}
