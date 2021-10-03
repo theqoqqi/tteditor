@@ -26,7 +26,7 @@ export default class MapView {
     }
 
     bindListeners() {
-        this.$map.on('mousedown', '.map-node .selection-box', e => {
+        this.$map.on('mousedown', e => {
             this.$map.data('should-process-click', true);
         });
 
