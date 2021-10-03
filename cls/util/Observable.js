@@ -13,8 +13,13 @@ export default class Observable {
                     value = new ObservableArray(value);
                 }
 
-                observable.triggerPropertyObservers(propertyName, value);
-                return Reflect.set(observable, propertyName, value, receiver);
+                let isValueSet = Reflect.set(observable, propertyName, value, receiver);
+
+                if (isValueSet) {
+                    observable.triggerPropertyObservers(propertyName, value);
+                }
+
+                return isValueSet;
             },
         };
 
