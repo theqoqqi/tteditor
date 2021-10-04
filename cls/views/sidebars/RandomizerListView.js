@@ -1,3 +1,4 @@
+import CompositeObserver from '../../util/CompositeObserver.js';
 
 export default class RandomizerListView {
 
@@ -12,7 +13,47 @@ export default class RandomizerListView {
 
         this.randomizerChangedListener = () => {};
 
+        this.createMapObservers();
+        this.createMapNodeObservers();
+
         this.bindListeners();
+    }
+
+    createMapObservers() {
+        this.mapObservers = new CompositeObserver();
+
+        this.mapObservers.addPropertyObserver('options.randomizers', randomizers => {
+            this.clearRandomizers();
+            for (const randomizer of randomizers) {
+                this.addRandomizer(randomizer);
+            }
+        });
+
+        this.mapObservers.addElementAddedObserver('options.randomizers', randomizer => {
+            this.addRandomizer(randomizer);
+        });
+
+        this.mapObservers.addElementRemovedObserver('options.randomizers', randomizer => {
+            this.removeRandomizer(randomizer);
+        });
+    }
+
+    createMapNodeObservers() {
+        this.randomizerObservers = new CompositeObserver();
+
+        this.randomizerObservers.addPropertyObserver('item', (itemName, randomizer) => {
+            let $randomizer = this.getListItem(randomizer);
+            let $itemName = $randomizer.find('.item-name');
+
+            $itemName.text(itemName);
+        });
+
+        this.randomizerObservers.addPropertyObserver('count', (count, randomizer) => {
+            let $randomizer = this.getListItem(randomizer);
+            let $countInput = $randomizer.find('input');
+
+            $countInput.val(count);
+        });
     }
 
     bindListeners() {
@@ -31,11 +72,10 @@ export default class RandomizerListView {
         });
     }
 
-    fillFromMap(map) {
-        this.clearRandomizers();
-        for (const randomizer of map.options.randomizers) {
-            this.addRandomizer(randomizer);
-        }
+    setMap(map) {
+        this.map = map;
+        this.mapObservers.setSingleObservable(map);
+        this.mapObservers.triggerFor(map);
     }
 
     setRandomizerChangedListener(listener) {
@@ -67,10 +107,12 @@ export default class RandomizerListView {
         let $listItem = this.createListItem(randomizer);
 
         this.$randomizerList.append($listItem);
+        this.randomizerObservers.attachTo(randomizer);
     }
 
     removeRandomizer(randomizer) {
         this.getListItem(randomizer).remove();
+        this.randomizerObservers.detachFrom(randomizer);
     }
 
     clearRandomizers() {
@@ -93,7 +135,7 @@ export default class RandomizerListView {
     createListItem(randomizer) {
         let $listItem = $(`
             <div class='randomizer-list-item property'>
-                <label>
+                <label class='item-name'>
                     ${randomizer.item}
                 </label>
                 <div>

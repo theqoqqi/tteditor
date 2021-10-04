@@ -306,14 +306,12 @@ export default class MapEditor {
             let randomizer = new RandomizerOption(item, count);
 
             this.map.options.addRandomizer(randomizer);
-            this.randomizerListView.addRandomizer(randomizer);
             this.randomizerListView.clearAddRandomizerInputs();
             this.setLevelDirty();
         });
 
         this.randomizerListView.setRemoveRandomizerButtonClickListener(randomizer => {
             this.map.options.removeRandomizer(randomizer);
-            this.randomizerListView.removeRandomizer(randomizer);
             this.setLevelDirty();
         });
 
@@ -461,7 +459,7 @@ export default class MapEditor {
         this.levelListView.setSelectedFile(filename);
         this.nodeListView.setMap(map);
         this.mapOptionsView.setMap(map);
-        this.randomizerListView.fillFromMap(map);
+        this.randomizerListView.setMap(map);
 
         this.paletteView.setSelectedType('terrain', map.terrain.name);
 
