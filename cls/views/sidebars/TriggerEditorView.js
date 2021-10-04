@@ -49,7 +49,7 @@ export default class TriggerEditorView {
         });
 
         this.triggerObservers.addListObserver('statements', statements => {
-            let text = statements.join('\n');
+            let text = (statements ?? []).join('\n');
 
             this.editor.setValue(text);
             this.editor.clearSelection();
