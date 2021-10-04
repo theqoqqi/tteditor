@@ -81,14 +81,14 @@ export default class TriggerEditorView {
 
         if (this.trigger) {
             this.addObserversToTrigger(this.trigger);
-            this.fillFromTrigger();
+            this.fillFromTrigger(this.trigger);
         } else {
             this.clearInputs();
         }
     }
 
-    fillFromTrigger() {
-        this.triggerObservers.triggerForAll();
+    fillFromTrigger(trigger) {
+        this.triggerObservers.triggerFor(trigger);
     }
 
     addObserversToTrigger(trigger) {

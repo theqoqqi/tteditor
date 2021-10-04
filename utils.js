@@ -50,6 +50,10 @@ function colorToHexIntColor(c) {
 }
 
 function getColorBrightness(c) {
+    if (!c) {
+        return null;
+    }
+
     return 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b;
 }
 
