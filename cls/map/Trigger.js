@@ -1,10 +1,13 @@
 import Observable from '../util/Observable.js';
 
+let nextEditorId = 1;
+
 export default class Trigger extends Observable {
 
     constructor(title) {
         super();
 
+        this.editorId = nextEditorId++;
         this.title = title;
         this.repeat = false;
         this.statements = [];

@@ -6,6 +6,8 @@ export default class ItemListView {
         this.selectedItems = [];
 
         this.dataItemKey = 'item';
+        this.dataIdKey = null;
+        this.itemIdKey = null;
         this.multipleSelectionEnabled = false;
 
         this.listItemFactory = () => $('<div>');
@@ -120,6 +122,10 @@ export default class ItemListView {
     }
 
     setSelectedItem(item) {
+        if (this.selectedItems.length === 1 && this.selectedItems[0] === item) {
+            return;
+        }
+
         this.setSelectedItems([item]);
     }
 
@@ -170,11 +176,19 @@ export default class ItemListView {
     }
 
     getListItem(item) {
-        return this.$list.find('[role="listitem"]')
-            .filter((index, listItem) => {
+        let filter;
+
+        if (this.dataIdKey && this.itemIdKey) {
+            filter = (index, listItem) => {
+                return $(listItem).data(this.dataIdKey) === item[this.itemIdKey];
+            };
+        } else {
+            filter = (index, listItem) => {
                 return $(listItem).data(this.dataItemKey) === item;
-            })
-            .first();
+            };
+        }
+
+        return this.$list.find('[role="listitem"]').filter(filter);
     }
 
     scrollToItem(item) {
@@ -194,6 +208,14 @@ export default class ItemListView {
         this.dataItemKey = key;
     }
 
+    setDataIdKey(key) {
+        this.dataIdKey = key;
+    }
+
+    setItemIdKey(key) {
+        this.itemIdKey = key;
+    }
+
     setListItemFactory(factory) {
         this.listItemFactory = factory;
     }
@@ -203,6 +225,10 @@ export default class ItemListView {
 
         $listItem.attr('role', 'listitem');
         $listItem.data(this.dataItemKey, item);
+
+        if (this.dataIdKey && this.itemIdKey) {
+            $listItem.data(this.dataIdKey, item[this.itemIdKey]);
+        }
 
         return $listItem;
     }

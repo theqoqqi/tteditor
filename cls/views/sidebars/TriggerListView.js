@@ -14,6 +14,8 @@ export default class TriggerListView {
         this.itemListView = new ItemListView(this.$triggerList);
 
         this.itemListView.setDataItemKey('trigger');
+        this.itemListView.setDataIdKey('trigger-id');
+        this.itemListView.setItemIdKey('editorId');
         this.itemListView.setListItemFactory(item => this.createListItem(item));
 
         this.addButtonListener = () => {};
