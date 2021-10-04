@@ -133,10 +133,8 @@ require_once 'print_utils.php';
     import EditorContext from './cls/EditorContext.js';
     import MapEditor from './cls/MapEditor.js';
 
-    $(function () {
-        let context = new EditorContext();
-        let mapEditor = new MapEditor(context);
-    });
+    let context = new EditorContext();
+    let mapEditor = new MapEditor(context);
 </script>
 </body>
 </html>

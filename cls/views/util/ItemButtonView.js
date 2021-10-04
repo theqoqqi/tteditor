@@ -48,6 +48,9 @@ export default class ItemButtonView {
         }
     }
 
+    /**
+     * @return ItemButtonView
+     */
     static findIn($listItem, id) {
         return $listItem
             .find('[role=button]')
