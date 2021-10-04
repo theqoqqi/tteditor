@@ -1,3 +1,4 @@
+import CompositeObserver from '../../util/CompositeObserver.js';
 
 export default class MapOptionsView {
 
@@ -5,12 +6,88 @@ export default class MapOptionsView {
         this.context = context;
         this.uiNodeFactory = context.getUiNodeFactory();
 
+        this.map = null;
+
         this.$mapOptions = $('#map-options');
         this.$controls = this.$mapOptions.find('.property');
 
         this.controlChangedListener = () => {};
 
+        this.createMapObserver();
+
         this.bindListeners();
+    }
+
+    createMapObserver() {
+        this.mapObservers = new CompositeObserver();
+
+        this.$controls.each((index, nodeProperty) => {
+            let $nodeProperty = $(nodeProperty);
+            let $inputs = $nodeProperty.find('input');
+
+            $inputs.each((index, input) => {
+                let $input = $(input);
+                this.addMapObserversForInput($input);
+            });
+        });
+    }
+
+    addMapObserversForInput($input) {
+        let options = $input.data('options');
+
+        if (options.source) {
+            this.addInputPropertyObserver($input, options);
+
+        } else if (options['checksProperties']) {
+            this.addCheckboxPropertyObservers($input, options);
+        }
+    }
+
+    addInputPropertyObserver($input, options) {
+        let propertyName = $input.data('property');
+        let path = MapOptionsView.getMapPropertyPath(this.map, options.source, propertyName);
+
+        this.mapObservers.addPropertyObserver(path, (propertyValue, map) => {
+            let type = $input.attr('type');
+            let mode = options.mode;
+
+            $input.val(MapOptionsView.stringifyValue(type, mode, propertyValue));
+
+            this.updateInputColors($input);
+        });
+    }
+
+    addCheckboxPropertyObservers($input, options) {
+        let propertyNames = options['checksProperties'];
+
+        for (const checkedName of propertyNames) {
+            this.addCheckboxPropertyObserver($input, checkedName, options);
+        }
+    }
+
+    addCheckboxPropertyObserver($input, checkedName, options) {
+        let propertyNames = options['checksProperties'];
+        let $checkedInput = this.getPropertyInput(checkedName);
+        let checkedOptions = $checkedInput.data('options');
+        let checkedPropertyName = checkedOptions.name;
+        let path = MapOptionsView.getMapPropertyPath(this.map, checkedOptions.source, checkedPropertyName);
+
+        this.mapObservers.addPropertyObserver(path, () => {
+            let propertyExists = false;
+
+            for (const checkedName of propertyNames) {
+                let $checkedInput = this.getPropertyInput(checkedName);
+                let checkedOptions = $checkedInput.data('options');
+                let source = checkedOptions.source;
+                let propertyName = checkedOptions.name;
+                let exists = MapOptionsView.isMapPropertyExists(this.map, source, propertyName);
+
+                propertyExists = propertyExists || exists;
+            }
+
+            $input.prop('checked', propertyExists);
+            this.onCheckboxChanged($input);
+        });
     }
 
     bindListeners() {
@@ -42,41 +119,42 @@ export default class MapOptionsView {
         this.controlChangedListener = listener;
     }
 
+    setMap(map) {
+        if (this.map) {
+            this.removeObserversFromMap(this.map);
+        }
+
+        this.map = map;
+
+        if (this.map) {
+            this.addObserversToMap(this.map);
+            this.fillFromMap(this.map);
+        } else {
+            this.clearInputs();
+        }
+    }
+
     fillFromMap(map) {
+        this.mapObservers.triggerFor(map);
+    }
+
+    addObserversToMap(map) {
+        this.mapObservers.attachTo(map);
+    }
+
+    removeObserversFromMap(map) {
+        this.mapObservers.detachFrom(map);
+    }
+
+    clearInputs() {
         this.$controls.each((index, nodeProperty) => {
             let $nodeProperty = $(nodeProperty);
             let $inputs = $nodeProperty.find('input');
 
             $inputs.each((index, input) => {
                 let $input = $(input);
-                let propertyName = $input.data('property');
-                let options = $input.data('options');
-                
-                if (options.source) {
-                    let type = $input.attr('type');
-                    let mode = options.mode;
-                    let propertyValue = MapOptionsView.getMapProperty(map, options.source, propertyName);
 
-                    $input.val(MapOptionsView.stringifyValue(type, mode, propertyValue));
-
-                    this.updateInputColors($input);
-
-                } else if (options['checksProperties']) {
-                    let propertyNames = options['checksProperties'];
-                    let propertyValue = false;
-
-                    for (const checkedName of propertyNames) {
-                        let $checkedInput = this.getPropertyInput(checkedName);
-                        let checkedOptions = $checkedInput.data('options');
-                        let source = checkedOptions.source;
-                        let propertyExists = MapOptionsView.isMapPropertyExists(map, source, checkedName);
-
-                        propertyValue = propertyValue || propertyExists;
-                    }
-
-                    $input.prop('checked', propertyValue);
-                    this.onCheckboxChanged($input);
-                }
+                $input.val('');
             });
         });
     }
@@ -98,12 +176,12 @@ export default class MapOptionsView {
         let value = this.getPropertyValue(propertyName);
         let options = $input.data('options');
 
-        if (options.mode === 'color' && value) {
+        if (options.mode === 'color') {
             let brightness = getColorBrightness(value);
             let hexColor = colorToHexColor(value);
 
-            $input.css('background-color', hexColor);
-            $input.css('color', brightness < 128 ? 'white' : 'black');
+            $input.css('background-color', hexColor ?? 'white');
+            $input.css('color', brightness && brightness < 128 ? 'white' : 'black');
         }
     }
 
@@ -164,7 +242,7 @@ export default class MapOptionsView {
         }
 
         if (type === 'text' && mode === 'color') {
-            return hexColorToColor(value);
+            return hexColorToColor(value) ?? '';
         }
 
         return value;
@@ -177,6 +255,18 @@ export default class MapOptionsView {
         }
 
         return value === null ? '' : '' + value;
+    }
+
+    static getMapPropertyPath(map, source, propertyName) {
+        if (source === 'map') {
+            return propertyName;
+        }
+
+        if (source === 'options') {
+            return source + '.' + propertyName;
+        }
+
+        throw new Error(`Invalid source: '${source}'`);
     }
 
     static getMapProperty(map, source, propertyName) {
@@ -193,11 +283,11 @@ export default class MapOptionsView {
 
     static isMapPropertyExists(map, source, propertyName) {
         if (source === 'map') {
-            return !!map[propertyName];
+            return map[propertyName] !== null;
         }
 
         if (source === 'options') {
-            return !!map.options[propertyName];
+            return map.options[propertyName] !== null;
         }
 
         throw new Error(`Invalid source: '${source}'`);

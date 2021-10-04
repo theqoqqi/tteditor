@@ -455,7 +455,7 @@ export default class MapEditor {
         this.triggerListView.clearTriggers();
 
         this.levelListView.setSelectedFile(filename);
-        this.mapOptionsView.fillFromMap(map);
+        this.mapOptionsView.setMap(map);
         this.randomizerListView.fillFromMap(map);
 
         this.mapView.clearNodes();
