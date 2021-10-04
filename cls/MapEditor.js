@@ -96,7 +96,7 @@ export default class MapEditor {
                     }, 100);
 
                 } else {
-                    this.nodeListView.setSelectedNodes([mapNode]);
+                    this.nodeListView.setSelectedNodes(mapNode ? [mapNode] : []);
                 }
             }
         });

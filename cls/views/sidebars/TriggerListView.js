@@ -1,5 +1,6 @@
 import ItemListView from '../util/ItemListView.js';
 import ItemButtonView from '../util/ItemButtonView.js';
+import CompositeObserver from '../../util/CompositeObserver.js';
 
 export default class TriggerListView {
 
@@ -23,22 +24,24 @@ export default class TriggerListView {
         this.triggerActivityChangedListener = () => {};
         this.triggerRemoveButtonClickListener = () => {};
 
-        this.titleObserver = (title, trigger) => {
-            this.getListItem(trigger).find('.trigger-title').text(title);
-        };
+        this.triggerObservers = new CompositeObserver();
 
-        this.repeatObserver = (repeat, trigger) => {
+        this.triggerObservers.addPropertyObserver('title', (title, trigger) => {
+            this.getListItem(trigger).find('.trigger-title').text(title);
+        });
+
+        this.triggerObservers.addPropertyObserver('repeat', (repeat, trigger) => {
             let $listItem = this.getListItem(trigger);
             let repeatButton = ItemButtonView.findIn($listItem, 'repeat');
 
             repeatButton.setToggleState(repeat);
-        };
+        });
 
-        this.statementsObserver = (statements, trigger) => {
+        this.triggerObservers.addPropertyObserver('statements', (statements, trigger) => {
             let active = !trigger.hasStatementOfType('never');
 
             this.setTriggerActive(trigger, active);
-        };
+        });
 
         this.bindListeners();
     }
@@ -88,18 +91,12 @@ export default class TriggerListView {
 
     addTrigger(trigger) {
         this.itemListView.addItem(trigger);
-
-        trigger.observeProperty('title', this.titleObserver);
-        trigger.observeProperty('repeat', this.repeatObserver);
-        trigger.observeProperty('statements', this.statementsObserver);
+        this.triggerObservers.attachTo(trigger);
     }
 
     removeTrigger(trigger) {
         this.itemListView.removeItem(trigger);
-
-        trigger.unobserveProperty('title', this.titleObserver);
-        trigger.unobserveProperty('repeat', this.repeatObserver);
-        trigger.unobserveProperty('statements', this.statementsObserver);
+        this.triggerObservers.detachFrom(trigger);
     }
 
     clearTriggers() {

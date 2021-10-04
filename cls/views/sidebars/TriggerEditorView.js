@@ -1,3 +1,4 @@
+import CompositeObserver from '../../util/CompositeObserver.js';
 
 export default class TriggerEditorView {
 
@@ -41,16 +42,18 @@ export default class TriggerEditorView {
             enableLiveAutocompletion: true,
         });
 
-        this.titleObserver = title => {
-            this.$triggerTitleInput.val(title);
-        };
+        this.triggerObservers = new CompositeObserver();
 
-        this.statementsObserver = statements => {
+        this.triggerObservers.addPropertyObserver('title', title => {
+            this.$triggerTitleInput.val(title);
+        });
+
+        this.triggerObservers.addListObserver('statements', statements => {
             let text = statements.join('\n');
 
             this.editor.setValue(text);
             this.editor.clearSelection();
-        };
+        });
     }
 
     setTitleChangedListener(listener) {
@@ -85,18 +88,15 @@ export default class TriggerEditorView {
     }
 
     fillFromTrigger() {
-        this.titleObserver(this.trigger.title);
-        this.statementsObserver(this.trigger.statements);
+        this.triggerObservers.triggerForAll();
     }
 
     addObserversToTrigger(trigger) {
-        trigger.observeProperty('title', this.titleObserver);
-        trigger.observeArray('statements', this.statementsObserver);
+        this.triggerObservers.attachTo(trigger);
     }
 
     removeObserversFromTrigger(trigger) {
-        trigger.unobserveProperty('title', this.titleObserver);
-        trigger.unobserveArray('statements', this.statementsObserver);
+        this.triggerObservers.detachFrom(trigger);
     }
 
     clearInputs() {
