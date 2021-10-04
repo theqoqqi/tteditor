@@ -24,6 +24,13 @@ export default class CompositeObserver {
         this.#addListObserver('ElementRemoved', path, observer);
     }
 
+    setSingleObservable(observable) {
+        this.detachFrom(this.observables);
+        if (observable) {
+            this.attachTo(observable);
+        }
+    }
+
     attachTo(...observables) {
         for (let observable of observables) {
             this.#attachTo(observable);
@@ -81,7 +88,7 @@ export default class CompositeObserver {
     static #triggerObserverFor(observer, observable) {
         let propertyValue = observable;
 
-        if (observer.class === Observable) {
+        if (observable && observer.class === Observable) {
             let propertyName = CompositeObserver.#getPropertyNameForObserver(observer);
             propertyValue = observable[propertyName];
         }
@@ -124,6 +131,10 @@ export default class CompositeObserver {
     }
 
     static #resolveTarget(observable, observer) {
+        if (observable === null) {
+            return null;
+        }
+
         let path = observer.path.split('.');
         let target = observable;
 
