@@ -1,11 +1,14 @@
 import ItemListView from '../util/ItemListView.js';
 import ItemButtonView from '../util/ItemButtonView.js';
+import CompositeObserver from '../../util/CompositeObserver.js';
 
 export default class NodeListView {
 
     constructor(context) {
         this.context = context;
         this.uiNodeFactory = context.getUiNodeFactory();
+
+        this.map = null;
 
         this.$nodeList = $('#node-list');
         this.itemListView = new ItemListView(this.$nodeList);
@@ -20,7 +23,49 @@ export default class NodeListView {
         this.nodeActivityChangedListener = () => {};
         this.nodeRemoveButtonClickListener = () => {};
 
+        this.createMapObservers();
+        this.createMapNodeObservers();
+
         this.setAllLayersActive();
+    }
+
+    createMapObservers() {
+        this.mapObservers = new CompositeObserver();
+
+        this.mapObservers.addPropertyObserver('nodes', mapNodes => {
+            this.clearNodes();
+            for (const mapNode of mapNodes) {
+                this.addNode(mapNode);
+            }
+        });
+
+        this.mapObservers.addElementAddedObserver('nodes', mapNode => {
+            this.addNode(mapNode);
+        });
+
+        this.mapObservers.addElementRemovedObserver('nodes', mapNode => {
+            this.removeNode(mapNode);
+        });
+    }
+
+    createMapNodeObservers() {
+        this.mapNodeObservers = new CompositeObserver();
+
+        this.addMapNodePropertyObserver('x');
+        this.addMapNodePropertyObserver('y');
+        this.addMapNodePropertyObserver('title');
+    }
+
+    addMapNodePropertyObserver(propertyName) {
+        this.mapNodeObservers.addPropertyObserver(propertyName, (value, mapNode) => {
+            this.setNodeProperty(mapNode, propertyName, value);
+        });
+    }
+
+    setMap(map) {
+        this.map = map;
+        this.mapObservers.setSingleObservable(map);
+        this.mapObservers.triggerFor(map);
     }
 
     setAllLayersActive() {
@@ -78,12 +123,25 @@ export default class NodeListView {
         return this.itemListView.getSelectedItems();
     }
 
+    setNodeProperty(mapNode, propertyName, value) {
+        let $listItem = this.getListItem(mapNode);
+        let $element = $listItem.find(`[data-property='${propertyName}']`);
+
+        $element.text(value);
+
+        if (propertyName === 'title') {
+            $element.attr('title', value);
+        }
+    }
+
     addNode(mapNode) {
         this.itemListView.addItem(mapNode);
+        this.mapNodeObservers.attachTo(mapNode);
     }
 
     removeNode(mapNode) {
         this.itemListView.removeItem(mapNode);
+        this.mapNodeObservers.detachFrom(mapNode);
     }
 
     clearNodes() {
@@ -116,9 +174,9 @@ export default class NodeListView {
             <div class='node-list-item ${mapNode.tag}'>
                 <i class='node-icon ${iconClass}'></i>
                 <span class='node-tag'>${mapNode.tag}</span>
-                <span class='node-title' title='${title}'>${title}</span>
-                <span class='node-pos'>${mapNode.x}</span>
-                <span class='node-pos'>${mapNode.y}</span>
+                <span class='node-title' title='${title}' data-property='title'>${title}</span>
+                <span class='node-pos' data-property='x'>${mapNode.x}</span>
+                <span class='node-pos' data-property='y'>${mapNode.y}</span>
                 <i class='node-button toggle-node-button bi-eye-fill visible'></i>
                 <i class='node-button center-node-button bi-plus-circle'></i>
                 <i class='node-button remove-node-button bi-x-circle-fill'></i>

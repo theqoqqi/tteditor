@@ -456,24 +456,14 @@ export default class MapEditor {
         this.map = map;
         this.currentLevelFilename = filename;
 
-        this.nodeListView.clearNodes();
         this.triggerListView.clearTriggers();
 
         this.levelListView.setSelectedFile(filename);
+        this.nodeListView.setMap(map);
         this.mapOptionsView.setMap(map);
         this.randomizerListView.fillFromMap(map);
 
         this.paletteView.setSelectedType('terrain', map.terrain.name);
-
-        let allTagNames = this.context.getAllTagNames();
-
-        for (const tagName of allTagNames) {
-            let mapNodes = map.getNodesOfType(tagName);
-
-            for (let mapNode of mapNodes) {
-                this.nodeListView.addNode(mapNode);
-            }
-        }
 
         for (const trigger of map.triggers) {
             this.triggerListView.addTrigger(trigger);
@@ -494,7 +484,6 @@ export default class MapEditor {
         mapNode.y += viewportPosition.y;
 
         this.map.addNode(mapNode);
-        this.nodeListView.addNode(mapNode);
     }
 
     setBrush(tagName, typeName, name) {
@@ -544,7 +533,6 @@ export default class MapEditor {
 
     removeNode(mapNode) {
         this.map.removeNode(mapNode);
-        this.nodeListView.removeNode(mapNode);
     }
 
     mapToXml(map) {
