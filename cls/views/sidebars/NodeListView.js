@@ -11,8 +11,8 @@ export default class NodeListView {
         this.itemListView = new ItemListView(this.$nodeList);
 
         this.itemListView.setDataItemKey('map-node');
-        this.itemListView.setDataItemKey('map-node-id');
-        this.itemListView.setDataItemKey('editorId');
+        this.itemListView.setDataIdKey('map-node-id');
+        this.itemListView.setItemIdKey('editorId');
         this.itemListView.setListItemFactory(item => this.createListItem(item));
         this.itemListView.setMultipleSelectionEnabled(true);
 
