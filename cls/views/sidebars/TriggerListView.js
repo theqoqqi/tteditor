@@ -23,6 +23,23 @@ export default class TriggerListView {
         this.triggerActivityChangedListener = () => {};
         this.triggerRemoveButtonClickListener = () => {};
 
+        this.titleObserver = (title, trigger) => {
+            this.getListItem(trigger).find('.trigger-title').text(title);
+        };
+
+        this.repeatObserver = (repeat, trigger) => {
+            let $listItem = this.getListItem(trigger);
+            let repeatButton = ItemButtonView.findIn($listItem, 'repeat');
+
+            repeatButton.setToggleState(repeat);
+        };
+
+        this.statementsObserver = (statements, trigger) => {
+            let active = !trigger.hasStatementOfType('never');
+
+            this.setTriggerActive(trigger, active);
+        };
+
         this.bindListeners();
     }
 
@@ -71,10 +88,18 @@ export default class TriggerListView {
 
     addTrigger(trigger) {
         this.itemListView.addItem(trigger);
+
+        trigger.observeProperty('title', this.titleObserver);
+        trigger.observeProperty('repeat', this.repeatObserver);
+        trigger.observeProperty('statements', this.statementsObserver);
     }
 
     removeTrigger(trigger) {
         this.itemListView.removeItem(trigger);
+
+        trigger.unobserveProperty('title', this.titleObserver);
+        trigger.unobserveProperty('repeat', this.repeatObserver);
+        trigger.unobserveProperty('statements', this.statementsObserver);
     }
 
     clearTriggers() {
@@ -87,6 +112,10 @@ export default class TriggerListView {
 
     scrollToTrigger(trigger) {
         this.itemListView.scrollToItem(trigger);
+    }
+
+    getListItem(trigger) {
+        return this.itemListView.getListItem(trigger);
     }
 
     createListItem(trigger) {

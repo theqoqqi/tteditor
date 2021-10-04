@@ -7,6 +7,8 @@ export default class TriggerEditorView {
 
         this.$triggerTitleInput = $('#trigger-title-input');
 
+        this.trigger = null;
+
         // https://ace.c9.io/#nav=howto&api=ace
         // https://github.com/ajaxorg/ace/wiki/Configuring-Ace
         // https://github.com/ajaxorg/ace-builds
@@ -38,30 +40,63 @@ export default class TriggerEditorView {
             enableBasicAutocompletion: true,
             enableLiveAutocompletion: true,
         });
+
+        this.titleObserver = title => {
+            this.$triggerTitleInput.val(title);
+        };
+
+        this.statementsObserver = statements => {
+            let text = statements.join('\n');
+
+            this.editor.setValue(text);
+            this.editor.clearSelection();
+        };
     }
 
     setTitleChangedListener(listener) {
         this.$triggerTitleInput.on('change', e => {
             let name = this.$triggerTitleInput.val();
 
-            listener(name);
+            listener(name, this.trigger);
         });
     }
 
     setContentChangedListener(listener) {
-        this.editor.on('change', (instance, changeEvent) => {
+        this.editor.getSession().on('change', (instance, changeEvent) => {
             let statements = this.editor.getValue().split('\n');
 
-            listener(statements);
+            listener(statements, this.trigger);
         });
     }
 
-    fillFromTrigger(trigger) {
-        let text = trigger.statements.join('\n');
+    setTrigger(trigger) {
+        if (this.trigger) {
+            this.removeObserversFromTrigger(this.trigger);
+        }
 
-        this.$triggerTitleInput.val(trigger.title);
-        this.editor.setValue(text);
-        this.editor.clearSelection();
+        this.trigger = trigger;
+
+        if (this.trigger) {
+            this.addObserversToTrigger(this.trigger);
+            this.fillFromTrigger();
+        } else {
+            this.clearInputs();
+        }
+    }
+
+    fillFromTrigger() {
+        this.titleObserver(this.trigger.title);
+        this.statementsObserver(this.trigger.statements);
+    }
+
+    addObserversToTrigger(trigger) {
+        trigger.observeProperty('title', this.titleObserver);
+        trigger.observeArray('statements', this.statementsObserver);
+    }
+
+    removeObserversFromTrigger(trigger) {
+        trigger.unobserveProperty('title', this.titleObserver);
+        trigger.unobserveArray('statements', this.statementsObserver);
     }
 
     clearInputs() {

@@ -240,20 +240,16 @@ export default class MapEditor {
             let trigger = new Trigger(triggerTitle);
 
             this.map.addTrigger(trigger);
+            this.triggerEditorView.setTrigger(trigger);
             this.triggerListView.addTrigger(trigger);
             this.triggerListView.setSelectedTrigger(trigger);
-            this.triggerListView.clearNewTriggerInputs();
             this.triggerListView.scrollToTrigger(trigger);
-            this.triggerEditorView.clearInputs();
+            this.triggerListView.clearNewTriggerInputs();
             this.setLevelDirty();
         });
 
         this.triggerListView.setSelectionChangedListener(trigger => {
-            if (trigger) {
-                this.triggerEditorView.fillFromTrigger(trigger);
-            } else {
-                this.triggerEditorView.clearInputs();
-            }
+            this.triggerEditorView.setTrigger(trigger);
         });
 
         this.triggerListView.setTriggerRepeatingChangedListener((trigger, isRepeating) => {
@@ -267,37 +263,32 @@ export default class MapEditor {
             } else {
                 trigger.addStatement('<never/>');
             }
-            this.triggerEditorView.fillFromTrigger(trigger);
             this.setLevelDirty();
         });
 
         this.triggerListView.setRemoveTriggerButtonClickListener(trigger => {
             this.map.removeTrigger(trigger);
             this.triggerListView.removeTrigger(trigger);
-            this.triggerEditorView.clearInputs();
+            this.triggerEditorView.setTrigger(null);
             this.setLevelDirty();
         });
 
 
-        this.triggerEditorView.setTitleChangedListener(title => {
-            let trigger = this.triggerListView.getSelectedTrigger();
+        this.triggerEditorView.setTitleChangedListener((title, trigger) => {
+            if (!trigger) {
+                return;
+            }
 
             trigger.title = title;
             this.setLevelDirty();
         });
 
-        this.triggerEditorView.setContentChangedListener(statements => {
-            let trigger = this.triggerListView.getSelectedTrigger();
-
+        this.triggerEditorView.setContentChangedListener((statements, trigger) => {
             if (!trigger) {
                 return;
             }
 
             trigger.statements = statements;
-
-            let isEnabled = !trigger.hasStatementOfType('never');
-
-            this.triggerListView.setTriggerActive(trigger, isEnabled);
             this.setLevelDirty();
         });
 
