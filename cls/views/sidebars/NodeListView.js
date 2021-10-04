@@ -54,6 +54,7 @@ export default class NodeListView {
         this.addMapNodePropertyObserver('x');
         this.addMapNodePropertyObserver('y');
         this.addMapNodePropertyObserver('title');
+        this.addMapNodePropertyObserver('name');
     }
 
     addMapNodePropertyObserver(propertyName) {
@@ -126,6 +127,10 @@ export default class NodeListView {
     setNodeProperty(mapNode, propertyName, value) {
         let $listItem = this.getListItem(mapNode);
         let $element = $listItem.find(`[data-property='${propertyName}']`);
+
+        if (propertyName === 'name') {
+            $element = $listItem.find(`[data-property='title']`);
+        }
 
         $element.text(value);
 
