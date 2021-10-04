@@ -50,7 +50,7 @@ export default class CompositeObserver {
     #detachFrom(observable) {
         let index = this.observables.indexOf(observable);
 
-        if (!index) {
+        if (index === -1) {
             return;
         }
 
