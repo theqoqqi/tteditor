@@ -120,44 +120,11 @@ export default class MapOptionsView {
     }
 
     setMap(map) {
-        if (this.map) {
-            this.removeObserversFromMap(this.map);
-        }
-
         this.map = map;
-
-        if (this.map) {
-            this.addObserversToMap(this.map);
-            this.fillFromMap(this.map);
-        } else {
-            this.clearInputs();
-        }
-    }
-
-    fillFromMap(map) {
+        this.mapObservers.setSingleObservable(map);
         this.mapObservers.triggerFor(map);
     }
 
-    addObserversToMap(map) {
-        this.mapObservers.attachTo(map);
-    }
-
-    removeObserversFromMap(map) {
-        this.mapObservers.detachFrom(map);
-    }
-
-    clearInputs() {
-        this.$controls.each((index, nodeProperty) => {
-            let $nodeProperty = $(nodeProperty);
-            let $inputs = $nodeProperty.find('input');
-
-            $inputs.each((index, input) => {
-                let $input = $(input);
-
-                $input.val('');
-            });
-        });
-    }
 
     onCheckboxChanged($checkbox) {
         let isActive = $checkbox.prop('checked');

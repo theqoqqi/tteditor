@@ -73,34 +73,9 @@ export default class TriggerEditorView {
     }
 
     setTrigger(trigger) {
-        if (this.trigger) {
-            this.removeObserversFromTrigger(this.trigger);
-        }
-
         this.trigger = trigger;
-
-        if (this.trigger) {
-            this.addObserversToTrigger(this.trigger);
-            this.fillFromTrigger(this.trigger);
-        } else {
-            this.clearInputs();
-        }
-    }
-
-    fillFromTrigger(trigger) {
+        this.triggerObservers.setSingleObservable(trigger);
         this.triggerObservers.triggerFor(trigger);
     }
 
-    addObserversToTrigger(trigger) {
-        this.triggerObservers.attachTo(trigger);
-    }
-
-    removeObserversFromTrigger(trigger) {
-        this.triggerObservers.detachFrom(trigger);
-    }
-
-    clearInputs() {
-        this.$triggerTitleInput.val('');
-        this.editor.setValue('');
-    }
 }
