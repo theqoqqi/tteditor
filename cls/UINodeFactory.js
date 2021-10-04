@@ -49,18 +49,19 @@ export default class UINodeFactory {
 
     getInitialRadiusSizesFor(mapNode) {
         let declaredRadius = this.getDeclaredRadius(mapNode);
+        let applyRatio = mapNode.tag === 'area';
 
         if (!declaredRadius) {
             declaredRadius = mapNode.tag === 'waypoint' ? 8 : 12;
         }
 
-        return this.getRadiusSizes(declaredRadius, mapNode);
+        return this.getRadiusSizes(declaredRadius, applyRatio);
     }
 
-    getRadiusSizes(radius) {
+    getRadiusSizes(radius, applyRatio) {
         let radiusX, radiusY;
 
-        if (radius) {
+        if (applyRatio) {
             radiusX = radius;
             radiusY = radiusX * COORDS_RATIO;
         } else {
@@ -402,18 +403,15 @@ export default class UINodeFactory {
         }
 
         if (propertyName === 'radius') {
+            let mapNode = $node.data('map-node');
+            let applyRatio = mapNode.tag === 'area';
             let $sizedElements = $node.find('> .marker-mesh, > .selection-box');
-            let {radiusX: differenceX, radiusY: differenceY} = this.getRadiusSizes(difference);
+            let {radiusX: differenceX, radiusY: differenceY} = this.getRadiusSizes(difference, applyRatio);
 
             this.#increaseCssPixels($sizedElements, 'left', -differenceX / 2);
             this.#increaseCssPixels($sizedElements, 'top', -differenceY / 2);
             this.#increaseCssPixels($sizedElements, 'width', differenceX);
             this.#increaseCssPixels($sizedElements, 'height', differenceY);
-
-            // let moveX = -difference / 2;
-            // let moveY = moveX * COORDS_RATIO;
-            //
-            // this.#moveNodeBy($node, moveX, moveY); // Чтобы расскомментить, нужно еще чтобы обновлялись x и y во View
         }
 
         if (propertyName === 'hint') {
