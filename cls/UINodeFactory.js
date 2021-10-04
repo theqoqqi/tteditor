@@ -14,21 +14,14 @@ export default class UINodeFactory {
         let y = mapNode.y;
         let z = 0;
         let layerZ = this.getLayerZForTagName(tagName);
-        let declaredRadius = this.getDeclaredRadius(mapNode);
-        let radiusX, radiusY;
-
-        if (declaredRadius) {
-            radiusX = declaredRadius;
-            radiusY = radiusX * COORDS_RATIO;
-        } else {
-            radiusX = tagName === 'waypoint' ? 8 : 12;
-            radiusY = tagName === 'waypoint' ? 8 : 12;
-        }
+        let {radiusX, radiusY} = this.getInitialRadiusSizesFor(mapNode);
 
         x -= radiusX;
         y -= radiusY;
         z -= radiusX;
         z += layerZ;
+
+        this.storeNodeProperties($node, mapNode);
 
         $node.addClass('marker-map-node');
         $node.css('left', x + radiusX + 'px');
@@ -52,6 +45,30 @@ export default class UINodeFactory {
         $node.append($selectionBox);
 
         return $node;
+    }
+
+    getInitialRadiusSizesFor(mapNode) {
+        let declaredRadius = this.getDeclaredRadius(mapNode);
+
+        if (!declaredRadius) {
+            declaredRadius = mapNode.tag === 'waypoint' ? 8 : 12;
+        }
+
+        return this.getRadiusSizes(declaredRadius, mapNode);
+    }
+
+    getRadiusSizes(radius) {
+        let radiusX, radiusY;
+
+        if (radius) {
+            radiusX = radius;
+            radiusY = radiusX * COORDS_RATIO;
+        } else {
+            radiusX = radius;
+            radiusY = radius;
+        }
+
+        return {radiusX, radiusY};
     }
 
     createMarkerMesh(radiusX, radiusY) {
@@ -81,6 +98,8 @@ export default class UINodeFactory {
         try {
             let $node = this.createGenericNode(tagName, mapNode, node, $parentNode);
             let {x, y, z} = this.getCoordsForNode(tagName, mapNode, node, $parentNode);
+
+            this.storeNodeProperties($node, mapNode);
 
             $node.css('left', x + 'px');
             $node.css('top', y + 'px');
@@ -360,39 +379,36 @@ export default class UINodeFactory {
         return $(`<i class='${iconClass}'>`);
     }
 
-    moveNodeBy($node, x, y) {
-        let mapNode = $node.data('map-node');
+    storeNodeProperties($node, mapNode) {
+        let propertyNames = ['x', 'y', 'radius', 'hint'];
 
-        mapNode.x += x;
-        mapNode.y += y;
-
-        this.#moveNodeBy($node, x, y);
+        for (const propertyName of propertyNames) {
+            $node.data(`property-${propertyName}`, mapNode[propertyName]);
+        }
     }
 
     setNodeProperty($node, propertyName, newValue) {
-        let mapNode = $node.data('map-node');
-        let oldValue = mapNode[propertyName];
+        let oldValue = $node.data(`property-${propertyName}`);
         let difference = newValue - oldValue;
 
+        $node.data(`property-${propertyName}`, newValue);
+
         if (propertyName === 'x') {
-            mapNode[propertyName] = +newValue;
             this.#moveNodeBy($node, difference, 0);
         }
 
         if (propertyName === 'y') {
-            mapNode[propertyName] = +newValue;
             this.#moveNodeBy($node, 0, difference);
         }
 
         if (propertyName === 'radius') {
-            mapNode[propertyName] = +newValue;
-            this.#increaseCssPixels($node, 'width', difference);
-            this.#increaseCssPixels($node, 'height', difference * COORDS_RATIO);
+            let $sizedElements = $node.find('> .marker-mesh, > .selection-box');
+            let {radiusX: differenceX, radiusY: differenceY} = this.getRadiusSizes(difference);
 
-            let $selectionBox = $node.find('> .selection-box');
-
-            this.#increaseCssPixels($selectionBox, 'width', difference);
-            this.#increaseCssPixels($selectionBox, 'height', difference * COORDS_RATIO);
+            this.#increaseCssPixels($sizedElements, 'left', -differenceX / 2);
+            this.#increaseCssPixels($sizedElements, 'top', -differenceY / 2);
+            this.#increaseCssPixels($sizedElements, 'width', differenceX);
+            this.#increaseCssPixels($sizedElements, 'height', differenceY);
 
             // let moveX = -difference / 2;
             // let moveY = moveX * COORDS_RATIO;
@@ -401,7 +417,6 @@ export default class UINodeFactory {
         }
 
         if (propertyName === 'hint') {
-            mapNode[propertyName] = newValue;
             $node.attr('title', newValue);
         }
     }
@@ -428,10 +443,13 @@ export default class UINodeFactory {
         }
     }
 
-    #increaseCssPixels($element, property, increaseBy) {
-        let oldLeft = this.cssPixelsToNumber($element.css(property));
+    #increaseCssPixels($elements, property, increaseBy) {
+        $elements.each((index, element) => {
+            let $element = $(element);
+            let oldLeft = this.cssPixelsToNumber($element.css(property));
 
-        $element.css(property, `${oldLeft + increaseBy}px`);
+            $element.css(property, `${oldLeft + increaseBy}px`);
+        });
     }
 
     cssPixelsToNumber(cssPixels) {

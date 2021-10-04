@@ -1,3 +1,4 @@
+import CompositeObserver from '../util/CompositeObserver.js';
 
 export default class MapView {
 
@@ -21,8 +22,61 @@ export default class MapView {
         this.moveActionListener = () => {};
         this.dragNodesListener = () => {};
 
+        this.createMapObservers();
+        this.createMapNodeObservers();
+
         this.bindListeners();
         this.createScrollController();
+    }
+
+    createMapObservers() {
+        this.mapObservers = new CompositeObserver();
+
+        this.mapObservers.addPropertyObserver('width', width => {
+            this.setMapWidth(width);
+        });
+
+        this.mapObservers.addPropertyObserver('height', height => {
+            this.setMapHeight(height);
+        });
+
+        this.mapObservers.addPropertyObserver('terrain', terrain => {
+            this.setTerrain(terrain);
+        });
+
+        this.mapObservers.addPropertyObserver('options.fowClearColor', fowClearColor => {
+            this.setFowClearColor(fowClearColor);
+        });
+
+        this.mapObservers.addPropertyObserver('nodes', mapNodes => {
+            this.clearNodes();
+            for (const mapNode of mapNodes) {
+                this.addNode(mapNode);
+            }
+        });
+
+        this.mapObservers.addElementAddedObserver('nodes', mapNode => {
+            this.addNode(mapNode);
+        });
+
+        this.mapObservers.addElementRemovedObserver('nodes', mapNode => {
+            this.removeNode(mapNode);
+        });
+    }
+
+    createMapNodeObservers() {
+        this.mapNodeObservers = new CompositeObserver();
+
+        this.addMapNodePropertyObserver('x');
+        this.addMapNodePropertyObserver('y');
+        this.addMapNodePropertyObserver('radius');
+        this.addMapNodePropertyObserver('hint');
+    }
+
+    addMapNodePropertyObserver(propertyName) {
+        this.mapNodeObservers.addPropertyObserver(propertyName, (value, mapNode) => {
+            this.setNodeProperty(mapNode, propertyName, value);
+        });
     }
 
     bindListeners() {
@@ -162,6 +216,12 @@ export default class MapView {
         });
     }
 
+    setMap(map) {
+        this.map = map;
+        this.mapObservers.setSingleObservable(map);
+        this.mapObservers.triggerFor(map);
+    }
+
     setClickListener(listener) {
         this.clickListener = listener;
     }
@@ -196,10 +256,12 @@ export default class MapView {
         }
 
         this.$mapNodeList.append($node);
+        this.mapNodeObservers.attachTo(mapNode);
     }
 
     removeNode(mapNode) {
         this.findMapNodeElement(mapNode).remove();
+        this.mapNodeObservers.detachFrom(mapNode);
     }
 
     clearNodes() {
@@ -215,12 +277,6 @@ export default class MapView {
 
             $node.toggleClass('selected', editorIds.includes(nodeEditorId));
         });
-    }
-
-    moveNodeBy(mapNode, x, y) {
-        let $node = this.findMapNodeElement(mapNode);
-
-        this.uiNodeFactory.moveNodeBy($node, x, y);
     }
 
     setNodeVisible(mapNode, isVisible) {

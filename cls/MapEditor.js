@@ -112,7 +112,11 @@ export default class MapEditor {
 
         this.mapView.setMouseMoveListener((x, y) => {
             if (this.$brush) {
+                let brushMapNode = this.$brush.data('map-node');
                 let viewportPosition = this.mapView.getViewportPosition();
+
+                brushMapNode.x = x - viewportPosition.x;
+                brushMapNode.y = y - viewportPosition.y;
 
                 this.uiNodeFactory.setNodeProperty(this.$brush, 'x', x - viewportPosition.x);
                 this.uiNodeFactory.setNodeProperty(this.$brush, 'y', y - viewportPosition.y);
@@ -125,7 +129,8 @@ export default class MapEditor {
             let selectedMapNodes = this.nodeListView.getSelectedNodes();
 
             for (const mapNode of selectedMapNodes) {
-                this.mapView.moveNodeBy(mapNode, x, y);
+                mapNode.x += x;
+                mapNode.y += y;
             }
 
             this.propertyListView.fillFromMapNodes(selectedMapNodes);
@@ -140,7 +145,6 @@ export default class MapEditor {
                     let terrain = this.context.createTerrainByName(typeName);
 
                     this.map.setTerrain(terrain);
-                    this.mapView.setTerrain(terrain);
                     this.setLevelDirty();
                 } else {
                     this.setBrush(tagName, typeName, name);
@@ -207,7 +211,7 @@ export default class MapEditor {
             let selectedNodes = this.nodeListView.getSelectedNodes();
 
             for (const mapNode of selectedNodes) {
-                this.mapView.setNodeProperty(mapNode, propertyName, newValue);
+                this.setMapNodePropertyValue(mapNode, propertyName, newValue);
                 this.setLevelDirty();
             }
         });
@@ -356,7 +360,9 @@ export default class MapEditor {
             let selectedMapNodes = this.nodeListView.getSelectedNodes();
 
             for (const mapNode of selectedMapNodes) {
-                this.mapView.moveNodeBy(mapNode, x, y);
+                mapNode.x += x;
+                mapNode.y += y;
+
                 this.setLevelDirty();
             }
         });
@@ -430,17 +436,16 @@ export default class MapEditor {
         let propertyHolder = source === 'map' ? this.map : this.map.options;
 
         propertyHolder[propertyName] = value;
+    }
 
-        if (propertyName === 'width') {
-            this.mapView.setMapWidth(value);
-        }
+    setMapNodePropertyValue(mapNode, propertyName, value) {
+        let numericProperties = ['x', 'y', 'radius'];
 
-        if (propertyName === 'height') {
-            this.mapView.setMapHeight(value);
-        }
+        if (numericProperties.includes(propertyName)) {
+            mapNode[propertyName] = +value;
 
-        if (propertyName === 'fowClearColor') {
-            this.mapView.setFowClearColor(value);
+        } else {
+            mapNode[propertyName] = value;
         }
     }
 
@@ -458,13 +463,7 @@ export default class MapEditor {
         this.mapOptionsView.setMap(map);
         this.randomizerListView.fillFromMap(map);
 
-        this.mapView.clearNodes();
-
-        this.mapView.setTerrain(map.terrain);
         this.paletteView.setSelectedType('terrain', map.terrain.name);
-
-        this.mapView.setMapSize(map.width, map.height);
-        this.mapView.setFowClearColor(map.options.fowClearColor);
 
         let allTagNames = this.context.getAllTagNames();
 
@@ -472,7 +471,6 @@ export default class MapEditor {
             let mapNodes = map.getNodesOfType(tagName);
 
             for (let mapNode of mapNodes) {
-                this.mapView.addNode(mapNode);
                 this.nodeListView.addNode(mapNode);
             }
         }
@@ -481,6 +479,7 @@ export default class MapEditor {
             this.triggerListView.addTrigger(trigger);
         }
 
+        this.mapView.setMap(map);
         this.mapView.setViewportCenter(map.startX ?? map.playerBaseX, map.startY ?? map.playerBaseY);
 
         this.setLevelClear();
@@ -495,7 +494,6 @@ export default class MapEditor {
         mapNode.y += viewportPosition.y;
 
         this.map.addNode(mapNode);
-        this.mapView.addNode(mapNode);
         this.nodeListView.addNode(mapNode);
     }
 
@@ -546,7 +544,6 @@ export default class MapEditor {
 
     removeNode(mapNode) {
         this.map.removeNode(mapNode);
-        this.mapView.removeNode(mapNode);
         this.nodeListView.removeNode(mapNode);
     }
 
