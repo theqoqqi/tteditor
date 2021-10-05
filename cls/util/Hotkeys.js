@@ -1,8 +1,61 @@
 
 export default class Hotkeys {
 
-    constructor() {
+    isNoModifiersPressed;
+    isAnyModifierPressed;
+    isNothingPressed;
+    isAnythingPressed;
+    pressedShortcut;
+    pressedModifiers;
 
+    constructor(e) {
+        this.event = e;
+        this.isNoModifiersPressed = Hotkeys.isNoModifiersPressed(this.event);
+        this.isAnyModifierPressed = Hotkeys.isAnyModifierPressed(this.event);
+        this.isNothingPressed = Hotkeys.isNothingPressed(this.event);
+        this.isAnythingPressed = Hotkeys.isAnythingPressed(this.event);
+        this.pressedShortcut = Hotkeys.getPressedShortcut(this.event);
+        this.pressedModifiers = Hotkeys.getPressedModifiers(this.event);
+    }
+
+    matches(shortcut) {
+        return Hotkeys.matches(shortcut, this.event);
+    }
+
+    static from(e) {
+        return new Hotkeys(e);
+    }
+
+    static bindGlobal(shortcut, callback) {
+        this.bindWithOptions(shortcut, {
+            callback,
+        });
+    }
+
+    static bind(shortcut, contextElement, callback) {
+        this.bindWithOptions(shortcut, {
+            element: contextElement,
+            callback,
+        });
+    }
+
+    static bindWithOptions(shortcut, options) {
+        let element = options.element ?? window;
+        let callback = options.callback ?? (() => {});
+        let preventDefault = options.preventDefault ?? true;
+        let stopPropagation = options.stopPropagation ?? true;
+
+        $(element).on('keydown', e => {
+            if (Hotkeys.matches(shortcut, e)) {
+                if (preventDefault) {
+                    e.preventDefault();
+                }
+                if (stopPropagation) {
+                    e.stopPropagation();
+                }
+                callback();
+            }
+        });
     }
 
     static isNoModifiersPressed(e) {
@@ -21,15 +74,15 @@ export default class Hotkeys {
         return this.getPressedShortcut(e) !== '';
     }
 
-    static isPressed(shortcut, event) {
+    static matches(shortcut, event) {
         let pressedShortcut = this.getPressedShortcut(event);
 
         return this.isShortcutsEquals(pressedShortcut, shortcut);
     }
 
     static isShortcutsEquals(a, b) {
-        let normA = this.normalizeShortcut(a).toLowerCase();
-        let normB = this.normalizeShortcut(b).toLowerCase();
+        let normA = this.normalizeShortcut(a.toLowerCase());
+        let normB = this.normalizeShortcut(b.toLowerCase());
 
         return normA === normB;
     }
@@ -44,7 +97,7 @@ export default class Hotkeys {
 
     static getPressedShortcut(event) {
         let modifiers = this.getPressedModifiers(event);
-        let keys = [modifiers];
+        let keys = modifiers ? [modifiers] : [];
 
         if (event.key) {
             keys.push(event.key);
