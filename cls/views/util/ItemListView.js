@@ -1,14 +1,20 @@
 
 export default class ItemListView {
 
+    static SELECTION_MODE_NONE = Symbol();
+    static SELECTION_MODE_SINGLE = Symbol();
+    static SELECTION_MODE_MULTIPLE = Symbol();
+
     constructor($list) {
         this.$list = $list;
         this.selectedItems = [];
+        this.items = [];
 
         this.dataItemKey = 'item';
         this.dataIdKey = null;
         this.itemIdKey = null;
-        this.multipleSelectionEnabled = false;
+        this.selectionMode = ItemListView.SELECTION_MODE_NONE;
+        this.handleSelectionAutomatically = true;
 
         this.listItemFactory = () => $('<div>');
         this.selectionChangedListener = () => {};
@@ -18,6 +24,10 @@ export default class ItemListView {
 
     bindListeners() {
         this.$list.on('click', '[role="listitem"]', e => {
+            if (!this.handleSelectionAutomatically) {
+                return;
+            }
+
             let $listItem = $(e.currentTarget);
             let item = $listItem.data(this.dataItemKey);
 
@@ -47,7 +57,11 @@ export default class ItemListView {
     }
 
     selectUntil(item) {
-        if (!this.multipleSelectionEnabled) {
+        if (this.selectionMode === ItemListView.SELECTION_MODE_NONE) {
+            return;
+        }
+
+        if (this.selectionMode === ItemListView.SELECTION_MODE_SINGLE) {
             this.setSelectedItem(item);
             return;
         }
@@ -80,7 +94,25 @@ export default class ItemListView {
         this.triggerSelectionChanged();
     }
 
+    setItemSelected(item, selected) {
+        if (this.selectionMode === ItemListView.SELECTION_MODE_NONE) {
+            return;
+        }
+
+        let currentlySelected = this.isItemSelected(item);
+
+        if (currentlySelected === !!selected) {
+            return;
+        }
+
+        this.toggleItemSelection(item);
+    }
+
     toggleItemSelection(item) {
+        if (this.selectionMode === ItemListView.SELECTION_MODE_NONE) {
+            return;
+        }
+
         if (this.isItemSelected(item)) {
             this.removeItemFromSelection(item);
         } else {
@@ -89,7 +121,11 @@ export default class ItemListView {
     }
 
     addItemToSelection(item) {
-        if (!this.multipleSelectionEnabled) {
+        if (this.selectionMode === ItemListView.SELECTION_MODE_NONE) {
+            return;
+        }
+
+        if (this.selectionMode === ItemListView.SELECTION_MODE_SINGLE) {
             this.setSelectedItem(item);
             return;
         }
@@ -122,6 +158,10 @@ export default class ItemListView {
     }
 
     setSelectedItem(item) {
+        if (this.selectionMode === ItemListView.SELECTION_MODE_NONE) {
+            return;
+        }
+
         if (this.selectedItems.length === 1 && this.selectedItems[0] === item) {
             return;
         }
@@ -142,7 +182,8 @@ export default class ItemListView {
     }
 
     triggerSelectionChanged() {
-        let selection = this.multipleSelectionEnabled ? this.getSelectedItems() : this.getSelectedItem();
+        let selection = this.selectionMode === ItemListView.SELECTION_MODE_MULTIPLE
+            ? this.getSelectedItems() : this.getSelectedItem();
 
         this.selectionChangedListener(selection);
     }
@@ -165,14 +206,27 @@ export default class ItemListView {
         let $listItem = this.createListItem(item);
 
         this.$list.append($listItem);
+        this.items.push(item);
     }
 
     removeItem(item) {
+        let index = this.items.indexOf(item);
+
+        if (index === -1) {
+            return;
+        }
+
         this.getListItem(item).remove();
+        this.items.splice(index, 1);
     }
 
     clearItems() {
         this.$list.empty();
+        this.items = [];
+    }
+
+    getAllItems() {
+        return [...this.items];
     }
 
     getListItem(item) {
@@ -200,8 +254,12 @@ export default class ItemListView {
         this.$list.scrollTop(itemY + itemHeight / 2 - listHeight / 2);
     }
 
-    setMultipleSelectionEnabled(enabled) {
-        this.multipleSelectionEnabled = enabled;
+    setSelectionMode(selectionMode) {
+        this.selectionMode = selectionMode;
+    }
+
+    setSelectionHandlerEnabled(enabled) {
+        this.handleSelectionAutomatically = enabled;
     }
 
     setDataItemKey(key) {
