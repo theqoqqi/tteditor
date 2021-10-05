@@ -33,10 +33,12 @@ export default class ContextMenuView {
     }
 
     showFor($element) {
-        this.$menu.show();
+        requestAnimationFrame(() => {
+            this.$menu.show();
 
-        this.popper = Popper.createPopper($element[0], this.$menu[0], {
-            placement: 'bottom-start',
+            this.popper = Popper.createPopper($element[0], this.$menu[0], {
+                placement: 'bottom-start',
+            });
         });
     }
 

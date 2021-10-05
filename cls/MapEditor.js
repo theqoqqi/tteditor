@@ -16,6 +16,7 @@ import StatusBarView from './views/StatusBarView.js';
 import MapWriter from './MapWriter.js';
 import MapView from './views/MapView.js';
 import MapNodeContextMenuView from './views/MapNodeContextMenuView.js';
+import Hotkeys from './util/Hotkeys.js';
 
 // noinspection CssInvalidHtmlTagReference
 export default class MapEditor {
@@ -37,6 +38,7 @@ export default class MapEditor {
         this.triggerEditorView = new TriggerEditorView(context);
         this.mapOptionsView = new MapOptionsView(context);
         this.randomizerListView = new RandomizerListView(context);
+        this.mapNodeContextMenuView = new MapNodeContextMenuView();
         this.mapNodeContextMenuView = new MapNodeContextMenuView();
 
         this.$sidebars = $('.sidebar');
@@ -79,33 +81,45 @@ export default class MapEditor {
 
 
         this.mapView.setClickListener((mapNode, e) => {
+            let hotkeys = Hotkeys.from(e);
+
             if (this.$brush) {
                 this.addNodeFromBrush();
                 this.setLevelDirty();
-
-            } else {
-                if (e.shiftKey) {
-                    this.nodeListView.addNodeToSelection(mapNode);
-
-                } else if (e.ctrlKey) {
-                    this.nodeListView.removeNodeFromSelection(mapNode);
-
-                } else if (e.altKey) {
-                    setTimeout(() => {
-                        this.mapNodeContextMenuView.showAt(e.clientX, e.clientY);
-                    }, 100);
-
-                } else {
-                    this.nodeListView.setSelectedNodes(mapNode ? [mapNode] : []);
-                }
+                return;
             }
+
+            if (mapNode && hotkeys.matches('Shift')) {
+                this.nodeListView.addNodeToSelection(mapNode);
+                return;
+            }
+
+            if (mapNode && hotkeys.matches('Control')) {
+                this.nodeListView.removeNodeFromSelection(mapNode);
+                return;
+            }
+
+            if (hotkeys.matches('Alt')) {
+                this.mapNodeContextMenuView.showAt(e.clientX, e.clientY);
+                return;
+            }
+
+            this.nodeListView.setSelectedNodes(mapNode ? [mapNode] : []);
         });
 
         this.mapView.setRightClickListener((mapNode, e) => {
             this.mapNodeContextMenuView.showAt(e.clientX, e.clientY);
         });
 
-        this.mapView.setDoubleClickListener(mapNode => {
+        this.mapView.setDoubleClickListener((mapNode, e) => {
+            if (!mapNode) {
+                return;
+            }
+
+            if (Hotkeys.isAnyModifierPressed(e)) {
+                return;
+            }
+
             this.$sidebars.find('#node-list-sidebar-tab').collapse('show');
             this.nodeListView.scrollToNode(mapNode);
         });
@@ -367,38 +381,29 @@ export default class MapEditor {
 
 
 
-        $(window).on('keydown', e => {
-            let code = e.code;
+        Hotkeys.bindGlobal('Control+S', () => {
+            this.saveCurrentLevel();
+        });
 
-            if (e.ctrlKey || e.metaKey) {
-                if (code === 'KeyS') {
-                    e.preventDefault();
-                    this.saveCurrentLevel();
-                }
-                if (code === 'KeyA') {
-                    e.preventDefault();
-                    let visibleNodes = this.nodeListView.getVisibleNodes();
+        Hotkeys.bindGlobal('Control+A', () => {
+            let visibleNodes = this.nodeListView.getVisibleNodes();
 
-                    this.nodeListView.setSelectedNodes(visibleNodes);
-                }
+            this.nodeListView.setSelectedNodes(visibleNodes);
+        });
+
+        Hotkeys.bindGlobal('Delete', () => {
+            let selectedMapNodes = this.nodeListView.getSelectedNodes();
+
+            for (const mapNode of selectedMapNodes) {
+                this.removeNode(mapNode);
+                this.setLevelDirty();
             }
+        });
 
-            if (!e.ctrlKey && !e.shiftKey && !e.altKey) {
-                if (code === 'Delete') {
-                    let selectedMapNodes = this.nodeListView.getSelectedNodes();
-
-                    for (const mapNode of selectedMapNodes) {
-                        this.removeNode(mapNode);
-                        this.setLevelDirty();
-                    }
-                }
-
-                if (code === 'Escape') {
-                    if (this.hasBrush()) {
-                        this.paletteView.setSelectedItem(null);
-                        this.clearBrush(null);
-                    }
-                }
+        Hotkeys.bindGlobal('Escape', () => {
+            if (this.hasBrush()) {
+                this.paletteView.setSelectedItem(null);
+                this.clearBrush(null);
             }
         });
     }

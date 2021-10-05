@@ -123,7 +123,7 @@ export default class MapView {
             let $node = $(e.target).closest('.map-node-root');
             let mapNode = $node.data('map-node');
 
-            this.doubleClickListener(mapNode);
+            this.doubleClickListener(mapNode, e);
         });
 
         this.$mapScroll.mousemove(e => {
