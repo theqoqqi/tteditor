@@ -17,7 +17,7 @@ export default class NodeListView {
         this.itemListView.setDataIdKey('map-node-id');
         this.itemListView.setItemIdKey('editorId');
         this.itemListView.setListItemFactory(item => this.createListItem(item));
-        this.itemListView.setMultipleSelectionEnabled(true);
+        this.itemListView.setSelectionMode(ItemListView.SELECTION_MODE_MULTIPLE);
 
         this.nodeRepeatingChangedListener = () => {};
         this.nodeActivityChangedListener = () => {};
