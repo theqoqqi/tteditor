@@ -565,6 +565,7 @@ export default class MapEditor {
         } else {
             if (tagName === 'item' && typeName === 'Chest') {
                 tagName = 'chest';
+                mapNode.tag = 'chest';
             }
 
             $node = this.uiNodeFactory.createNode(tagName, typeName, mapNode);

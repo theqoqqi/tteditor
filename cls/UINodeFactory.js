@@ -545,6 +545,7 @@ export default class UINodeFactory {
             building: 'bi-house-fill',
             unit: 'bi-person-fill',
             item: 'bi-search',
+            chest: 'bi-lock-fill',
             magic: 'bi-stars',
             ambient: 'bi-volume-up',
             waypoint: 'bi-record2',
