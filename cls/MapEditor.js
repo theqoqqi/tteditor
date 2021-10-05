@@ -17,6 +17,7 @@ import MapWriter from './MapWriter.js';
 import MapView from './views/MapView.js';
 import MapNodeContextMenuView from './views/MapNodeContextMenuView.js';
 import Hotkeys from './util/Hotkeys.js';
+import HoveredMapNodesContextMenuView from './views/HoveredMapNodesContextMenuView.js';
 
 // noinspection CssInvalidHtmlTagReference
 export default class MapEditor {
@@ -24,11 +25,15 @@ export default class MapEditor {
     constructor(context) {
         this.context = context;
         this.uiNodeFactory = context.getUiNodeFactory();
-        this.mapView = new MapView(context);
+
         this.reader = new MapReader(context);
         this.writer = new MapWriter(context);
+
+        this.mapView = new MapView(context);
+
         this.toolbarView = new ToolbarView(context);
         this.statusBarView = new StatusBarView(context);
+
         this.levelListView = new LevelListView(context);
         this.paletteView = new PaletteView(context);
         this.layerListView = new LayerListView(context);
@@ -38,8 +43,9 @@ export default class MapEditor {
         this.triggerEditorView = new TriggerEditorView(context);
         this.mapOptionsView = new MapOptionsView(context);
         this.randomizerListView = new RandomizerListView(context);
+
         this.mapNodeContextMenuView = new MapNodeContextMenuView();
-        this.mapNodeContextMenuView = new MapNodeContextMenuView();
+        this.hoveredMapNodesContextMenuView = new HoveredMapNodesContextMenuView(context);
 
         this.$sidebars = $('.sidebar');
         this.$brush = null;
@@ -89,22 +95,18 @@ export default class MapEditor {
                 return;
             }
 
-            if (mapNode && hotkeys.matches('Shift')) {
-                this.nodeListView.addNodeToSelection(mapNode);
-                return;
-            }
-
-            if (mapNode && hotkeys.matches('Control')) {
-                this.nodeListView.removeNodeFromSelection(mapNode);
-                return;
-            }
-
             if (hotkeys.matches('Alt')) {
-                this.mapNodeContextMenuView.showAt(e.clientX, e.clientY);
+                let mapNodesUnderPointer = this.getMapNodesUnderPosition(e.clientX, e.clientY);
+                let selectedMapNodes = this.nodeListView.getSelectedNodes();
+
+                this.hoveredMapNodesContextMenuView.setMapNodes(mapNodesUnderPointer);
+                this.hoveredMapNodesContextMenuView.setSelectedMapNodes(selectedMapNodes);
+                this.hoveredMapNodesContextMenuView.showAt(e.clientX, e.clientY);
+
                 return;
             }
 
-            this.nodeListView.setSelectedNodes(mapNode ? [mapNode] : []);
+            this.handleMapNodeClick(mapNode, e);
         });
 
         this.mapView.setRightClickListener((mapNode, e) => {
@@ -381,6 +383,12 @@ export default class MapEditor {
 
 
 
+        this.hoveredMapNodesContextMenuView.setNodeClickListener((mapNode, e) => {
+            this.handleMapNodeClick(mapNode, e);
+        });
+
+
+
         Hotkeys.bindGlobal('Control+S', () => {
             this.saveCurrentLevel();
         });
@@ -406,6 +414,37 @@ export default class MapEditor {
                 this.clearBrush(null);
             }
         });
+    }
+
+    handleMapNodeClick(mapNode, e) {
+        let hotkeys = Hotkeys.from(e);
+
+        if (mapNode && hotkeys.matches('Shift')) {
+            this.nodeListView.addNodeToSelection(mapNode);
+            this.hoveredMapNodesContextMenuView.setMapNodeSelected(mapNode, true);
+        }
+
+        if (mapNode && hotkeys.matches('Control')) {
+            this.nodeListView.removeNodeFromSelection(mapNode);
+            this.hoveredMapNodesContextMenuView.setMapNodeSelected(mapNode, false);
+        }
+
+        if (hotkeys.isNoModifiersPressed) {
+            this.nodeListView.setSelectedNodes(mapNode ? [mapNode] : []);
+        }
+    }
+
+    getMapNodesUnderPosition(x, y) {
+        let elements = document.elementsFromPoint(x, y);
+        let $selectionBoxes = $(elements).filter('.selection-box');
+
+        return $selectionBoxes
+            .map((index, element) => {
+                let $node = $(element).closest('.map-node-root');
+
+                return $node.data('map-node');
+            })
+            .get();
     }
 
     resetCurrentLevel() {
