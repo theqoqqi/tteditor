@@ -1,3 +1,4 @@
+import ItemListView from './ItemListView.js';
 
 export default class ContextMenuView {
 
@@ -8,7 +9,11 @@ export default class ContextMenuView {
             this.$menu = this.createContextMenu();
         }
 
-        this.items = {};
+        this.itemListView = new ItemListView(this.$menu);
+        this.itemListView.setDataItemKey('item');
+        this.itemListView.setListItemFactory(item => this.createListItem(item));
+        this.itemListView.setSelectionMode(ItemListView.SELECTION_MODE_MULTIPLE);
+        this.itemListView.setSelectionHandlerEnabled(false);
 
         this.bindListeners();
     }
@@ -18,12 +23,20 @@ export default class ContextMenuView {
             let $listItem = $(e.currentTarget);
             let item = $listItem.data('item');
 
-            item.clickListener();
+            item.clickListener(item, e);
         });
 
         this.$menu.contextmenu(e => false);
 
-        $(window).click(e => this.hide());
+        $(window).mouseup(e => {
+            if (this.shouldHide(e)) {
+                this.hide()
+            }
+        });
+    }
+
+    shouldHide(e) {
+        return true;
     }
 
     showAt(x, y) {
@@ -46,11 +59,16 @@ export default class ContextMenuView {
         this.$menu.hide();
     }
 
-    addItem(item) {
-        let $listItem = this.createListItem(item);
+    setItemSelected(item, selected) {
+        this.itemListView.setItemSelected(item, selected);
+    }
 
-        this.$menu.append($listItem);
-        this.items[item.name] = item;
+    addItem(item) {
+        this.itemListView.addItem(item);
+    }
+
+    clearItems() {
+        this.itemListView.clearItems();
     }
 
     createVirtualElement(x, y, w = 0, h = 0) {

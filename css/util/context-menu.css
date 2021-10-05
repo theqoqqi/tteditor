@@ -16,6 +16,11 @@
     font-size: 14px;
 }
 
+.context-menu .context-menu-item.selected {
+    background-color: #57bdff;
+    color: white;
+}
+
 .context-menu .context-menu-item-icon {
     display: flex;
 
