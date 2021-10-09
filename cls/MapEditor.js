@@ -129,28 +129,59 @@ export default class MapEditor {
         this.mapView.setMouseMoveListener((x, y) => {
             if (this.$brush) {
                 let brushMapNode = this.$brush.data('map-node');
-                let viewportPosition = this.mapView.getViewportPosition();
 
-                brushMapNode.x = x - viewportPosition.x;
-                brushMapNode.y = y - viewportPosition.y;
+                this.setMapNodePosition(brushMapNode, x, y);
+                this.mapPositionToViewportPosition(brushMapNode);
 
-                this.uiNodeFactory.setNodeProperty(this.$brush, 'x', x - viewportPosition.x);
-                this.uiNodeFactory.setNodeProperty(this.$brush, 'y', y - viewportPosition.y);
+                this.uiNodeFactory.setNodeProperty(this.$brush, 'x', brushMapNode.x);
+                this.uiNodeFactory.setNodeProperty(this.$brush, 'y', brushMapNode.y);
             }
 
             this.statusBarView.setMousePosition(x, y);
+        });
+
+        let draggedXSymbol = Symbol('draggedX');
+        let draggedYSymbol = Symbol('draggedY');
+
+        this.mapView.setDragNodesStartedListener(() => {
+            let selectedMapNodes = this.nodeListView.getSelectedNodes();
+
+            for (const mapNode of selectedMapNodes) {
+                mapNode[draggedXSymbol] = mapNode.x;
+                mapNode[draggedYSymbol] = mapNode.y;
+            }
         });
 
         this.mapView.setDragNodesListener((x, y) => {
             let selectedMapNodes = this.nodeListView.getSelectedNodes();
 
             for (const mapNode of selectedMapNodes) {
-                mapNode.x += x;
-                mapNode.y += y;
+                mapNode[draggedXSymbol] += x;
+                mapNode[draggedYSymbol] += y;
+
+                this.setMapNodePosition(mapNode, mapNode[draggedXSymbol], mapNode[draggedYSymbol]);
             }
 
             this.propertyListView.fillFromMapNodes(selectedMapNodes);
             this.setLevelDirty();
+        });
+
+        this.mapView.setMoveActionListener((x, y) => {
+            let selectedMapNodes = this.nodeListView.getSelectedNodes();
+
+            for (const mapNode of selectedMapNodes) {
+                let moveByX = x;
+                let moveByY = y;
+                
+                if (this.context.shouldAlignToGrid(mapNode)) {
+                    moveByX = this.context.getAlignGridWidth() * Math.sign(x);
+                    moveByY = this.context.getAlignGridHeight() * Math.sign(y);
+                }
+
+                this.setMapNodePosition(mapNode, mapNode.x + moveByX, mapNode.y + moveByY);
+
+                this.setLevelDirty();
+            }
         });
 
 
@@ -370,19 +401,6 @@ export default class MapEditor {
 
 
 
-        this.mapView.setMoveActionListener((x, y) => {
-            let selectedMapNodes = this.nodeListView.getSelectedNodes();
-
-            for (const mapNode of selectedMapNodes) {
-                mapNode.x += x;
-                mapNode.y += y;
-
-                this.setLevelDirty();
-            }
-        });
-
-
-
         this.hoveredMapNodesContextMenuView.setNodeClickListener((mapNode, e) => {
             this.handleMapNodeClick(mapNode, e);
         });
@@ -518,12 +536,10 @@ export default class MapEditor {
     }
 
     addNodeFromBrush() {
-        let viewportPosition = this.mapView.getViewportPosition();
         let brushMapNode = this.$brush.data('map-node');
         let mapNode = brushMapNode.clone();
 
-        mapNode.x += viewportPosition.x;
-        mapNode.y += viewportPosition.y;
+        this.viewportPositionToMapPosition(mapNode);
 
         this.map.addNode(mapNode);
     }
@@ -601,6 +617,29 @@ export default class MapEditor {
 
     hasLoadedLevel() {
         return this.currentLevelFilename !== null;
+    }
+
+    setMapNodePosition(mapNode, x, y) {
+        mapNode.x = x;
+        mapNode.y = y;
+
+        if (this.context.shouldAlignToGrid(mapNode)) {
+            this.context.alignNodeToGrid(mapNode);
+        }
+    }
+
+    mapPositionToViewportPosition(mapNode) {
+        let viewportPosition = this.mapView.getViewportPosition();
+
+        mapNode.x -= viewportPosition.x;
+        mapNode.y -= viewportPosition.y;
+    }
+
+    viewportPositionToMapPosition(mapNode) {
+        let viewportPosition = this.mapView.getViewportPosition();
+
+        mapNode.x += viewportPosition.x;
+        mapNode.y += viewportPosition.y;
     }
 
     static #showModal(modalType, options) {

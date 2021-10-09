@@ -57,6 +57,7 @@ export default class EditorContext {
     reloadConfigs() {
         this.locale = this.loadXml('data/language/Russian-1251.xml');
         this.palette = this.loadXml('data/cfg/palette.xml');
+        this.gameLogic = this.loadXml('data/cfg/gamelogic.cfg.xml');
 
         this.configsByNames = {
             terrain: this.loadXml('data/cfg/terrain.xml'),
@@ -131,6 +132,40 @@ export default class EditorContext {
         }
 
         return nodeList.querySelector(`${configTagName}[name='${typeName}']`);
+    }
+
+    shouldAlignToGrid(brushMapNode) {
+        let node = this.getNodeInfoByName(brushMapNode.tag, brushMapNode.type);
+
+        return node.querySelector('grid_align') !== null;
+    }
+
+    alignNodeToGrid(brushMapNode) {
+        let config = this.getGameLogicConfig();
+        let gridXml = config.querySelector('grid_grid');
+        let gridWidth = +gridXml.getAttribute('x');
+        let gridHeight = +gridXml.getAttribute('y');
+
+        brushMapNode.x = Math.round(brushMapNode.x / gridWidth) * gridWidth;
+        brushMapNode.y = Math.round(brushMapNode.y / gridHeight) * gridHeight;
+    }
+
+    getAlignGridWidth() {
+        let config = this.getGameLogicConfig();
+        let gridXml = config.querySelector('grid_grid');
+
+        return +gridXml.getAttribute('x');
+    }
+
+    getAlignGridHeight() {
+        let config = this.getGameLogicConfig();
+        let gridXml = config.querySelector('grid_grid');
+
+        return +gridXml.getAttribute('y');
+    }
+
+    getGameLogicConfig() {
+        return this.gameLogic;
     }
 
     getConfigByTagName(tagName) {

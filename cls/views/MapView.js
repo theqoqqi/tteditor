@@ -20,6 +20,7 @@ export default class MapView {
         this.doubleClickListener = () => {};
         this.mouseMoveListener = () => {};
         this.moveActionListener = () => {};
+        this.dragNodesStartedListener = () => {};
         this.dragNodesListener = () => {};
 
         this.createMapObservers();
@@ -189,6 +190,8 @@ export default class MapView {
 
                     if ($node?.is('.selected')) {
                         $draggedNode = $node;
+
+                        this.dragNodesStartedListener();
                     }
                 }
             },
@@ -236,6 +239,10 @@ export default class MapView {
 
     setMouseMoveListener(listener) {
         this.mouseMoveListener = listener;
+    }
+
+    setDragNodesStartedListener(listener) {
+        this.dragNodesStartedListener = listener;
     }
 
     setDragNodesListener(listener) {
