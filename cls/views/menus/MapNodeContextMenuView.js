@@ -1,4 +1,4 @@
-import ContextMenuView from './util/ContextMenuView.js';
+import ContextMenuView from '../util/ContextMenuView.js';
 
 export default class MapNodeContextMenuView extends ContextMenuView {
 

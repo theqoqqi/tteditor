@@ -27,7 +27,7 @@ export default class MapView {
         this.createMapNodeObservers();
 
         this.bindListeners();
-        this.createScrollController();
+        this.createScrollComponent();
     }
 
     createMapObservers() {
@@ -169,22 +169,22 @@ export default class MapView {
         });
     }
 
-    createScrollController() {
+    createScrollComponent() {
         let $draggedNode = null;
         let lastDragOffset = {x: 0, y: 0};
 
         // noinspection JSUnusedGlobalSymbols
-        this.scrollController = new ScrollBooster({
+        this.scrollComponent = new ScrollBooster({
             viewport: this.$mapScroll[0],
             scrollMode: 'native',
             friction: 0,
             bounce: false,
             onPointerDown: (state, e) => {
                 if (e.button === 1) {
-                    this.scrollController.props.friction = 0;
+                    this.scrollComponent.props.friction = 0;
 
                 } else if (e.button === 0) {
-                    this.scrollController.props.friction = 1;
+                    this.scrollComponent.props.friction = 1;
 
                     let $node = this.getNodeFromEvent(e);
 
@@ -197,10 +197,10 @@ export default class MapView {
             },
             onPointerUp: (state, e) => {
                 if (e.button === 1) {
-                    this.scrollController.props.friction = 1;
+                    this.scrollComponent.props.friction = 1;
 
                 } else if (e.button === 0) {
-                    this.scrollController.props.friction = 1;
+                    this.scrollComponent.props.friction = 1;
                     $draggedNode = null;
                     lastDragOffset = {x: 0, y: 0};
                 }

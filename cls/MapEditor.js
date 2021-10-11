@@ -1,23 +1,21 @@
 import MapReader from './MapReader.js';
-import PaletteView from './views/sidebars/PaletteView.js';
-import LevelListView from './views/sidebars/LevelListView.js';
-import NodeListView from './views/sidebars/NodeListView.js';
-import PropertyListView from './views/sidebars/PropertyListView.js';
 import MapNode from './map/MapNode.js';
-import LayerListView from './views/sidebars/LayerListView.js';
-import MapOptionsView from './views/sidebars/MapOptionsView.js';
-import RandomizerListView from './views/sidebars/RandomizerListView.js';
-import RandomizerOption from './map/RandomizerOption.js';
-import TriggerListView from './views/sidebars/TriggerListView.js';
-import TriggerEditorView from './views/sidebars/TriggerEditorView.js';
-import Trigger from './map/Trigger.js';
-import ToolbarView from './views/ToolbarView.js';
-import StatusBarView from './views/StatusBarView.js';
 import MapWriter from './MapWriter.js';
-import MapView from './views/MapView.js';
-import MapNodeContextMenuView from './views/MapNodeContextMenuView.js';
 import Hotkeys from './util/Hotkeys.js';
-import HoveredMapNodesContextMenuView from './views/HoveredMapNodesContextMenuView.js';
+import TriggerListComponent from './components/sidebars/TriggerListComponent.js';
+import TriggerEditorComponent from './components/sidebars/TriggerEditorComponent.js';
+import MapOptionsComponent from './components/sidebars/MapOptionsComponent.js';
+import RandomizerListComponent from './components/sidebars/RandomizerListComponent.js';
+import LevelListComponent from './components/sidebars/LevelListComponent.js';
+import PaletteComponent from './components/sidebars/PaletteComponent.js';
+import LayerListComponent from './components/sidebars/LayerListComponent.js';
+import NodeListComponent from './components/sidebars/NodeListComponent.js';
+import PropertyListComponent from './components/sidebars/PropertyListComponent.js';
+import ToolbarComponent from './components/ToolbarComponent.js';
+import StatusBarComponent from './components/StatusBarComponent.js';
+import MapComponent from './components/MapComponent.js';
+import HoveredMapNodesContextMenuComponent from './components/menus/HoveredMapNodesContextMenuComponent.js';
+import MapNodeContextMenuComponent from './components/menus/MapNodeContextMenuComponent.js';
 
 // noinspection CssInvalidHtmlTagReference
 export default class MapEditor {
@@ -29,23 +27,24 @@ export default class MapEditor {
         this.reader = new MapReader(context);
         this.writer = new MapWriter(context);
 
-        this.mapView = new MapView(context);
+        this.mapComponent = new MapComponent(this);
 
-        this.toolbarView = new ToolbarView(context);
-        this.statusBarView = new StatusBarView(context);
+        this.toolbarComponent = new ToolbarComponent(this);
+        this.statusBarComponent = new StatusBarComponent(this);
 
-        this.levelListView = new LevelListView(context);
-        this.paletteView = new PaletteView(context);
-        this.layerListView = new LayerListView(context);
-        this.nodeListView = new NodeListView(context);
-        this.propertyListView = new PropertyListView(context);
-        this.triggerListView = new TriggerListView(context);
-        this.triggerEditorView = new TriggerEditorView(context);
-        this.mapOptionsView = new MapOptionsView(context);
-        this.randomizerListView = new RandomizerListView(context);
+        this.layerListComponent = new LayerListComponent(this);
 
-        this.mapNodeContextMenuView = new MapNodeContextMenuView();
-        this.hoveredMapNodesContextMenuView = new HoveredMapNodesContextMenuView(context);
+        this.levelListComponent = new LevelListComponent(this);
+        this.paletteComponent = new PaletteComponent(this);
+        this.nodeListComponent = new NodeListComponent(this);
+        this.propertyListComponent = new PropertyListComponent(this);
+        this.triggerListComponent = new TriggerListComponent(this);
+        this.triggerEditorComponent = new TriggerEditorComponent(this);
+        this.mapOptionsComponent = new MapOptionsComponent(this);
+        this.randomizerListComponent = new RandomizerListComponent(this);
+
+        this.mapNodeContextMenuComponent = new MapNodeContextMenuComponent(this);
+        this.hoveredMapNodesContextMenuComponent = new HoveredMapNodesContextMenuComponent(this);
 
         this.$sidebars = $('.sidebar');
         this.$brush = null;
@@ -57,14 +56,14 @@ export default class MapEditor {
         this.currentLevelFilename = null;
 
         this.bindListeners();
-        this.mapView.setAllLayersActive();
+        this.mapComponent.setAllLayersActive();
         this.reloadDataFromServer();
     }
 
     reloadDataFromServer() {
         let workspacePath = this.context.getWorkspacePath();
 
-        this.statusBarView.setWorkspacePath(workspacePath);
+        this.statusBarComponent.setWorkspacePath(workspacePath);
 
         if (!workspacePath) {
             return;
@@ -72,7 +71,7 @@ export default class MapEditor {
 
         let levelList = this.context.loadLevelList();
 
-        this.levelListView.setLevelList(levelList);
+        this.levelListComponent.setLevelList(levelList);
     }
 
     bindListeners() {
@@ -86,339 +85,18 @@ export default class MapEditor {
 
 
 
-        this.mapView.setClickListener((mapNode, e) => {
-            let hotkeys = Hotkeys.from(e);
-
-            if (this.$brush) {
-                this.addNodeFromBrush();
-                this.setLevelDirty();
-                return;
-            }
-
-            if (hotkeys.matches('Alt')) {
-                let mapNodesUnderPointer = this.getMapNodesUnderPosition(e.clientX, e.clientY);
-                let selectedMapNodes = this.nodeListView.getSelectedNodes();
-
-                this.hoveredMapNodesContextMenuView.setMapNodes(mapNodesUnderPointer);
-                this.hoveredMapNodesContextMenuView.setSelectedMapNodes(selectedMapNodes);
-                this.hoveredMapNodesContextMenuView.showAt(e.clientX, e.clientY);
-
-                return;
-            }
-
-            this.handleMapNodeClick(mapNode, e);
-        });
-
-        this.mapView.setRightClickListener((mapNode, e) => {
-            this.mapNodeContextMenuView.showAt(e.clientX, e.clientY);
-        });
-
-        this.mapView.setDoubleClickListener((mapNode, e) => {
-            if (!mapNode) {
-                return;
-            }
-
-            if (Hotkeys.isAnyModifierPressed(e)) {
-                return;
-            }
-
-            this.$sidebars.find('#node-list-sidebar-tab').collapse('show');
-            this.nodeListView.scrollToNode(mapNode);
-        });
-
-        this.mapView.setMouseMoveListener((x, y) => {
-            if (this.$brush) {
-                let brushMapNode = this.$brush.data('map-node');
-
-                this.setMapNodePosition(brushMapNode, x, y);
-                this.mapPositionToViewportPosition(brushMapNode);
-
-                this.uiNodeFactory.setNodeProperty(this.$brush, 'x', brushMapNode.x);
-                this.uiNodeFactory.setNodeProperty(this.$brush, 'y', brushMapNode.y);
-            }
-
-            this.statusBarView.setMousePosition(x, y);
-        });
-
-        let draggedXSymbol = Symbol('draggedX');
-        let draggedYSymbol = Symbol('draggedY');
-
-        this.mapView.setDragNodesStartedListener(() => {
-            let selectedMapNodes = this.nodeListView.getSelectedNodes();
-
-            for (const mapNode of selectedMapNodes) {
-                mapNode[draggedXSymbol] = mapNode.x;
-                mapNode[draggedYSymbol] = mapNode.y;
-            }
-        });
-
-        this.mapView.setDragNodesListener((x, y) => {
-            let selectedMapNodes = this.nodeListView.getSelectedNodes();
-
-            for (const mapNode of selectedMapNodes) {
-                mapNode[draggedXSymbol] += x;
-                mapNode[draggedYSymbol] += y;
-
-                this.setMapNodePosition(mapNode, mapNode[draggedXSymbol], mapNode[draggedYSymbol]);
-            }
-
-            this.propertyListView.fillFromMapNodes(selectedMapNodes);
-            this.setLevelDirty();
-        });
-
-        this.mapView.setMoveActionListener((x, y) => {
-            let selectedMapNodes = this.nodeListView.getSelectedNodes();
-
-            for (const mapNode of selectedMapNodes) {
-                let moveByX = x;
-                let moveByY = y;
-                
-                if (this.context.shouldAlignToGrid(mapNode)) {
-                    moveByX = this.context.getAlignGridWidth() * Math.sign(x);
-                    moveByY = this.context.getAlignGridHeight() * Math.sign(y);
-                }
-
-                this.setMapNodePosition(mapNode, mapNode.x + moveByX, mapNode.y + moveByY);
-
-                this.setLevelDirty();
-            }
-        });
-
-
-
-        this.paletteView.setSelectionChangedListener((tagName, typeName, name) => {
-            if (this.hasLoadedLevel()) {
-                if (tagName === 'terrain') {
-                    let terrain = this.context.createTerrainByName(typeName);
-
-                    this.map.setTerrain(terrain);
-                    this.setLevelDirty();
-                } else {
-                    this.setBrush(tagName, typeName, name);
-                }
-            }
-        });
-
-        this.paletteView.setTabOpenedListener(tagName => {
-            if (this.hasLoadedLevel()) {
-                if (tagName === 'terrain') {
-                    this.paletteView.setSelectedType('terrain', this.map.terrain.name);
-                }
-            }
-        });
-
-
-
-        this.levelListView.addFileClickListener(filename => {
-            if (this.currentLevelFilename === filename) {
-                return;
-            }
-
-            if (this.isLevelDirty()) {
-                MapEditor.#showModal('alert', 'Сперва необходимо сохранить изменения');
-                return;
-            }
-
-            this.loadLevel(filename);
-        });
-
-
-
-        this.layerListView.setSelectionChangedListener(layerNames => {
-            this.mapView.setActiveLayers(layerNames);
-            this.nodeListView.setActiveLayers(layerNames);
-        });
-
-
-
-        this.nodeListView.setSelectionChangedListener(mapNodes => {
-            this.mapView.setSelectedNodes(mapNodes);
-            this.propertyListView.fillFromMapNodes(mapNodes);
-        });
-
-        this.nodeListView.setElementDoubleClickListener(mapNode => {
-            this.mapView.setViewportCenter(mapNode.x, mapNode.y);
-        });
-
-        this.nodeListView.setNodeVisibilityChangedListener((mapNode, isVisible) => {
-            this.mapView.setNodeVisible(mapNode, isVisible);
-        });
-
-        this.nodeListView.setCenterNodeButtonClickListener(mapNode => {
-            this.mapView.setViewportCenter(mapNode.x, mapNode.y);
-        });
-
-        this.nodeListView.setRemoveNodeButtonClickListener(mapNode => {
-            this.removeNode(mapNode);
-            this.setLevelDirty();
-        });
-
-
-        this.propertyListView.setPropertyChangedListener((propertyName, newValue) => {
-            let selectedNodes = this.nodeListView.getSelectedNodes();
-
-            for (const mapNode of selectedNodes) {
-                this.setMapNodePropertyValue(mapNode, propertyName, newValue);
-                this.setLevelDirty();
-            }
-        });
-
-
-        this.mapOptionsView.setControlChangedListener(e => {
-            if (e.isCheckbox) {
-                let propertyNames = this.mapOptionsView.getPropertyNamesForControl(e.controlName);
-
-                for (const propertyName of propertyNames) {
-                    if (e.newValue) {
-                        let value = this.mapOptionsView.getPropertyValue(propertyName);
-
-                        this.setMapPropertyValue(propertyName, value);
-                        this.setLevelDirty();
-                    } else {
-                        this.setMapPropertyValue(propertyName, null);
-                        this.setLevelDirty();
-                    }
-                }
-
-            } else {
-                this.setMapPropertyValue(e.propertyName, e.newValue);
-                this.setLevelDirty();
-            }
-        });
-
-
-        this.triggerListView.setAddButtonListener(triggerTitle => {
-            let trigger = new Trigger(triggerTitle);
-
-            this.map.addTrigger(trigger);
-            this.triggerEditorView.setTrigger(trigger);
-            this.triggerListView.addTrigger(trigger);
-            this.triggerListView.setSelectedTrigger(trigger);
-            this.triggerListView.scrollToTrigger(trigger);
-            this.triggerListView.clearNewTriggerInputs();
-            this.setLevelDirty();
-        });
-
-        this.triggerListView.setSelectionChangedListener(trigger => {
-            this.triggerEditorView.setTrigger(trigger);
-        });
-
-        this.triggerListView.setTriggerRepeatingChangedListener((trigger, isRepeating) => {
-            trigger.repeat = isRepeating;
-            this.setLevelDirty();
-        });
-
-        this.triggerListView.setTriggerActivityChangedListener((trigger, isEnabled) => {
-            if (isEnabled) {
-                trigger.removeAllStatementsOfType('never');
-            } else {
-                trigger.addStatement('<never/>');
-            }
-            this.setLevelDirty();
-        });
-
-        this.triggerListView.setRemoveTriggerButtonClickListener(trigger => {
-            this.map.removeTrigger(trigger);
-            this.triggerListView.removeTrigger(trigger);
-            this.triggerEditorView.setTrigger(null);
-            this.setLevelDirty();
-        });
-
-
-        this.triggerEditorView.setTitleChangedListener((title, trigger) => {
-            if (!trigger) {
-                return;
-            }
-
-            trigger.title = title;
-            this.setLevelDirty();
-        });
-
-        this.triggerEditorView.setContentChangedListener((statements, trigger) => {
-            if (!trigger) {
-                return;
-            }
-
-            trigger.statements = statements;
-            this.setLevelDirty();
-        });
-
-
-        this.randomizerListView.setRandomizerChangedListener((randomizer, newCount) => {
-            randomizer.count = newCount;
-            this.setLevelDirty();
-        });
-
-        this.randomizerListView.setAddRandomizerButtonListener((item, count) => {
-            let randomizer = new RandomizerOption(item, count);
-
-            this.map.options.addRandomizer(randomizer);
-            this.randomizerListView.clearAddRandomizerInputs();
-            this.setLevelDirty();
-        });
-
-        this.randomizerListView.setRemoveRandomizerButtonClickListener(randomizer => {
-            this.map.options.removeRandomizer(randomizer);
-            this.setLevelDirty();
-        });
-
-
-
-        this.toolbarView.setResetLevelButtonListener(() => {
-            MapEditor.#showModal('confirm', {
-                message: 'Сбросить все несохраненные изменения?',
-                onConfirm: () => this.resetCurrentLevel(),
-            });
-        });
-
-        this.toolbarView.setSaveLevelButtonListener(() => {
-            this.saveCurrentLevel();
-        });
-
-        this.toolbarView.setDownloadLevelButtonListener(() => {
-            this.downloadCurrentLevel();
-        });
-
-
-
-        this.statusBarView.setEditWorkspacePathButtonListener(() => {
-            this.statusBarView.setEditWorkspaceModeActive(true);
-        });
-
-        this.statusBarView.setSaveWorkspacePathButtonListener(() => {
-            let oldValue = this.context.getWorkspacePath();
-            let newValue = this.statusBarView.getWorkspacePath();
-
-            this.statusBarView.setEditWorkspaceModeActive(false);
-
-            if (oldValue !== newValue) {
-                this.context.setWorkspacePath(newValue);
-                this.context.reloadDataFromServer();
-                this.statusBarView.setWorkspacePath(newValue);
-                this.reloadDataFromServer();
-            }
-        });
-
-
-
-        this.hoveredMapNodesContextMenuView.setNodeClickListener((mapNode, e) => {
-            this.handleMapNodeClick(mapNode, e);
-        });
-
-
-
         Hotkeys.bindGlobal('Control+S', () => {
             this.saveCurrentLevel();
         });
 
         Hotkeys.bindGlobal('Control+A', () => {
-            let visibleNodes = this.nodeListView.getVisibleNodes();
+            let visibleNodes = this.nodeListComponent.getVisibleNodes();
 
-            this.nodeListView.setSelectedNodes(visibleNodes);
+            this.nodeListComponent.setSelectedNodes(visibleNodes);
         });
 
         Hotkeys.bindGlobal('Delete', () => {
-            let selectedMapNodes = this.nodeListView.getSelectedNodes();
+            let selectedMapNodes = this.getSelectedNodes();
 
             for (const mapNode of selectedMapNodes) {
                 this.removeNode(mapNode);
@@ -428,7 +106,7 @@ export default class MapEditor {
 
         Hotkeys.bindGlobal('Escape', () => {
             if (this.hasBrush()) {
-                this.paletteView.setSelectedItem(null);
+                this.paletteComponent.clearSelectedType();
                 this.clearBrush(null);
             }
         });
@@ -438,17 +116,17 @@ export default class MapEditor {
         let hotkeys = Hotkeys.from(e);
 
         if (mapNode && hotkeys.matches('Shift')) {
-            this.nodeListView.addNodeToSelection(mapNode);
-            this.hoveredMapNodesContextMenuView.setMapNodeSelected(mapNode, true);
+            this.nodeListComponent.addNodeToSelection(mapNode);
+            this.hoveredMapNodesContextMenuComponent.setMapNodeSelected(mapNode, true);
         }
 
         if (mapNode && hotkeys.matches('Control')) {
-            this.nodeListView.removeNodeFromSelection(mapNode);
-            this.hoveredMapNodesContextMenuView.setMapNodeSelected(mapNode, false);
+            this.nodeListComponent.removeNodeFromSelection(mapNode);
+            this.hoveredMapNodesContextMenuComponent.setMapNodeSelected(mapNode, false);
         }
 
         if (hotkeys.isNoModifiersPressed) {
-            this.nodeListView.setSelectedNodes(mapNode ? [mapNode] : []);
+            this.nodeListComponent.setSelectedNodes(mapNode ? [mapNode] : []);
         }
     }
 
@@ -466,13 +144,13 @@ export default class MapEditor {
     }
 
     resetCurrentLevel() {
-        let filename = this.levelListView.getSelectedFile();
+        let filename = this.levelListComponent.getSelectedFile();
 
         this.loadLevel(filename);
     }
 
     saveCurrentLevel() {
-        let filename = this.levelListView.getSelectedFile();
+        let filename = this.levelListComponent.getSelectedFile();
         let levelXml = this.mapToXml(this.map);
 
         this.context.saveLevel(filename, levelXml);
@@ -480,19 +158,19 @@ export default class MapEditor {
     }
 
     downloadCurrentLevel() {
-        let fullPath = this.levelListView.getSelectedFile();
+        let fullPath = this.levelListComponent.getSelectedFile();
         let filename = fullPath.split(/\//g).pop();
         let levelXml = this.mapToXml(this.map);
 
         downloadXml(filename, levelXml);
 
-        MapEditor.#showModal('alert', {
+        this.showModal('alert', {
             message: `В игре файл должен храниться здесь:\nИГРА/${fullPath}`,
         });
     }
 
     setMapPropertyValue(propertyName, value) {
-        let source = this.mapOptionsView.getPropertySource(propertyName);
+        let source = this.mapOptionsComponent.getPropertySource(propertyName);
         let propertyHolder = source === 'map' ? this.map : this.map.options;
 
         propertyHolder[propertyName] = value;
@@ -516,21 +194,21 @@ export default class MapEditor {
         this.map = map;
         this.currentLevelFilename = filename;
 
-        this.triggerListView.clearTriggers();
+        this.triggerListComponent.clearTriggers();
 
-        this.levelListView.setSelectedFile(filename);
-        this.nodeListView.setMap(map);
-        this.mapOptionsView.setMap(map);
-        this.randomizerListView.setMap(map);
+        this.levelListComponent.setSelectedFile(filename);
+        this.nodeListComponent.setMap(map);
+        this.mapOptionsComponent.setMap(map);
+        this.randomizerListComponent.setMap(map);
 
-        this.paletteView.setSelectedType('terrain', map.terrain.name);
+        this.paletteComponent.setSelectedType('terrain', map.terrain.name);
 
         for (const trigger of map.triggers) {
-            this.triggerListView.addTrigger(trigger);
+            this.triggerListComponent.addTrigger(trigger);
         }
 
-        this.mapView.setMap(map);
-        this.mapView.setViewportCenter(map.startX ?? map.playerBaseX, map.startY ?? map.playerBaseY);
+        this.mapComponent.setMap(map);
+        this.mapComponent.setViewportCenter(map.startX ?? map.playerBaseX, map.startY ?? map.playerBaseY);
 
         this.setLevelClear();
     }
@@ -542,6 +220,16 @@ export default class MapEditor {
         this.viewportPositionToMapPosition(mapNode);
 
         this.map.addNode(mapNode);
+    }
+
+    setBrushPositionOnMap(x, y) {
+        let brushMapNode = this.$brush.data('map-node');
+
+        this.setMapNodePosition(brushMapNode, x, y);
+        this.mapPositionToViewportPosition(brushMapNode);
+
+        this.uiNodeFactory.setNodeProperty(this.$brush, 'x', brushMapNode.x);
+        this.uiNodeFactory.setNodeProperty(this.$brush, 'y', brushMapNode.y);
     }
 
     setBrush(tagName, typeName, name) {
@@ -604,15 +292,15 @@ export default class MapEditor {
     }
 
     isLevelDirty() {
-        return this.levelListView.isSelectedLevelDirty();
+        return this.levelListComponent.isLevelDirty();
     }
 
     setLevelDirty() {
-        this.levelListView.setSelectedLevelDirty(true);
+        this.levelListComponent.setLevelDirty(true);
     }
 
     setLevelClear() {
-        this.levelListView.setSelectedLevelDirty(false);
+        this.levelListComponent.setLevelDirty(false);
     }
 
     hasLoadedLevel() {
@@ -629,20 +317,84 @@ export default class MapEditor {
     }
 
     mapPositionToViewportPosition(mapNode) {
-        let viewportPosition = this.mapView.getViewportPosition();
+        let viewportPosition = this.mapComponent.getViewportPosition();
 
         mapNode.x -= viewportPosition.x;
         mapNode.y -= viewportPosition.y;
     }
 
     viewportPositionToMapPosition(mapNode) {
-        let viewportPosition = this.mapView.getViewportPosition();
+        let viewportPosition = this.mapComponent.getViewportPosition();
 
         mapNode.x += viewportPosition.x;
         mapNode.y += viewportPosition.y;
     }
 
-    static #showModal(modalType, options) {
+    setMousePosition(x, y) {
+        this.statusBarComponent.setMousePosition(x, y);
+    }
+
+    focusMapNode(mapNode) {
+        let $nodeListTab = this.$sidebars.find('#node-list-sidebar-tab');
+
+        if ($nodeListTab.hasClass('show')) {
+            this.nodeListComponent.scrollToNode(mapNode);
+        } else {
+            this.$sidebars.one('shown.bs.collapse', () => {
+                this.nodeListComponent.scrollToNode(mapNode);
+            });
+            $nodeListTab.collapse('show');
+        }
+    }
+
+    showMapNodeContextMenuForPosition(x, y) {
+        this.mapNodeContextMenuComponent.showAt(x, y);
+    }
+
+    showHoveredMapNodesContextMenuForPosition(x, y) {
+        let mapNodesUnderPointer = this.getMapNodesUnderPosition(x, y);
+        let selectedMapNodes = this.getSelectedNodes();
+
+        this.hoveredMapNodesContextMenuComponent.setMapNodes(mapNodesUnderPointer);
+        this.hoveredMapNodesContextMenuComponent.setSelectedMapNodes(selectedMapNodes);
+        this.hoveredMapNodesContextMenuComponent.showAt(x, y);
+    }
+
+    getSelectedNodes() {
+        return this.nodeListComponent.getSelectedNodes();
+    }
+
+    setSelectedNodes(mapNodes) {
+        this.mapComponent.setSelectedNodes(mapNodes);
+        this.propertyListComponent.setMapNodes(mapNodes);
+    }
+
+    setViewportCenter(x, y) {
+        this.mapComponent.setViewportCenter(x, y);
+    }
+
+    setNodeVisible(mapNode, isVisible) {
+        this.mapComponent.setNodeVisible(mapNode, isVisible);
+    }
+
+    setActiveLayers(layerNames) {
+        this.mapComponent.setActiveLayers(layerNames);
+        this.nodeListComponent.setActiveLayers(layerNames);
+    }
+
+    setTriggerInEditor(trigger) {
+        this.triggerEditorComponent.setTrigger(trigger);
+    }
+
+    getContext() {
+        return this.context;
+    }
+
+    getMap() {
+        return this.map;
+    }
+
+    showModal(modalType, options) {
         if (typeof options === 'string') {
             options = {
                 message: options,

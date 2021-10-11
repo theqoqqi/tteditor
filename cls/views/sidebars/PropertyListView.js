@@ -1,3 +1,4 @@
+import CompositeObserver from '../../util/CompositeObserver.js';
 
 export default class PropertyListView {
 
@@ -7,8 +8,17 @@ export default class PropertyListView {
         this.context = context;
         this.uiNodeFactory = context.getUiNodeFactory();
 
+        this.mapNodes = [];
         this.$propertyList = $('#property-list');
         this.$nodeProperties = this.$propertyList.find('.property');
+
+        this.observedPropertyNames = [
+            'x', 'y', 'radius', 'name', 'hint', 'owner', 'subId', 'group',
+        ];
+
+        this.allPropertyNames = [
+            'tag', 'type', ...this.observedPropertyNames,
+        ];
 
         this.enabledControlsByTagNames = {
             landmark:   [ 'tag', 'position', 'group', 'type', ],
@@ -23,7 +33,19 @@ export default class PropertyListView {
             area:       [ 'tag', 'position', 'group', 'name', 'radius', 'owner', ],
         };
 
+        this.mapNodeObservers = new CompositeObserver();
+
+        for (const propertyName of this.observedPropertyNames) {
+            this.addMapNodePropertyObserver(propertyName);
+        }
+
         this.bindListeners();
+    }
+
+    addMapNodePropertyObserver(propertyName) {
+        this.mapNodeObservers.addPropertyObserver(propertyName, () => {
+            this.updateProperty(propertyName);
+        });
     }
 
     bindListeners() {
@@ -40,30 +62,43 @@ export default class PropertyListView {
         });
     }
 
-    fillFromMapNodes(mapNodes) {
+    setMapNodes(mapNodes) {
         let enabledControls = this.getEnabledControlsForMapNodes(mapNodes);
 
+        this.mapNodeObservers.detachFrom(...this.mapNodes);
+        this.mapNodes = mapNodes;
+        this.mapNodeObservers.attachTo(...mapNodes);
+
+        this.setEnabledControls(enabledControls);
+        this.updateAllProperties();
+    }
+
+    setEnabledControls(enabledControls) {
         this.$nodeProperties.each((index, nodeProperty) => {
             let $nodeProperty = $(nodeProperty);
             let controlName = $nodeProperty.data('control-name');
-            let $inputs = $nodeProperty.find('input');
 
             $nodeProperty.toggle(enabledControls.includes(controlName));
-
-            $inputs.each((index, input) => {
-                let $input = $(input);
-                let propertyName = $input.data('property');
-                let value = this.getPropertyValueForMapNodes(mapNodes, propertyName);
-
-                if (value === this.#multipleValuesSymbol) {
-                    $input.val(null);
-                    $input.attr('placeholder', '<разные>');
-                } else {
-                    $input.val(value);
-                    $input.removeAttr('placeholder');
-                }
-            });
         });
+    }
+
+    updateAllProperties() {
+        for (const propertyName of this.allPropertyNames) {
+            this.updateProperty(propertyName);
+        }
+    }
+
+    updateProperty(propertyName) {
+        let $input = this.$propertyList.find(`[data-property=${propertyName}]`);
+        let value = this.getPropertyValueForMapNodes(this.mapNodes, propertyName);
+
+        if (value === this.#multipleValuesSymbol) {
+            $input.val(null);
+            $input.attr('placeholder', '<разные>');
+        } else {
+            $input.val(value);
+            $input.removeAttr('placeholder');
+        }
     }
 
     getPropertyValueForMapNodes(mapNodes, propertyName) {

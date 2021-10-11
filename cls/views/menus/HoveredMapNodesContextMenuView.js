@@ -1,5 +1,5 @@
-import ContextMenuView from './util/ContextMenuView.js';
-import Hotkeys from '../util/Hotkeys.js';
+import ContextMenuView from '../util/ContextMenuView.js';
+import Hotkeys from '../../util/Hotkeys.js';
 
 export default class HoveredMapNodesContextMenuView extends ContextMenuView {
 
