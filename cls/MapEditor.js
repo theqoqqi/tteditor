@@ -112,13 +112,11 @@ export default class MapEditor {
         let valueChangeObserver = (newValue, oldValue) => {
             if (newValue !== oldValue) {
                 this.setLevelDirty();
-                console.log('Weee');
             }
         };
 
         let listUpdateObserver = item => {
             this.setLevelDirty();
-            console.log('Weee');
         };
 
 
