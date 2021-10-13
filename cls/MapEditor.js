@@ -16,6 +16,10 @@ import StatusBarComponent from './components/StatusBarComponent.js';
 import MapComponent from './components/MapComponent.js';
 import HoveredMapNodesContextMenuComponent from './components/menus/HoveredMapNodesContextMenuComponent.js';
 import MapNodeContextMenuComponent from './components/menus/MapNodeContextMenuComponent.js';
+import LeftSidebarComponent from './components/sidebars/LeftSidebarComponent.js';
+import RightSidebarComponent from './components/sidebars/RightSidebarComponent.js';
+import CompositeObserver from './util/CompositeObserver.js';
+import LayerListComponent from './components/sidebars/tabs/LayerListComponent.js';
 
 // noinspection CssInvalidHtmlTagReference
 export default class MapEditor {
@@ -32,6 +36,9 @@ export default class MapEditor {
         this.toolbarComponent = new ToolbarComponent(this);
         this.statusBarComponent = new StatusBarComponent(this);
 
+        this.leftSidebarComponent = new LeftSidebarComponent(this);
+        this.rightSidebarComponent = new RightSidebarComponent(this);
+
         this.layerListComponent = new LayerListComponent(this);
 
         this.levelListComponent = new LevelListComponent(this);
@@ -46,7 +53,6 @@ export default class MapEditor {
         this.mapNodeContextMenuComponent = new MapNodeContextMenuComponent(this);
         this.hoveredMapNodesContextMenuComponent = new HoveredMapNodesContextMenuComponent(this);
 
-        this.$sidebars = $('.sidebar');
         this.$brush = null;
 
         this.$mainAreaContainer = $('.main-area-container');
@@ -335,16 +341,9 @@ export default class MapEditor {
     }
 
     focusMapNode(mapNode) {
-        let $nodeListTab = this.$sidebars.find('#node-list-sidebar-tab');
-
-        if ($nodeListTab.hasClass('show')) {
+        this.rightSidebarComponent.openNodeListTab(() => {
             this.nodeListComponent.scrollToNode(mapNode);
-        } else {
-            this.$sidebars.one('shown.bs.collapse', () => {
-                this.nodeListComponent.scrollToNode(mapNode);
-            });
-            $nodeListTab.collapse('show');
-        }
+        });
     }
 
     showMapNodeContextMenuForPosition(x, y) {
