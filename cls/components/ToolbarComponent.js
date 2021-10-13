@@ -11,7 +11,7 @@ export default class ToolbarComponent extends AbstractComponent {
         this.view.setResetLevelButtonListener(() => {
             this.editor.showModal('confirm', {
                 message: 'Сбросить все несохраненные изменения?',
-                onConfirm: () => this.resetCurrentLevel(),
+                onConfirm: () => this.editor.resetCurrentLevel(),
             });
         });
 

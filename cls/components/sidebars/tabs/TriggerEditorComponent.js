@@ -1,5 +1,5 @@
-import TriggerEditorView from '../../views/sidebars/TriggerEditorView.js';
-import AbstractComponent from '../AbstractComponent.js';
+import TriggerEditorView from '../../../views/sidebars/tabs/TriggerEditorView.js';
+import AbstractComponent from '../../AbstractComponent.js';
 
 export default class TriggerEditorComponent extends AbstractComponent {
 
@@ -14,7 +14,6 @@ export default class TriggerEditorComponent extends AbstractComponent {
             }
 
             trigger.title = title;
-            this.editor.setLevelDirty();
         });
 
         this.view.setContentChangedListener((statements, trigger) => {
@@ -23,7 +22,6 @@ export default class TriggerEditorComponent extends AbstractComponent {
             }
 
             trigger.statements = statements;
-            this.editor.setLevelDirty();
         });
     }
 

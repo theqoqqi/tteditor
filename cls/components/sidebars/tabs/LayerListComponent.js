@@ -1,5 +1,5 @@
-import AbstractComponent from '../AbstractComponent.js';
-import LayerListView from '../../views/sidebars/LayerListView.js';
+import AbstractComponent from '../../AbstractComponent.js';
+import LayerListView from '../../../views/sidebars/tabs/LayerListView.js';
 
 export default class LayerListComponent extends AbstractComponent {
 

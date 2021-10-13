@@ -1,4 +1,4 @@
-import CompositeObserver from '../../util/CompositeObserver.js';
+import CompositeObserver from '../../../util/CompositeObserver.js';
 
 export default class RandomizerListView {
 
@@ -41,14 +41,14 @@ export default class RandomizerListView {
     createMapNodeObservers() {
         this.randomizerObservers = new CompositeObserver();
 
-        this.randomizerObservers.addPropertyObserver('item', (itemName, randomizer) => {
+        this.randomizerObservers.addPropertyObserver('item', (itemName, oldValue, randomizer) => {
             let $randomizer = this.getListItem(randomizer);
             let $itemName = $randomizer.find('.item-name');
 
             $itemName.text(itemName);
         });
 
-        this.randomizerObservers.addPropertyObserver('count', (count, randomizer) => {
+        this.randomizerObservers.addPropertyObserver('count', (count, oldValue, randomizer) => {
             let $randomizer = this.getListItem(randomizer);
             let $countInput = $randomizer.find('input');
 

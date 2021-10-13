@@ -1,5 +1,5 @@
-import AbstractComponent from '../AbstractComponent.js';
-import NodeListView from '../../views/sidebars/NodeListView.js';
+import AbstractComponent from '../../AbstractComponent.js';
+import NodeListView from '../../../views/sidebars/tabs/NodeListView.js';
 
 export default class NodeListComponent extends AbstractComponent {
 
@@ -26,7 +26,6 @@ export default class NodeListComponent extends AbstractComponent {
 
         this.view.setRemoveNodeButtonClickListener(mapNode => {
             this.editor.removeNode(mapNode);
-            this.editor.setLevelDirty();
         });
     }
 

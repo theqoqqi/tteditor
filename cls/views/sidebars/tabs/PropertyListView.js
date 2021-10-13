@@ -1,4 +1,4 @@
-import CompositeObserver from '../../util/CompositeObserver.js';
+import CompositeObserver from '../../../util/CompositeObserver.js';
 
 export default class PropertyListView {
 

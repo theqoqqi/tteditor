@@ -1,4 +1,4 @@
-import MapNode from '../../map/MapNode.js';
+import MapNode from '../../../map/MapNode.js';
 
 let ICON_SIZE = 64;
 let ICON_PADDING = 0;

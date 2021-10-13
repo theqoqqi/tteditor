@@ -1,5 +1,5 @@
-import AbstractComponent from '../AbstractComponent.js';
-import MapOptionsView from '../../views/sidebars/MapOptionsView.js';
+import AbstractComponent from '../../AbstractComponent.js';
+import MapOptionsView from '../../../views/sidebars/tabs/MapOptionsView.js';
 
 export default class MapOptionsComponent extends AbstractComponent {
 
@@ -17,16 +17,13 @@ export default class MapOptionsComponent extends AbstractComponent {
                         let value = this.view.getPropertyValue(propertyName);
 
                         this.editor.setMapPropertyValue(propertyName, value);
-                        this.editor.setLevelDirty();
                     } else {
                         this.editor.setMapPropertyValue(propertyName, null);
-                        this.editor.setLevelDirty();
                     }
                 }
 
             } else {
                 this.editor.setMapPropertyValue(e.propertyName, e.newValue);
-                this.editor.setLevelDirty();
             }
         });
     }

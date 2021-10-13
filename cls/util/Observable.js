@@ -13,10 +13,11 @@ export default class Observable {
                     value = new ObservableArray(value);
                 }
 
+                let oldValue = Reflect.get(observable, propertyName, receiver);
                 let isValueSet = Reflect.set(observable, propertyName, value, receiver);
 
                 if (isValueSet) {
-                    observable.triggerPropertyObservers(propertyName, value);
+                    observable.triggerPropertyObservers(propertyName, value, oldValue);
                 }
 
                 return isValueSet;
@@ -26,11 +27,11 @@ export default class Observable {
         return new Proxy(this, handler);
     }
 
-    triggerPropertyObservers(propertyName, value) {
+    triggerPropertyObservers(propertyName, value, oldValue) {
         let observers = this.getPropertyObservers(propertyName);
 
         for (const observer of observers) {
-            observer(value, this);
+            observer(value, oldValue, this);
         }
     }
 

@@ -2,15 +2,14 @@ import MapReader from './MapReader.js';
 import MapNode from './map/MapNode.js';
 import MapWriter from './MapWriter.js';
 import Hotkeys from './util/Hotkeys.js';
-import TriggerListComponent from './components/sidebars/TriggerListComponent.js';
-import TriggerEditorComponent from './components/sidebars/TriggerEditorComponent.js';
-import MapOptionsComponent from './components/sidebars/MapOptionsComponent.js';
-import RandomizerListComponent from './components/sidebars/RandomizerListComponent.js';
-import LevelListComponent from './components/sidebars/LevelListComponent.js';
-import PaletteComponent from './components/sidebars/PaletteComponent.js';
-import LayerListComponent from './components/sidebars/LayerListComponent.js';
-import NodeListComponent from './components/sidebars/NodeListComponent.js';
-import PropertyListComponent from './components/sidebars/PropertyListComponent.js';
+import TriggerListComponent from './components/sidebars/tabs/TriggerListComponent.js';
+import TriggerEditorComponent from './components/sidebars/tabs/TriggerEditorComponent.js';
+import MapOptionsComponent from './components/sidebars/tabs/MapOptionsComponent.js';
+import RandomizerListComponent from './components/sidebars/tabs/RandomizerListComponent.js';
+import LevelListComponent from './components/sidebars/tabs/LevelListComponent.js';
+import PaletteComponent from './components/sidebars/tabs/PaletteComponent.js';
+import NodeListComponent from './components/sidebars/tabs/NodeListComponent.js';
+import PropertyListComponent from './components/sidebars/tabs/PropertyListComponent.js';
 import ToolbarComponent from './components/ToolbarComponent.js';
 import StatusBarComponent from './components/StatusBarComponent.js';
 import MapComponent from './components/MapComponent.js';
@@ -62,6 +61,7 @@ export default class MapEditor {
         this.currentLevelFilename = null;
 
         this.bindListeners();
+        this.createObservers();
         this.mapComponent.setAllLayersActive();
         this.reloadDataFromServer();
     }
@@ -81,16 +81,6 @@ export default class MapEditor {
     }
 
     bindListeners() {
-        this.$sidebars.on('click', 'a.sidebar-tab-link', e => {
-            let $link = $(e.currentTarget);
-            let $sidebar = $link.closest('.sidebar');
-
-            let hasOpenedTab = $sidebar.find('a.sidebar-tab-link:not(.collapsed)').length > 0;
-            $sidebar.toggleClass('active', hasOpenedTab);
-        });
-
-
-
         Hotkeys.bindGlobal('Control+S', () => {
             this.saveCurrentLevel();
         });
@@ -116,6 +106,98 @@ export default class MapEditor {
                 this.clearBrush(null);
             }
         });
+    }
+
+    createObservers() {
+        let valueChangeObserver = (newValue, oldValue) => {
+            if (newValue !== oldValue) {
+                this.setLevelDirty();
+                console.log('Weee');
+            }
+        };
+
+        let listUpdateObserver = item => {
+            this.setLevelDirty();
+            console.log('Weee');
+        };
+
+
+
+        this.mapObservers = new CompositeObserver();
+
+        this.mapObservers.addPropertyObserver('options', valueChangeObserver);
+        this.mapObservers.addPropertyObserver('terrain', valueChangeObserver);
+        this.mapObservers.addPropertyObserver('width', valueChangeObserver);
+        this.mapObservers.addPropertyObserver('height', valueChangeObserver);
+        this.mapObservers.addPropertyObserver('startX', valueChangeObserver);
+        this.mapObservers.addPropertyObserver('startY', valueChangeObserver);
+        this.mapObservers.addPropertyObserver('playerBaseX', valueChangeObserver);
+        this.mapObservers.addPropertyObserver('playerBaseY', valueChangeObserver);
+        this.mapObservers.addPropertyObserver('nodes', valueChangeObserver);
+        this.mapObservers.addPropertyObserver('triggers', valueChangeObserver);
+        this.mapObservers.addListObserver('nodes', listUpdateObserver);
+        this.mapObservers.addListObserver('triggers', listUpdateObserver);
+
+        this.mapObservers.addPropertyObserver('options.id', valueChangeObserver);
+        this.mapObservers.addPropertyObserver('options.music', valueChangeObserver);
+        this.mapObservers.addPropertyObserver('options.coloring', valueChangeObserver);
+        this.mapObservers.addPropertyObserver('options.fowClearColor', valueChangeObserver);
+        this.mapObservers.addPropertyObserver('options.randomizers', valueChangeObserver);
+        this.mapObservers.addListObserver('options.randomizers', listUpdateObserver);
+
+
+
+        this.mapNodeObservers = new CompositeObserver();
+
+        this.mapNodeObservers.addPropertyObserver('x', valueChangeObserver);
+        this.mapNodeObservers.addPropertyObserver('y', valueChangeObserver);
+        this.mapNodeObservers.addPropertyObserver('radius', valueChangeObserver);
+        this.mapNodeObservers.addPropertyObserver('name', valueChangeObserver);
+        this.mapNodeObservers.addPropertyObserver('hint', valueChangeObserver);
+        this.mapNodeObservers.addPropertyObserver('owner', valueChangeObserver);
+        this.mapNodeObservers.addPropertyObserver('subId', valueChangeObserver);
+        this.mapNodeObservers.addPropertyObserver('group', valueChangeObserver);
+
+
+
+        this.randomizerObservers = new CompositeObserver();
+
+        this.randomizerObservers.addPropertyObserver('item', valueChangeObserver);
+        this.randomizerObservers.addPropertyObserver('count', valueChangeObserver);
+
+
+
+        this.triggerObservers = new CompositeObserver();
+
+        this.triggerObservers.addPropertyObserver('title', valueChangeObserver);
+        this.triggerObservers.addPropertyObserver('repeat', valueChangeObserver);
+        this.triggerObservers.addPropertyObserver('statements', valueChangeObserver);
+        this.triggerObservers.addListObserver('statements', listUpdateObserver);
+
+
+
+        let addAttachDetachObservers = (propertyName, propertyObserver, attachableObserver) => {
+            propertyObserver.addPropertyObserver(propertyName, (items, oldItems) => {
+                for (const item of oldItems ?? []) {
+                    attachableObserver.detachFrom(item);
+                }
+                for (const item of items ?? []) {
+                    attachableObserver.attachTo(item);
+                }
+            });
+
+            propertyObserver.addElementAddedObserver(propertyName, item => {
+                attachableObserver.attachTo(item);
+            });
+
+            propertyObserver.addElementRemovedObserver(propertyName, item => {
+                attachableObserver.detachFrom(item);
+            });
+        };
+
+        addAttachDetachObservers('nodes', this.mapObservers, this.mapNodeObservers);
+        addAttachDetachObservers('triggers', this.mapObservers, this.triggerObservers);
+        addAttachDetachObservers('options.randomizers', this.mapObservers, this.randomizerObservers);
     }
 
     handleMapNodeClick(mapNode, e) {
@@ -197,7 +279,17 @@ export default class MapEditor {
         let mapXml = this.context.loadXml(filename);
         let map = this.reader.readLevel(mapXml);
 
+        if (this.map) {
+            this.mapObservers.detachFrom(this.map);
+        }
+
         this.map = map;
+
+        if (map) {
+            this.mapObservers.attachTo(map);
+            this.mapObservers.triggerForAll();
+        }
+
         this.currentLevelFilename = filename;
 
         this.triggerListComponent.clearTriggers();
@@ -302,11 +394,11 @@ export default class MapEditor {
     }
 
     setLevelDirty() {
-        this.levelListComponent.setLevelDirty(true);
+        this.levelListComponent.setLevelDirty();
     }
 
     setLevelClear() {
-        this.levelListComponent.setLevelDirty(false);
+        this.levelListComponent.setLevelClear();
     }
 
     hasLoadedLevel() {
@@ -357,6 +449,26 @@ export default class MapEditor {
         this.hoveredMapNodesContextMenuComponent.setMapNodes(mapNodesUnderPointer);
         this.hoveredMapNodesContextMenuComponent.setSelectedMapNodes(selectedMapNodes);
         this.hoveredMapNodesContextMenuComponent.showAt(x, y);
+    }
+
+    addTrigger(trigger) {
+        this.map.addTrigger(trigger);
+    }
+
+    removeTrigger(trigger) {
+        this.map.removeTrigger(trigger);
+    }
+
+    setTerrain(terrain) {
+        this.map.setTerrain(terrain);
+    }
+
+    addRandomizer(randomizer) {
+        this.map.options.addRandomizer(randomizer);
+    }
+
+    removeRandomizer(randomizer) {
+        this.map.options.removeRandomizer(randomizer);
     }
 
     getSelectedNodes() {

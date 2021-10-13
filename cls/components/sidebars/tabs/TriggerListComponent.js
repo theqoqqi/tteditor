@@ -1,6 +1,6 @@
-import TriggerListView from '../../views/sidebars/TriggerListView.js';
-import Trigger from '../../map/Trigger.js';
-import AbstractComponent from '../AbstractComponent.js';
+import TriggerListView from '../../../views/sidebars/tabs/TriggerListView.js';
+import Trigger from '../../../map/Trigger.js';
+import AbstractComponent from '../../AbstractComponent.js';
 
 export default class TriggerListComponent extends AbstractComponent {
 
@@ -12,13 +12,12 @@ export default class TriggerListComponent extends AbstractComponent {
         this.view.setAddButtonListener(triggerTitle => {
             let trigger = new Trigger(triggerTitle);
 
-            this.map.addTrigger(trigger);
+            this.editor.addTrigger(trigger);
             this.editor.setTriggerInEditor(trigger);
             this.view.addTrigger(trigger);
             this.view.setSelectedTrigger(trigger);
             this.view.scrollToTrigger(trigger);
             this.view.clearNewTriggerInputs();
-            this.editor.setLevelDirty();
         });
 
         this.view.setSelectionChangedListener(trigger => {
@@ -27,7 +26,6 @@ export default class TriggerListComponent extends AbstractComponent {
 
         this.view.setTriggerRepeatingChangedListener((trigger, isRepeating) => {
             trigger.repeat = isRepeating;
-            this.editor.setLevelDirty();
         });
 
         this.view.setTriggerActivityChangedListener((trigger, isEnabled) => {
@@ -36,14 +34,12 @@ export default class TriggerListComponent extends AbstractComponent {
             } else {
                 trigger.addStatement('<never/>');
             }
-            this.editor.setLevelDirty();
         });
 
         this.view.setRemoveTriggerButtonClickListener(trigger => {
-            this.map.removeTrigger(trigger);
-            this.view.removeTrigger(trigger);
+            this.editor.removeTrigger(trigger);
             this.editor.setTriggerInEditor(null);
-            this.editor.setLevelDirty();
+            this.view.removeTrigger(trigger);
         });
     }
 

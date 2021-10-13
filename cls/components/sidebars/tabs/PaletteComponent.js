@@ -1,5 +1,5 @@
-import AbstractComponent from '../AbstractComponent.js';
-import PaletteView from '../../views/sidebars/PaletteView.js';
+import AbstractComponent from '../../AbstractComponent.js';
+import PaletteView from '../../../views/sidebars/tabs/PaletteView.js';
 
 export default class PaletteComponent extends AbstractComponent {
 
@@ -13,8 +13,7 @@ export default class PaletteComponent extends AbstractComponent {
                 if (tagName === 'terrain') {
                     let terrain = this.context.createTerrainByName(typeName);
 
-                    this.map.setTerrain(terrain);
-                    this.editor.setLevelDirty();
+                    this.editor.setTerrain(terrain);
                 } else {
                     this.editor.setBrush(tagName, typeName, name);
                 }

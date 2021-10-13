@@ -1,6 +1,6 @@
-import ItemListView from '../util/ItemListView.js';
-import ItemButtonView from '../util/ItemButtonView.js';
-import CompositeObserver from '../../util/CompositeObserver.js';
+import ItemListView from '../../util/ItemListView.js';
+import ItemButtonView from '../../util/ItemButtonView.js';
+import CompositeObserver from '../../../util/CompositeObserver.js';
 
 export default class TriggerListView {
 
@@ -26,18 +26,18 @@ export default class TriggerListView {
 
         this.triggerObservers = new CompositeObserver();
 
-        this.triggerObservers.addPropertyObserver('title', (title, trigger) => {
+        this.triggerObservers.addPropertyObserver('title', (title, oldValue, trigger) => {
             this.getListItem(trigger).find('.trigger-title').text(title);
         });
 
-        this.triggerObservers.addPropertyObserver('repeat', (repeat, trigger) => {
+        this.triggerObservers.addPropertyObserver('repeat', (repeat, oldValue, trigger) => {
             let $listItem = this.getListItem(trigger);
             let repeatButton = ItemButtonView.findIn($listItem, 'repeat');
 
             repeatButton.setToggleState(repeat);
         });
 
-        this.triggerObservers.addPropertyObserver('statements', (statements, trigger) => {
+        this.triggerObservers.addPropertyObserver('statements', (statements, oldValue, trigger) => {
             let active = !trigger.hasStatementOfType('never');
 
             this.setTriggerActive(trigger, active);

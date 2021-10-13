@@ -1,4 +1,4 @@
-import CompositeObserver from '../../util/CompositeObserver.js';
+import CompositeObserver from '../../../util/CompositeObserver.js';
 
 export default class MapOptionsView {
 
@@ -47,7 +47,7 @@ export default class MapOptionsView {
         let propertyName = $input.data('property');
         let path = MapOptionsView.getMapPropertyPath(this.map, options.source, propertyName);
 
-        this.mapObservers.addPropertyObserver(path, (propertyValue, map) => {
+        this.mapObservers.addPropertyObserver(path, propertyValue => {
             let type = $input.attr('type');
             let mode = options.mode;
 

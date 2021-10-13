@@ -17,7 +17,6 @@ export default class MapComponent extends AbstractComponent {
 
             if (this.editor.hasBrush()) {
                 this.editor.addNodeFromBrush();
-                this.editor.setLevelDirty();
                 return;
             }
 
@@ -72,7 +71,6 @@ export default class MapComponent extends AbstractComponent {
                 this.editor.setMapNodePosition(mapNode, mapNode[this.draggedXSymbol], mapNode[this.draggedYSymbol]);
             }
 
-            this.editor.setLevelDirty();
         });
 
         this.view.setMoveActionListener((x, y) => {
@@ -90,7 +88,6 @@ export default class MapComponent extends AbstractComponent {
                 this.editor.setMapNodePosition(mapNode, mapNode.x + moveByX, mapNode.y + moveByY);
             }
 
-            this.editor.setLevelDirty();
         });
     }
 
@@ -114,8 +111,8 @@ export default class MapComponent extends AbstractComponent {
         this.view.setActiveLayers(layerNames);
     }
 
-    getViewportCenter() {
-        return this.view.getViewportCenter();
+    getViewportPosition() {
+        return this.view.getViewportPosition();
     }
 
     setViewportCenter(x, y) {

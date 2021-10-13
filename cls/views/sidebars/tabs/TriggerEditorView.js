@@ -1,4 +1,4 @@
-import CompositeObserver from '../../util/CompositeObserver.js';
+import CompositeObserver from '../../../util/CompositeObserver.js';
 
 export default class TriggerEditorView {
 
@@ -42,6 +42,8 @@ export default class TriggerEditorView {
             enableLiveAutocompletion: true,
         });
 
+        this.shouldTriggerStatementsListener = true;
+
         this.triggerObservers = new CompositeObserver();
 
         this.triggerObservers.addPropertyObserver('title', title => {
@@ -51,7 +53,9 @@ export default class TriggerEditorView {
         this.triggerObservers.addListObserver('statements', statements => {
             let text = (statements ?? []).join('\n');
 
+            this.shouldTriggerStatementsListener = false;
             this.editor.setValue(text);
+            this.shouldTriggerStatementsListener = true;
             this.editor.clearSelection();
         });
     }
@@ -66,9 +70,13 @@ export default class TriggerEditorView {
 
     setContentChangedListener(listener) {
         this.editor.getSession().on('change', (instance, changeEvent) => {
-            let statements = this.editor.getValue().split('\n');
+            let editorValue = this.editor.getValue();
+            let triggerValue = this.trigger.statements.join('\n');
+            let statements = editorValue.split('\n');
 
-            listener(statements, this.trigger);
+            if (this.shouldTriggerStatementsListener && editorValue !== triggerValue) {
+                listener(statements, this.trigger);
+            }
         });
     }
 

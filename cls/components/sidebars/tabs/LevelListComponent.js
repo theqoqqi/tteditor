@@ -1,5 +1,5 @@
-import AbstractComponent from '../AbstractComponent.js';
-import LevelListView from '../../views/sidebars/LevelListView.js';
+import AbstractComponent from '../../AbstractComponent.js';
+import LevelListView from '../../../views/sidebars/tabs/LevelListView.js';
 
 export default class LevelListComponent extends AbstractComponent {
 

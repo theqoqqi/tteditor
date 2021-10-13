@@ -1,6 +1,6 @@
-import ItemListView from '../util/ItemListView.js';
-import ItemButtonView from '../util/ItemButtonView.js';
-import CompositeObserver from '../../util/CompositeObserver.js';
+import ItemListView from '../../util/ItemListView.js';
+import ItemButtonView from '../../util/ItemButtonView.js';
+import CompositeObserver from '../../../util/CompositeObserver.js';
 
 export default class NodeListView {
 
@@ -58,7 +58,7 @@ export default class NodeListView {
     }
 
     addMapNodePropertyObserver(propertyName) {
-        this.mapNodeObservers.addPropertyObserver(propertyName, (value, mapNode) => {
+        this.mapNodeObservers.addPropertyObserver(propertyName, (value, oldValue, mapNode) => {
             this.setNodeProperty(mapNode, propertyName, value);
         });
     }

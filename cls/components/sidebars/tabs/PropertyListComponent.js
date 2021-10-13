@@ -1,5 +1,5 @@
-import AbstractComponent from '../AbstractComponent.js';
-import PropertyListView from '../../views/sidebars/PropertyListView.js';
+import AbstractComponent from '../../AbstractComponent.js';
+import PropertyListView from '../../../views/sidebars/tabs/PropertyListView.js';
 
 export default class PropertyListComponent extends AbstractComponent {
 
@@ -13,7 +13,6 @@ export default class PropertyListComponent extends AbstractComponent {
 
             for (const mapNode of selectedNodes) {
                 this.editor.setMapNodePropertyValue(mapNode, propertyName, newValue);
-                this.editor.setLevelDirty();
             }
         });
     }
