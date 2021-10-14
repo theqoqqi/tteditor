@@ -1,5 +1,4 @@
 import MapReader from './MapReader.js';
-import MapNode from './map/MapNode.js';
 import MapWriter from './MapWriter.js';
 import Hotkeys from './util/Hotkeys.js';
 import TriggerListComponent from './components/sidebars/tabs/TriggerListComponent.js';
@@ -19,6 +18,7 @@ import LeftSidebarComponent from './components/sidebars/LeftSidebarComponent.js'
 import RightSidebarComponent from './components/sidebars/RightSidebarComponent.js';
 import CompositeObserver from './util/CompositeObserver.js';
 import LayerListComponent from './components/sidebars/tabs/LayerListComponent.js';
+import BrushComponent from './components/BrushComponent.js';
 
 // noinspection CssInvalidHtmlTagReference
 export default class MapEditor {
@@ -52,7 +52,7 @@ export default class MapEditor {
         this.mapNodeContextMenuComponent = new MapNodeContextMenuComponent(this);
         this.hoveredMapNodesContextMenuComponent = new HoveredMapNodesContextMenuComponent(this);
 
-        this.$brush = null;
+        this.brushComponent = new BrushComponent(this);
 
         this.$mainAreaContainer = $('.main-area-container');
         this.$mainAreaOverlay = $('.main-area-overlay');
@@ -96,14 +96,13 @@ export default class MapEditor {
 
             for (const mapNode of selectedMapNodes) {
                 this.removeNode(mapNode);
-                this.setLevelDirty();
             }
         });
 
         Hotkeys.bindGlobal('Escape', () => {
-            if (this.hasBrush()) {
+            if (this.brushComponent.hasBrush()) {
                 this.paletteComponent.clearSelectedType();
-                this.clearBrush(null);
+                this.brushComponent.clearBrush();
             }
         });
     }
@@ -115,7 +114,7 @@ export default class MapEditor {
             }
         };
 
-        let listUpdateObserver = item => {
+        let listUpdateObserver = () => {
             this.setLevelDirty();
         };
 
@@ -310,72 +309,23 @@ export default class MapEditor {
     }
 
     addNodeFromBrush() {
-        let brushMapNode = this.$brush.data('map-node');
-        let mapNode = brushMapNode.clone();
-
-        this.viewportPositionToMapPosition(mapNode);
-
-        this.map.addNode(mapNode);
+        this.brushComponent.addNode();
     }
 
     setBrushPositionOnMap(x, y) {
-        let brushMapNode = this.$brush.data('map-node');
-
-        this.setMapNodePosition(brushMapNode, x, y);
-        this.mapPositionToViewportPosition(brushMapNode);
-
-        this.uiNodeFactory.setNodeProperty(this.$brush, 'x', brushMapNode.x);
-        this.uiNodeFactory.setNodeProperty(this.$brush, 'y', brushMapNode.y);
-    }
-
-    setBrush(tagName, typeName, name) {
-        if (this.$brush) {
-            this.$brush.remove();
-            this.$brush = null;
-        }
-
-        if (tagName) {
-            this.$brush = this.createBrush(tagName, typeName, name);
-            this.$mainAreaOverlay.append(this.$brush);
-        }
+        this.brushComponent.setPositionOnMap(x, y);
     }
 
     hasBrush() {
-        return this.$brush !== null;
+        return this.brushComponent.hasBrush();
+    }
+
+    setBrush(tagName, typeName, name) {
+        this.brushComponent.setBrush(tagName, typeName, name);
     }
 
     clearBrush() {
-        this.setBrush(null);
-    }
-
-    createBrush(tagName, typeName, name) {
-        let mapNode = new MapNode(tagName, -1000, -1000);
-
-        mapNode.type = typeName;
-        mapNode.name = name;
-
-        if (tagName === 'area') {
-            mapNode.radius = 128;
-        }
-
-        let $node;
-
-        if (this.context.isMarkerNode(tagName)) {
-            $node = this.uiNodeFactory.createMarkerNode(tagName, typeName, mapNode);
-        } else {
-            if (tagName === 'item' && typeName === 'Chest') {
-                tagName = 'chest';
-                mapNode.tag = 'chest';
-            }
-
-            $node = this.uiNodeFactory.createNode(tagName, typeName, mapNode);
-        }
-
-        return $node;
-    }
-
-    removeNode(mapNode) {
-        this.map.removeNode(mapNode);
+        this.brushComponent.clearBrush();
     }
 
     mapToXml(map) {
@@ -447,6 +397,14 @@ export default class MapEditor {
         this.hoveredMapNodesContextMenuComponent.setMapNodes(mapNodesUnderPointer);
         this.hoveredMapNodesContextMenuComponent.setSelectedMapNodes(selectedMapNodes);
         this.hoveredMapNodesContextMenuComponent.showAt(x, y);
+    }
+
+    addNode(mapNode) {
+        this.map.addNode(mapNode);
+    }
+
+    removeNode(mapNode) {
+        this.map.removeNode(mapNode);
     }
 
     addTrigger(trigger) {

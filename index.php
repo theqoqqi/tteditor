@@ -103,7 +103,7 @@ require_once 'print_utils.php';
             </div>
         </div>
         <div class='main-area-overlay'>
-
+            <div class='brush'></div>
         </div>
     </div>
     <?
