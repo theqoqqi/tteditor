@@ -90,9 +90,9 @@ export default class MapView {
         });
 
         this.$map.on('click', e => {
-            // if (!this.$map.data('should-process-click')) {
-            //     return;
-            // }
+            if (!this.$map.data('should-process-click')) {
+                return;
+            }
 
             let $node = $(e.target).closest('.map-node-root');
             let mapNode = $node.data('map-node');
