@@ -259,6 +259,16 @@ export default class MapEditor {
     }
 
     setMapNodePropertyValue(mapNode, propertyName, value) {
+        if (propertyName === 'x') {
+            this.setMapNodePosition(mapNode, +value, mapNode.y);
+            return;
+        }
+
+        if (propertyName === 'y') {
+            this.setMapNodePosition(mapNode, mapNode.x, +value);
+            return;
+        }
+
         let numericProperties = ['x', 'y', 'radius'];
 
         if (numericProperties.includes(propertyName)) {
