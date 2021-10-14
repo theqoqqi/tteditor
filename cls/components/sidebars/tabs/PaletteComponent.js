@@ -14,6 +14,10 @@ export default class PaletteComponent extends AbstractComponent {
                     let terrain = this.context.createTerrainByName(typeName);
 
                     this.editor.setTerrain(terrain);
+
+                } else if (tagName === null) {
+                    this.editor.clearBrush();
+
                 } else {
                     this.editor.setBrush(tagName, typeName, name);
                 }

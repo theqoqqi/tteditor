@@ -54,7 +54,7 @@ export default class PaletteView {
     setSelectedItem($item) {
         this.$palette.find('.palette-item').removeClass('selected');
 
-        if (!$item) {
+        if (!$item || !$item.length) {
             this.selectionChangedListener(null, null, null);
             return;
         }
