@@ -54,9 +54,6 @@ export default class MapEditor {
 
         this.brushComponent = new BrushComponent(this);
 
-        this.$mainAreaContainer = $('.main-area-container');
-        this.$mainAreaOverlay = $('.main-area-overlay');
-
         this.map = null;
         this.currentLevelFilename = null;
 
