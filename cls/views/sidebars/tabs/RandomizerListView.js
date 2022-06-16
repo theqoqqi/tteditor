@@ -14,7 +14,7 @@ export default class RandomizerListView {
         this.randomizerChangedListener = () => {};
 
         this.createMapObservers();
-        this.createMapNodeObservers();
+        this.createRandomizerObservers();
 
         this.bindListeners();
     }
@@ -38,7 +38,7 @@ export default class RandomizerListView {
         });
     }
 
-    createMapNodeObservers() {
+    createRandomizerObservers() {
         this.randomizerObservers = new CompositeObserver();
 
         this.randomizerObservers.addPropertyObserver('item', (itemName, oldValue, randomizer) => {
@@ -127,7 +127,7 @@ export default class RandomizerListView {
     getListItem(randomizer) {
         return this.$randomizerList.find('.randomizer-list-item')
             .filter((index, randomizerElement) => {
-                return $(randomizerElement).data('randomizer') === randomizer;
+                return $(randomizerElement).data('randomizer').editorId === randomizer.editorId;
             })
             .first();
     }

@@ -1,5 +1,6 @@
 import AbstractComponent from '../../AbstractComponent.js';
 import PaletteView from '../../../views/sidebars/tabs/PaletteView.js';
+import SetTerrainCommand from '../../../commands/map/SetTerrainCommand.js';
 
 export default class PaletteComponent extends AbstractComponent {
 
@@ -12,8 +13,9 @@ export default class PaletteComponent extends AbstractComponent {
             if (this.editor.hasLoadedLevel()) {
                 if (tagName === 'terrain') {
                     let terrain = this.context.createTerrainByName(typeName);
+                    let command = new SetTerrainCommand(this.editor, this.map, terrain);
 
-                    this.editor.setTerrain(terrain);
+                    this.editor.executeCommand(command);
 
                 } else if (tagName === null) {
                     this.editor.clearBrush();

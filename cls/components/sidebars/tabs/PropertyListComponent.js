@@ -1,5 +1,6 @@
 import AbstractComponent from '../../AbstractComponent.js';
 import PropertyListView from '../../../views/sidebars/tabs/PropertyListView.js';
+import SetMapNodesPropertyCommand from '../../../commands/map/SetMapNodesPropertyCommand.js';
 
 export default class PropertyListComponent extends AbstractComponent {
 
@@ -10,10 +11,9 @@ export default class PropertyListComponent extends AbstractComponent {
     bindListeners() {
         this.view.setPropertyChangedListener((propertyName, newValue) => {
             let selectedNodes = this.editor.getSelectedNodes();
+            let command = new SetMapNodesPropertyCommand(this.editor, selectedNodes, propertyName, newValue);
 
-            for (const mapNode of selectedNodes) {
-                this.editor.setMapNodePropertyValue(mapNode, propertyName, newValue);
-            }
+            this.editor.executeCommand(command);
         });
     }
 

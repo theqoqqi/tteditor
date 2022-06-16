@@ -1,5 +1,6 @@
 import TriggerEditorView from '../../../views/sidebars/tabs/TriggerEditorView.js';
 import AbstractComponent from '../../AbstractComponent.js';
+import SetTriggerPropertyCommand from '../../../commands/map/SetTriggerPropertyCommand.js';
 
 export default class TriggerEditorComponent extends AbstractComponent {
 
@@ -13,7 +14,7 @@ export default class TriggerEditorComponent extends AbstractComponent {
                 return;
             }
 
-            trigger.title = title;
+            this.#setTriggerProperty(trigger, 'title', title);
         });
 
         this.view.setContentChangedListener((statements, trigger) => {
@@ -21,11 +22,17 @@ export default class TriggerEditorComponent extends AbstractComponent {
                 return;
             }
 
-            trigger.statements = statements;
+            this.#setTriggerProperty(trigger, 'statements', statements);
         });
     }
 
     setTrigger(trigger) {
         this.view.setTrigger(trigger);
+    }
+
+    #setTriggerProperty(trigger, propertyName, value) {
+        let command = new SetTriggerPropertyCommand(this.editor, trigger, propertyName, value);
+
+        this.editor.executeCommand(command);
     }
 }

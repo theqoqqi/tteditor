@@ -125,7 +125,6 @@ export default class MapOptionsView {
         this.mapObservers.triggerFor(map);
     }
 
-
     onCheckboxChanged($checkbox) {
         let isActive = $checkbox.prop('checked');
         let $property = $checkbox.closest('.property');

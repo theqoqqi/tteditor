@@ -1,5 +1,6 @@
 import AbstractComponent from '../../AbstractComponent.js';
 import NodeListView from '../../../views/sidebars/tabs/NodeListView.js';
+import RemoveNodesCommand from '../../../commands/map/RemoveNodesCommand.js';
 
 export default class NodeListComponent extends AbstractComponent {
 
@@ -25,7 +26,9 @@ export default class NodeListComponent extends AbstractComponent {
         });
 
         this.view.setRemoveNodeButtonClickListener(mapNode => {
-            this.editor.removeNode(mapNode);
+            let command = new RemoveNodesCommand(this.editor, [mapNode]);
+
+            this.editor.executeCommand(command);
         });
     }
 

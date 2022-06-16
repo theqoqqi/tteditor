@@ -25,7 +25,7 @@ export default class CompositeObserver {
     }
 
     setSingleObservable(observable) {
-        this.detachFrom(this.observables);
+        this.detachFrom(...this.observables);
         if (observable) {
             this.attachTo(observable);
         }
@@ -94,7 +94,7 @@ export default class CompositeObserver {
         }
 
         if (['Property', 'List'].includes(observer.type)) {
-            observer.callback(propertyValue);
+            observer.callback(propertyValue, propertyValue, observable);
         }
     }
 

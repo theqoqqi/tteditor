@@ -6,11 +6,16 @@ export default class Observable {
 
     [allObserversSymbol] = new Map();
 
-    constructor() {
+    context;
+
+    constructor(context) {
+        context = context ?? this;
+        this.context = context;
+
         let handler = {
             set(observable, propertyName, value, receiver) {
                 if (Array.isArray(value)) {
-                    value = new ObservableArray(value);
+                    value = new ObservableArray(value, context);
                 }
 
                 let oldValue = Reflect.get(observable, propertyName, receiver);
@@ -31,7 +36,7 @@ export default class Observable {
         let observers = this.getPropertyObservers(propertyName);
 
         for (const observer of observers) {
-            observer(value, oldValue, this);
+            observer(value, oldValue, this.context);
         }
     }
 

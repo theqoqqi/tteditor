@@ -50,13 +50,12 @@ export default class TriggerEditorView {
             this.$triggerTitleInput.val(title);
         });
 
-        this.triggerObservers.addListObserver('statements', statements => {
-            let text = (statements ?? []).join('\n');
+        this.triggerObservers.addPropertyObserver('statements', statements => {
+            this.setStatements(statements);
+        });
 
-            this.shouldTriggerStatementsListener = false;
-            this.editor.setValue(text);
-            this.shouldTriggerStatementsListener = true;
-            this.editor.clearSelection();
+        this.triggerObservers.addListObserver('statements', statements => {
+            this.setStatements(statements);
         });
     }
 
@@ -86,4 +85,17 @@ export default class TriggerEditorView {
         this.triggerObservers.triggerFor(trigger);
     }
 
+    setStatements(statements) {
+        let text = (statements ?? []).join('\n');
+        let editorValue = this.editor.getValue();
+
+        if (text === editorValue) {
+            return;
+        }
+
+        this.shouldTriggerStatementsListener = false;
+        this.editor.setValue(text);
+        this.shouldTriggerStatementsListener = true;
+        this.editor.clearSelection();
+    }
 }

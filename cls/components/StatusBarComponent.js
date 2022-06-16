@@ -22,7 +22,7 @@ export default class StatusBarComponent extends AbstractComponent {
                 this.context.setWorkspacePath(newValue);
                 this.context.reloadDataFromServer();
                 this.view.setWorkspacePath(newValue);
-                this.reloadDataFromServer();
+                this.editor.reloadDataFromServer();
             }
         });
     }

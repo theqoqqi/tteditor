@@ -46,6 +46,12 @@ require_once 'print_utils.php';
             'title' => 'Палитра',
             'content' => fn () => printSidebarPaletteTab(),
         ],
+        [
+            'id' => 'command-list-sidebar-tab',
+            'icon' => 'bi-arrow-90deg-left',
+            'title' => 'Изменения',
+            'content' => fn () => printSidebarCommandListTab(),
+        ],
     ]);
     ?>
     <div class='main-area-container'>

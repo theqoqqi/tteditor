@@ -19,6 +19,10 @@ import RightSidebarComponent from './components/sidebars/RightSidebarComponent.j
 import CompositeObserver from './util/CompositeObserver.js';
 import LayerListComponent from './components/sidebars/tabs/LayerListComponent.js';
 import BrushComponent from './components/BrushComponent.js';
+import CommandExecutor from './util/CommandExecutor.js';
+import CommandListComponent from './components/CommandListComponent.js';
+import RemoveNodesCommand from './commands/map/RemoveNodesCommand.js';
+import DummyCommand from './commands/DummyCommand.js';
 
 // noinspection CssInvalidHtmlTagReference
 export default class MapEditor {
@@ -29,6 +33,8 @@ export default class MapEditor {
 
         this.reader = new MapReader(context);
         this.writer = new MapWriter(context);
+
+        this.commandExecutor = new CommandExecutor();
 
         this.mapComponent = new MapComponent(this);
 
@@ -42,6 +48,7 @@ export default class MapEditor {
 
         this.levelListComponent = new LevelListComponent(this);
         this.paletteComponent = new PaletteComponent(this);
+        this.commandListComponent = new CommandListComponent(this);
         this.nodeListComponent = new NodeListComponent(this);
         this.propertyListComponent = new PropertyListComponent(this);
         this.triggerListComponent = new TriggerListComponent(this);
@@ -90,10 +97,9 @@ export default class MapEditor {
 
         Hotkeys.bindGlobal('Delete', () => {
             let selectedMapNodes = this.getSelectedNodes();
+            let command = new RemoveNodesCommand(this, selectedMapNodes);
 
-            for (const mapNode of selectedMapNodes) {
-                this.removeNode(mapNode);
-            }
+            this.executeCommand(command);
         });
 
         Hotkeys.bindGlobal('Escape', () => {
@@ -252,10 +258,21 @@ export default class MapEditor {
     }
 
     setMapPropertyValue(propertyName, value) {
-        let source = this.mapOptionsComponent.getPropertySource(propertyName);
-        let propertyHolder = source === 'map' ? this.map : this.map.options;
+        let propertyHolder = this.getPropertyHolder(propertyName);
 
         propertyHolder[propertyName] = value;
+    }
+
+    getMapPropertyValue(propertyName) {
+        let propertyHolder = this.getPropertyHolder(propertyName);
+
+        return propertyHolder[propertyName];
+    }
+
+    getPropertyHolder(propertyName) {
+        let source = this.mapOptionsComponent.getPropertySource(propertyName);
+
+        return source === 'map' ? this.map : this.map.options;
     }
 
     setMapNodePropertyValue(mapNode, propertyName, value) {
@@ -296,12 +313,16 @@ export default class MapEditor {
 
         this.currentLevelFilename = filename;
 
+        this.commandExecutor.clear();
+        this.commandListComponent.clearCommands();
         this.triggerListComponent.clearTriggers();
 
         this.levelListComponent.setSelectedFile(filename);
+        this.commandListComponent.setCommandExecutor(this.commandExecutor);
         this.nodeListComponent.setMap(map);
         this.mapOptionsComponent.setMap(map);
         this.randomizerListComponent.setMap(map);
+        this.triggerListComponent.setMap(map);
 
         this.paletteComponent.setSelectedType('terrain', map.terrain.name);
 
@@ -313,6 +334,7 @@ export default class MapEditor {
         this.mapComponent.setViewportCenter(map.startX ?? map.playerBaseX, map.startY ?? map.playerBaseY);
 
         this.setLevelClear();
+        this.executeCommand(new DummyCommand(this, 'Изначальное состояние'));
     }
 
     addNodeFromBrush() {
@@ -404,6 +426,22 @@ export default class MapEditor {
         this.hoveredMapNodesContextMenuComponent.setMapNodes(mapNodesUnderPointer);
         this.hoveredMapNodesContextMenuComponent.setSelectedMapNodes(selectedMapNodes);
         this.hoveredMapNodesContextMenuComponent.showAt(x, y);
+    }
+
+    executeCommand(command) {
+        this.commandExecutor.execute(command);
+    }
+
+    redoCommand() {
+        this.commandExecutor.redo();
+    }
+
+    undoCommand() {
+        this.commandExecutor.undo();
+    }
+
+    rewindToCommand(command) {
+        this.commandExecutor.rewindTo(command);
     }
 
     addNode(mapNode) {

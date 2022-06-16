@@ -1,6 +1,7 @@
 import AbstractComponent from './AbstractComponent.js';
 import BrushView from '../views/BrushView.js';
 import MapNode from '../map/MapNode.js';
+import AddNodesCommand from '../commands/map/AddNodesCommand.js';
 
 export default class BrushComponent extends AbstractComponent {
 
@@ -45,7 +46,9 @@ export default class BrushComponent extends AbstractComponent {
 
         this.editor.viewportPositionToMapPosition(mapNode);
 
-        this.editor.addNode(mapNode);
+        let command = new AddNodesCommand(this.editor, [mapNode]);
+
+        this.editor.executeCommand(command);
     }
 
     setPositionOnMap(x, y) {

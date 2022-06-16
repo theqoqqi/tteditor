@@ -1,11 +1,14 @@
 import Observable from '../util/Observable.js';
 
+let nextEditorId = 1;
+
 // noinspection CssInvalidHtmlTagReference
 export default class GameMap extends Observable {
 
     constructor(context) {
         super();
 
+        this.editorId = nextEditorId++;
         this.context = context;
 
         this.options = null;

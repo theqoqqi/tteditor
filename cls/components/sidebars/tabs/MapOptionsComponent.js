@@ -1,5 +1,6 @@
 import AbstractComponent from '../../AbstractComponent.js';
 import MapOptionsView from '../../../views/sidebars/tabs/MapOptionsView.js';
+import SetMapPropertiesCommand from '../../../commands/map/SetMapPropertiesCommand.js';
 
 export default class MapOptionsComponent extends AbstractComponent {
 
@@ -11,21 +12,32 @@ export default class MapOptionsComponent extends AbstractComponent {
         this.view.setControlChangedListener(e => {
             if (e.isCheckbox) {
                 let propertyNames = this.view.getPropertyNamesForControl(e.controlName);
+                let properties = {};
 
                 for (const propertyName of propertyNames) {
-                    if (e.newValue) {
-                        let value = this.view.getPropertyValue(propertyName);
+                    let value = null;
 
-                        this.editor.setMapPropertyValue(propertyName, value);
-                    } else {
-                        this.editor.setMapPropertyValue(propertyName, null);
+                    if (e.newValue) {
+                        value = this.view.getPropertyValue(propertyName);
                     }
+
+                    properties[propertyName] = value;
                 }
 
+                this.#setMapProperties(properties);
+
             } else {
-                this.editor.setMapPropertyValue(e.propertyName, e.newValue);
+                this.#setMapProperties({
+                    [e.propertyName]: e.newValue,
+                });
             }
         });
+    }
+
+    #setMapProperties(propertyValues) {
+        let command = new SetMapPropertiesCommand(this.editor, this.map, propertyValues);
+
+        this.editor.executeCommand(command);
     }
 
     getPropertySource(propertyName) {

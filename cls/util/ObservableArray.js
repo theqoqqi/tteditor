@@ -6,14 +6,18 @@ let elementRemovedSymbol = Symbol();
 
 export default class ObservableArray extends Array {
 
-    #observable = new Observable();
+    #observable;
 
-    constructor(items) {
-        super();
+    constructor(items, context) {
+        let proxy = super();
+
+        this.#observable = new Observable(context);
 
         if (items && items.length) {
             this.push(...items);
         }
+
+        return proxy;
     }
 
     push(...items) {
@@ -26,14 +30,16 @@ export default class ObservableArray extends Array {
         this.#observable.triggerPropertyObservers(listChangedSymbol, this);
     }
 
-    splice(start, deleteCount) {
-        let removedItems = super.splice(start, deleteCount);
+    splice(...args) {
+        let removedItems = super.splice(...args);
 
         for (const item of removedItems) {
             this.#observable.triggerPropertyObservers(elementRemovedSymbol, item);
         }
 
         this.#observable.triggerPropertyObservers(listChangedSymbol, this);
+
+        return removedItems;
     }
 
     observeList(observer) {

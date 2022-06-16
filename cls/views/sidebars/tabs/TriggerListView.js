@@ -18,11 +18,22 @@ export default class TriggerListView {
         this.itemListView.setDataIdKey('trigger-id');
         this.itemListView.setItemIdKey('editorId');
         this.itemListView.setListItemFactory(item => this.createListItem(item));
+        this.itemListView.setSelectionMode(ItemListView.SELECTION_MODE_SINGLE);
 
         this.addButtonListener = () => {};
         this.triggerRepeatingChangedListener = () => {};
         this.triggerActivityChangedListener = () => {};
         this.triggerRemoveButtonClickListener = () => {};
+
+        this.mapObservers = new CompositeObserver();
+
+        this.mapObservers.addElementAddedObserver('triggers', randomizer => {
+            this.addTrigger(randomizer);
+        });
+
+        this.mapObservers.addElementRemovedObserver('triggers', randomizer => {
+            this.removeTrigger(randomizer);
+        });
 
         this.triggerObservers = new CompositeObserver();
 
@@ -38,6 +49,14 @@ export default class TriggerListView {
         });
 
         this.triggerObservers.addPropertyObserver('statements', (statements, oldValue, trigger) => {
+            console.log('addPropertyObserver', trigger)
+            let active = !trigger.hasStatementOfType('never');
+
+            this.setTriggerActive(trigger, active);
+        });
+
+        this.triggerObservers.addListObserver('statements', (statements, oldValue, trigger) => {
+            console.log('addListObserver', trigger)
             let active = !trigger.hasStatementOfType('never');
 
             this.setTriggerActive(trigger, active);
@@ -54,8 +73,14 @@ export default class TriggerListView {
         });
     }
 
+    setMap(map) {
+        this.map = map;
+        this.mapObservers.setSingleObservable(map);
+        this.mapObservers.triggerFor(map);
+    }
+
     setTriggerActive(trigger, active) {
-        let $listItem = this.itemListView.getListItem(trigger);
+        let $listItem = this.getListItem(trigger);
         let buttonView = ItemButtonView.findIn($listItem, 'toggle');
 
         buttonView.setToggleState(active);

@@ -1,0 +1,102 @@
+
+.command-list-controls {
+    background-color: #eee;
+    border-bottom: 1px solid #aaa;
+}
+
+.command-list-controls .property > div {
+    flex-grow: 1;
+}
+
+.command-list-controls .property > div > i.icon-button:hover {
+    color: dodgerblue;
+
+    cursor: pointer;
+}
+
+/* Trigger List */
+
+.command-list {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+
+    padding-bottom: 24px;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.command-list .command-list-item {
+    display: flex;
+    flex-direction: row;
+
+    padding: 4px 0;
+
+    font-size: 12px;
+
+    cursor: default;
+}
+
+.command-list .command-list-item:hover {
+    background-color: #eee;
+}
+
+.command-list .command-list-item.selected {
+    background-color: #57bdff;
+    color: white;
+}
+
+.command-list .command-list-item > * {
+    padding: 0 5px;
+
+    line-height: 1;
+}
+
+.command-list .command-list-item > i {
+    margin: -1px 0;
+
+    font-size: 16px;
+
+    text-align: center;
+}
+
+.command-list .command-list-item > *:not(:first-child):not(.command-button) {
+    border-left: 1px solid #ddd;
+}
+
+.command-list .command-list-item.selected > *:not(:first-child):not(.command-button) {
+    border-left-color: lightblue;
+}
+
+.command-list .command-list-item .command-icon {
+    width: 30px;
+}
+
+.command-list .command-list-item .command-title {
+    width: 293px; /* -17px for scrollbar */
+
+    font-size: 14px;
+    font-weight: 600;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.command-list .command-list-item .command-repeat {
+    width: 50px;
+
+    text-align: center;
+}
+
+.command-list .command-list-item .command-button {
+    padding: 0 2px;
+
+    cursor: pointer;
+}
+
+.command-list .command-list-item .command-button:hover {
+    color: #0d6efd;
+}

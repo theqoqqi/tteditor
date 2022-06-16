@@ -1,6 +1,10 @@
 import TriggerListView from '../../../views/sidebars/tabs/TriggerListView.js';
 import Trigger from '../../../map/Trigger.js';
 import AbstractComponent from '../../AbstractComponent.js';
+import AddTriggersCommand from '../../../commands/map/AddTriggersCommand.js';
+import RemoveTriggersCommand from '../../../commands/map/RemoveTriggersCommand.js';
+import SetTriggerPropertyCommand from '../../../commands/map/SetTriggerPropertyCommand.js';
+import SetTriggerEnabledCommand from '../../../commands/map/SetTriggerEnabledCommand.js';
 
 export default class TriggerListComponent extends AbstractComponent {
 
@@ -11,10 +15,10 @@ export default class TriggerListComponent extends AbstractComponent {
     bindListeners() {
         this.view.setAddButtonListener(triggerTitle => {
             let trigger = new Trigger(triggerTitle);
+            let command = new AddTriggersCommand(this.editor, [trigger]);
 
-            this.editor.addTrigger(trigger);
+            this.editor.executeCommand(command);
             this.editor.setTriggerInEditor(trigger);
-            this.view.addTrigger(trigger);
             this.view.setSelectedTrigger(trigger);
             this.view.scrollToTrigger(trigger);
             this.view.clearNewTriggerInputs();
@@ -25,22 +29,27 @@ export default class TriggerListComponent extends AbstractComponent {
         });
 
         this.view.setTriggerRepeatingChangedListener((trigger, isRepeating) => {
-            trigger.repeat = isRepeating;
+            let command = new SetTriggerPropertyCommand(this.editor, trigger, 'repeat', isRepeating);
+
+            this.editor.executeCommand(command);
         });
 
         this.view.setTriggerActivityChangedListener((trigger, isEnabled) => {
-            if (isEnabled) {
-                trigger.removeAllStatementsOfType('never');
-            } else {
-                trigger.addStatement('<never/>');
-            }
+            let command = new SetTriggerEnabledCommand(this.editor, trigger, isEnabled);
+
+            this.editor.executeCommand(command);
         });
 
         this.view.setRemoveTriggerButtonClickListener(trigger => {
-            this.editor.removeTrigger(trigger);
+            let command = new RemoveTriggersCommand(this.editor, [trigger]);
+
+            this.editor.executeCommand(command);
             this.editor.setTriggerInEditor(null);
-            this.view.removeTrigger(trigger);
         });
+    }
+
+    setMap(map) {
+        this.view.setMap(map);
     }
 
     clearTriggers() {

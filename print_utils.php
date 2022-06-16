@@ -101,6 +101,14 @@ function printPaletteTab($configName) {
     <?
 }
 
+function printSidebarCommandListTab() {
+    ?>
+    <div id='command-list' class='command-list'>
+        <!-- Injected by JS -->
+    </div>
+    <?
+}
+
 function printSidebarNodeListTab() {
     ?>
     <div id='node-list' class='node-list'>

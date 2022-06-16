@@ -2,6 +2,7 @@
 @import 'tabs/level-list.css';
 @import 'tabs/palette.css';
 @import 'tabs/node-list.css';
+@import 'tabs/command-list.css';
 @import 'tabs/property-list.css';
 @import 'tabs/trigger-list.css';
 @import 'tabs/trigger-editor.css';

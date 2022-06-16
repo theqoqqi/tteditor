@@ -1,6 +1,7 @@
 import AbstractComponent from './AbstractComponent.js';
 import MapView from '../views/MapView.js';
 import Hotkeys from '../util/Hotkeys.js';
+import MoveNodesCommand from '../commands/map/MoveNodesCommand.js';
 
 export default class MapComponent extends AbstractComponent {
 
@@ -53,42 +54,43 @@ export default class MapComponent extends AbstractComponent {
         });
 
         this.view.setDragNodesStartedListener(() => {
-            let selectedMapNodes = this.editor.getSelectedNodes();
-
-            for (const mapNode of selectedMapNodes) {
-                mapNode[this.draggedXSymbol] = mapNode.x;
-                mapNode[this.draggedYSymbol] = mapNode.y;
-            }
+            // unused
         });
 
         this.view.setDragNodesListener((x, y) => {
-            let selectedMapNodes = this.editor.getSelectedNodes();
+            let selectedMapNodes = this.editor.getSelectedNodes().slice();
+            let command = new MoveNodesCommand(this.editor, selectedMapNodes, x, y);
 
-            for (const mapNode of selectedMapNodes) {
-                mapNode[this.draggedXSymbol] += x;
-                mapNode[this.draggedYSymbol] += y;
-
-                this.editor.setMapNodePosition(mapNode, mapNode[this.draggedXSymbol], mapNode[this.draggedYSymbol]);
-            }
-
+            this.editor.executeCommand(command);
         });
 
         this.view.setMoveActionListener((x, y) => {
-            let selectedMapNodes = this.editor.getSelectedNodes();
+            let selectedMapNodes = this.editor.getSelectedNodes().slice();
+            let moveBy = this.#getMoveByForNodes(selectedMapNodes);
+            let command = new MoveNodesCommand(this.editor, selectedMapNodes, moveBy.x * x, moveBy.y * y);
 
-            for (const mapNode of selectedMapNodes) {
-                let moveByX = x;
-                let moveByY = y;
-
-                if (this.context.shouldAlignToGrid(mapNode)) {
-                    moveByX = this.context.getAlignGridWidth() * Math.sign(x);
-                    moveByY = this.context.getAlignGridHeight() * Math.sign(y);
-                }
-
-                this.editor.setMapNodePosition(mapNode, mapNode.x + moveByX, mapNode.y + moveByY);
-            }
-
+            this.editor.executeCommand(command);
         });
+    }
+
+    #getMoveByForNodes(mapNodes) {
+        if (mapNodes.length === 0) {
+            return 0;
+        }
+
+        let gridAlignedNodes = mapNodes.filter(mapNode => this.context.shouldAlignToGrid(mapNode));
+
+        if (gridAlignedNodes.length === 0) {
+            return {
+                x: 1,
+                y: 1,
+            };
+        }
+
+        return {
+            x: this.context.getAlignGridWidth(),
+            y: this.context.getAlignGridHeight(),
+        };
     }
 
     setMap(map) {
