@@ -13,6 +13,10 @@ export default class DummyCommand extends AbstractCommand {
         this.#iconClass = iconClass;
     }
 
+    get canUndo() {
+        return false;
+    }
+
     get title() {
         return this.#title;
     }

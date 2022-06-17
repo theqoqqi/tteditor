@@ -25,6 +25,10 @@ export default class AbstractCommand {
 
     }
 
+    get canUndo() {
+        return true;
+    }
+
     get title() {
         return '#' + this.editorId + ': ' + this.constructor.name;
     }

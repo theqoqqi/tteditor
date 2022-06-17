@@ -94,6 +94,14 @@ export default class MapEditor {
             this.nodeListComponent.setSelectedNodes(visibleNodes);
         });
 
+        Hotkeys.bindGlobal('Control+Z', () => {
+            this.undoCommand();
+        });
+
+        Hotkeys.bindGlobal('Control+Shift+Z', () => {
+            this.redoCommand();
+        });
+
         Hotkeys.bindGlobal('Delete', () => {
             let selectedMapNodes = this.getSelectedNodes();
             let command = new RemoveNodesCommand(this, selectedMapNodes);
@@ -432,6 +440,14 @@ export default class MapEditor {
 
     executeCommand(command) {
         this.commandExecutor.execute(command);
+    }
+
+    undoCommand() {
+        this.commandExecutor.undo();
+    }
+
+    redoCommand() {
+        this.commandExecutor.redo();
     }
 
     addNode(mapNode) {

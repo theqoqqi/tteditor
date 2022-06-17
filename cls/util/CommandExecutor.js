@@ -42,7 +42,7 @@ export default class CommandExecutor extends Observable {
             return;
         }
 
-        this.commands[this.lastExecutedIndex + 1].redo();
+        this.commands[this.lastExecutedIndex + 1].execute();
         this.executedCommands++;
     }
 
@@ -51,7 +51,13 @@ export default class CommandExecutor extends Observable {
             return;
         }
 
-        this.commands[this.lastExecutedIndex].undo();
+        let command = this.commands[this.lastExecutedIndex];
+
+        if (!command.canUndo) {
+            return;
+        }
+
+        command.undo();
         this.executedCommands--;
     }
 
