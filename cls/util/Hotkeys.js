@@ -98,12 +98,32 @@ export default class Hotkeys {
     static getPressedShortcut(event) {
         let modifiers = this.getPressedModifiers(event);
         let keys = modifiers ? [modifiers] : [];
+        let keyName = this.getKeyName(event);
 
-        if (event.key) {
-            keys.push(event.key);
+        if (keyName) {
+            keys.push(keyName);
         }
 
+        keys.sort();
+
         return keys.join('+');
+    }
+
+    static getKeyName(event) {
+        return this.tryUnpackKeyName(event, /Key(\w)/g)
+            ?? this.tryUnpackKeyName(event, /Digit(\d)/g)
+            ?? this.tryUnpackKeyName(event, /Numpad(\d)/g)
+            ?? event.key;
+    }
+
+    static tryUnpackKeyName(event, pattern) {
+        let result = pattern.exec(event.code);
+
+        if (!result) {
+            return null;
+        }
+
+        return result[1];
     }
 
     static getPressedModifiers(event) {
