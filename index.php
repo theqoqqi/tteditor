@@ -69,6 +69,18 @@ require_once 'print_utils.php';
                     </div>
                 </div>
                 <div class='toolbar-separator'></div>
+                <div id='pointer-mode-toolbar' class='toolbar-group'>
+                    <div id='select-pointer-mode-button' class='toolbar-icon'>
+                        <i class='bi-fullscreen'></i>
+                    </div>
+                    <div id='brush-pointer-mode-button' class='toolbar-icon'>
+                        <i class='bi-plus-square-dotted'></i>
+                    </div>
+                    <div id='scroll-pointer-mode-button' class='toolbar-icon'>
+                        <i class='bi-arrows-move'></i>
+                    </div>
+                </div>
+                <div class='toolbar-separator'></div>
                 <div id='map-layer-list' class='toolbar-group map-layer-list'>
                     <!-- Injected by JS -->
                 </div>

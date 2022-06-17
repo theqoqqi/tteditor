@@ -54,11 +54,11 @@
     text-align: center;
 }
 
-.toolbar .toolbar-icon-switcher.active {
+.toolbar .toolbar-icon.active {
     background-color: cornflowerblue;
 }
 
-.toolbar .toolbar-icon-switcher.active i {
+.toolbar .toolbar-icon.active i {
     color: white;
 }
 

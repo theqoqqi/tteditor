@@ -20,7 +20,9 @@ export default class MapComponent extends AbstractComponent {
             let hotkeys = Hotkeys.from(e);
 
             if (this.editor.isBrushMode()) {
-                this.editor.addNodeFromBrush();
+                if (this.editor.hasBrush()) {
+                    this.editor.addNodeFromBrush();
+                }
                 return;
             }
 
@@ -29,7 +31,9 @@ export default class MapComponent extends AbstractComponent {
                 return;
             }
 
-            this.editor.handleMapNodeClick(mapNode, e);
+            if (this.editor.isSelectMode()) {
+                this.editor.handleMapNodeClick(mapNode, e);
+            }
         });
 
         this.view.setRightClickListener((mapNode, e) => {
@@ -42,7 +46,7 @@ export default class MapComponent extends AbstractComponent {
         });
 
         this.view.setDoubleClickListener((mapNode, e) => {
-            if (this.editor.isBrushMode()) {
+            if (!this.editor.isSelectMode()) {
                 return;
             }
 
@@ -58,7 +62,7 @@ export default class MapComponent extends AbstractComponent {
         });
 
         this.view.setMouseMoveListener((x, y) => {
-            if (this.editor.isBrushMode()) {
+            if (this.editor.isBrushMode() && this.editor.hasBrush()) {
                 this.editor.setBrushPositionOnMap(x, y);
             }
 
@@ -66,7 +70,7 @@ export default class MapComponent extends AbstractComponent {
         });
 
         this.view.setDragNodesStartedListener(() => {
-            if (this.editor.isBrushMode()) {
+            if (!this.editor.isSelectMode()) {
                 return;
             }
 
@@ -80,7 +84,7 @@ export default class MapComponent extends AbstractComponent {
         });
 
         this.view.setDragNodesListener((x, y) => {
-            if (this.editor.isBrushMode()) {
+            if (!this.editor.isSelectMode()) {
                 return;
             }
 

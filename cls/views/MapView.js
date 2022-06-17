@@ -240,8 +240,8 @@ export default class MapView {
     static get #pointerModeClasses() {
         return new Map([
             [MapEditor.POINTER_MODE_SELECT, 'select-mode'],
-            [MapEditor.POINTER_MODE_SCROLL, 'scroll-mode'],
             [MapEditor.POINTER_MODE_BRUSH, 'brush-mode'],
+            [MapEditor.POINTER_MODE_SCROLL, 'scroll-mode'],
         ]);
     }
 

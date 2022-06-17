@@ -1,3 +1,4 @@
+import MapEditor from '../MapEditor.js';
 
 export default class ToolbarView {
 
@@ -8,6 +9,11 @@ export default class ToolbarView {
         this.$resetLevelButton = $('#reset-level-button');
         this.$saveLevelButton = $('#save-level-button');
         this.$downloadLevelButton = $('#download-level-button');
+
+        this.$pointerModeButtons = $('#pointer-mode-toolbar .toolbar-icon');
+        this.$selectPointerModeButton = $('#select-pointer-mode-button');
+        this.$brushPointerModeButton = $('#brush-pointer-mode-button');
+        this.$scrollPointerModeButton = $('#scroll-pointer-mode-button');
     }
 
     setResetLevelButtonListener(listener) {
@@ -26,5 +32,39 @@ export default class ToolbarView {
         this.$downloadLevelButton.click(() => {
             listener();
         });
+    }
+
+    setSelectPointerModeButtonListener(listener) {
+        this.$selectPointerModeButton.click(() => {
+            listener();
+        });
+    }
+
+    setBrushPointerModeButtonListener(listener) {
+        this.$brushPointerModeButton.click(() => {
+            listener();
+        });
+    }
+
+    setScrollPointerModeButtonListener(listener) {
+        this.$scrollPointerModeButton.click(() => {
+            listener();
+        });
+    }
+
+    setPointerMode(mode) {
+        this.$pointerModeButtons.removeClass('active');
+
+        if (mode) {
+            this.#pointerModeButtons.get(mode).addClass('active');
+        }
+    }
+
+    get #pointerModeButtons() {
+        return new Map([
+            [MapEditor.POINTER_MODE_SELECT, this.$selectPointerModeButton],
+            [MapEditor.POINTER_MODE_BRUSH, this.$brushPointerModeButton],
+            [MapEditor.POINTER_MODE_SCROLL, this.$scrollPointerModeButton],
+        ]);
     }
 }

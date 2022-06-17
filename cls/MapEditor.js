@@ -28,9 +28,9 @@ export default class MapEditor {
 
     static POINTER_MODE_SELECT = Symbol('MapEditor.POINTER_MODE_SELECT');
 
-    static POINTER_MODE_SCROLL = Symbol('MapEditor.POINTER_MODE_SCROLL');
-
     static POINTER_MODE_BRUSH = Symbol('MapEditor.POINTER_MODE_BRUSH');
+
+    static POINTER_MODE_SCROLL = Symbol('MapEditor.POINTER_MODE_SCROLL');
 
     constructor(context) {
         this.context = context;
@@ -358,18 +358,19 @@ export default class MapEditor {
     setPointerMode(mode) {
         this.pointerMode = mode;
         this.mapComponent.setPointerMode(mode);
+        this.toolbarComponent.setPointerMode(mode);
     }
 
     isSelectMode() {
         return this.pointerMode === MapEditor.POINTER_MODE_SELECT;
     }
 
-    isScrollMode() {
-        return this.pointerMode === MapEditor.POINTER_MODE_SCROLL;
-    }
-
     isBrushMode() {
         return this.pointerMode === MapEditor.POINTER_MODE_BRUSH;
+    }
+
+    isScrollMode() {
+        return this.pointerMode === MapEditor.POINTER_MODE_SCROLL;
     }
 
     addNodeFromBrush() {
