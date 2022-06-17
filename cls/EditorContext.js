@@ -134,20 +134,20 @@ export default class EditorContext {
         return nodeList.querySelector(`${configTagName}[name='${typeName}']`);
     }
 
-    shouldAlignToGrid(brushMapNode) {
-        let node = this.getNodeInfoByName(brushMapNode.tag, brushMapNode.type);
+    shouldAlignToGrid(mapNode) {
+        let node = this.getNodeInfoByName(mapNode.tag, mapNode.type);
 
         return node.querySelector('grid_align') !== null;
     }
 
-    alignNodeToGrid(brushMapNode) {
+    alignNodeToGrid(mapNode) {
         let config = this.getGameLogicConfig();
         let gridXml = config.querySelector('grid_grid');
         let gridWidth = +gridXml.getAttribute('x');
         let gridHeight = +gridXml.getAttribute('y');
 
-        brushMapNode.x = Math.round(brushMapNode.x / gridWidth) * gridWidth;
-        brushMapNode.y = Math.round(brushMapNode.y / gridHeight) * gridHeight;
+        mapNode.x = Math.round(mapNode.x / gridWidth) * gridWidth;
+        mapNode.y = Math.round(mapNode.y / gridHeight) * gridHeight;
     }
 
     getAlignGridWidth() {
