@@ -36,7 +36,7 @@ export default class ContextMenuView {
     }
 
     shouldHide(e) {
-        return true;
+        return e.which === 1;
     }
 
     showAt(x, y) {

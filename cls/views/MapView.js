@@ -108,17 +108,17 @@ export default class MapView {
                 return;
             }
 
+            e.preventDefault();
+
             let $node = $(e.target).closest('.map-node-root');
             let mapNode = $node.data('map-node');
-
-            e.preventDefault();
 
             this.rightClickListener(mapNode, e);
 
             this.$mapScroll.focus();
         });
 
-        // this.$map.contextmenu(e => false);
+        this.$map.contextmenu(e => e.shiftKey);
 
         this.$map.on('dblclick', e => {
             let $node = $(e.target).closest('.map-node-root');
