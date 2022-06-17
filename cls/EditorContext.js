@@ -137,6 +137,10 @@ export default class EditorContext {
     shouldAlignToGrid(mapNode) {
         let node = this.getNodeInfoByName(mapNode.tag, mapNode.type);
 
+        if (!node) {
+            return false;
+        }
+
         return node.querySelector('grid_align') !== null;
     }
 
