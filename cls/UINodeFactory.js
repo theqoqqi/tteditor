@@ -430,12 +430,10 @@ export default class UINodeFactory {
 
             if (mapNode.tag !== 'landmark') {
                 let $model = $node.find('> .mesh, > i');
-                let $selectionBox = $node.find('.selection-box');
                 let zIndex = +$model.css('z-index');
 
                 if (zIndex) {
                     $model.css('z-index', zIndex + y);
-                    $selectionBox.css('z-index', zIndex + y);
                 }
             }
         }
