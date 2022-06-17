@@ -39,7 +39,6 @@ export default class SetPropertiesCommand extends MultiTargetCommand {
             propertyValues[propertyName] = this.getPropertyValue(target, propertyName);
         }
 
-        console.log('propertyValues', propertyValues)
         return propertyValues;
     }
 

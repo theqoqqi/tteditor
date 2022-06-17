@@ -8,8 +8,11 @@ export default class MapComponent extends AbstractComponent {
     constructor(editor) {
         super(editor, MapView);
 
-        this.draggedXSymbol = Symbol('draggedX');
-        this.draggedYSymbol = Symbol('draggedY');
+        this.draggedX = 0;
+        this.draggedY = 0;
+        this.executedDragX = 0;
+        this.executedDragY = 0;
+        this.dragStep = null;
     }
 
     bindListeners() {
@@ -54,14 +57,32 @@ export default class MapComponent extends AbstractComponent {
         });
 
         this.view.setDragNodesStartedListener(() => {
-            // unused
+            let selectedMapNodes = this.editor.getSelectedNodes();
+            this.dragStep = this.#getMoveByForNodes(selectedMapNodes);
+            this.draggedX = 0;
+            this.draggedY = 0;
+            this.executedDragX = 0;
+            this.executedDragY = 0;
         });
 
         this.view.setDragNodesListener((x, y) => {
             let selectedMapNodes = this.editor.getSelectedNodes().slice();
-            let command = new MoveNodesCommand(this.editor, selectedMapNodes, x, y);
+            this.draggedX += x;
+            this.draggedY += y;
 
-            this.editor.executeCommand(command);
+            let alignedDraggedX = Math.round(this.draggedX / this.dragStep.x) * this.dragStep.x;
+            let alignedDraggedY = Math.round(this.draggedY / this.dragStep.y) * this.dragStep.y;
+
+            if (alignedDraggedX !== this.executedDragX || alignedDraggedY !== this.executedDragY) {
+                let moveByX = alignedDraggedX - this.executedDragX;
+                let moveByY = alignedDraggedY - this.executedDragY;
+                let command = new MoveNodesCommand(this.editor, selectedMapNodes, moveByX, moveByY);
+
+                this.editor.executeCommand(command);
+
+                this.executedDragX = alignedDraggedX;
+                this.executedDragY = alignedDraggedY;
+            }
         });
 
         this.view.setMoveActionListener((x, y) => {
