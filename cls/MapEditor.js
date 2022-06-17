@@ -60,8 +60,6 @@ export default class MapEditor {
 
         this.brushComponent = new BrushComponent(this);
 
-        this.commandListComponent.setCommandExecutor(this.commandExecutor);
-
         this.map = null;
         this.currentLevelFilename = null;
 
@@ -310,9 +308,11 @@ export default class MapEditor {
         }
 
         this.map = map;
-        this.levelListComponent.setSelectedFile(filename);
 
         this.currentLevelFilename = filename;
+        this.levelListComponent.setSelectedFile(filename);
+
+        this.commandListComponent.setCommandExecutor(this.commandExecutor);
 
         this.nodeListComponent.setMap(map);
         this.mapOptionsComponent.setMap(map);
@@ -328,10 +328,8 @@ export default class MapEditor {
         this.mapComponent.setMap(map);
         this.mapComponent.setViewportCenter(map.startX ?? map.playerBaseX, map.startY ?? map.playerBaseY);
 
-        if (map) {
-            this.mapObservers.attachTo(map);
-            this.mapObservers.triggerForAll();
-        }
+        this.mapObservers.attachTo(map);
+        this.mapObservers.triggerForAll();
 
         this.setLevelClear();
         this.executeCommand(new DummyCommand(this, 'Изначальное состояние'));
