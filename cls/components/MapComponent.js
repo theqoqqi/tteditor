@@ -33,6 +33,11 @@ export default class MapComponent extends AbstractComponent {
         });
 
         this.view.setRightClickListener((mapNode, e) => {
+            if (this.editor.hasBrush()) {
+                this.editor.clearBrush();
+                return;
+            }
+
             this.editor.showMapNodeContextMenuForPosition(e.clientX, e.clientY);
         });
 
