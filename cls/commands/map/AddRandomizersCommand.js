@@ -13,4 +13,12 @@ export default class AddRandomizersCommand extends MultiTargetCommand {
     undoFor(randomizer) {
         this.editor.removeRandomizer(randomizer);
     }
+
+    get title() {
+        return `Добавлено ${this.targets.length} рандомайзеров`;
+    }
+
+    get iconClass() {
+        return 'bi-patch-plus-fill';
+    }
 }

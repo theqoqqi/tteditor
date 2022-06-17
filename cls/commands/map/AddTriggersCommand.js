@@ -13,4 +13,12 @@ export default class AddTriggersCommand extends MultiTargetCommand {
     undoFor(trigger) {
         this.editor.removeTrigger(trigger);
     }
+
+    get title() {
+        return `Добавлено ${this.targets.length} триггеров`;
+    }
+
+    get iconClass() {
+        return 'bi-file-earmark-plus-fill';
+    }
 }

@@ -15,4 +15,12 @@ export default class SetMapNodesPropertyCommand extends SetPropertiesCommand {
     getTargetId(mapNode) {
         return mapNode.editorId;
     }
+
+    get title() {
+        return `Изменено ${this.targets.length} объектов`;
+    }
+
+    get iconClass() {
+        return 'bi-gear-fill';
+    }
 }

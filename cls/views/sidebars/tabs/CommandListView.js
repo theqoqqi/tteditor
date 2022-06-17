@@ -104,7 +104,7 @@ export default class CommandListView {
     }
 
     getCommandIconClass(command) {
-        return 'bi-file-earmark-font';
+        return command.iconClass;
     }
 
     getCommandTitle(command) {

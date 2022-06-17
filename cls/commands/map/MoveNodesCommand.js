@@ -25,4 +25,12 @@ export default class MoveNodesCommand extends MultiTargetCommand {
         this.movedByX += other.movedByX;
         this.movedByY += other.movedByY;
     }
+
+    get title() {
+        return `Перемещено ${this.targets.length} объектов`;
+    }
+
+    get iconClass() {
+        return 'bi-arrows-move';
+    }
 }

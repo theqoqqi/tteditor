@@ -15,4 +15,12 @@ export default class SetTerrainCommand extends SetPropertiesCommand {
     getTargetId(map) {
         return map.editorId;
     }
+
+    get title() {
+        return `Изменена базовая текстура`;
+    }
+
+    get iconClass() {
+        return 'bi-square-fill';
+    }
 }

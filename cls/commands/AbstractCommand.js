@@ -28,4 +28,8 @@ export default class AbstractCommand {
     get title() {
         return '#' + this.editorId + ': ' + this.constructor.name;
     }
+
+    get iconClass() {
+        return '';
+    }
 }

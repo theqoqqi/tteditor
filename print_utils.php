@@ -393,7 +393,7 @@ function printSidebarMapOptionsTab() {
     </div>
     <div class='randomizer-options-container'>
         <div class='panel-header'>
-            <i class='bi-shuffle'></i>
+            <i class='bi-patch-question-fill'></i>
             Рандомайзеры
         </div>
         <div id='randomizer-list' class='randomizer-list property-list'>

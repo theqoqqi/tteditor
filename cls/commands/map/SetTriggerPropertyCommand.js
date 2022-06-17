@@ -15,4 +15,12 @@ export default class SetTriggerPropertyCommand extends SetPropertiesCommand {
     getTargetId(trigger) {
         return trigger.editorId;
     }
+
+    get title() {
+        return `Изменено ${this.targets.length} триггеров`;
+    }
+
+    get iconClass() {
+        return 'bi-file-earmark-medical-fill';
+    }
 }

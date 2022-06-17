@@ -332,7 +332,11 @@ export default class MapEditor {
         this.mapObservers.triggerForAll();
 
         this.setLevelClear();
-        this.executeCommand(new DummyCommand(this, 'Изначальное состояние'));
+        this.executeCommand(this.createInitialCommand());
+    }
+
+    createInitialCommand() {
+        return new DummyCommand(this, 'Изначальное состояние', 'bi-circle');
     }
 
     addNodeFromBrush() {

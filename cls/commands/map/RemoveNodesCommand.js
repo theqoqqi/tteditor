@@ -13,4 +13,12 @@ export default class RemoveNodesCommand extends MultiTargetCommand {
     undoFor(mapNode) {
         this.editor.addNode(mapNode);
     }
+
+    get title() {
+        return `Удалено ${this.targets.length} объектов`;
+    }
+
+    get iconClass() {
+        return 'bi-node-minus-fill';
+    }
 }

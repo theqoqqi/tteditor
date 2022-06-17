@@ -23,4 +23,12 @@ export default class SetTriggerEnabledCommand extends SetPropertiesCommand {
     getTargetId(trigger) {
         return trigger.editorId;
     }
+
+    get title() {
+        return `Переключено ${this.targets.length} триггеров`;
+    }
+
+    get iconClass() {
+        return 'bi-file-earmark-check-fill';
+    }
 }
