@@ -24,7 +24,6 @@ import CommandListComponent from './components/CommandListComponent.js';
 import RemoveNodesCommand from './commands/map/RemoveNodesCommand.js';
 import DummyCommand from './commands/DummyCommand.js';
 
-// noinspection CssInvalidHtmlTagReference
 export default class MapEditor {
 
     constructor(context) {
@@ -60,6 +59,8 @@ export default class MapEditor {
         this.hoveredMapNodesContextMenuComponent = new HoveredMapNodesContextMenuComponent(this);
 
         this.brushComponent = new BrushComponent(this);
+
+        this.commandListComponent.setCommandExecutor(this.commandExecutor);
 
         this.map = null;
         this.currentLevelFilename = null;
@@ -300,25 +301,19 @@ export default class MapEditor {
         let mapXml = this.context.loadXml(filename);
         let map = this.reader.readLevel(mapXml);
 
+        this.commandExecutor.clear();
+        this.commandListComponent.clearCommands();
+        this.triggerListComponent.clearTriggers();
+
         if (this.map) {
             this.mapObservers.detachFrom(this.map);
         }
 
         this.map = map;
-
-        if (map) {
-            this.mapObservers.attachTo(map);
-            this.mapObservers.triggerForAll();
-        }
+        this.levelListComponent.setSelectedFile(filename);
 
         this.currentLevelFilename = filename;
 
-        this.commandExecutor.clear();
-        this.commandListComponent.clearCommands();
-        this.triggerListComponent.clearTriggers();
-
-        this.levelListComponent.setSelectedFile(filename);
-        this.commandListComponent.setCommandExecutor(this.commandExecutor);
         this.nodeListComponent.setMap(map);
         this.mapOptionsComponent.setMap(map);
         this.randomizerListComponent.setMap(map);
@@ -332,6 +327,11 @@ export default class MapEditor {
 
         this.mapComponent.setMap(map);
         this.mapComponent.setViewportCenter(map.startX ?? map.playerBaseX, map.startY ?? map.playerBaseY);
+
+        if (map) {
+            this.mapObservers.attachTo(map);
+            this.mapObservers.triggerForAll();
+        }
 
         this.setLevelClear();
         this.executeCommand(new DummyCommand(this, 'Изначальное состояние'));
@@ -430,18 +430,6 @@ export default class MapEditor {
 
     executeCommand(command) {
         this.commandExecutor.execute(command);
-    }
-
-    redoCommand() {
-        this.commandExecutor.redo();
-    }
-
-    undoCommand() {
-        this.commandExecutor.undo();
-    }
-
-    rewindToCommand(command) {
-        this.commandExecutor.rewindTo(command);
     }
 
     addNode(mapNode) {
