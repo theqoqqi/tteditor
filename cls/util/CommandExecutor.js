@@ -75,6 +75,16 @@ export default class CommandExecutor extends Observable {
         return this.commands[index] ?? null;
     }
 
+    isExecuted(command) {
+        let commandIndex = this.commands.indexOf(command);
+
+        if (commandIndex < 0) {
+            return false;
+        }
+
+        return commandIndex <= this.lastExecutedIndex;
+    }
+
     #redoUntil(commandIndex) {
         let commandsToRedo = this.commands.slice(this.lastExecutedIndex + 1, commandIndex + 1);
 

@@ -48,6 +48,10 @@
     color: white;
 }
 
+.command-list .command-list-item:not(.executed) {
+    color: lightgray;
+}
+
 .command-list .command-list-item > * {
     padding: 0 5px;
 

@@ -74,13 +74,26 @@ export default class CommandListView {
 
     setSelectedItem(command) {
         this.itemListView.setSelectedItem(command);
+        this.updateExecutedCommands();
+    }
+
+    updateExecutedCommands() {
+        for (let listItem of this.itemListView.getAllListItems()) {
+            let $listItem = $(listItem);
+            let command = this.itemListView.getItemFrom($listItem);
+            let isExecuted = this.commandExecutor.isExecuted(command);
+
+            $listItem.toggleClass('executed', isExecuted);
+        }
     }
 
     createListItem(command) {
-        let title = this.getCommandTitle(command); // TODO: иконки еще придумать каждому типу команды
+        let iconClass = this.getCommandIconClass(command);
+        let title = this.getCommandTitle(command);
+
         let $listItem = $(`
             <div class='command-list-item'>
-                <i class='command-icon bi-file-earmark-font'></i>
+                <i class='command-icon ${iconClass}'></i>
                 <span class='command-title' title='${title}'>${title}</span>
             </div>
         `);
@@ -88,6 +101,10 @@ export default class CommandListView {
         $listItem.data('command', command);
 
         return $listItem;
+    }
+
+    getCommandIconClass(command) {
+        return 'bi-file-earmark-font';
     }
 
     getCommandTitle(command) {

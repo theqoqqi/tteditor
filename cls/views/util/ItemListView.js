@@ -225,8 +225,16 @@ export default class ItemListView {
         this.items = [];
     }
 
+    getItemFrom($listItem) {
+        return $listItem.data(this.dataItemKey);
+    }
+
     getAllItems() {
         return [...this.items];
+    }
+
+    getAllListItems() {
+        return this.$list.find('[role="listitem"]');
     }
 
     getListItem(item) {
