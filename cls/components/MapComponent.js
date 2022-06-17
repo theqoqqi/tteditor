@@ -19,12 +19,12 @@ export default class MapComponent extends AbstractComponent {
         this.view.setClickListener((mapNode, e) => {
             let hotkeys = Hotkeys.from(e);
 
-            if (this.editor.hasBrush()) {
+            if (this.editor.isBrushMode()) {
                 this.editor.addNodeFromBrush();
                 return;
             }
 
-            if (hotkeys.matches('Alt')) {
+            if (this.editor.isSelectMode() && hotkeys.matches('Alt')) {
                 this.editor.showHoveredMapNodesContextMenuForPosition(e.clientX, e.clientY);
                 return;
             }
@@ -33,7 +33,7 @@ export default class MapComponent extends AbstractComponent {
         });
 
         this.view.setRightClickListener((mapNode, e) => {
-            if (this.editor.hasBrush()) {
+            if (this.editor.isBrushMode()) {
                 this.editor.clearBrush();
                 return;
             }
@@ -42,6 +42,10 @@ export default class MapComponent extends AbstractComponent {
         });
 
         this.view.setDoubleClickListener((mapNode, e) => {
+            if (this.editor.isBrushMode()) {
+                return;
+            }
+
             if (!mapNode) {
                 return;
             }
@@ -54,7 +58,7 @@ export default class MapComponent extends AbstractComponent {
         });
 
         this.view.setMouseMoveListener((x, y) => {
-            if (this.editor.hasBrush()) {
+            if (this.editor.isBrushMode()) {
                 this.editor.setBrushPositionOnMap(x, y);
             }
 
@@ -62,7 +66,12 @@ export default class MapComponent extends AbstractComponent {
         });
 
         this.view.setDragNodesStartedListener(() => {
+            if (this.editor.isBrushMode()) {
+                return;
+            }
+
             let selectedMapNodes = this.editor.getSelectedNodes();
+
             this.dragStep = this.#getMoveByForNodes(selectedMapNodes);
             this.draggedX = 0;
             this.draggedY = 0;
@@ -71,7 +80,12 @@ export default class MapComponent extends AbstractComponent {
         });
 
         this.view.setDragNodesListener((x, y) => {
+            if (this.editor.isBrushMode()) {
+                return;
+            }
+
             let selectedMapNodes = this.editor.getSelectedNodes().slice();
+
             this.draggedX += x;
             this.draggedY += y;
 
@@ -91,6 +105,10 @@ export default class MapComponent extends AbstractComponent {
         });
 
         this.view.setMoveActionListener((x, y) => {
+            if (!this.editor.isSelectMode()) {
+                return;
+            }
+
             let selectedMapNodes = this.editor.getSelectedNodes().slice();
             let moveBy = this.#getMoveByForNodes(selectedMapNodes);
             let command = new MoveNodesCommand(this.editor, selectedMapNodes, moveBy.x * x, moveBy.y * y);
@@ -121,6 +139,10 @@ export default class MapComponent extends AbstractComponent {
 
     setMap(map) {
         this.view.setMap(map);
+    }
+
+    setPointerMode(mode) {
+        this.view.setPointerMode(mode);
     }
 
     setNodeVisible(mapNode, isVisible) {

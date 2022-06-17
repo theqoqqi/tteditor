@@ -1,4 +1,5 @@
 import CompositeObserver from '../util/CompositeObserver.js';
+import MapEditor from '../MapEditor.js';
 
 export default class MapView {
 
@@ -14,6 +15,9 @@ export default class MapView {
         this.$mapScroll.attr('tabindex', -1);
 
         this.scrollPadding = 300;
+        this.pointerMode = null;
+
+        this.setPointerMode(MapEditor.POINTER_MODE_SELECT);
 
         this.clickListener = () => {};
         this.rightClickListener = () => {};
@@ -223,6 +227,22 @@ export default class MapView {
         this.map = map;
         this.mapObservers.setSingleObservable(map);
         this.mapObservers.triggerFor(map);
+    }
+
+    setPointerMode(mode) {
+        this.$map.removeClass(MapView.#pointerModeClasses.get(this.pointerMode));
+
+        this.pointerMode = mode;
+
+        this.$map.addClass(MapView.#pointerModeClasses.get(mode));
+    }
+
+    static get #pointerModeClasses() {
+        return new Map([
+            [MapEditor.POINTER_MODE_SELECT, 'select-mode'],
+            [MapEditor.POINTER_MODE_SCROLL, 'scroll-mode'],
+            [MapEditor.POINTER_MODE_BRUSH, 'brush-mode'],
+        ]);
     }
 
     setClickListener(listener) {

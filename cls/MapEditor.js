@@ -26,6 +26,12 @@ import DummyCommand from './commands/DummyCommand.js';
 
 export default class MapEditor {
 
+    static POINTER_MODE_SELECT = Symbol('MapEditor.POINTER_MODE_SELECT');
+
+    static POINTER_MODE_SCROLL = Symbol('MapEditor.POINTER_MODE_SCROLL');
+
+    static POINTER_MODE_BRUSH = Symbol('MapEditor.POINTER_MODE_BRUSH');
+
     constructor(context) {
         this.context = context;
         this.uiNodeFactory = context.getUiNodeFactory();
@@ -62,10 +68,12 @@ export default class MapEditor {
 
         this.map = null;
         this.currentLevelFilename = null;
+        this.pointerMode = null;
 
         this.bindListeners();
         this.createObservers();
         this.mapComponent.setAllLayersActive();
+        this.setPointerMode(MapEditor.POINTER_MODE_SELECT);
         this.reloadDataFromServer();
     }
 
@@ -347,6 +355,23 @@ export default class MapEditor {
         return new DummyCommand(this, 'Изначальное состояние', 'bi-circle');
     }
 
+    setPointerMode(mode) {
+        this.pointerMode = mode;
+        this.mapComponent.setPointerMode(mode);
+    }
+
+    isSelectMode() {
+        return this.pointerMode === MapEditor.POINTER_MODE_SELECT;
+    }
+
+    isScrollMode() {
+        return this.pointerMode === MapEditor.POINTER_MODE_SCROLL;
+    }
+
+    isBrushMode() {
+        return this.pointerMode === MapEditor.POINTER_MODE_BRUSH;
+    }
+
     addNodeFromBrush() {
         this.brushComponent.addNode();
     }
@@ -361,10 +386,16 @@ export default class MapEditor {
 
     setBrush(tagName, typeName, name) {
         this.brushComponent.setBrush(tagName, typeName, name);
+
+        if (this.hasBrush()) {
+            this.setPointerMode(MapEditor.POINTER_MODE_BRUSH);
+        }
     }
 
     clearBrush() {
         this.brushComponent.clearBrush();
+
+        this.setPointerMode(MapEditor.POINTER_MODE_SELECT);
     }
 
     mapToXml(map) {

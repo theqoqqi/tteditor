@@ -136,7 +136,7 @@ html, body {
     position: absolute;
 }
 
-.map-node .selection-box:hover {
+.map.select-mode .map-node .selection-box:hover {
     border: 1px solid white;
 }
 
