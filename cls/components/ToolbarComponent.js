@@ -30,6 +30,9 @@ export default class ToolbarComponent extends AbstractComponent {
 
         this.view.setBrushPointerModeButtonListener(() => {
             this.editor.setPointerMode(MapEditor.POINTER_MODE_BRUSH);
+            this.editor.leftSidebarComponent.openPaletteTab(() => {
+                this.editor.paletteComponent.selectLastBrush();
+            });
         });
 
         this.view.setScrollPointerModeButtonListener(() => {

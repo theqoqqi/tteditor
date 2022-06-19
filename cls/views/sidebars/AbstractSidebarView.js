@@ -17,4 +17,17 @@ export default class AbstractSidebarView {
             $sidebar.toggleClass('active', hasOpenedTab);
         });
     }
+
+    openTab(tabId, callback) {
+        let $nodeListTab = this.$root.find(tabId);
+
+        if ($nodeListTab.hasClass('show')) {
+            callback();
+        } else {
+            $nodeListTab.one('shown.bs.collapse', () => {
+                callback();
+            });
+            $nodeListTab.collapse('show');
+        }
+    }
 }

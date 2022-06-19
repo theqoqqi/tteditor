@@ -356,6 +356,10 @@ export default class MapEditor {
     }
 
     setPointerMode(mode) {
+        if (this.pointerMode === MapEditor.POINTER_MODE_BRUSH) {
+            this.clearBrush();
+        }
+
         this.pointerMode = mode;
         this.mapComponent.setPointerMode(mode);
         this.toolbarComponent.setPointerMode(mode);
@@ -387,16 +391,10 @@ export default class MapEditor {
 
     setBrush(tagName, typeName, name) {
         this.brushComponent.setBrush(tagName, typeName, name);
-
-        if (this.hasBrush()) {
-            this.setPointerMode(MapEditor.POINTER_MODE_BRUSH);
-        }
     }
 
     clearBrush() {
         this.brushComponent.clearBrush();
-
-        this.setPointerMode(MapEditor.POINTER_MODE_SELECT);
     }
 
     mapToXml(map) {

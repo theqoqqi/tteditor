@@ -6,4 +6,8 @@ export default class LeftSidebarComponent extends AbstractComponent {
     constructor(editor) {
         super(editor, LeftSidebarView);
     }
+
+    openPaletteTab(callback) {
+        return this.view.openPaletteTab(callback);
+    }
 }
