@@ -31,6 +31,10 @@ export default class PaletteComponent extends AbstractComponent {
                     this.lastSelection = {
                         tagName, typeName, name
                     };
+
+                    if (tagName === 'ambient') {
+                        this.context.playSoundFor(tagName, typeName);
+                    }
                 }
             }
         });

@@ -40,6 +40,7 @@ export default class EditorContext {
 
     constructor() {
         this.uiNodeFactory = new UINodeFactory(this);
+        this.currentAudio = null;
 
         this.loadWorkspacePath();
         this.reloadDataFromServer();
@@ -115,6 +116,43 @@ export default class EditorContext {
     getImageSize(imagePath) {
         imagePath = this.normalizeDataPath(imagePath);
         return this.imageSizes[imagePath.toLowerCase()];
+    }
+
+    playSoundFor(tagName, typeName) {
+        let randomSound = this.getSoundFor(tagName, typeName);
+
+        this.playSound(randomSound)
+    }
+
+    playSound(path) {
+        if (this.currentAudio) {
+            this.currentAudio.pause();
+        }
+
+        let normalizedPath = this.normalizeDataPath(path);
+
+        this.currentAudio = new Audio(normalizedPath);
+        this.currentAudio.play();
+    }
+
+    getSoundFor(tagName, typeName) {
+        let nodeInfo = this.getNodeInfoByName(tagName, typeName);
+        let effectPath = nodeInfo.getTextContentOf('effect');
+        let effect = this.loadXml(effectPath);
+        let sounds = effect.querySelectorAll('node > prototype > sound');
+
+        if (!sounds.length) {
+            let playlistPath = effect.getTextContentOf('node > prototype > playlist');
+
+            if (playlistPath) {
+                let playlist = this.loadXml(playlistPath);
+                sounds = playlist.querySelectorAll('sound');
+            }
+        }
+
+        let randomIndex = Math.floor(Math.random() * sounds.length);
+
+        return sounds[randomIndex]?.textContent;
     }
 
     getNodeByName(tagName, typeName) {

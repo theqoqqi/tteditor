@@ -6,7 +6,6 @@ export default class AddRemoveCommand extends MultiTargetCommand {
         super(editor, items);
 
         this.indexesByItemIds = new Map(items.map(item => {
-            console.log(this.getIndexFor(item), [...this.editor.map.options.randomizers])
             return [
                 item,
                 this.getIndexFor(item)
