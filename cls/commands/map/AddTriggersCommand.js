@@ -1,17 +1,13 @@
-import MultiTargetCommand from '../MultiTargetCommand.js';
+import AddRemoveTriggersCommand from './addRemove/AddRemoveTriggersCommand.js';
 
-export default class AddTriggersCommand extends MultiTargetCommand {
+export default class AddTriggersCommand extends AddRemoveTriggersCommand {
 
     constructor(editor, triggers) {
         super(editor, triggers);
     }
 
-    executeFor(trigger) {
-        this.editor.addTrigger(trigger);
-    }
-
-    undoFor(trigger) {
-        this.editor.removeTrigger(trigger);
+    get isAddCommand() {
+        return true;
     }
 
     get title() {

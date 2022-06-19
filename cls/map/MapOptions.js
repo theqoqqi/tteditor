@@ -12,6 +12,14 @@ export default class MapOptions extends Observable {
         this.randomizers = [];
     }
 
+    indexOfRandomizer(randomizer) {
+        return this.randomizers.indexOf(randomizer);
+    }
+
+    insertRandomizer(randomizer, index) {
+        this.randomizers.splice(index, 0, randomizer);
+    }
+
     addRandomizer(randomizer) {
         this.randomizers.push(randomizer);
     }

@@ -486,12 +486,28 @@ export default class MapEditor {
         this.commandExecutor.redo();
     }
 
+    indexOfNode(node) {
+        return this.map.indexOfNode(node);
+    }
+
+    insertNode(node, index) {
+        this.map.insertNode(node, index);
+    }
+
     addNode(mapNode) {
         this.map.addNode(mapNode);
     }
 
     removeNode(mapNode) {
         this.map.removeNode(mapNode);
+    }
+
+    indexOfTrigger(trigger) {
+        return this.map.indexOfTrigger(trigger);
+    }
+
+    insertTrigger(trigger, index) {
+        this.map.insertTrigger(trigger, index);
     }
 
     addTrigger(trigger) {
@@ -504,6 +520,14 @@ export default class MapEditor {
 
     setTerrain(terrain) {
         this.map.setTerrain(terrain);
+    }
+
+    indexOfRandomizer(randomizer) {
+        return this.map.options.indexOfRandomizer(randomizer);
+    }
+
+    insertRandomizer(randomizer, index) {
+        this.map.options.insertRandomizer(randomizer, index);
     }
 
     addRandomizer(randomizer) {

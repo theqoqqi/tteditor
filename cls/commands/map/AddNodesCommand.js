@@ -1,17 +1,13 @@
-import MultiTargetCommand from '../MultiTargetCommand.js';
+import AddRemoveNodesCommand from './addRemove/AddRemoveNodesCommand.js';
 
-export default class AddNodesCommand extends MultiTargetCommand {
+export default class AddNodesCommand extends AddRemoveNodesCommand {
 
     constructor(editor, mapNodes) {
         super(editor, mapNodes);
     }
 
-    executeFor(mapNode) {
-        this.editor.addNode(mapNode);
-    }
-
-    undoFor(mapNode) {
-        this.editor.removeNode(mapNode);
+    get isAddCommand() {
+        return true;
     }
 
     get title() {

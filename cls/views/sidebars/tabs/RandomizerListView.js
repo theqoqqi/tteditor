@@ -29,8 +29,8 @@ export default class RandomizerListView {
             }
         });
 
-        this.mapObservers.addElementAddedObserver('options.randomizers', randomizer => {
-            this.addRandomizer(randomizer);
+        this.mapObservers.addElementAddedObserver('options.randomizers', (randomizer, index) => {
+            this.addRandomizer(randomizer, index);
         });
 
         this.mapObservers.addElementRemovedObserver('options.randomizers', randomizer => {
@@ -103,10 +103,19 @@ export default class RandomizerListView {
         });
     }
 
-    addRandomizer(randomizer) {
+    addRandomizer(randomizer, index) {
         let $listItem = this.createListItem(randomizer);
 
-        this.$randomizerList.append($listItem);
+        if (index === undefined || index === -1) {
+            this.$randomizerList.append($listItem);
+        } else if (index === 0) {
+            this.$randomizerList.prepend($listItem);
+        } else {
+            let $insertAfter = this.$randomizerList.children().eq(index - 1);
+
+            $listItem.insertAfter($insertAfter);
+        }
+
         this.randomizerObservers.attachTo(randomizer);
     }
 

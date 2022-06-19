@@ -39,8 +39,8 @@ export default class NodeListView {
             }
         });
 
-        this.mapObservers.addElementAddedObserver('nodes', mapNode => {
-            this.addNode(mapNode);
+        this.mapObservers.addElementAddedObserver('nodes', (mapNode, index) => {
+            this.addNode(mapNode, index);
         });
 
         this.mapObservers.addElementRemovedObserver('nodes', mapNode => {
@@ -139,8 +139,8 @@ export default class NodeListView {
         }
     }
 
-    addNode(mapNode) {
-        this.itemListView.addItem(mapNode);
+    addNode(mapNode, index) {
+        this.itemListView.addItem(mapNode, index);
         this.mapNodeObservers.attachTo(mapNode);
     }
 

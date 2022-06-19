@@ -1,17 +1,13 @@
-import MultiTargetCommand from '../MultiTargetCommand.js';
+import AddRemoveRandomizersCommand from './addRemove/AddRemoveRandomizersCommand.js';
 
-export default class AddRandomizersCommand extends MultiTargetCommand {
+export default class AddRandomizersCommand extends AddRemoveRandomizersCommand {
 
     constructor(editor, randomizers) {
         super(editor, randomizers);
     }
 
-    executeFor(randomizer) {
-        this.editor.addRandomizer(randomizer);
-    }
-
-    undoFor(randomizer) {
-        this.editor.removeRandomizer(randomizer);
+    get isAddCommand() {
+        return true;
     }
 
     get title() {

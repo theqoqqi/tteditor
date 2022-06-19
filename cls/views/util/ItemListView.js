@@ -202,11 +202,20 @@ export default class ItemListView {
         return this.selectedItems;
     }
 
-    addItem(item) {
+    addItem(item, index) {
         let $listItem = this.createListItem(item);
 
-        this.$list.append($listItem);
-        this.items.push(item);
+        if (index === undefined || index === -1) {
+            this.$list.append($listItem);
+        } else if (index === 0) {
+            this.$list.prepend($listItem);
+        } else {
+            let $insertAfter = this.$list.children().eq(index - 1);
+
+            $listItem.insertAfter($insertAfter);
+        }
+
+        this.items.splice(index, 0, item);
     }
 
     removeItem(item) {

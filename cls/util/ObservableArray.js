@@ -21,20 +21,26 @@ export default class ObservableArray extends Array {
     }
 
     push(...items) {
+        let index = this.length;
         super.push(...items);
 
         for (const item of items) {
-            this.#observable.triggerPropertyObservers(elementAddedSymbol, item);
+            this.#observable.triggerPropertyObservers(elementAddedSymbol, item, index++);
         }
 
         this.#observable.triggerPropertyObservers(listChangedSymbol, this);
     }
 
-    splice(...args) {
-        let removedItems = super.splice(...args);
+    splice(index, deleteCount, ...items) {
+        // noinspection JSCheckFunctionSignatures
+        let removedItems = super.splice(...arguments);
 
         for (const item of removedItems) {
             this.#observable.triggerPropertyObservers(elementRemovedSymbol, item);
+        }
+
+        for (const item of items) {
+            this.#observable.triggerPropertyObservers(elementAddedSymbol, item, index++);
         }
 
         this.#observable.triggerPropertyObservers(listChangedSymbol, this);

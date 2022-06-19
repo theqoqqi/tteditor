@@ -50,6 +50,14 @@ export default class GameMap extends Observable {
         this.playerBaseY = y;
     }
 
+    indexOfTrigger(trigger) {
+        return this.triggers.indexOf(trigger);
+    }
+
+    insertTrigger(trigger, index) {
+        this.triggers.splice(index, 0, trigger);
+    }
+
     addTrigger(trigger) {
         this.triggers.push(trigger);
     }
@@ -61,8 +69,12 @@ export default class GameMap extends Observable {
         }
     }
 
-    getTriggers() {
-        return this.triggers;
+    indexOfNode(node) {
+        return this.nodes.indexOf(node);
+    }
+
+    insertNode(node, index) {
+        this.nodes.splice(index, 0, node);
     }
 
     addNode(node) {
@@ -74,10 +86,6 @@ export default class GameMap extends Observable {
         if (index !== -1) {
             this.nodes.splice(index, 1);
         }
-    }
-
-    getAllNodes() {
-        return [...this.nodes];
     }
 
     getNodesOfType(tagName) {

@@ -27,12 +27,12 @@ export default class TriggerListView {
 
         this.mapObservers = new CompositeObserver();
 
-        this.mapObservers.addElementAddedObserver('triggers', randomizer => {
-            this.addTrigger(randomizer);
+        this.mapObservers.addElementAddedObserver('triggers', (trigger, index) => {
+            this.addTrigger(trigger, index);
         });
 
-        this.mapObservers.addElementRemovedObserver('triggers', randomizer => {
-            this.removeTrigger(randomizer);
+        this.mapObservers.addElementRemovedObserver('triggers', trigger => {
+            this.removeTrigger(trigger);
         });
 
         this.triggerObservers = new CompositeObserver();
@@ -49,14 +49,12 @@ export default class TriggerListView {
         });
 
         this.triggerObservers.addPropertyObserver('statements', (statements, oldValue, trigger) => {
-            console.log('addPropertyObserver', trigger)
             let active = !trigger.hasStatementOfType('never');
 
             this.setTriggerActive(trigger, active);
         });
 
         this.triggerObservers.addListObserver('statements', (statements, oldValue, trigger) => {
-            console.log('addListObserver', trigger)
             let active = !trigger.hasStatementOfType('never');
 
             this.setTriggerActive(trigger, active);
@@ -114,8 +112,8 @@ export default class TriggerListView {
         return this.itemListView.getSelectedItem();
     }
 
-    addTrigger(trigger) {
-        this.itemListView.addItem(trigger);
+    addTrigger(trigger, index) {
+        this.itemListView.addItem(trigger, index);
         this.triggerObservers.attachTo(trigger);
     }
 
