@@ -22,10 +22,10 @@ export default class AbstractSidebarView {
         let $nodeListTab = this.$root.find(tabId);
 
         if ($nodeListTab.hasClass('show')) {
-            callback();
+            callback?.();
         } else {
             $nodeListTab.one('shown.bs.collapse', () => {
-                callback();
+                callback?.();
             });
             $nodeListTab.collapse('show');
         }
