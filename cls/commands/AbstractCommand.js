@@ -25,6 +25,10 @@ export default class AbstractCommand {
 
     }
 
+    isSameTypes(other) {
+        return this.constructor.name === other.constructor.name;
+    }
+
     get canUndo() {
         return true;
     }

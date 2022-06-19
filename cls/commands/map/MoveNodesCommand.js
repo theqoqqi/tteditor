@@ -18,7 +18,7 @@ export default class MoveNodesCommand extends MultiTargetCommand {
     }
 
     canBeMerged(other) {
-        return this.isSameTargets(other);
+        return this.isSameTypes(other) && this.isSameTargets(other);
     }
 
     merge(other) {

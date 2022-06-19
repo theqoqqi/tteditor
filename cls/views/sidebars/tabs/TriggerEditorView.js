@@ -69,6 +69,10 @@ export default class TriggerEditorView {
 
     setContentChangedListener(listener) {
         this.editor.getSession().on('change', (instance, changeEvent) => {
+            if (!this.trigger) {
+                return;
+            }
+
             let editorValue = this.editor.getValue();
             let triggerValue = this.trigger.statements.join('\n');
             let statements = editorValue.split('\n');

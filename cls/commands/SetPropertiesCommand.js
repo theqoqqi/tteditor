@@ -61,7 +61,7 @@ export default class SetPropertiesCommand extends MultiTargetCommand {
     }
 
     canBeMerged(other) {
-        return this.isSameTargets(other) && this.isSameProperties(other);
+        return this.isSameTypes(other) && this.isSameTargets(other) && this.isSameProperties(other);
     }
 
     isSameProperties(other) {
