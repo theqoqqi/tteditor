@@ -86,6 +86,10 @@ html, body {
     position: relative;
 }
 
+.map.scroll-mode {
+    cursor: grab;
+}
+
 .map-border {
     position: absolute;
 
@@ -140,7 +144,7 @@ html, body {
     border: 1px solid white;
 }
 
-.map-node.selected .selection-box {
+.map.select-mode .map-node.selected .selection-box {
     border: 1px solid black;
     z-index: 100000 !important;
     cursor: all-scroll;

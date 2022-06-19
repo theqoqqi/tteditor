@@ -184,10 +184,10 @@ export default class MapView {
             friction: 0,
             bounce: false,
             onPointerDown: (state, e) => {
-                if (e.button === 1) {
+                if (this.#shouldScroll(e)) {
                     this.scrollComponent.props.friction = 0;
 
-                } else if (e.button === 0) {
+                } else if (this.#shouldDrag(e)) {
                     this.scrollComponent.props.friction = 1;
 
                     let $node = this.getNodeFromEvent(e);
@@ -200,10 +200,10 @@ export default class MapView {
                 }
             },
             onPointerUp: (state, e) => {
-                if (e.button === 1) {
+                if (this.#shouldScroll(e)) {
                     this.scrollComponent.props.friction = 1;
 
-                } else if (e.button === 0) {
+                } else if (this.#shouldDrag(e)) {
                     this.scrollComponent.props.friction = 1;
                     $draggedNode = null;
                     lastDragOffset = {x: 0, y: 0};
@@ -221,6 +221,16 @@ export default class MapView {
                 }
             },
         });
+    }
+
+    #shouldScroll(e) {
+        return this.pointerMode === MapEditor.POINTER_MODE_SCROLL
+            ? e.button === 1 || e.button === 0
+            : e.button === 1;
+    }
+
+    #shouldDrag(e) {
+        return this.pointerMode === MapEditor.POINTER_MODE_SELECT && e.button === 0;
     }
 
     setMap(map) {
