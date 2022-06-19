@@ -455,6 +455,12 @@ export default class MapEditor {
         });
     }
 
+    selectLastBrush() {
+        this.leftSidebarComponent.openPaletteTab(() => {
+            this.paletteComponent.selectLastBrush();
+        });
+    }
+
     showMapNodeContextMenuForPosition(x, y) {
         this.mapNodeContextMenuComponent.showAt(x, y);
     }
