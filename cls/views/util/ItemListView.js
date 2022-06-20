@@ -7,6 +7,7 @@ export default class ItemListView {
 
     constructor($list) {
         this.$list = $list;
+        this.$listItemsByItems = new Map();
         this.selectedItems = [];
         this.items = [];
 
@@ -216,6 +217,7 @@ export default class ItemListView {
         }
 
         this.items.splice(index, 0, item);
+        this.$listItemsByItems.set(this.getMapKeyFor(item), $listItem);
     }
 
     removeItem(item) {
@@ -227,6 +229,7 @@ export default class ItemListView {
 
         this.getListItem(item).remove();
         this.items.splice(index, 1);
+        this.$listItemsByItems.delete(this.getMapKeyFor(item));
     }
 
     clearItems() {
@@ -247,19 +250,15 @@ export default class ItemListView {
     }
 
     getListItem(item) {
-        let filter;
+        return this.$listItemsByItems.get(this.getMapKeyFor(item));
+    }
 
+    getMapKeyFor(item) {
         if (this.dataIdKey && this.itemIdKey) {
-            filter = (index, listItem) => {
-                return $(listItem).data(this.dataIdKey) === item[this.itemIdKey];
-            };
-        } else {
-            filter = (index, listItem) => {
-                return $(listItem).data(this.dataItemKey) === item;
-            };
+            return item[this.itemIdKey];
         }
 
-        return this.$list.find('[role="listitem"]').filter(filter);
+        return item;
     }
 
     scrollToItem(item) {
