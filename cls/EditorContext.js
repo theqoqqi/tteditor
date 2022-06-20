@@ -131,7 +131,7 @@ export default class EditorContext {
 
         let normalizedPath = this.normalizeDataPath(path);
 
-        this.currentAudio = new Audio(normalizedPath);
+        this.currentAudio = new Audio(`${this.workspacePath}/${normalizedPath}`);
         this.currentAudio.play();
     }
 
