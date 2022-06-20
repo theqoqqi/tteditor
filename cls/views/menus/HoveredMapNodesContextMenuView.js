@@ -45,7 +45,9 @@ export default class HoveredMapNodesContextMenuView extends ContextMenuView {
     setMapNodeSelected(mapNode, selected) {
         let item = this.getItemFromMapNode(mapNode);
 
-        this.setItemSelected(item, selected);
+        if (item) {
+            this.setItemSelected(item, selected);
+        }
     }
 
     getItemFromMapNode(mapNode) {
