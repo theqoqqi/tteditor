@@ -1,5 +1,6 @@
 
 .idea/*
 /data/*
+/workspaces/*
 заметки.txt
 test.php
