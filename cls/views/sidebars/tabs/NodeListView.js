@@ -4,6 +4,8 @@ import CompositeObserver from '../../../util/CompositeObserver.js';
 
 export default class NodeListView {
 
+    #taskQueue = [];
+
     constructor(context) {
         this.context = context;
         this.uiNodeFactory = context.getUiNodeFactory();
@@ -27,6 +29,27 @@ export default class NodeListView {
         this.createMapNodeObservers();
 
         this.setAllLayersActive();
+        this.#tick();
+    }
+
+    #tick() {
+        if (this.#taskQueue.length) {
+            this.$nodeList.hide();
+
+            while (this.#taskQueue.length) {
+                let task = this.#taskQueue.shift();
+
+                task();
+            }
+
+            this.$nodeList.show();
+        }
+
+        requestAnimationFrame(() => this.#tick());
+    }
+
+    #runLater(task) {
+        this.#taskQueue.push(task);
     }
 
     createMapObservers() {
@@ -59,7 +82,9 @@ export default class NodeListView {
 
     addMapNodePropertyObserver(propertyName) {
         this.mapNodeObservers.addPropertyObserver(propertyName, (value, oldValue, mapNode) => {
-            this.setNodeProperty(mapNode, propertyName, value);
+            this.#runLater(() => {
+                this.setNodeProperty(mapNode, propertyName, value);
+            });
         });
     }
 
