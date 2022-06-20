@@ -177,11 +177,7 @@ export default class UINodeFactory {
 
             if (!$parentNode && !mapNode.isFake) {
 
-                let $firstMesh = $.merge(
-                    $node.find('.mesh'),
-                    $node.find('.marker-mesh.icon-mesh'),
-                    $node.find('.marker-mesh.area-mesh')
-                ).first();
+                let $firstMesh = this.getMeshForSelection($node);
 
                 if ($firstMesh) {
                     let $selectionBox;
@@ -215,6 +211,21 @@ export default class UINodeFactory {
             console.log(tagName, node, mapNode);
             return null;
         }
+    }
+
+    getMeshForSelection($node) {
+        // Адекватного способа объединить 3+ jQuery-массива нет, а нам необходимо искать именно в таком порядке.
+
+        return $.merge(
+            $.merge(
+                $node.find('.mesh'),
+                $node.find('.marker-mesh.icon-mesh')
+            ),
+            $.merge(
+                $node.find('.marker-mesh.area-mesh'),
+                $node.find('.marker-mesh.fallback-mesh')
+            )
+        ).first();
     }
 
     createGenericNode(tagName, mapNode, node = null, $parentNode = null) {
