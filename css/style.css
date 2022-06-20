@@ -189,33 +189,92 @@ html, body {
     pointer-events: auto;
 }
 
+/* Общие стили для mesh */
 .map-node > .marker-mesh {
     color: black;
     background-color: white;
     border: 2px solid black;
 }
 
-.map-node.waypoint > .marker-mesh {
+.map-node > .area-mesh {
+    --color1: rgba(255, 192, 0, 0.1);
+    --color2: rgba(255, 192, 0, 0.1);
+    --width: 15px;
+    background: repeating-linear-gradient(
+            -45deg,
+            var(--color1),
+            var(--color1) var(--width),
+            var(--color2) var(--width),
+            var(--color2) calc(var(--width) * 2));
+    border: 2px solid orange;
+}
+
+/* Используется в отображении Obstacle64/96/256 */
+.map-node.landmark > .icon-mesh {
+
+}
+
+.map-node.landmark > .area-mesh {
+    --color1: rgba(255, 64, 0, 0.1);
+    --color2: rgba(255, 64, 0, 0.2);
+    border: 2px solid darkred;
+}
+
+/* Используется в отображении Structure16/24/48/96 */
+.map-node.structure > .icon-mesh {
+
+}
+
+.map-node.structure > .area-mesh {
+    --color1: rgba(192, 192, 192, 0.25);
+    --color2: rgba(192, 192, 192, 0.5);
+    border: 2px solid gray;
+}
+
+/* Используется в отображении NoBuild64/128/256 и ForceField/ForceFieldSmall */
+.map-node.building > .icon-mesh {
+
+}
+
+.map-node.building > .area-mesh {
+    --color1: rgba(255, 192, 0, 0.15);
+    --color2: rgba(255, 192, 0, 0.4);
+    border: 2px solid orange;
+}
+
+/* Используется в отображении waypoint */
+.map-node.waypoint > .icon-mesh {
     color: white;
     background-color: red;
     border: 2px solid black;
 }
 
-.map-node.magic > .marker-mesh {
+.map-node.waypoint > .area-mesh {
+    background-color: rgba(255, 192, 0, 0.1);
+    border: 2px solid orange;
+}
+
+/* Используется в отображении Reveal200 */
+.map-node.magic > .icon-mesh {
     color: white;
     background-color: purple;
     border: 1px solid black;
 }
 
-.map-node.ambient > .marker-mesh {
+.map-node.magic > .area-mesh {
+    background-color: rgba(0, 153, 255, 0.1);
+    border: 2px solid mediumpurple;
+}
+
+/* Используется в отображении ambient */
+.map-node.ambient > .icon-mesh {
     color: white;
     background-color: dodgerblue;
     border: 1px solid black;
 }
 
-.map-node.area > .marker-mesh {
-    background-color: rgba(255, 192, 0, 0.1);
-    border: 2px solid orange;
+.map-node.ambient > .area-mesh {
+
 }
 
 

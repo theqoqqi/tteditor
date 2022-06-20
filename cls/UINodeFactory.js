@@ -14,7 +14,8 @@ export default class UINodeFactory {
         let y = mapNode.y;
         let z = 0;
         let layerZ = this.getLayerZForTagName(tagName);
-        let {radiusX, radiusY} = this.getInitialRadiusSizesFor(mapNode);
+        let iconRadius = this.getIconRadius(mapNode);
+        let {radiusX, radiusY} = this.getAreaRadiusSizesFor(mapNode);
 
         x -= radiusX;
         y -= radiusY;
@@ -27,19 +28,26 @@ export default class UINodeFactory {
         $node.css('left', x + radiusX + 'px');
         $node.css('top', y + radiusY + 'px');
 
-        let $markerMesh = this.createMarkerMesh(radiusX, radiusY);
+        if (radiusX && radiusY) {
+            let $areaMesh = this.createMarkerMesh('area-mesh', radiusX, radiusY);
 
-        $markerMesh.css('z-index', z);
-        $node.append($markerMesh);
-
-        if (tagName !== 'area') {
-            let $icon = this.createMarkerIcon(tagName);
-
-            $markerMesh.append($icon);
+            $areaMesh.css('z-index', z);
+            $node.append($areaMesh);
         }
 
-        let $selectionBox = this.createMarkerSelectionBox(mapNode, radiusX, radiusY);
-        let selectionBoxZ = this.getSelectionBoxZIndex(tagName, x, y, z, radiusX * 2, radiusY * 2);
+        if (iconRadius) {
+            let $iconMesh = this.createMarkerMesh('icon-mesh', iconRadius, iconRadius);
+            let $icon = this.createMarkerIcon(tagName);
+
+            $iconMesh.css('z-index', z);
+            $iconMesh.append($icon);
+            $node.append($iconMesh);
+        }
+
+        let boxRadiusX = iconRadius || radiusX;
+        let boxRadiusY = iconRadius || radiusY;
+        let $selectionBox = this.createMarkerSelectionBox(mapNode, boxRadiusX, boxRadiusY);
+        let selectionBoxZ = this.getSelectionBoxZIndex(tagName, x, y, z, boxRadiusX * 2, boxRadiusY * 2);
 
         $selectionBox.css('z-index', selectionBoxZ);
         $node.append($selectionBox);
@@ -47,15 +55,18 @@ export default class UINodeFactory {
         return $node;
     }
 
-    getInitialRadiusSizesFor(mapNode) {
-        let declaredRadius = this.getDeclaredRadius(mapNode);
-        let applyRatio = mapNode.tag === 'area';
-
-        if (!declaredRadius) {
-            declaredRadius = mapNode.tag === 'waypoint' ? 8 : 12;
+    getIconRadius(mapNode) {
+        if (mapNode.tag === 'area') {
+            return 0;
         }
 
-        return this.getRadiusSizes(declaredRadius, applyRatio);
+        return mapNode.tag === 'waypoint' ? 8 : 12;
+    }
+
+    getAreaRadiusSizesFor(mapNode) {
+        let declaredRadius = this.getDeclaredRadius(mapNode) ?? 0;
+
+        return this.getRadiusSizes(declaredRadius, true);
     }
 
     getRadiusSizes(radius, applyRatio) {
@@ -72,8 +83,33 @@ export default class UINodeFactory {
         return {radiusX, radiusY};
     }
 
-    createMarkerMesh(radiusX, radiusY) {
-        let $markerMesh = $(`<div class='marker-mesh'>`);
+    getDeclaredRadius(mapNode) {
+        if (mapNode.radius) {
+            return mapNode.radius / 2;
+        }
+
+        let nodeInfo = this.context.getNodeInfoByName(mapNode.tag, mapNode.type);
+
+        return nodeInfo?.getNumericContentOf('radius', null)
+            || nodeInfo?.getNumericContentOf('structure > radius', null)
+            || UINodeFactory.tryParseRadius(mapNode.type, /Reveal(\d+)/g)
+            || UINodeFactory.tryParseRadius(mapNode.type, /Obstacle(\d+)/g)
+            || UINodeFactory.tryParseRadius(mapNode.type, /NoBuild(\d+)/g)
+            || null;
+    }
+
+    static tryParseRadius(typeName, pattern) {
+        let result = pattern.exec(typeName);
+
+        if (!result) {
+            return null;
+        }
+
+        return +result[1] ?? 0;
+    }
+
+    createMarkerMesh(meshClass, radiusX, radiusY) {
+        let $markerMesh = $(`<div class='marker-mesh ${meshClass}'>`);
 
         $markerMesh.css('left', -radiusX + 'px');
         $markerMesh.css('top', -radiusY + 'px');
@@ -81,16 +117,6 @@ export default class UINodeFactory {
         $markerMesh.css('height', radiusY * 2 + 'px');
 
         return $markerMesh;
-    }
-
-    getDeclaredRadius(mapNode) {
-        if (mapNode.radius) {
-            return mapNode.radius / 2;
-        }
-
-        // TODO: радиус для Reveal200?
-
-        return null;
     }
 
     createNode(tagName, typeName, mapNode, $parentNode = null, node = null) {
@@ -123,11 +149,20 @@ export default class UINodeFactory {
             }
 
             if (!$parentNode && !$mesh && !node.querySelector('mesh')) {
-                $mesh = this.createMarkerMesh(12, 12);
+                $mesh = this.createMarkerMesh('icon-mesh', 12, 12);
 
                 let $icon = this.createMarkerIcon(tagName);
 
                 $mesh.append($icon);
+
+                let {radiusX, radiusY} = this.getAreaRadiusSizesFor(mapNode);
+
+                if (radiusX && radiusY) {
+                    let $areaMesh = this.createMarkerMesh('area-mesh', radiusX, radiusY);
+
+                    $areaMesh.css('z-index', z);
+                    $node.append($areaMesh);
+                }
             }
 
             if ($mesh) {
@@ -142,7 +177,11 @@ export default class UINodeFactory {
 
             if (!$parentNode && !mapNode.isFake) {
 
-                let $firstMesh = $node.find('.mesh, .marker-mesh').first();
+                let $firstMesh = $.merge(
+                    $node.find('.mesh'),
+                    $node.find('.marker-mesh.icon-mesh'),
+                    $node.find('.marker-mesh.area-mesh')
+                ).first();
 
                 if ($firstMesh) {
                     let $selectionBox;
@@ -206,7 +245,7 @@ export default class UINodeFactory {
             let height = mesh.getNumericContentOf('height');
             let color = mesh.getTextContentOf('color');
 
-            let $markerMesh = this.createMarkerMesh(width / 2, height / 2);
+            let $markerMesh = this.createMarkerMesh('fallback-mesh', width / 2, height / 2);
 
             $markerMesh.css('background-color', colorToCssRgba(hexIntColorToColor(color)));
 
