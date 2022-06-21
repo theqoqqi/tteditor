@@ -14,11 +14,9 @@ export default class HoveredMapNodesContextMenuComponent extends ContextMenuComp
 
         this.view.setNodeHoverListeners(
             (mapNode, e) => {
-                console.log('enter', mapNode);
                 this.editor.setMapNodeHighlighted(mapNode, true);
             },
             (mapNode, e) => {
-                console.log('leave', mapNode);
                 this.editor.setMapNodeHighlighted(mapNode, false);
             }
         );

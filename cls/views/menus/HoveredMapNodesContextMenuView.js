@@ -30,7 +30,7 @@ export default class HoveredMapNodesContextMenuView extends ContextMenuView {
             this.addItem({
                 iconClass: this.uiNodeFactory.getIconClassForTagName(mapNode.tag),
                 name: `map-node-${mapNode.editorId}`,
-                title: `${mapNode.type ?? mapNode.name} #${mapNode.editorId}`,
+                title: `${mapNode.type ?? mapNode.name ?? mapNode.tag} #${mapNode.editorId}`,
                 clickListener: (item, e) => this.clickListener(mapNode, e),
                 mouseEnterListener: (item, e) => this.mouseEnterListener(mapNode, e),
                 mouseLeaveListener: (item, e) => this.mouseLeaveListener(mapNode, e),
