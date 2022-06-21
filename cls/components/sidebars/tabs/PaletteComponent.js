@@ -46,6 +46,12 @@ export default class PaletteComponent extends AbstractComponent {
                 }
             }
         });
+
+        this.view.setRightClickListener((tagName, typeName, name, e) => {
+            this.editor.showPaletteMapNodeContextMenuForPosition(e.clientX, e.clientY, {
+                tagName, typeName, name
+            })
+        });
     }
 
     selectLastBrush() {

@@ -23,6 +23,7 @@ import CommandExecutor from './util/CommandExecutor.js';
 import CommandListComponent from './components/CommandListComponent.js';
 import RemoveNodesCommand from './commands/map/RemoveNodesCommand.js';
 import DummyCommand from './commands/DummyCommand.js';
+import PaletteMapNodeContextMenuComponent from './components/menus/PaletteMapNodeContextMenuComponent.js';
 
 export default class MapEditor {
 
@@ -63,6 +64,7 @@ export default class MapEditor {
 
         this.mapNodeContextMenuComponent = new MapNodeContextMenuComponent(this);
         this.hoveredMapNodesContextMenuComponent = new HoveredMapNodesContextMenuComponent(this);
+        this.paletteMapNodeContextMenuComponent = new PaletteMapNodeContextMenuComponent(this);
 
         this.brushComponent = new BrushComponent(this);
 
@@ -455,7 +457,7 @@ export default class MapEditor {
         mapNode.x = x;
         mapNode.y = y;
 
-        if (this.context.shouldAlignToGrid(mapNode)) {
+        if (this.context.shouldMapNodeAlignToGrid(mapNode)) {
             this.context.alignNodeToGrid(mapNode);
         }
     }
@@ -503,9 +505,14 @@ export default class MapEditor {
         this.hoveredMapNodesContextMenuComponent.showAt(x, y);
     }
 
+    showPaletteMapNodeContextMenuForPosition(x, y, options) {
+        this.paletteMapNodeContextMenuComponent.showAt(x, y, options);
+    }
+
     hasOpenedContextMenus() {
-        return this.hoveredMapNodesContextMenuComponent.isOpened
-            || this.mapNodeContextMenuComponent.isOpened;
+        return this.mapNodeContextMenuComponent.isOpened
+            || this.hoveredMapNodesContextMenuComponent.isOpened
+            || this.paletteMapNodeContextMenuComponent.isOpened;
     }
 
     executeCommand(command) {
@@ -604,6 +611,22 @@ export default class MapEditor {
 
     getMap() {
         return this.map;
+    }
+
+    logMapNode(mapNode) {
+        let tagName = mapNode.tag;
+        let typeName = mapNode.type;
+        let node = this.context.getNodeByName(tagName, typeName);
+        let nodeInfo = this.context.getNodeInfoByName(tagName, typeName);
+
+        console.log(`Node #${mapNode.editorId} (${tagName}, ${typeName})`, node, nodeInfo);
+    }
+
+    logNode(tagName, typeName) {
+        let node = this.context.getNodeByName(tagName, typeName);
+        let nodeInfo = this.context.getNodeInfoByName(tagName, typeName);
+
+        console.log(`Node (${tagName}, ${typeName})`, node, nodeInfo);
     }
 
     showModal(modalType, options) {

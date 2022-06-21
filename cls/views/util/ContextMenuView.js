@@ -70,6 +70,8 @@ export default class ContextMenuView {
         this.y = rect.top;
 
         requestAnimationFrame(() => {
+            this.itemListView.updateItems();
+
             this.$menu.show();
 
             this.popper = Popper.createPopper($element[0], this.$menu[0], {

@@ -127,7 +127,7 @@ export default class MapComponent extends AbstractComponent {
             return 0;
         }
 
-        let gridAlignedNodes = mapNodes.filter(mapNode => this.context.shouldAlignToGrid(mapNode));
+        let gridAlignedNodes = mapNodes.filter(mapNode => this.context.shouldMapNodeAlignToGrid(mapNode));
 
         if (gridAlignedNodes.length === 0) {
             return {

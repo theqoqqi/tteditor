@@ -44,6 +44,16 @@ export default class ItemListView {
         });
     }
 
+    updateItems() {
+        for (let item of this.getAllItems()) {
+            let isVisible = typeof item.visible === 'function'
+                ? item.visible() ?? true
+                : item.visible ?? true;
+
+            this.setItemVisible(item, isVisible);
+        }
+    }
+
     setSelectionChangedListener(listener) {
         this.selectionChangedListener = listener;
     }
@@ -201,6 +211,12 @@ export default class ItemListView {
 
     getSelectedItems() {
         return this.selectedItems;
+    }
+
+    setItemVisible(item, isVisible) {
+        let $listItem = this.getListItem(item);
+
+        $listItem.toggle(isVisible);
     }
 
     addItem(item, index) {

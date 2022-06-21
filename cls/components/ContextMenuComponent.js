@@ -10,7 +10,7 @@ export default class ContextMenuComponent extends AbstractComponent {
         this.view.addItem(item);
     }
 
-    showAt(x, y) {
+    showAt(x, y, options) {
         this.view.showAt(x, y);
     }
 

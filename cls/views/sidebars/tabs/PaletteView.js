@@ -14,6 +14,7 @@ export default class PaletteView {
 
         this.tabOpenedListener = () => {};
         this.selectionChangedListener = () => {};
+        this.rightClickListener = () => {};
 
         this.bindListeners();
     }
@@ -35,6 +36,21 @@ export default class PaletteView {
 
             this.setSelectedItem($item);
         });
+
+        this.$palette.on('mousedown', '.palette-item', e => {
+            if (e.which !== 3) {
+                return;
+            }
+
+            let $item = $(e.currentTarget);
+            let tagName = $item.data('tag-name');
+            let typeName = $item.data('type-name');
+            let name = $item.data('name');
+
+            this.rightClickListener(tagName, typeName, name, e);
+        });
+
+        this.$palette.contextmenu(e => e.shiftKey);
     }
 
     setSelectionChangedListener(listener) {
@@ -43,6 +59,10 @@ export default class PaletteView {
 
     setTabOpenedListener(listener) {
         this.tabOpenedListener = listener;
+    }
+
+    setRightClickListener(listener) {
+        this.rightClickListener = listener;
     }
 
     setSelectedType(tagName, typeName) {

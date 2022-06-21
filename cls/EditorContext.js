@@ -172,8 +172,12 @@ export default class EditorContext {
         return nodeList.querySelector(`${configTagName}[name='${typeName}']`);
     }
 
-    shouldAlignToGrid(mapNode) {
-        let node = this.getNodeInfoByName(mapNode.tag, mapNode.type);
+    shouldMapNodeAlignToGrid(mapNode) {
+        return this.shouldAlignToGrid(mapNode.tag, mapNode.type);
+    }
+
+    shouldAlignToGrid(tagName, typeName) {
+        let node = this.getNodeInfoByName(tagName, typeName);
 
         if (!node) {
             return false;

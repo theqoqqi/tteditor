@@ -65,8 +65,9 @@ export default class UINodeFactory {
 
     getAreaRadiusSizesFor(mapNode) {
         let declaredRadius = this.getDeclaredRadius(mapNode) ?? 0;
+        let applyRatio = mapNode.type !== 'Reveal200';
 
-        return this.getRadiusSizes(declaredRadius, true);
+        return this.getRadiusSizes(declaredRadius, applyRatio);
     }
 
     getRadiusSizes(radius, applyRatio) {
