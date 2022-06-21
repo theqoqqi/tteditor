@@ -614,6 +614,11 @@ export default class MapEditor {
     }
 
     logMapNode(mapNode) {
+        if (!mapNode) {
+            console.log('Node is null');
+            return;
+        }
+
         let tagName = mapNode.tag;
         let typeName = mapNode.type;
         let node = this.context.getNodeByName(tagName, typeName);
