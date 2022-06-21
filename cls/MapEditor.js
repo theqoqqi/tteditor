@@ -234,8 +234,7 @@ export default class MapEditor {
     }
 
     getMapNodesUnderPosition(x, y) {
-        let elements = document.elementsFromPoint(x, y);
-        let $selectionBoxes = $(elements).filter('.selection-box');
+        let $selectionBoxes = this.getSelectionBoxesUnderPosition(x, y);
 
         return $selectionBoxes
             .map((index, element) => {
@@ -244,6 +243,36 @@ export default class MapEditor {
                 return $node.data('map-node');
             })
             .get();
+    }
+
+    getTopMapNodeUnderPosition(x, y) {
+        let $selectionBoxes = this.getSelectionBoxesUnderPosition(x, y);
+
+        let highestSelectionBox = $selectionBoxes.get().reduce(function(prev, current) {
+            if (prev === null || +$(current).css('z-index') > +$(prev).css('z-index')) {
+                return current;
+            } else {
+                return prev;
+            }
+        }, null);
+
+        if (!highestSelectionBox) {
+            return null;
+        }
+
+        let $node = $(highestSelectionBox).closest('.map-node-root');
+
+        return $node.data('map-node');
+    }
+
+    getSelectionBoxesUnderPosition(x, y) {
+        let elements = document.elementsFromPoint(x, y);
+
+        return $(elements).filter('.selection-box');
+    }
+
+    setMapNodeHighlighted(mapNode, isHighlighted) {
+        this.mapComponent.setNodeHighlighted(mapNode, isHighlighted);
     }
 
     resetCurrentLevel() {
@@ -472,6 +501,11 @@ export default class MapEditor {
         this.hoveredMapNodesContextMenuComponent.setMapNodes(mapNodesUnderPointer);
         this.hoveredMapNodesContextMenuComponent.setSelectedMapNodes(selectedMapNodes);
         this.hoveredMapNodesContextMenuComponent.showAt(x, y);
+    }
+
+    hasOpenedContextMenus() {
+        return this.hoveredMapNodesContextMenuComponent.isOpened
+            || this.mapNodeContextMenuComponent.isOpened;
     }
 
     executeCommand(command) {

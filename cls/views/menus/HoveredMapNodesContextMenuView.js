@@ -10,10 +10,17 @@ export default class HoveredMapNodesContextMenuView extends ContextMenuView {
         this.uiNodeFactory = context.getUiNodeFactory();
 
         this.clickListener = () => {};
+        this.mouseEnterListener = () => {};
+        this.mouseLeaveListener = () => {};
     }
 
     setNodeClickListener(listener) {
         this.clickListener = listener;
+    }
+
+    setNodeHoverListeners(enterListener, leaveListener) {
+        this.mouseEnterListener = enterListener;
+        this.mouseLeaveListener = leaveListener;
     }
 
     setMapNodes(mapNodes) {
@@ -25,6 +32,8 @@ export default class HoveredMapNodesContextMenuView extends ContextMenuView {
                 name: `map-node-${mapNode.editorId}`,
                 title: `${mapNode.type ?? mapNode.name} #${mapNode.editorId}`,
                 clickListener: (item, e) => this.clickListener(mapNode, e),
+                mouseEnterListener: (item, e) => this.mouseEnterListener(mapNode, e),
+                mouseLeaveListener: (item, e) => this.mouseLeaveListener(mapNode, e),
                 data: {
                     mapNode,
                 },

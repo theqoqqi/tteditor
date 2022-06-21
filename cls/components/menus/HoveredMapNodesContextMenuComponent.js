@@ -1,7 +1,7 @@
-import AbstractComponent from '../AbstractComponent.js';
 import HoveredMapNodesContextMenuView from '../../views/menus/HoveredMapNodesContextMenuView.js';
+import ContextMenuComponent from '../ContextMenuComponent.js';
 
-export default class HoveredMapNodesContextMenuComponent extends AbstractComponent {
+export default class HoveredMapNodesContextMenuComponent extends ContextMenuComponent {
 
     constructor(editor) {
         super(editor, HoveredMapNodesContextMenuView);
@@ -11,6 +11,17 @@ export default class HoveredMapNodesContextMenuComponent extends AbstractCompone
         this.view.setNodeClickListener((mapNode, e) => {
             this.editor.handleMapNodeClick(mapNode, e);
         });
+
+        this.view.setNodeHoverListeners(
+            (mapNode, e) => {
+                console.log('enter', mapNode);
+                this.editor.setMapNodeHighlighted(mapNode, true);
+            },
+            (mapNode, e) => {
+                console.log('leave', mapNode);
+                this.editor.setMapNodeHighlighted(mapNode, false);
+            }
+        );
     }
 
     setMapNodeSelected(mapNode, isSelected) {
@@ -23,9 +34,5 @@ export default class HoveredMapNodesContextMenuComponent extends AbstractCompone
 
     setSelectedMapNodes(mapNodes) {
         this.view.setSelectedMapNodes(mapNodes);
-    }
-
-    showAt(x, y) {
-        this.view.showAt(x, y);
     }
 }

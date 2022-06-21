@@ -1,7 +1,7 @@
-import AbstractComponent from '../AbstractComponent.js';
 import MapNodeContextMenuView from '../../views/menus/MapNodeContextMenuView.js';
+import ContextMenuComponent from '../ContextMenuComponent.js';
 
-export default class MapNodeContextMenuComponent extends AbstractComponent {
+export default class MapNodeContextMenuComponent extends ContextMenuComponent {
 
     constructor(editor) {
         super(editor, MapNodeContextMenuView);
@@ -10,20 +10,28 @@ export default class MapNodeContextMenuComponent extends AbstractComponent {
             name: 'log-node-xml',
             iconClass: 'bi-terminal-plus',
             title: 'Вывести XML в консоль',
-            clickListener: (item, e) => {
+            clickListener: () => {
                 let selectedMapNodes = this.editor.getSelectedNodes();
 
                 for (const mapNode of selectedMapNodes) {
                     this.logMapNode(mapNode);
                 }
+
+                if (selectedMapNodes.length === 0) {
+                    let hoveredMapNode = this.editor.getTopMapNodeUnderPosition(this.view.x, this.view.y);
+
+                    this.logMapNode(hoveredMapNode);
+                }
             },
         });
 
         this.addItem({
-            name: 'item-2',
-            iconClass: '',
-            title: 'Пункт 2',
-            clickListener: () => console.log('Действие 2'),
+            name: 'show-hovered-nodes',
+            iconClass: 'bi-stack',
+            title: 'Объекты под курсором...',
+            clickListener: () => {
+                this.editor.showHoveredMapNodesContextMenuForPosition(this.view.x, this.view.y)
+            },
         });
 
         this.addItem({
@@ -43,15 +51,7 @@ export default class MapNodeContextMenuComponent extends AbstractComponent {
         console.log(`Node #${mapNode.editorId} (${tagName}, ${typeName})`, node, nodeInfo);
     }
 
-    addItem(item) {
-        this.view.addItem(item);
-    }
-
     bindListeners() {
 
-    }
-
-    showAt(x, y) {
-        this.view.showAt(x, y);
     }
 }

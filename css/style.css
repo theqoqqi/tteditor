@@ -136,6 +136,28 @@ html, body {
     visibility: hidden;
 }
 
+.map-node.highlight {
+    filter: drop-shadow(0px 0px 1px var(--highlight-color));
+    z-index: 100000 !important;
+    animation: 2s highlight infinite;
+}
+
+/*noinspection ALL*/
+@property --highlight-color {
+    syntax: '<color>';
+    initial-value: #000;
+    inherits: false;
+}
+
+@keyframes highlight {
+    0% {--highlight-color: white}
+    20% {--highlight-color: red}
+    40% {--highlight-color: green}
+    60% {--highlight-color: blue}
+    80% {--highlight-color: black}
+    100% {--highlight-color: white}
+}
+
 .map-node .selection-box {
     position: absolute;
 }

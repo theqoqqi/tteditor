@@ -2,6 +2,7 @@ import AbstractComponent from './AbstractComponent.js';
 import MapView from '../views/MapView.js';
 import Hotkeys from '../util/Hotkeys.js';
 import MoveNodesCommand from '../commands/map/MoveNodesCommand.js';
+import MapEditor from '../MapEditor.js';
 
 export default class MapComponent extends AbstractComponent {
 
@@ -31,14 +32,14 @@ export default class MapComponent extends AbstractComponent {
                 return;
             }
 
-            if (this.editor.isSelectMode()) {
+            if (this.editor.isSelectMode() && !this.editor.hasOpenedContextMenus()) {
                 this.editor.handleMapNodeClick(mapNode, e);
             }
         });
 
         this.view.setRightClickListener((mapNode, e) => {
             if (this.editor.isBrushMode()) {
-                this.editor.clearBrush();
+                this.editor.setPointerMode(MapEditor.POINTER_MODE_SELECT);
                 return;
             }
 
@@ -151,6 +152,10 @@ export default class MapComponent extends AbstractComponent {
 
     setNodeVisible(mapNode, isVisible) {
         this.view.setNodeVisible(mapNode, isVisible);
+    }
+
+    setNodeHighlighted(mapNode, isHighlighted) {
+        this.view.setNodeHighlighted(mapNode, isHighlighted);
     }
 
     setSelectedNodes(mapNodes) {

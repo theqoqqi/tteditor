@@ -322,6 +322,12 @@ export default class MapView {
         $node.toggleClass('hidden', !isVisible);
     }
 
+    setNodeHighlighted(mapNode, isHighlighted) {
+        let $node = this.findMapNodeElement(mapNode);
+
+        $node.toggleClass('highlight', isHighlighted);
+    }
+
     setNodeProperty(mapNode, propertyName, newValue) {
         let $node = this.findMapNodeElement(mapNode);
 
