@@ -194,6 +194,8 @@ export default class PaletteView {
 
         let tagName = $item.data('tag-name');
         let typeName = $item.data('type-name');
+        let name = $item.data('name');
+
         let $preview = $item.find('.palette-item-preview');
         let nodeInfo = this.context.getNodeInfoByName(tagName, typeName);
         let itemNode;
@@ -213,7 +215,7 @@ export default class PaletteView {
             $preview.append($mesh);
 
         } else {
-            let mapNode = new MapNode(tagName, 0, 0, true);
+            let mapNode = this.context.createMapNode(0, 0, tagName, typeName, name, true);
             let $node = this.uiNodeFactory.createNode(tagName, typeName, mapNode);
 
             $preview.append($node);

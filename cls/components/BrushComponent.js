@@ -1,6 +1,5 @@
 import AbstractComponent from './AbstractComponent.js';
 import BrushView from '../views/BrushView.js';
-import MapNode from '../map/MapNode.js';
 import AddNodesCommand from '../commands/map/AddNodesCommand.js';
 
 export default class BrushComponent extends AbstractComponent {
@@ -25,18 +24,7 @@ export default class BrushComponent extends AbstractComponent {
     }
 
     setBrush(tagName, typeName, name) {
-        this.mapNode = new MapNode(tagName, -1000, -1000);
-
-        this.mapNode.type = typeName;
-        this.mapNode.name = name;
-
-        if (tagName === 'area') {
-            this.mapNode.radius = 128;
-        }
-
-        if (tagName === 'item' && typeName === 'Chest') {
-            this.mapNode.tag = 'chest';
-        }
+        this.mapNode = this.context.createMapNode(-1000, -1000, tagName, typeName, name);
 
         this.view.setBrush(this.mapNode);
     }

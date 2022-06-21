@@ -1,6 +1,7 @@
 
 import MapTerrain from './map/MapTerrain.js';
 import UINodeFactory from './UINodeFactory.js';
+import MapNode from './map/MapNode.js';
 
 // noinspection CssInvalidHtmlTagReference
 export default class EditorContext {
@@ -101,6 +102,23 @@ export default class EditorContext {
         }
 
         return terrain;
+    }
+
+    createMapNode(x, y, tagName, typeName, name, isFake) {
+        let mapNode = new MapNode(tagName, x, y, isFake);
+
+        mapNode.type = typeName;
+        mapNode.name = name;
+
+        if (tagName === 'area') {
+            mapNode.radius = 128;
+        }
+
+        if (tagName === 'item' && typeName === 'Chest') {
+            mapNode.tag = 'chest';
+        }
+
+        return mapNode;
     }
 
     getPaletteItemList(tagName) {
