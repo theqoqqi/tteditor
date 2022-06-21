@@ -20,6 +20,7 @@ export default class MapView {
         this.setPointerMode(MapEditor.POINTER_MODE_SELECT);
 
         this.clickListener = () => {};
+        this.leftClickListener = () => {};
         this.rightClickListener = () => {};
         this.doubleClickListener = () => {};
         this.mouseMoveListener = () => {};
@@ -108,16 +109,18 @@ export default class MapView {
 
         this.$map.on('mousedown', e => {
 
-            if (e.which !== 3) {
+            if (e.which !== 1 && e.which !== 3) {
                 return;
             }
-
-            e.preventDefault();
 
             let $node = $(e.target).closest('.map-node-root');
             let mapNode = $node.data('map-node');
 
-            this.rightClickListener(mapNode, e);
+            if (e.which === 1) {
+                this.leftClickListener(mapNode, e);
+            } else {
+                this.rightClickListener(mapNode, e);
+            }
 
             this.$mapScroll.focus();
         });
@@ -257,6 +260,10 @@ export default class MapView {
 
     setClickListener(listener) {
         this.clickListener = listener;
+    }
+
+    setLeftClickListener(listener) {
+        this.leftClickListener = listener;
     }
 
     setRightClickListener(listener) {

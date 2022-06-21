@@ -21,9 +21,6 @@ export default class MapComponent extends AbstractComponent {
             let hotkeys = Hotkeys.from(e);
 
             if (this.editor.isBrushMode()) {
-                if (this.editor.hasBrush()) {
-                    this.editor.addNodeFromBrush();
-                }
                 return;
             }
 
@@ -34,6 +31,16 @@ export default class MapComponent extends AbstractComponent {
 
             if (this.editor.isSelectMode() && !this.editor.hasOpenedContextMenus()) {
                 this.editor.handleMapNodeClick(mapNode, e);
+            }
+        });
+
+        this.view.setLeftClickListener((mapNode, e) => {
+            if (!this.editor.isBrushMode()) {
+                return;
+            }
+
+            if (this.editor.hasBrush()) {
+                this.editor.addNodeFromBrush();
             }
         });
 
