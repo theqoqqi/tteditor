@@ -538,7 +538,10 @@ export default class UINodeFactory {
             z += layerZ;
 
             if (tagName === 'landmark') {
-                z = layerZ;
+                let nodeInfo = this.context.getNodeInfoByName(tagName, mapNode.type);
+                let sublayer = nodeInfo.getNumericContentOf('sublayer', 0);
+
+                z = layerZ + sublayer;
             }
         }
 
