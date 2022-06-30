@@ -147,11 +147,19 @@ export default class UINodeFactory {
             let $mesh;
 
             if (node.querySelector(':scope > mesh')) {
-
                 $mesh = this.createMesh(tagName, typeName, node);
 
                 if (node.querySelector(':scope > keyframe')) {
                     console.warn('node with keyframe:', node, tagName, mapNode);
+                }
+
+                if (node.querySelector(':scope > mesh > color')) {
+                    let colorText = node.getTextContentOf('mesh > color');
+                    let rgba = hexIntColorToColor(colorText);
+                    let hsba = rgbaColorToHsbaColor(rgba);
+                    let cssFilters = hsbaColorToCssFilters(hsba);
+
+                    $mesh.css('filter', cssFilters);
                 }
             }
 

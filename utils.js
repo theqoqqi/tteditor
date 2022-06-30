@@ -49,6 +49,40 @@ function colorToHexIntColor(c) {
     return '0x' + components.toUpperCase();
 }
 
+function rgbaColorToHsbaColor(color) {
+    const r = color.r / 255;
+    const g = color.g / 255;
+    const b = color.b / 255;
+
+    const v = Math.max(r, g, b);
+    const n = v - Math.min(r, g, b);
+
+    const h =
+        n === 0
+            ? 0
+            : n && v === r
+                ? (g - b) / n
+                : v === g
+                    ? 2 + (b - r) / n
+                    : 4 + (r - g) / n;
+
+    return {
+        h: 60 * (h < 0 ? h + 6 : h),
+        s: v && (n / v) * 100,
+        b: v * 100,
+        a: color.a,
+    };
+}
+
+function hsbaColorToCssFilters(color) {
+    let h = color.h;
+    let s = color.s;
+    let b = color.b;
+    let a = color.a / 255;
+
+    return `opacity(${a}) saturate(${s}%) brightness(${b}%) hue-rotate(${h}deg)`;
+}
+
 function getColorBrightness(c) {
     if (!c) {
         return null;
