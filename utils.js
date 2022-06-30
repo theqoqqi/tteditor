@@ -126,10 +126,10 @@ function verticesToBounds(vertices) {
     let positions = verticesToPositions(vertices);
 
     return createBounds(
-        Math.min(positions[0].x, positions[1].x),
-        Math.min(positions[0].y, positions[2].y),
-        Math.max(positions[2].x, positions[3].x),
-        Math.max(positions[1].y, positions[3].y)
+        Math.min(positions[0].x, positions[1].x, positions[2].x, positions[3].x),
+        Math.min(positions[0].y, positions[1].y, positions[2].y, positions[3].y),
+        Math.max(positions[0].x, positions[1].x, positions[2].x, positions[3].x),
+        Math.max(positions[0].y, positions[1].y, positions[2].y, positions[3].y)
     );
 }
 
