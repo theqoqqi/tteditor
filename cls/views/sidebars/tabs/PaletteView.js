@@ -75,17 +75,18 @@ export default class PaletteView {
         this.$palette.find('.palette-item').removeClass('selected');
 
         if (!$item || !$item.length) {
-            this.selectionChangedListener(null, null, null);
+            this.selectionChangedListener([], null, null, null);
             return;
         }
 
+        let mapNodes = $item.data('map-nodes');
         let tagName = $item.data('tag-name');
         let typeName = $item.data('type-name');
         let name = $item.data('name');
 
         $item.addClass('selected');
 
-        this.selectionChangedListener(tagName, typeName, name);
+        this.selectionChangedListener(mapNodes, tagName, typeName, name);
     }
 
     tryInitPaletteItems($itemList) {
@@ -198,6 +199,7 @@ export default class PaletteView {
 
         let $preview = $item.find('.palette-item-preview');
         let nodeInfo = this.context.getNodeInfoByName(tagName, typeName);
+        let mapNode = this.context.createMapNode(0, 0, tagName, typeName, name, true);
         let itemNode;
 
         if (nodeInfo) {
@@ -215,13 +217,13 @@ export default class PaletteView {
             $preview.append($mesh);
 
         } else {
-            let mapNode = this.context.createMapNode(0, 0, tagName, typeName, name, true);
             let $node = this.uiNodeFactory.createNode(tagName, typeName, mapNode);
 
             $preview.append($node);
         }
 
         $item.data('node', itemNode);
+        $item.data('map-nodes', [mapNode]);
     }
 
     createIcon(tagName) {

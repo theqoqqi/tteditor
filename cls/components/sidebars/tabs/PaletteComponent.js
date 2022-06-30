@@ -12,7 +12,7 @@ export default class PaletteComponent extends AbstractComponent {
     }
 
     bindListeners() {
-        this.view.setSelectionChangedListener((tagName, typeName, name) => {
+        this.view.setSelectionChangedListener((mapNodes, tagName, typeName, name) => {
             if (this.editor.hasLoadedLevel()) {
                 this.lastSelection = null;
 
@@ -27,10 +27,8 @@ export default class PaletteComponent extends AbstractComponent {
 
                 } else {
                     this.editor.setPointerMode(MapEditor.POINTER_MODE_BRUSH);
-                    this.editor.setBrush(tagName, typeName, name);
-                    this.lastSelection = {
-                        tagName, typeName, name
-                    };
+                    this.editor.setBrush(mapNodes);
+                    this.lastSelection = mapNodes;
 
                     if (tagName === 'ambient') {
                         this.context.playSoundFor(tagName, typeName);
@@ -59,11 +57,7 @@ export default class PaletteComponent extends AbstractComponent {
             return;
         }
 
-        let tagName = this.lastSelection.tagName;
-        let typeName = this.lastSelection.typeName;
-        let name = this.lastSelection.name;
-
-        this.editor.setBrush(tagName, typeName, name);
+        this.editor.setBrush(this.lastSelection);
     }
 
     setSelectedType(tagName, typeName) {

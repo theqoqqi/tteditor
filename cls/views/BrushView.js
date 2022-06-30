@@ -1,3 +1,4 @@
+import CompositeObserver from '../util/CompositeObserver.js';
 
 export default class BrushView {
 
@@ -6,43 +7,65 @@ export default class BrushView {
         this.uiNodeFactory = context.getUiNodeFactory();
 
         this.$brushContainer = $('.brush');
-        this.$brush = null;
+        this.$brushNodes = null;
+
+        this.mapNodes = [];
+        this.createMapNodeObservers();
     }
 
-    setPosition(x, y) {
-        this.uiNodeFactory.setNodeProperty(this.$brush, 'x', x);
-        this.uiNodeFactory.setNodeProperty(this.$brush, 'y', y);
+    createMapNodeObservers() {
+        this.mapNodeObservers = new CompositeObserver();
+
+        this.addMapNodePropertyObserver('x');
+        this.addMapNodePropertyObserver('y');
+    }
+
+    addMapNodePropertyObserver(propertyName) {
+        this.mapNodeObservers.addPropertyObserver(propertyName, (value, oldValue, mapNode) => {
+            let $node = this.findMapNodeElement(mapNode);
+
+            this.uiNodeFactory.setNodeProperty($node, propertyName, value);
+        });
+    }
+
+    findMapNodeElement(mapNode) {
+        return this.$brushContainer.find(`.map-node.map-node-root[data-editor-id='${mapNode.editorId}']`);
     }
 
     hasBrush() {
-        return this.$brush !== null;
+        return this.$brushNodes !== null;
     }
 
     clearBrush() {
         this.setBrush(null);
     }
 
-    setBrush(mapNode) {
-        if (this.$brush) {
-            this.$brush.remove();
-            this.$brush = null;
+    setBrush(mapNodes) {
+        if (this.$brushNodes) {
+            this.$brushNodes.remove();
+            this.$brushNodes = null;
+            this.mapNodeObservers.detachFrom(...this.mapNodes);
+            this.mapNodes = [];
         }
 
-        if (mapNode) {
-            this.$brush = this.#createBrush(mapNode);
-            this.$brushContainer.append(this.$brush);
+        if (mapNodes) {
+            for (const mapNode of mapNodes) {
+                let $node = this.#createNode(mapNode);
+
+                this.$brushContainer.append($node);
+            }
+
+            this.$brushNodes = this.$brushContainer.children();
+            this.mapNodeObservers.attachTo(...mapNodes);
+            this.mapNodes = mapNodes;
         }
     }
 
-    #createBrush(mapNode) {
-        let $node;
-
+    #createNode(mapNode) {
         if (this.context.isMarkerNode(mapNode.tag)) {
-            $node = this.uiNodeFactory.createMarkerNode(mapNode.tag, mapNode.type, mapNode);
-        } else {
-            $node = this.uiNodeFactory.createNode(mapNode.tag, mapNode.type, mapNode);
+            return this.uiNodeFactory.createMarkerNode(mapNode.tag, mapNode.type, mapNode);
         }
 
-        return $node;
+        return this.uiNodeFactory.createNode(mapNode.tag, mapNode.type, mapNode);
     }
 }

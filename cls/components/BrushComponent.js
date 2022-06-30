@@ -7,42 +7,55 @@ export default class BrushComponent extends AbstractComponent {
     constructor(editor) {
         super(editor, BrushView);
 
-        this.mapNode = null;
-    }
-
-    bindListeners() {
-
+        this.mapNodes = [];
+        this.offsetsByMapNodeEditorIds = new Map();
     }
 
     hasBrush() {
-        return this.mapNode !== null;
+        return this.mapNodes.length > 0;
     }
 
     clearBrush() {
-        this.mapNode = null;
-        this.view.setBrush(null);
+        this.mapNodes = [];
+        this.view.clearBrush();
     }
 
-    setBrush(tagName, typeName, name) {
-        this.mapNode = this.context.createMapNode(-1000, -1000, tagName, typeName, name);
+    setBrush(mapNodes) {
+        this.offsetsByMapNodeEditorIds.clear();
 
-        this.view.setBrush(this.mapNode);
+        this.mapNodes = mapNodes.map(mapNode => mapNode.clone());
+
+        for (const mapNode of this.mapNodes) {
+            this.offsetsByMapNodeEditorIds.set(mapNode.editorId, {
+                x: mapNode.x,
+                y: mapNode.y,
+            });
+        }
+
+        this.view.setBrush(this.mapNodes);
     }
 
     addNode() {
-        let mapNode = this.mapNode.clone();
+        let mapNodes = this.mapNodes.map(mapNode => {
+            mapNode = mapNode.clone();
+            mapNode.isFake = false;
 
-        this.editor.viewportPositionToMapPosition(mapNode);
+            this.editor.viewportPositionToMapPosition(mapNode);
 
-        let command = new AddNodesCommand(this.editor, [mapNode]);
+            return mapNode;
+        });
+
+        let command = new AddNodesCommand(this.editor, mapNodes);
 
         this.editor.executeCommand(command);
     }
 
     setPositionOnMap(x, y) {
-        this.editor.setMapNodePosition(this.mapNode, x, y);
-        this.editor.mapPositionToViewportPosition(this.mapNode);
+        for (const mapNode of this.mapNodes) {
+            let offset = this.offsetsByMapNodeEditorIds.get(mapNode.editorId);
 
-        this.view.setPosition(this.mapNode.x, this.mapNode.y);
+            this.editor.setMapNodePosition(mapNode, x + offset.x, y + offset.y);
+            this.editor.mapPositionToViewportPosition(mapNode);
+        }
     }
 }
