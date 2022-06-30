@@ -44,6 +44,12 @@ export default class UINodeFactory {
             $node.append($iconMesh);
         }
 
+        let $nameMesh = this.createMarkerMesh(iconRadius ? 'icon-name-mesh' : 'name-mesh');
+
+        $nameMesh.css('z-index', z);
+        $nameMesh.text(mapNode.name || mapNode.type);
+        $node.append($nameMesh);
+
         let boxRadiusX = iconRadius || radiusX;
         let boxRadiusY = iconRadius || radiusY;
         let $selectionBox = this.createMarkerSelectionBox(mapNode, boxRadiusX, boxRadiusY);
@@ -475,6 +481,12 @@ export default class UINodeFactory {
 
         if (propertyName === 'hint') {
             $node.attr('title', newValue);
+        }
+
+        if (propertyName === 'name') {
+            let mapNode = $node.data('map-node');
+
+            $node.find('.name-mesh').text(newValue || mapNode.type);
         }
     }
 

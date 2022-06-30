@@ -231,6 +231,27 @@ html, body {
     border: 2px solid orange;
 }
 
+.map-node > .name-mesh,
+.map-node > .icon-name-mesh {
+    border: none;
+    background: none;
+
+    font-weight: 500;
+    text-shadow: 0 0 4px white;
+}
+
+.map-node > .name-mesh {
+    font-size: 16px;
+
+    transform: translate(-50%, -50%);
+}
+
+.map-node > .icon-name-mesh {
+    font-size: 12px;
+
+    transform: translate(-50%, calc(-50% + 18px));
+}
+
 /* Используется в отображении Obstacle64/96/256 */
 .map-node.landmark > .icon-mesh {
 

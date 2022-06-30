@@ -77,6 +77,7 @@ export default class MapView {
         this.addMapNodePropertyObserver('y');
         this.addMapNodePropertyObserver('radius');
         this.addMapNodePropertyObserver('hint');
+        this.addMapNodePropertyObserver('name');
     }
 
     addMapNodePropertyObserver(propertyName) {
