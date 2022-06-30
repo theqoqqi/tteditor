@@ -380,6 +380,14 @@ export default class UINodeFactory {
         let boundAnchorX = anchorX * boundScaleX;
         let boundAnchorY = anchorY * boundScaleY;
 
+        if (flipX) {
+            boundAnchorX = boundWidth - boundAnchorX;
+        }
+
+        if (flipY) {
+            boundAnchorY = boundHeight - boundAnchorY;
+        }
+
         let vertices = createBoxVertices(-boundAnchorX, -boundAnchorY, boundWidth, boundHeight);
 
         flipVertices(vertices, flipX, flipY);
