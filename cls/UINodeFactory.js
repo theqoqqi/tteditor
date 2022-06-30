@@ -152,15 +152,6 @@ export default class UINodeFactory {
                 if (node.querySelector(':scope > keyframe')) {
                     console.warn('node with keyframe:', node, tagName, mapNode);
                 }
-
-                if (node.querySelector(':scope > mesh > color')) {
-                    let colorText = node.getTextContentOf('mesh > color');
-                    let rgba = hexIntColorToColor(colorText);
-                    let hsba = rgbaColorToHsbaColor(rgba);
-                    let cssFilters = hsbaColorToCssFilters(hsba);
-
-                    $mesh.css('filter', cssFilters);
-                }
             }
 
             if (!$parentNode && !$mesh && !node.querySelector('mesh')) {
@@ -297,11 +288,17 @@ export default class UINodeFactory {
         $mesh.data('mesh', mesh);
 
         let color = node.getTextContentOf('mesh > color');
+
         if (color) {
+            let rgba = hexIntColorToColor(color);
+
             if (src) {
-                // Add the tint to texture? It's hard with CSS
+                let hsba = rgbaColorToHsbaColor(rgba);
+                let cssFilters = hsbaColorToCssFilters(hsba);
+
+                $mesh.css('filter', cssFilters);
             } else {
-                $mesh.css('background-color', colorToCssRgba(hexIntColorToColor(color)))
+                $mesh.css('background-color', colorToCssRgba(rgba))
             }
         }
 
