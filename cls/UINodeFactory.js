@@ -368,16 +368,21 @@ export default class UINodeFactory {
     }
 
     getMeshTargetVertices(mesh) {
+        let flipX = mesh.getNumericContentOf('fliphorizontal', 0);
+        let flipY = mesh.getNumericContentOf('flipvertical', 0);
+
         if (mesh.querySelector('vertex1')) {
-            return this.parseMeshVertices(mesh);
+            let vertices = this.parseMeshVertices(mesh);
+
+            swapVertices(vertices, flipX, flipY);
+
+            return vertices;
         }
 
         let width = mesh.getNumericContentOf('width');
         let height = mesh.getNumericContentOf('height');
         let anchorX = mesh.getNumericContentOf('anchorx', width / 2);
         let anchorY = mesh.getNumericContentOf('anchory', height / 2);
-        let flipX = mesh.getNumericContentOf('fliphorizontal', 0);
-        let flipY = mesh.getNumericContentOf('flipvertical', 0);
         let boundWidth = mesh.getNumericContentOf('boundwidth', width);
         let boundHeight = mesh.getNumericContentOf('boundheight', height);
 

@@ -172,6 +172,25 @@ function flipVertices(vertices, flipX, flipY) {
     }
 }
 
+function swapVertices(vertices, swapX, swapY) {
+    if (swapX) {
+        swapIndexes(vertices, 0, 2);
+        swapIndexes(vertices, 1, 3);
+    }
+    if (swapY) {
+        swapIndexes(vertices, 0, 1);
+        swapIndexes(vertices, 2, 3);
+    }
+
+    return vertices;
+}
+
+function swapIndexes(array, index1, index2) {
+    let temp = array[index1];
+    array[index1] = array[index2];
+    array[index2] = temp;
+}
+
 // noinspection JSUnusedGlobalSymbols
 function sumVertices(v1, v2) {
     return [
