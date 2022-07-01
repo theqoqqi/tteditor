@@ -1,14 +1,13 @@
-import MapNode from '../../../map/MapNode.js';
+import AbstractView from '../../AbstractView.js';
 
 let ICON_SIZE = 64;
 let ICON_PADDING = 0;
 
 // noinspection CssInvalidHtmlTagReference
-export default class PaletteView {
+export default class PaletteView extends AbstractView {
 
-    constructor(context) {
-        this.context = context;
-        this.uiNodeFactory = context.getUiNodeFactory();
+    constructor(editor) {
+        super(editor);
 
         this.$palette = $('#palette');
 

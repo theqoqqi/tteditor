@@ -1,9 +1,9 @@
+import AbstractView from './AbstractView.js';
 
-export default class StatusBarView {
+export default class StatusBarView extends AbstractView {
 
-    constructor(context) {
-        this.context = context;
-        this.uiNodeFactory = context.getUiNodeFactory();
+    constructor(editor) {
+        super(editor);
 
         this.$xPosition = $('#x-position');
         this.$yPosition = $('#y-position');

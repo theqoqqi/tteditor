@@ -8,7 +8,7 @@ export default class AbstractComponent {
         this.editor = editor;
         this.context = editor.getContext();
 
-        this.view = new viewClass(this.context);
+        this.view = new viewClass(this.editor);
 
         this.bindListeners();
     }

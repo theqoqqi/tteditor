@@ -1,12 +1,12 @@
 import ItemListView from '../../util/ItemListView.js';
 import ItemButtonView from '../../util/ItemButtonView.js';
 import CompositeObserver from '../../../util/CompositeObserver.js';
+import AbstractView from '../../AbstractView.js';
 
-export default class TriggerListView {
+export default class TriggerListView extends AbstractView {
 
-    constructor(context) {
-        this.context = context;
-        this.uiNodeFactory = context.getUiNodeFactory();
+    constructor(editor) {
+        super(editor);
 
         this.$newTriggerTitleInput = $('#new-trigger-title-input');
         this.$addNewTriggerButton = $('#add-new-trigger-button');

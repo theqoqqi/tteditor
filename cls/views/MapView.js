@@ -1,11 +1,11 @@
 import CompositeObserver from '../util/CompositeObserver.js';
 import MapEditor from '../MapEditor.js';
+import AbstractView from './AbstractView.js';
 
-export default class MapView {
+export default class MapView extends AbstractView {
 
-    constructor(context) {
-        this.context = context;
-        this.uiNodeFactory = context.getUiNodeFactory();
+    constructor(editor) {
+        super(editor);
 
         this.$mapScroll = $('.map-scroll');
         this.$map = $('.map');

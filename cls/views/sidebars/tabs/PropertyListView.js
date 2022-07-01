@@ -1,12 +1,12 @@
 import CompositeObserver from '../../../util/CompositeObserver.js';
+import AbstractView from '../../AbstractView.js';
 
-export default class PropertyListView {
+export default class PropertyListView extends AbstractView {
 
     #multipleValuesSymbol = Symbol();
 
-    constructor(context) {
-        this.context = context;
-        this.uiNodeFactory = context.getUiNodeFactory();
+    constructor(editor) {
+        super(editor);
 
         this.mapNodes = [];
         this.$propertyList = $('#property-list');

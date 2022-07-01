@@ -1,8 +1,10 @@
+import AbstractView from '../AbstractView.js';
 
-export default class AbstractSidebarView {
+export default class AbstractSidebarView extends AbstractView {
 
-    constructor(context, $rootElement) {
-        this.context = context;
+    constructor(editor, $rootElement) {
+        super(editor);
+
         this.$root = $rootElement;
 
         this.bindListeners();

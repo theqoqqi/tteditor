@@ -1,10 +1,10 @@
 import CompositeObserver from '../../../util/CompositeObserver.js';
+import AbstractView from '../../AbstractView.js';
 
-export default class RandomizerListView {
+export default class RandomizerListView extends AbstractView {
 
-    constructor(context) {
-        this.context = context;
-        this.uiNodeFactory = context.getUiNodeFactory();
+    constructor(editor) {
+        super(editor);
 
         this.$randomizerList = $('#randomizer-list');
         this.$newRandomizerTypeInput = $('#new-randomizer-type-input');

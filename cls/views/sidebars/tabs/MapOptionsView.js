@@ -1,10 +1,10 @@
 import CompositeObserver from '../../../util/CompositeObserver.js';
+import AbstractView from '../../AbstractView.js';
 
-export default class MapOptionsView {
+export default class MapOptionsView extends AbstractView {
 
-    constructor(context) {
-        this.context = context;
-        this.uiNodeFactory = context.getUiNodeFactory();
+    constructor(editor) {
+        super(editor);
 
         this.map = null;
 

@@ -2,8 +2,8 @@ import AbstractSidebarView from './AbstractSidebarView.js';
 
 export default class RightSidebarView extends AbstractSidebarView {
 
-    constructor(context) {
-        super(context, $('#right-sidebar'));
+    constructor(editor) {
+        super(editor, $('#right-sidebar'));
     }
 
     openNodeListTab(callback) {

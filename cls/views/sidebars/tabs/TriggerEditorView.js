@@ -1,10 +1,10 @@
 import CompositeObserver from '../../../util/CompositeObserver.js';
+import AbstractView from '../../AbstractView.js';
 
-export default class TriggerEditorView {
+export default class TriggerEditorView extends AbstractView {
 
-    constructor(context) {
-        this.context = context;
-        this.uiNodeFactory = context.getUiNodeFactory();
+    constructor(editor) {
+        super(editor);
 
         this.$triggerTitleInput = $('#trigger-title-input');
 

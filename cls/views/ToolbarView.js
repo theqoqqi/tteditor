@@ -1,10 +1,10 @@
 import MapEditor from '../MapEditor.js';
+import AbstractView from './AbstractView.js';
 
-export default class ToolbarView {
+export default class ToolbarView extends AbstractView {
 
-    constructor(context) {
-        this.context = context;
-        this.uiNodeFactory = context.getUiNodeFactory();
+    constructor(editor) {
+        super(editor);
 
         this.$resetLevelButton = $('#reset-level-button');
         this.$saveLevelButton = $('#save-level-button');

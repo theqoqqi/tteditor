@@ -1,11 +1,11 @@
 import ItemListView from '../../util/ItemListView.js';
 import CompositeObserver from '../../../util/CompositeObserver.js';
+import AbstractView from '../../AbstractView.js';
 
-export default class CommandListView {
+export default class CommandListView extends AbstractView {
 
-    constructor(context) {
-        this.context = context;
-        this.uiNodeFactory = context.getUiNodeFactory();
+    constructor(editor) {
+        super(editor);
 
         this.commandExecutor = null;
 

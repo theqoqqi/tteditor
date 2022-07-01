@@ -1,9 +1,9 @@
+import AbstractView from '../../AbstractView.js';
 
-export default class LayerListView {
+export default class LayerListView extends AbstractView {
 
-    constructor(context) {
-        this.context = context;
-        this.uiNodeFactory = context.getUiNodeFactory();
+    constructor(editor) {
+        super(editor);
 
         this.$layerList = $('#map-layer-list');
 

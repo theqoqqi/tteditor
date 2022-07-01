@@ -1,14 +1,14 @@
 import ItemListView from '../../util/ItemListView.js';
 import ItemButtonView from '../../util/ItemButtonView.js';
 import CompositeObserver from '../../../util/CompositeObserver.js';
+import AbstractView from '../../AbstractView.js';
 
-export default class NodeListView {
+export default class NodeListView extends AbstractView {
 
     #taskQueue = [];
 
-    constructor(context) {
-        this.context = context;
-        this.uiNodeFactory = context.getUiNodeFactory();
+    constructor(editor) {
+        super(editor);
 
         this.map = null;
 

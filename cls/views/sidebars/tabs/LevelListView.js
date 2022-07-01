@@ -1,10 +1,11 @@
 
 // noinspection CssInvalidHtmlTagReference
-export default class LevelListView {
+import AbstractView from '../../AbstractView.js';
 
-    constructor(context) {
-        this.context = context;
-        this.uiNodeFactory = context.getUiNodeFactory();
+export default class LevelListView extends AbstractView {
+
+    constructor(editor) {
+        super(editor);
 
         this.$levelList = $('#level-list');
     }

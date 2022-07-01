@@ -1,10 +1,10 @@
 import CompositeObserver from '../util/CompositeObserver.js';
+import AbstractView from './AbstractView.js';
 
-export default class BrushView {
+export default class BrushView extends AbstractView {
 
-    constructor(context) {
-        this.context = context;
-        this.uiNodeFactory = context.getUiNodeFactory();
+    constructor(editor) {
+        super(editor);
 
         this.$brushContainer = $('.brush');
         this.$brushNodes = null;
