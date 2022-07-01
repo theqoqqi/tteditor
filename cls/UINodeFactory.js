@@ -14,7 +14,7 @@ export default class UINodeFactory {
         let y = mapNode.y;
         let z = 0;
         let layerZ = this.getLayerZForTagName(tagName);
-        let iconRadius = this.getIconRadius(mapNode);
+        let iconRadius = this.getIconRadius(mapNode.tag);
         let {radiusX, radiusY} = this.getAreaRadiusSizesFor(mapNode);
 
         x -= radiusX;
@@ -61,12 +61,12 @@ export default class UINodeFactory {
         return $node;
     }
 
-    getIconRadius(mapNode) {
-        if (mapNode.tag === 'area') {
+    getIconRadius(tagName) {
+        if (tagName === 'area') {
             return 0;
         }
 
-        return mapNode.tag === 'waypoint' ? 8 : 12;
+        return tagName === 'waypoint' ? 8 : 12;
     }
 
     getAreaRadiusSizesFor(mapNode) {
@@ -102,7 +102,7 @@ export default class UINodeFactory {
             || UINodeFactory.tryParseRadius(mapNode.type, /Reveal(\d+)/g)
             || UINodeFactory.tryParseRadius(mapNode.type, /Obstacle(\d+)/g)
             || UINodeFactory.tryParseRadius(mapNode.type, /NoBuild(\d+)/g)
-            || null;
+            || (mapNode.tag === 'area' ? 16 : null);
     }
 
     static tryParseRadius(typeName, pattern) {
@@ -347,7 +347,7 @@ export default class UINodeFactory {
     }
 
     getFrameBoundsFor(node, frameIndex) {
-        let mesh = node.querySelector(':scope > mesh');
+        let mesh = node.querySelector(':scope mesh');
 
         let width = mesh.getNumericContentOf('width');
         let height = mesh.getNumericContentOf('height');

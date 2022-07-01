@@ -68,11 +68,11 @@ function printSidebarPaletteTab() {
             },
         ],
         [
-            'id' => 'triggers-tab',
-            'icon' => 'bi-record2',
-            'title' => 'Триггеры',
+            'id' => 'compositions-tab',
+            'icon' => 'bi-boxes', // bi-layout-wtf
+            'title' => 'Группы',
             'content' => function () {
-                printPaletteTab('trigger');
+                printPaletteTab('composed');
             },
         ],
     ];

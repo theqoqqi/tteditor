@@ -160,6 +160,30 @@ function fillBoundsFields(bounds) {
     bounds.height = bounds.maxY - bounds.minY;
 }
 
+function shiftBounds(bounds, x, y) {
+    bounds.x += x;
+    bounds.y += y;
+    bounds.minX += x;
+    bounds.minY += y;
+    bounds.maxX += x;
+    bounds.maxY += y;
+}
+
+function combineBounds(listOfBounds) {
+    let aggregateFunc = (array, funcName, propertyName) => {
+        let mapped = array.map(item => item[propertyName]);
+
+        return Math[funcName](...mapped);
+    };
+
+    let minX = aggregateFunc(listOfBounds, 'min', 'minX');
+    let minY = aggregateFunc(listOfBounds, 'min', 'minY');
+    let maxX = aggregateFunc(listOfBounds, 'max', 'maxX');
+    let maxY = aggregateFunc(listOfBounds, 'max', 'maxY');
+
+    return createBounds(minX, minY, maxX, maxY);
+}
+
 function swapFields(object, a, b) {
     let temp = object[a];
     object[a] = object[b];

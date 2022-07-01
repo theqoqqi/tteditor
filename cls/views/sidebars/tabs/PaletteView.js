@@ -113,11 +113,11 @@ export default class PaletteView extends AbstractView {
 
         $itemList.detach();
 
-        if (configName === 'trigger') {
+        if (configName === 'magic') {
             this.fillPaletteTriggerList($itemList);
-        } else {
-            this.fillPaletteItemList($itemList);
         }
+
+        this.fillPaletteItemList($itemList);
 
         $paletteTab.on('scroll', e => {
             this.tryInitPaletteItems($itemList);
@@ -132,7 +132,7 @@ export default class PaletteView extends AbstractView {
 
         for (const item of items) {
             let typeName = item.getAttribute('name');
-            let $item = this.createPaletteItem(item.tagName, typeName);
+            let $item = this.createPaletteItem(item, item.tagName, typeName);
 
             $itemList.append($item);
         }
@@ -140,9 +140,9 @@ export default class PaletteView extends AbstractView {
 
     fillPaletteTriggerList($itemList) {
         let $items = [
-            this.createPaletteItem('waypoint'),
-            this.createPaletteItem('area'),
-            this.createPaletteItem('area', null, 'startup')
+            this.createPaletteItem(null, 'waypoint'),
+            this.createPaletteItem(null, 'area'),
+            this.createPaletteItem(null, 'area', null, 'startup')
         ];
 
         for (const $item of $items) {
@@ -150,7 +150,7 @@ export default class PaletteView extends AbstractView {
         }
     }
 
-    createPaletteItem(tagName, typeName = null, name = null) {
+    createPaletteItem(item, tagName, typeName = null, name = null) {
         let $item = $(`
             <div class='palette-item'>
                 <div class='palette-item-preview'></div>
@@ -162,6 +162,7 @@ export default class PaletteView extends AbstractView {
             $item.addClass('marker-palette-item');
         }
 
+        $item.data('node-info', item);
         $item.attr('data-name', name);
         $item.attr('data-tag-name', tagName);
         $item.attr('data-type-name', typeName);
@@ -171,13 +172,13 @@ export default class PaletteView extends AbstractView {
 
     getItemListFor(configName) {
         let config = this.context.getConfigByName(configName);
-        let items = config.querySelectorAll('*');
+        let items = config.querySelectorAll(':scope > *');
 
         return Array.from(items).filter(item => {
             let typeName = item.getAttribute('name');
             let paletteItemNames = this.context.getPaletteItemList(item.tagName);
 
-            return paletteItemNames.includes(typeName);
+            return typeName === null || paletteItemNames.includes(typeName);
         });
     }
 
@@ -197,32 +198,54 @@ export default class PaletteView extends AbstractView {
         let name = $item.data('name');
 
         let $preview = $item.find('.palette-item-preview');
-        let nodeInfo = this.context.getNodeInfoByName(tagName, typeName);
-        let mapNode = this.context.createMapNode(0, 0, tagName, typeName, name, true);
+        let nodeInfo = $item.data('node-info');
         let itemNode;
 
         if (nodeInfo) {
             itemNode = this.context.getNodeXml(nodeInfo);
         }
 
+        $item.data('node', itemNode);
+
         if (this.context.isMarkerNode(tagName)) {
             let $icon = this.createIcon(tagName);
+            let mapNode = this.context.createMapNode(0, 0, tagName, typeName, name, true);
 
             $preview.append($icon);
+            $item.data('map-nodes', [mapNode]);
 
         } else if (tagName === 'terrain') {
             let $mesh = this.createMesh(tagName, typeName, itemNode);
 
             $preview.append($mesh);
 
+        } else if (tagName === 'composition') {
+            let items = nodeInfo.querySelectorAll(':scope > *');
+            let mapNodes = [];
+
+            for (const item of items) {
+                let mapNode = this.editor.createMapNodeFromElement(item);
+                let $node;
+
+                if (this.context.isMarkerNode(mapNode.tag)) {
+                    $node = this.uiNodeFactory.createMarkerNode(mapNode.tag, mapNode.type, mapNode);
+                } else {
+                    $node = this.uiNodeFactory.createNode(mapNode.tag, mapNode.type, mapNode);
+                }
+
+                mapNodes.push(mapNode);
+                $preview.append($node);
+            }
+
+            $item.data('map-nodes', mapNodes);
+
         } else {
+            let mapNode = this.context.createMapNode(0, 0, tagName, typeName, name, true);
             let $node = this.uiNodeFactory.createNode(tagName, typeName, mapNode);
 
             $preview.append($node);
+            $item.data('map-nodes', [mapNode]);
         }
-
-        $item.data('node', itemNode);
-        $item.data('map-nodes', [mapNode]);
     }
 
     createIcon(tagName) {
@@ -248,7 +271,7 @@ export default class PaletteView extends AbstractView {
         this.$palette.find('.palette-item-preview:not([data-size-is-set])').each((index, preview) => {
 
             let $preview = $(preview);
-            let $node = $preview.find('> .map-node');
+            let $nodes = $preview.find('> .map-node');
             let $mesh = $preview.find('.mesh, .marker-mesh').first();
             let $paletteItem = $preview.closest('.palette-item');
 
@@ -258,12 +281,19 @@ export default class PaletteView extends AbstractView {
 
             $preview.attr('data-size-is-set', 1);
 
+            let nodeInfo = $paletteItem.data('node-info');
             let node = $paletteItem.data('node');
-            let scale = this.resolveScaleForMesh($mesh, node);
+            let scale = this.resolveScaleForMesh($mesh, node, nodeInfo);
 
-            if ($node.length) {
-                $node.css('left', ICON_SIZE / 2 + 'px');
-                $node.css('top', ICON_SIZE / 2 + 'px');
+            if ($nodes.length) {
+                $nodes.each((index, node) => {
+                    let $node = $(node);
+                    let x = parseFloat($node.css('left'));
+                    let y = parseFloat($node.css('top'));
+
+                    $node.css('left', x + ICON_SIZE / 2 + 'px');
+                    $node.css('top', y + ICON_SIZE / 2 + 'px');
+                });
             } else {
                 $mesh.css('left', ICON_SIZE / 2 + 'px');
                 $mesh.css('top', ICON_SIZE / 2 + 'px');
@@ -273,15 +303,32 @@ export default class PaletteView extends AbstractView {
         });
     }
 
-    resolveScaleForMesh($mesh, node) {
+    resolveScaleForMesh($mesh, node, nodeInfo) {
 
         let rect = $mesh[0].getBoundingClientRect();
 
         let ratioX = ICON_SIZE / rect.width;
         let ratioY = ICON_SIZE / rect.height;
 
-        if (!$mesh.is('.marker-mesh')) {
-            let texture = node.querySelector('texture')?.textContent;
+        if (nodeInfo.tagName === 'composition') {
+            let items = nodeInfo.querySelectorAll(':scope > *');
+            let boundsOfItems = Array.from(items).map(item => {
+                let x = +item.getAttribute('x');
+                let y = +item.getAttribute('y');
+                let bounds = this.getDefaultBoundsFor(item);
+
+                shiftBounds(bounds, x, y);
+
+                return bounds;
+            });
+
+            let combinedBounds = combineBounds(boundsOfItems);
+
+            ratioX = ICON_SIZE / combinedBounds.width;
+            ratioY = ICON_SIZE / combinedBounds.height;
+
+        } else if (!$mesh.is('.marker-mesh')) {
+            let texture = node?.querySelector('texture')?.textContent;
 
             let imageSize = this.context.getImageSize(texture);
             let imageWidth = imageSize?.width;
@@ -296,5 +343,23 @@ export default class PaletteView extends AbstractView {
         }
 
         return Math.min(1, ratioX, ratioY);
+    }
+
+    getDefaultBoundsFor(item) {
+        let tagName = item.tagName;
+        let radius = this.uiNodeFactory.getIconRadius(tagName);
+
+        if (this.context.isMarkerNode(tagName)) {
+            return createBoundsWithSize(-radius, -radius, radius * 2, radius * 2);
+        }
+
+        let typeName = item.getAttribute('type');
+        let node = this.context.getNodeByName(tagName, typeName);
+
+        if (!node.querySelector(':scope mesh')) {
+            return createBoundsWithSize(-radius, -radius, radius * 2, radius * 2);
+        }
+
+        return this.uiNodeFactory.getDefaultFrameBoundsFor(tagName, typeName, node);
     }
 }

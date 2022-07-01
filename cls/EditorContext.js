@@ -25,6 +25,7 @@ export default class EditorContext {
         ambient: 'magic',
         item: 'item',
         chest: 'item',
+        composition: 'composed',
     };
 
     nodeTagToConfigTagNameMap = {
@@ -37,6 +38,7 @@ export default class EditorContext {
         ambient: 'ambient',
         item: 'item',
         chest: 'item',
+        composition: 'composition',
     };
 
     constructor() {
@@ -69,6 +71,7 @@ export default class EditorContext {
             unit: this.loadXml('data/cfg/unit.xml'),
             magic: this.loadXml('data/cfg/magic.xml'),
             item: this.loadXml('data/cfg/item.xml'),
+            composed: this.loadXml('data/cfg/composed.xml'),
         };
     }
 
@@ -254,6 +257,10 @@ export default class EditorContext {
         let nodePath = nodeInfo.getTextContentOf('node')
             || nodeInfo.getTextContentOf('animation > node')
             || nodeInfo.getTextContentOf('structure > node');
+
+        if (!nodePath) {
+            return null;
+        }
 
         return this.loadXml(nodePath);
     }

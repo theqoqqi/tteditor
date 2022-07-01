@@ -613,6 +613,10 @@ export default class MapEditor {
         return this.map;
     }
 
+    createMapNodeFromElement(element) {
+        return this.reader.createNodeFromElement(element);
+    }
+
     logMapNode(mapNode) {
         if (!mapNode) {
             console.log('Node is null');
