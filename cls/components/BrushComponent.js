@@ -8,7 +8,7 @@ export default class BrushComponent extends AbstractComponent {
         super(editor, BrushView);
 
         this.mapNodes = [];
-        this.offsetsByMapNodeEditorIds = new Map();
+        this.offsetsByMapNodeIds = new Map();
     }
 
     hasBrush() {
@@ -21,12 +21,12 @@ export default class BrushComponent extends AbstractComponent {
     }
 
     setBrush(mapNodes) {
-        this.offsetsByMapNodeEditorIds.clear();
+        this.offsetsByMapNodeIds.clear();
 
         this.mapNodes = mapNodes.map(mapNode => mapNode.clone());
 
         for (const mapNode of this.mapNodes) {
-            this.offsetsByMapNodeEditorIds.set(mapNode.editorId, {
+            this.offsetsByMapNodeIds.set(mapNode.editorId, {
                 x: mapNode.x,
                 y: mapNode.y,
             });
@@ -52,7 +52,7 @@ export default class BrushComponent extends AbstractComponent {
 
     setPositionOnMap(x, y) {
         for (const mapNode of this.mapNodes) {
-            let offset = this.offsetsByMapNodeEditorIds.get(mapNode.editorId);
+            let offset = this.offsetsByMapNodeIds.get(mapNode.editorId);
 
             this.editor.setMapNodePosition(mapNode, x + offset.x, y + offset.y);
             this.editor.mapPositionToViewportPosition(mapNode);
