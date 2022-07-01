@@ -73,7 +73,6 @@ export default class RandomizerListView extends AbstractView {
     }
 
     setMap(map) {
-        this.map = map;
         this.mapObservers.setSingleObservable(map);
         this.mapObservers.triggerFor(map);
     }

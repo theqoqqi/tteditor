@@ -238,7 +238,6 @@ export default class MapView extends AbstractView {
     }
 
     setMap(map) {
-        this.map = map;
         this.mapObservers.setSingleObservable(map);
         this.mapObservers.triggerFor(map);
     }

@@ -3,11 +3,12 @@ import Hotkeys from '../../util/Hotkeys.js';
 
 export default class HoveredMapNodesContextMenuView extends ContextMenuView {
 
-    constructor(context) {
+    constructor(editor) {
         super();
 
-        this.context = context;
-        this.uiNodeFactory = context.getUiNodeFactory();
+        this.editor = editor;
+        this.context = editor.getContext();
+        this.uiNodeFactory = this.context.getUiNodeFactory();
 
         this.clickListener = () => {};
         this.mouseEnterListener = () => {};
