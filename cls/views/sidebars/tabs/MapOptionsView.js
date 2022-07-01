@@ -6,8 +6,6 @@ export default class MapOptionsView extends AbstractView {
     constructor(editor) {
         super(editor);
 
-        this.map = null;
-
         this.$mapOptions = $('#map-options');
         this.$controls = this.$mapOptions.find('.property');
 
@@ -120,7 +118,6 @@ export default class MapOptionsView extends AbstractView {
     }
 
     setMap(map) {
-        this.map = map;
         this.mapObservers.setSingleObservable(map);
         this.mapObservers.triggerFor(map);
     }

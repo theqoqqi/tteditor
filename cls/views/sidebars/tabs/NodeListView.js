@@ -10,8 +10,6 @@ export default class NodeListView extends AbstractView {
     constructor(editor) {
         super(editor);
 
-        this.map = null;
-
         this.$nodeList = $('#node-list');
         this.itemListView = new ItemListView(this.$nodeList);
 
@@ -89,7 +87,6 @@ export default class NodeListView extends AbstractView {
     }
 
     setMap(map) {
-        this.map = map;
         this.mapObservers.setSingleObservable(map);
         this.mapObservers.triggerFor(map);
     }
