@@ -420,8 +420,8 @@ export default class MapEditor {
         return this.brushComponent.hasBrush();
     }
 
-    setBrush(tagName, typeName, name) {
-        this.brushComponent.setBrush(tagName, typeName, name);
+    setBrush(mapNodes) {
+        this.brushComponent.setBrush(mapNodes);
     }
 
     clearBrush() {
