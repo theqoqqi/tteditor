@@ -34,6 +34,12 @@ export default class MapWriter {
         return mapDocument;
     }
 
+    init() {
+        this.parser = new DOMParser();
+        this.mapDocument = document.implementation.createDocument(null, 'level');
+        this.mapXmlRoot = this.mapDocument.documentElement;
+    }
+
     writeTriggers() {
         let triggerListElement = this.mapDocument.createElement('triggers');
 

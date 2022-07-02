@@ -3,6 +3,7 @@ import MapView from '../views/MapView.js';
 import Hotkeys from '../util/Hotkeys.js';
 import MoveNodesCommand from '../commands/map/MoveNodesCommand.js';
 import MapEditor from '../MapEditor.js';
+import Clipboard from '../util/Clipboard.js';
 
 export default class MapComponent extends AbstractComponent {
 
@@ -127,6 +128,52 @@ export default class MapComponent extends AbstractComponent {
 
             this.editor.executeCommand(command);
         });
+
+        document.addEventListener('copy', e => {
+            if (!this.view.isFocused()) {
+                return;
+            }
+
+            e.preventDefault();
+
+            let selectedMapNodes = this.editor.getSelectedNodes();
+
+            Clipboard.from(e).writeMapNodes(selectedMapNodes);
+        });
+
+        document.addEventListener('paste', e => {
+            if (!this.view.isFocused()) {
+                return;
+            }
+
+            e.preventDefault();
+
+            let mapNodes = this.centerMapNodes(e);
+
+            this.editor.setPointerMode(MapEditor.POINTER_MODE_BRUSH);
+            this.editor.setBrush(mapNodes);
+        });
+    }
+
+    centerMapNodes(e) {
+        let averageFunc = (array, propertyName) => {
+            let sum = array.reduce((previous, mapNode) => {
+                return previous + mapNode[propertyName];
+            }, 0);
+
+            return sum / array.length;
+        };
+
+        let mapNodes = Clipboard.from(e).readMapNodes();
+        let centerX = averageFunc(mapNodes, 'x');
+        let centerY = averageFunc(mapNodes, 'y');
+
+        mapNodes.map(mapNode => {
+            mapNode.x -= centerX;
+            mapNode.y -= centerY;
+        });
+
+        return mapNodes;
     }
 
     #getMoveByForNodes(mapNodes) {

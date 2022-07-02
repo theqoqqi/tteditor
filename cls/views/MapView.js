@@ -110,6 +110,8 @@ export default class MapView extends AbstractView {
 
         this.$map.on('mousedown', e => {
 
+            this.$mapScroll.focus();
+
             if (e.which !== 1 && e.which !== 3) {
                 return;
             }
@@ -122,8 +124,6 @@ export default class MapView extends AbstractView {
             } else {
                 this.rightClickListener(mapNode, e);
             }
-
-            this.$mapScroll.focus();
         });
 
         this.$map.contextmenu(e => e.shiftKey);
@@ -175,6 +175,10 @@ export default class MapView extends AbstractView {
                 this.moveActionListener(x, y);
             }
         });
+    }
+
+    isFocused() {
+        return this.$mapScroll.is(':focus');
     }
 
     createScrollComponent() {
