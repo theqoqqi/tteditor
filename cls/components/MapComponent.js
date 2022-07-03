@@ -4,6 +4,7 @@ import Hotkeys from '../util/Hotkeys.js';
 import MoveNodesCommand from '../commands/map/MoveNodesCommand.js';
 import MapEditor from '../MapEditor.js';
 import Clipboard from '../util/Clipboard.js';
+import RemoveNodesCommand from '../commands/map/RemoveNodesCommand.js';
 
 export default class MapComponent extends AbstractComponent {
 
@@ -127,6 +128,20 @@ export default class MapComponent extends AbstractComponent {
             let command = new MoveNodesCommand(this.editor, selectedMapNodes, moveBy.x * x, moveBy.y * y);
 
             this.editor.executeCommand(command);
+        });
+
+        document.addEventListener('cut', e => {
+            if (!this.view.isFocused()) {
+                return;
+            }
+
+            e.preventDefault();
+
+            let selectedMapNodes = this.editor.getSelectedNodes();
+            let command = new RemoveNodesCommand(this.editor, selectedMapNodes);
+
+            this.editor.executeCommand(command);
+            Clipboard.from(e).writeMapNodes(selectedMapNodes);
         });
 
         document.addEventListener('copy', e => {
