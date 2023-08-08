@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import List from '../../shared/list/List.js';
 
 LevelList.propTypes = {
-    levels: PropTypes.object,
+    levels: PropTypes.array,
 };
 
 function LevelList({ levels, selected, onSelect }) {
