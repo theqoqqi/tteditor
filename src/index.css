@@ -1,6 +1,31 @@
-body {
+
+* {
     margin: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+
+    /* Элементы с mix-blend-mode в WebKit вызывают глитчи в интерфейсе, на местах, где нет background */
+    /* Просто указываем явно белый цвет фона */
+    background: white;
+}
+
+#root {
+    width: 100%;
+    height: 100%;
+}
+
+body, button {
     font-family: 'Segoe UI', 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+
+    color: #444;
 }
 
 code {
