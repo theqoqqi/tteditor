@@ -12,7 +12,7 @@ TabbedSidebar.propTypes = {
     side: PropTypes.oneOf(['left', 'right']),
     tabs: PropTypes.arrayOf(PropTypes.shape({
         title: PropTypes.string,
-        icon: PropTypes.string,
+        icon: PropTypes.any,
         content: PropTypes.any,
     })),
 };
