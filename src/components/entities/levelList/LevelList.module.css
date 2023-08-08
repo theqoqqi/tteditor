@@ -1,0 +1,8 @@
+
+.levelList {
+    border-radius: 0;
+
+    padding-bottom: 24px;
+
+    overflow-y: auto;
+}

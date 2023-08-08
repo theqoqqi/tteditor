@@ -1,0 +1,24 @@
+
+.level {
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.path {
+    color: gray;
+    font-size: 12px;
+}
+
+.level.selected .path {
+    color: white;
+}
+
+.level.selected .modifiedLabel {
+    color: white;
+    font-size: 12px;
+}
