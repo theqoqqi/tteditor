@@ -2,12 +2,13 @@ import styles from './LeftSidebar.module.css';
 import React, {useState} from 'react';
 import TabbedSidebar from '../../entities/tabbedSidebar/TabbedSidebar.js';
 import {BsArrow90DegLeft, BsFolderFill, BsGripVertical} from 'react-icons/bs';
+import LevelListTab from './levelListTab/LevelListTab.js';
 
 const allTabs = [
     {
         title: 'Список карт',
         icon: <BsFolderFill />,
-        content: <b>Список карт</b>,
+        content: <LevelListTab />,
     },
     {
         title: 'Палитра',
