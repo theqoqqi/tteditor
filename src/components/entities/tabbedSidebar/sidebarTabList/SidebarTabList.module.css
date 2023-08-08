@@ -1,0 +1,11 @@
+
+.tabList {
+    display: flex;
+    flex-direction: column;
+
+    width: 24px;
+    padding: 0;
+    margin: 0;
+
+    background-color: #ddd;
+}

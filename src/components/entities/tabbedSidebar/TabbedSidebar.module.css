@@ -1,0 +1,23 @@
+
+.tabbedSidebar {
+    display: flex;
+
+    z-index: 110000;
+}
+
+.tabbedSidebar.left {
+
+}
+
+.tabbedSidebar.right {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.tabList.left {
+    border-right: 1px solid #aaa;
+}
+
+.tabList.right {
+    border-left: 1px solid #aaa;
+}

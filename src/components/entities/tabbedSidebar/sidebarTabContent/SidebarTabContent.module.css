@@ -1,0 +1,14 @@
+
+.tabContent {
+
+}
+
+.tabContent:not(.selected) {
+    display: none;
+}
+
+.tabContent.selected {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
