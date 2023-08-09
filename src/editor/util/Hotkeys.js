@@ -45,7 +45,7 @@ export default class Hotkeys {
         let preventDefault = options.preventDefault ?? true;
         let stopPropagation = options.stopPropagation ?? true;
 
-        $(element).on('keydown', e => {
+        element.addEventListener('keydown', e => {
             if (Hotkeys.matches(shortcut, e)) {
                 if (preventDefault) {
                     e.preventDefault();
