@@ -24,6 +24,7 @@ import RemoveNodesCommand from './commands/map/RemoveNodesCommand.js';
 import DummyCommand from './commands/DummyCommand.js';
 import PaletteMapNodeContextMenuComponent from './components/menus/PaletteMapNodeContextMenuComponent.js';
 import CompositeObserver from './util/observables/CompositeObserver.js';
+import UINodeFactory from './UINodeFactory.js';
 import {downloadXml, reformatXml} from './util/xml.js';
 
 export default class MapEditor {
@@ -36,7 +37,7 @@ export default class MapEditor {
 
     constructor(context) {
         this.context = context;
-        this.uiNodeFactory = context.getUiNodeFactory();
+        this.uiNodeFactory = new UINodeFactory(context);
 
         this.reader = new MapReader(context);
         this.writer = new MapWriter(context);
@@ -662,5 +663,9 @@ export default class MapEditor {
         }
 
         throw new Error('Unsupported modalType: ' + modalType);
+    }
+
+    getUiNodeFactory() {
+        return this.uiNodeFactory;
     }
 }

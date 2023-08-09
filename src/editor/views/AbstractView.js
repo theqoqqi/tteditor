@@ -8,7 +8,7 @@ export default class AbstractView {
     constructor(editor) {
         this.editor = editor;
         this.context = editor.getContext();
-        this.uiNodeFactory = this.context.getUiNodeFactory();
+        this.uiNodeFactory = editor.getUiNodeFactory();
     }
 
     get map() {

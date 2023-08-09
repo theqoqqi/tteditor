@@ -1,5 +1,4 @@
 import MapTerrain from './map/MapTerrain.js';
-import UINodeFactory from './UINodeFactory.js';
 import MapNode from './map/MapNode.js';
 import {getNumericContent, getTextContent} from './util/xml.js';
 import {hexIntColorToColor} from './util/colors.js';
@@ -43,7 +42,6 @@ export default class EditorContext {
     };
 
     constructor() {
-        this.uiNodeFactory = new UINodeFactory(this);
         this.currentAudio = null;
 
         this.loadWorkspacePath();
@@ -414,9 +412,5 @@ export default class EditorContext {
         }
 
         return path;
-    }
-
-    getUiNodeFactory() {
-        return this.uiNodeFactory;
     }
 }

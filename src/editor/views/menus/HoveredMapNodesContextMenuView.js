@@ -8,7 +8,7 @@ export default class HoveredMapNodesContextMenuView extends ContextMenuView {
 
         this.editor = editor;
         this.context = editor.getContext();
-        this.uiNodeFactory = this.context.getUiNodeFactory();
+        this.uiNodeFactory = editor.getUiNodeFactory();
 
         this.clickListener = () => {};
         this.mouseEnterListener = () => {};
