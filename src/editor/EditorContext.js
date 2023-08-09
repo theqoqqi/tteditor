@@ -1,7 +1,8 @@
 import MapTerrain from './map/MapTerrain.js';
 import UINodeFactory from './UINodeFactory.js';
 import MapNode from './map/MapNode.js';
-import {getNumericContent, getTextContent, hexIntColorToColor} from './util/utils.js';
+import {hexIntColorToColor} from './util/utils.js';
+import {getNumericContent, getTextContent} from './util/xml.js';
 
 // noinspection CssInvalidHtmlTagReference
 export default class EditorContext {

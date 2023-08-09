@@ -23,8 +23,8 @@ import CommandListComponent from './components/CommandListComponent.js';
 import RemoveNodesCommand from './commands/map/RemoveNodesCommand.js';
 import DummyCommand from './commands/DummyCommand.js';
 import PaletteMapNodeContextMenuComponent from './components/menus/PaletteMapNodeContextMenuComponent.js';
-import {downloadXml, reformatXml} from './util/utils.js';
 import CompositeObserver from './util/observables/CompositeObserver.js';
+import {downloadXml, reformatXml} from './util/xml.js';
 
 export default class MapEditor {
 

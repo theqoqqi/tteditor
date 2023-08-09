@@ -3,7 +3,8 @@ import MapNode from './map/MapNode.js';
 import Trigger from './map/Trigger.js';
 import MapOptions from './map/MapOptions.js';
 import RandomizerOption from './map/RandomizerOption.js';
-import {getNumericContent, getTextContent, hexIntColorToColor} from './util/utils.js';
+import {hexIntColorToColor} from './util/utils.js';
+import {getNumericContent, getTextContent} from './util/xml.js';
 
 // noinspection CssInvalidHtmlTagReference
 export default class MapReader {

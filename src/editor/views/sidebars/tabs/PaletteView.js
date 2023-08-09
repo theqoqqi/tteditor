@@ -1,5 +1,6 @@
 import AbstractView from '../../AbstractView.js';
-import {combineBounds, createBoundsWithSize, getNumericContent, shiftBounds} from '../../../util/utils.js';
+import {combineBounds, createBoundsWithSize, shiftBounds} from '../../../util/utils.js';
+import {getNumericContent} from '../../../util/xml.js';
 
 let ICON_SIZE = 64;
 let ICON_PADDING = 0;
