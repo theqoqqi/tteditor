@@ -53,9 +53,15 @@ export default class EditorContext {
             return;
         }
 
+        let start = Date.now();
+
         await this.reloadConfigs();
         await this.preloadDataConfigs();
         await this.reloadImageSizes();
+
+        let end = Date.now();
+
+        console.log('Data loading finished in', end - start, 'ms');
     }
 
     async reloadConfigs() {
@@ -77,12 +83,30 @@ export default class EditorContext {
 
     async preloadDataConfigs() {
         let allNodePaths = Object.values(this.configsByNames)
-            .flatMap(configXml => configXml.querySelectorAll('node, node2'))
+            .flatMap(configXml => Array.from(configXml.querySelectorAll('node, node2')))
             .map(node => node.textContent);
 
-        await Promise.all(allNodePaths.map(async path => {
-            await this.loadXml(path);
-        }));
+        for (const chunk of this.toChunks(allNodePaths, 10)) {
+            await Promise.all(chunk.map(async path => {
+                try {
+                    await this.loadXml(path);
+                } catch (e) {
+                    console.error('Failed to preload:', path);
+                }
+            }));
+        }
+    }
+
+    toChunks(array, chunkSize) {
+        let chunks = [];
+
+        for (let i = 0; i < array.length; i += chunkSize) {
+            const chunk = array.slice(i, i + chunkSize);
+
+            chunks.push(chunk);
+        }
+
+        return chunks;
     }
 
     async reloadImageSizes() {
