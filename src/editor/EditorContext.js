@@ -6,6 +6,8 @@ import {hexIntColorToColor} from './util/colors.js';
 // noinspection CssInvalidHtmlTagReference
 export default class EditorContext {
 
+    serverUrl = null;
+
     workspacePath = null;
 
     imageSizes = null;
@@ -41,11 +43,9 @@ export default class EditorContext {
         composition: 'composition',
     };
 
-    constructor() {
+    constructor(serverUrl) {
+        this.serverUrl = serverUrl;
         this.currentAudio = null;
-
-        this.loadWorkspacePath();
-        this.reloadDataFromServer();
     }
 
     async reloadDataFromServer() {
@@ -110,7 +110,7 @@ export default class EditorContext {
     }
 
     async reloadImageSizes() {
-        let responseText = await this.get('/load_image_sizes.php');
+        let responseText = await this.get('images');
 
         let imageSizes = JSON.parse(responseText);
 
@@ -350,39 +350,24 @@ export default class EditorContext {
         return allTagNames.filter(tagName => tagName !== 'chest');
     }
 
-    async setWorkspacePath(workspacePath) {
-        let responseText = await this.post('/set_workspace_path.php', {
-            path: workspacePath,
-        });
-
-        let response = JSON.parse(responseText);
-        let isOk = response.status === 'OK';
-
-        if (isOk) {
-            this.workspacePath = workspacePath;
-        }
-
-        return isOk;
+    setWorkspacePath(workspacePath) {
+        this.workspacePath = workspacePath;
     }
 
     getWorkspacePath() {
         return this.workspacePath;
     }
 
-    async loadWorkspacePath() {
-        this.workspacePath = await this.get('/get_workspace_path.php');
-    }
-
     async loadLevelList() {
-        let responseText = await this.get('/load_level_list.php');
+        let responseText = await this.get('levels');
 
         return JSON.parse(responseText);
     }
 
     async saveLevel(filename, levelXml) {
-        let responseText = await this.post('save_level.php', {
-            filename: filename,
-            level_xml: levelXml,
+        let responseText = await this.post('files', {
+            path: filename,
+            contents: levelXml,
         });
 
         console.log(responseText)
@@ -395,6 +380,8 @@ export default class EditorContext {
     }
 
     getXml(filename) {
+        filename = this.normalizeDataPath(filename);
+
         return this.loadedXmlFiles[filename];
     }
 
@@ -406,8 +393,8 @@ export default class EditorContext {
         }
 
         let parser = new DOMParser();
-        let responseText = await this.get('/load_xml.php', {
-            relative_path: filename,
+        let responseText = await this.get('files', {
+            path: filename,
         });
 
         this.loadedXmlFiles[filename] = parser.parseFromString(responseText, 'text/xml');
@@ -426,6 +413,10 @@ export default class EditorContext {
     async executeHttpRequest(method, url, options = {}) {
         let fetchOptions = {
             method,
+            headers: {
+                workspace: this.workspacePath,
+                'Content-Type': 'application/json',
+            },
         };
 
         if (options.data) {
@@ -436,7 +427,7 @@ export default class EditorContext {
             url += '?' + new URLSearchParams(options.params);
         }
 
-        const rawResponse = await fetch(url, fetchOptions);
+        const rawResponse = await fetch(this.serverUrl + '/' + url, fetchOptions);
 
         return await rawResponse.text();
     }
