@@ -81,7 +81,7 @@ export default class MapEditor {
         this.reloadDataFromServer();
     }
 
-    reloadDataFromServer() {
+    async reloadDataFromServer() {
         let workspacePath = this.context.getWorkspacePath();
 
         this.statusBarComponent.setWorkspacePath(workspacePath);
@@ -90,7 +90,7 @@ export default class MapEditor {
             return;
         }
 
-        let levelList = this.context.loadLevelList();
+        let levelList = await this.context.loadLevelList();
 
         this.levelListComponent.setLevelList(levelList);
     }
@@ -279,17 +279,17 @@ export default class MapEditor {
         this.mapComponent.setNodeHighlighted(mapNode, isHighlighted);
     }
 
-    resetCurrentLevel() {
+    async resetCurrentLevel() {
         let filename = this.levelListComponent.getSelectedFile();
 
-        this.loadLevel(filename);
+        await this.loadLevel(filename);
     }
 
-    saveCurrentLevel() {
+    async saveCurrentLevel() {
         let filename = this.levelListComponent.getSelectedFile();
         let levelXml = this.mapToXml(this.map);
 
-        this.context.saveLevel(filename, levelXml);
+        await this.context.saveLevel(filename, levelXml);
         this.setLevelClear();
     }
 
@@ -344,8 +344,8 @@ export default class MapEditor {
         }
     }
 
-    loadLevel(filename) {
-        let mapXml = this.context.loadXml(filename);
+    async loadLevel(filename) {
+        let mapXml = await this.context.loadXml(filename);
         let map = this.reader.readLevel(mapXml);
 
         this.commandExecutor.clear();

@@ -12,7 +12,7 @@ export default class StatusBarComponent extends AbstractComponent {
             this.view.setEditWorkspaceModeActive(true);
         });
 
-        this.view.setSaveWorkspacePathButtonListener(() => {
+        this.view.setSaveWorkspacePathButtonListener(async () => {
             let oldValue = this.context.getWorkspacePath();
             let newValue = this.view.getWorkspacePath();
 
@@ -20,9 +20,9 @@ export default class StatusBarComponent extends AbstractComponent {
 
             if (oldValue !== newValue) {
                 this.context.setWorkspacePath(newValue);
-                this.context.reloadDataFromServer();
+                await this.context.reloadDataFromServer();
                 this.view.setWorkspacePath(newValue);
-                this.editor.reloadDataFromServer();
+                await this.editor.reloadDataFromServer();
             }
         });
     }

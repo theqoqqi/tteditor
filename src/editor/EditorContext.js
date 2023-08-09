@@ -54,7 +54,8 @@ export default class EditorContext {
         }
 
         this.reloadConfigs();
-        this.reloadImageSizes()
+        this.preloadDataConfigs();
+        this.reloadImageSizes();
     }
 
     reloadConfigs() {
@@ -72,6 +73,16 @@ export default class EditorContext {
             item: this.loadXml('data/cfg/item.xml'),
             composed: this.loadXml('data/cfg/composed.xml'),
         };
+    }
+
+    async preloadDataConfigs() {
+        let allNodePaths = Object.values(this.configsByNames)
+            .flatMap(configXml => configXml.querySelectorAll('node, node2'))
+            .map(node => node.textContent);
+
+        await Promise.all(allNodePaths.map(async path => {
+            await this.loadXml(path);
+        }));
     }
 
     async reloadImageSizes() {
@@ -136,8 +147,8 @@ export default class EditorContext {
         return this.imageSizes[imagePath.toLowerCase()];
     }
 
-    playSoundFor(tagName, typeName) {
-        let randomSound = this.getSoundFor(tagName, typeName);
+    async playSoundFor(tagName, typeName) {
+        let randomSound = await this.getSoundFor(tagName, typeName);
 
         this.playSound(randomSound)
     }
@@ -153,17 +164,17 @@ export default class EditorContext {
         this.currentAudio.play();
     }
 
-    getSoundFor(tagName, typeName) {
+    async getSoundFor(tagName, typeName) {
         let nodeInfo = this.getNodeInfoByName(tagName, typeName);
         let effectPath = getTextContent(nodeInfo, 'effect');
-        let effect = this.loadXml(effectPath);
+        let effect = await this.loadXml(effectPath);
         let sounds = effect.querySelectorAll('node > prototype > sound');
 
         if (!sounds.length) {
             let playlistPath = getTextContent(effect, 'node > prototype > playlist');
 
             if (playlistPath) {
-                let playlist = this.loadXml(playlistPath);
+                let playlist = await this.loadXml(playlistPath);
                 sounds = playlist.querySelectorAll('sound');
             }
         }
@@ -259,7 +270,7 @@ export default class EditorContext {
             return null;
         }
 
-        return this.loadXml(nodePath);
+        return this.getXml(nodePath);
     }
 
     getElementByXpath(dom, path) {
@@ -357,6 +368,10 @@ export default class EditorContext {
 
     forgetFile(filename) {
         this.loadedXmlFiles[filename] = null;
+    }
+
+    getXml(filename) {
+        return this.loadedXmlFiles[filename];
     }
 
     async loadXml(filename) {
