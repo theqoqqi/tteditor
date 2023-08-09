@@ -1,5 +1,5 @@
-import CompositeObserver from '../util/CompositeObserver.js';
 import AbstractView from './AbstractView.js';
+import CompositeObserver from '../util/observables/CompositeObserver.js';
 
 export default class BrushView extends AbstractView {
 

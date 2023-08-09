@@ -1,7 +1,7 @@
 import ItemListView from '../../util/ItemListView.js';
 import ItemButtonView from '../../util/ItemButtonView.js';
-import CompositeObserver from '../../../util/CompositeObserver.js';
 import AbstractView from '../../AbstractView.js';
+import CompositeObserver from '../../../util/observables/CompositeObserver.js';
 
 export default class NodeListView extends AbstractView {
 

@@ -81,7 +81,7 @@ export default class CompositeObserver {
         for (const observer of this.observers) {
             let target = CompositeObserver.#resolveTarget(observable, observer);
 
-            CompositeObserver.#triggerObserverFor(observer, target)
+            CompositeObserver.#triggerObserverFor(observer, target);
         }
     }
 

@@ -16,7 +16,6 @@ import HoveredMapNodesContextMenuComponent from './components/menus/HoveredMapNo
 import MapNodeContextMenuComponent from './components/menus/MapNodeContextMenuComponent.js';
 import LeftSidebarComponent from './components/sidebars/LeftSidebarComponent.js';
 import RightSidebarComponent from './components/sidebars/RightSidebarComponent.js';
-import CompositeObserver from './util/CompositeObserver.js';
 import LayerListComponent from './components/sidebars/tabs/LayerListComponent.js';
 import BrushComponent from './components/BrushComponent.js';
 import CommandExecutor from './util/CommandExecutor.js';
@@ -25,6 +24,7 @@ import RemoveNodesCommand from './commands/map/RemoveNodesCommand.js';
 import DummyCommand from './commands/DummyCommand.js';
 import PaletteMapNodeContextMenuComponent from './components/menus/PaletteMapNodeContextMenuComponent.js';
 import {downloadXml, reformatXml} from './util/utils.js';
+import CompositeObserver from './util/observables/CompositeObserver.js';
 
 export default class MapEditor {
 

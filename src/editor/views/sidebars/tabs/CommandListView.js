@@ -1,6 +1,6 @@
 import ItemListView from '../../util/ItemListView.js';
-import CompositeObserver from '../../../util/CompositeObserver.js';
 import AbstractView from '../../AbstractView.js';
+import CompositeObserver from '../../../util/observables/CompositeObserver.js';
 
 export default class CommandListView extends AbstractView {
 

@@ -1,4 +1,4 @@
-import Observable from '../util/Observable.js';
+import Observable from '../util/observables/Observable.js';
 
 let nextEditorId = 1;
 
