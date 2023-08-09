@@ -1,4 +1,3 @@
-
 import MapTerrain from './map/MapTerrain.js';
 import UINodeFactory from './UINodeFactory.js';
 import MapNode from './map/MapNode.js';
@@ -89,17 +88,17 @@ export default class EditorContext {
         let terrain = new MapTerrain(terrainName);
         let terrainXml = this.getNodeByName('terrain', terrainName);
 
-        terrain.width = terrainXml.getNumericContentOf('width');
-        terrain.height = terrainXml.getNumericContentOf('height');
+        terrain.width = getNumericContent(terrainXml, 'width');
+        terrain.height = getNumericContent(terrainXml, 'height');
         terrain.texture = null;
         terrain.color = null;
 
         if (terrainXml.querySelector('texture')) {
-            terrain.texture = terrainXml.getTextContentOf('texture');
+            terrain.texture = getTextContent(terrainXml, 'texture');
         }
 
         if (terrainXml.querySelector('color')) {
-            let color = terrainXml.getTextContentOf('mesh > color');
+            let color = getTextContent(terrainXml, 'mesh > color');
 
             terrain.color = hexIntColorToColor(color);
         }
@@ -158,12 +157,12 @@ export default class EditorContext {
 
     getSoundFor(tagName, typeName) {
         let nodeInfo = this.getNodeInfoByName(tagName, typeName);
-        let effectPath = nodeInfo.getTextContentOf('effect');
+        let effectPath = getTextContent(nodeInfo, 'effect');
         let effect = this.loadXml(effectPath);
         let sounds = effect.querySelectorAll('node > prototype > sound');
 
         if (!sounds.length) {
-            let playlistPath = effect.getTextContentOf('node > prototype > playlist');
+            let playlistPath = getTextContent(effect, 'node > prototype > playlist');
 
             if (playlistPath) {
                 let playlist = this.loadXml(playlistPath);
@@ -254,9 +253,9 @@ export default class EditorContext {
     }
 
     getNodeXml(nodeInfo) {
-        let nodePath = nodeInfo.getTextContentOf('node')
-            || nodeInfo.getTextContentOf('animation > node')
-            || nodeInfo.getTextContentOf('structure > node');
+        let nodePath = getTextContent(nodeInfo, 'node')
+            || getTextContent(nodeInfo, 'animation > node')
+            || getTextContent(nodeInfo, 'structure > node');
 
         if (!nodePath) {
             return null;

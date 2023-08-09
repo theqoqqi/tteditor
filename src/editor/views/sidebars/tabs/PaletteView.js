@@ -335,8 +335,8 @@ export default class PaletteView extends AbstractView {
             let imageHeight = imageSize?.height;
 
             let mesh = $mesh.data('mesh');
-            let meshWidth = mesh.getNumericContentOf('width');
-            let meshHeight = mesh.getNumericContentOf('height');
+            let meshWidth = getNumericContent(mesh, 'width');
+            let meshHeight = getNumericContent(mesh, 'height');
 
             ratioX *= imageWidth / meshWidth;
             ratioY *= imageHeight / meshHeight;

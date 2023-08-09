@@ -1,18 +1,15 @@
 
-Element.prototype.getTextContentOf = function (selector, defaultValue = null) {
-    // let element = this.querySelector(selector);
-    let element = this.querySelector(`:scope > ${selector}`);
-    return element?.textContent ?? defaultValue;
-}
+function getNumericContent(ofElement, selector, defaultValue = null) {
+    let text = getTextContent(ofElement, selector, null);
 
-Element.prototype.getNumericContentOf = function (selector, defaultValue = null) {
-    let text = this.getTextContentOf(selector);
     return text && text !== '' ? +text : defaultValue;
 }
 
-// ''+ специально, чтобы IDE не подсказывала эти варианты
-XMLDocument.prototype[''+'getTextContentOf'] = Element.prototype.getTextContentOf;
-XMLDocument.prototype[''+'getNumericContentOf'] = Element.prototype.getNumericContentOf;
+function getTextContent(ofElement, selector, defaultValue = null) {
+    let child = ofElement.querySelector(`:scope > ${selector}`);
+
+    return child?.textContent ?? defaultValue;
+}
 
 function hexIntColorToColor(color) {
     if (!color) {
@@ -34,7 +31,7 @@ function colorToHexIntColor(c) {
         return null;
     }
 
-    let components = componentToHex(c.a) +componentToHex(c.r) + componentToHex(c.g) +  componentToHex(c.b);
+    let components = componentToHex(c.a) + componentToHex(c.r) + componentToHex(c.g) + componentToHex(c.b);
 
     return '0x' + components.toUpperCase();
 }

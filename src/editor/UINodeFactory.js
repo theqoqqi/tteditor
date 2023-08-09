@@ -98,8 +98,8 @@ export default class UINodeFactory {
 
         let nodeInfo = this.context.getNodeInfoByName(mapNode.tag, mapNode.type);
 
-        return nodeInfo?.getNumericContentOf('radius', null)
-            || nodeInfo?.getNumericContentOf('structure > radius', null)
+        return getNumericContent(nodeInfo, 'radius')
+            || getNumericContent(nodeInfo, 'structure > radius')
             || UINodeFactory.tryParseRadius(mapNode.type, /Reveal(\d+)/g)
             || UINodeFactory.tryParseRadius(mapNode.type, /Obstacle(\d+)/g)
             || UINodeFactory.tryParseRadius(mapNode.type, /NoBuild(\d+)/g)
@@ -254,14 +254,14 @@ export default class UINodeFactory {
 
         let mesh = node.querySelector(':scope > mesh');
 
-        if (!mesh.getNumericContentOf('width') || !mesh.getNumericContentOf('height')) {
+        if (!getNumericContent(mesh, 'width') || !getNumericContent(mesh, 'height')) {
             return null;
         }
 
         if (!node.querySelector(':scope > texture')) {
-            let width = mesh.getNumericContentOf('width');
-            let height = mesh.getNumericContentOf('height');
-            let color = mesh.getTextContentOf('color');
+            let width = getNumericContent(mesh, 'width');
+            let height = getNumericContent(mesh, 'height');
+            let color = getTextContent(mesh, 'color');
 
             let $markerMesh = this.createMarkerMesh('fallback-mesh', width / 2, height / 2);
 
@@ -278,7 +278,7 @@ export default class UINodeFactory {
 
         let $mesh;
 
-        let src = node.getTextContentOf('texture');
+        let src = getTextContent(node, 'texture');
         if (src) {
             src = src.startsWith('data') ? src : 'data/' + src;
             $mesh = $(`<img class="mesh" alt="" src="${src}" />`);
@@ -288,7 +288,7 @@ export default class UINodeFactory {
 
         $mesh.data('mesh', mesh);
 
-        let color = node.getTextContentOf('mesh > color');
+        let color = getTextContent(node, 'mesh > color');
 
         if (color) {
             let rgba = hexIntColorToColor(color);
@@ -350,12 +350,12 @@ export default class UINodeFactory {
     getFrameBoundsFor(node, frameIndex) {
         let mesh = node.querySelector(':scope mesh');
 
-        let width = mesh.getNumericContentOf('width');
-        let height = mesh.getNumericContentOf('height');
-        let x = mesh.getNumericContentOf('textureoffsetx', 0);
-        let y = mesh.getNumericContentOf('textureoffsety', 0);
+        let width = getNumericContent(mesh, 'width');
+        let height = getNumericContent(mesh, 'height');
+        let x = getNumericContent(mesh, 'textureoffsetx', 0);
+        let y = getNumericContent(mesh, 'textureoffsety', 0);
 
-        let texturePath = node.getTextContentOf('texture');
+        let texturePath = getTextContent(node, 'texture');
 
         if (texturePath) {
             let textureSize = this.context.getImageSize(texturePath);
@@ -374,8 +374,8 @@ export default class UINodeFactory {
     }
 
     getMeshTargetVertices(mesh) {
-        let flipX = mesh.getNumericContentOf('fliphorizontal', 0);
-        let flipY = mesh.getNumericContentOf('flipvertical', 0);
+        let flipX = getNumericContent(mesh, 'fliphorizontal', 0);
+        let flipY = getNumericContent(mesh, 'flipvertical', 0);
 
         if (mesh.querySelector('vertex1')) {
             let vertices = this.parseMeshVertices(mesh);
@@ -385,12 +385,12 @@ export default class UINodeFactory {
             return vertices;
         }
 
-        let width = mesh.getNumericContentOf('width');
-        let height = mesh.getNumericContentOf('height');
-        let anchorX = mesh.getNumericContentOf('anchorx', width / 2);
-        let anchorY = mesh.getNumericContentOf('anchory', height / 2);
-        let boundWidth = mesh.getNumericContentOf('boundwidth', width);
-        let boundHeight = mesh.getNumericContentOf('boundheight', height);
+        let width = getNumericContent(mesh, 'width');
+        let height = getNumericContent(mesh, 'height');
+        let anchorX = getNumericContent(mesh, 'anchorx', width / 2);
+        let anchorY = getNumericContent(mesh, 'anchory', height / 2);
+        let boundWidth = getNumericContent(mesh, 'boundwidth', width);
+        let boundHeight = getNumericContent(mesh, 'boundheight', height);
 
         let boundScaleX = boundWidth / width;
         let boundScaleY = boundHeight / height;
@@ -419,10 +419,10 @@ export default class UINodeFactory {
         let vertex4 = mesh.querySelector('vertex4');
 
         return [
-            [vertex1.getNumericContentOf('x'), vertex1.getNumericContentOf('y')],
-            [vertex4.getNumericContentOf('x'), vertex4.getNumericContentOf('y')],
-            [vertex2.getNumericContentOf('x'), vertex2.getNumericContentOf('y')],
-            [vertex3.getNumericContentOf('x'), vertex3.getNumericContentOf('y')],
+            [getNumericContent(vertex1, 'x'), getNumericContent(vertex1, 'y')],
+            [getNumericContent(vertex4, 'x'), getNumericContent(vertex4, 'y')],
+            [getNumericContent(vertex2, 'x'), getNumericContent(vertex2, 'y')],
+            [getNumericContent(vertex3, 'x'), getNumericContent(vertex3, 'y')],
         ];
     }
 
@@ -541,12 +541,12 @@ export default class UINodeFactory {
         let position = node.querySelector(':scope > position');
 
         if (position) {
-            let decimalZ = position.getNumericContentOf('z', 0);
+            let decimalZ = getNumericContent(position, 'z', 0);
             let absoluteZ = Math.abs(decimalZ);
             let signZ = z > 0 ? 1 : -1;
 
-            x += Math.ceil(position.getNumericContentOf('x', 0));
-            y += Math.ceil(position.getNumericContentOf('y', 0));
+            x += Math.ceil(getNumericContent(position, 'x', 0));
+            y += Math.ceil(getNumericContent(position, 'y', 0));
             z += -Math.ceil(absoluteZ) * signZ;
         }
 
@@ -570,7 +570,7 @@ export default class UINodeFactory {
 
             if (tagName === 'landmark') {
                 let nodeInfo = this.context.getNodeInfoByName(tagName, mapNode.type);
-                let sublayer = nodeInfo.getNumericContentOf('sublayer', 0);
+                let sublayer = getNumericContent(nodeInfo, 'sublayer', 0);
 
                 z = layerZ + sublayer;
             }

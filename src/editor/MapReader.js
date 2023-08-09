@@ -74,7 +74,7 @@ export default class MapReader {
     }
 
     readTerrain() {
-        let terrainName = this.mapXml.getTextContentOf('terrain');
+        let terrainName = getTextContent(this.mapXml, 'terrain');
         let terrain = this.context.createTerrainByName(terrainName);
 
         this.map.setTerrain(terrain);
@@ -95,10 +95,10 @@ export default class MapReader {
     createOptionsFromElement(element) {
         let options = new MapOptions();
 
-        options.id = element.getNumericContentOf('id');
-        options.music = element.getTextContentOf('music');
-        options.coloring = hexIntColorToColor(element.getTextContentOf('coloring'));
-        options.fowClearColor = hexIntColorToColor(element.getTextContentOf('fow_clear_color'));
+        options.id = getNumericContent(element, 'id');
+        options.music = getTextContent(element, 'music');
+        options.coloring = hexIntColorToColor(getTextContent(element, 'coloring'));
+        options.fowClearColor = hexIntColorToColor(getTextContent(element, 'fow_clear_color'));
 
         let randomizeElements = element.querySelectorAll(':scope > randomize');
 
