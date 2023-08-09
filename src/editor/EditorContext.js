@@ -48,30 +48,30 @@ export default class EditorContext {
         this.reloadDataFromServer();
     }
 
-    reloadDataFromServer() {
+    async reloadDataFromServer() {
         if (!this.workspacePath) {
             return;
         }
 
-        this.reloadConfigs();
-        this.preloadDataConfigs();
-        this.reloadImageSizes();
+        await this.reloadConfigs();
+        await this.preloadDataConfigs();
+        await this.reloadImageSizes();
     }
 
-    reloadConfigs() {
-        this.locale = this.loadXml('data/language/Russian-1251.xml');
-        this.palette = this.loadXml('data/cfg/palette.xml');
-        this.gameLogic = this.loadXml('data/cfg/gamelogic.cfg.xml');
+    async reloadConfigs() {
+        this.locale = await this.loadXml('data/language/Russian-1251.xml');
+        this.palette = await this.loadXml('data/cfg/palette.xml');
+        this.gameLogic = await this.loadXml('data/cfg/gamelogic.cfg.xml');
 
         this.configsByNames = {
-            terrain: this.loadXml('data/cfg/terrain.xml'),
-            landmark: this.loadXml('data/cfg/landmark.xml'),
-            structure: this.loadXml('data/cfg/structure.xml'),
-            building: this.loadXml('data/cfg/building.xml'),
-            unit: this.loadXml('data/cfg/unit.xml'),
-            magic: this.loadXml('data/cfg/magic.xml'),
-            item: this.loadXml('data/cfg/item.xml'),
-            composed: this.loadXml('data/cfg/composed.xml'),
+            terrain: await this.loadXml('data/cfg/terrain.xml'),
+            landmark: await this.loadXml('data/cfg/landmark.xml'),
+            structure: await this.loadXml('data/cfg/structure.xml'),
+            building: await this.loadXml('data/cfg/building.xml'),
+            unit: await this.loadXml('data/cfg/unit.xml'),
+            magic: await this.loadXml('data/cfg/magic.xml'),
+            item: await this.loadXml('data/cfg/item.xml'),
+            composed: await this.loadXml('data/cfg/composed.xml'),
         };
     }
 
