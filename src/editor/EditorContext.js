@@ -76,10 +76,8 @@ export default class EditorContext {
         };
     }
 
-    reloadImageSizes() {
-        let responseText = this.get({
-            url: '/load_image_sizes.php',
-        });
+    async reloadImageSizes() {
+        let responseText = await this.get('/load_image_sizes.php');
 
         let imageSizes = JSON.parse(responseText);
 
@@ -319,12 +317,9 @@ export default class EditorContext {
         return allTagNames.filter(tagName => tagName !== 'chest');
     }
 
-    setWorkspacePath(workspacePath) {
-        let responseText = this.post({
-            url: '/set_workspace_path.php',
-            data: {
-                path: workspacePath,
-            },
+    async setWorkspacePath(workspacePath) {
+        let responseText = await this.post('/set_workspace_path.php', {
+            path: workspacePath,
         });
 
         let response = JSON.parse(responseText);
@@ -341,31 +336,23 @@ export default class EditorContext {
         return this.workspacePath;
     }
 
-    loadWorkspacePath() {
-        this.workspacePath = this.get({
-            url: '/get_workspace_path.php',
-        });
+    async loadWorkspacePath() {
+        this.workspacePath = await this.get('/get_workspace_path.php');
     }
 
-    loadLevelList() {
-        let responseText = this.get({
-            url: '/load_level_list.php',
-        });
+    async loadLevelList() {
+        let responseText = await this.get('/load_level_list.php');
 
         return JSON.parse(responseText);
     }
 
-    saveLevel(filename, levelXml) {
-        this.post({
-            url: 'save_level.php',
-            data: {
-                filename: filename,
-                level_xml: levelXml,
-            },
-            success: responseText => {
-                console.log(responseText)
-            }
+    async saveLevel(filename, levelXml) {
+        let responseText = await this.post('save_level.php', {
+            filename: filename,
+            level_xml: levelXml,
         });
+
+        console.log(responseText)
 
         this.forgetFile(filename);
     }
@@ -374,7 +361,7 @@ export default class EditorContext {
         this.loadedXmlFiles[filename] = null;
     }
 
-    loadXml(filename) {
+    async loadXml(filename) {
         filename = this.normalizeDataPath(filename);
 
         if (this.loadedXmlFiles[filename]) {
@@ -382,11 +369,8 @@ export default class EditorContext {
         }
 
         let parser = new DOMParser();
-        let responseText = this.get({
-            url: '/load_xml.php',
-            data: {
-                relative_path: filename,
-            },
+        let responseText = await this.get('/load_xml.php', {
+            relative_path: filename,
         });
 
         this.loadedXmlFiles[filename] = parser.parseFromString(responseText, 'text/xml');
@@ -394,12 +378,30 @@ export default class EditorContext {
         return this.loadedXmlFiles[filename];
     }
 
-    get(options) {
-        return this.executeHttpRequest('get', options);
+    async get(url, params = null) {
+        return this.executeHttpRequest('GET', url, { params });
     }
 
-    post(options) {
-        return this.executeHttpRequest('post', options);
+    async post(url, data) {
+        return this.executeHttpRequest('POST', url, { data });
+    }
+
+    async executeHttpRequest(method, url, options = {}) {
+        let fetchOptions = {
+            method,
+        };
+
+        if (options.data) {
+            fetchOptions.data = JSON.stringify(options.data);
+        }
+
+        if (options.params) {
+            url += '?' + new URLSearchParams(options.params);
+        }
+
+        const rawResponse = await fetch(url, fetchOptions);
+
+        return await rawResponse.text();
     }
 
     normalizeDataPath(path) {
@@ -412,26 +414,6 @@ export default class EditorContext {
         }
 
         return path;
-    }
-
-    executeHttpRequest(method, options) {
-        let defaultOptions = {
-            async: false,
-        };
-
-        options = $.extend(defaultOptions, options);
-
-        let resultResponseText = null;
-        let success = options.success || (() => {});
-
-        options.success = responseText => {
-            resultResponseText = responseText;
-            success(responseText);
-        };
-
-        $[method](options);
-
-        return resultResponseText;
     }
 
     getUiNodeFactory() {
