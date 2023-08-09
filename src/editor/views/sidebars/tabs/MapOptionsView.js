@@ -1,5 +1,6 @@
 import CompositeObserver from '../../../util/CompositeObserver.js';
 import AbstractView from '../../AbstractView.js';
+import {colorToHexColor, getColorBrightness, hexColorToColor} from '../../../util/utils.js';
 
 export default class MapOptionsView extends AbstractView {
 

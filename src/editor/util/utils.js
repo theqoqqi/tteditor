@@ -1,17 +1,17 @@
 
-function getNumericContent(ofElement, selector, defaultValue = null) {
+export function getNumericContent(ofElement, selector, defaultValue = null) {
     let text = getTextContent(ofElement, selector, null);
 
     return text && text !== '' ? +text : defaultValue;
 }
 
-function getTextContent(ofElement, selector, defaultValue = null) {
+export function getTextContent(ofElement, selector, defaultValue = null) {
     let child = ofElement.querySelector(`:scope > ${selector}`);
 
     return child?.textContent ?? defaultValue;
 }
 
-function hexIntColorToColor(color) {
+export function hexIntColorToColor(color) {
     if (!color) {
         return null;
     }
@@ -26,7 +26,7 @@ function hexIntColorToColor(color) {
     return { a, r, g, b };
 }
 
-function colorToHexIntColor(c) {
+export function colorToHexIntColor(c) {
     if (!c) {
         return null;
     }
@@ -36,7 +36,7 @@ function colorToHexIntColor(c) {
     return '0x' + components.toUpperCase();
 }
 
-function rgbaColorToHsbaColor(color) {
+export function rgbaColorToHsbaColor(color) {
     const r = color.r / 255;
     const g = color.g / 255;
     const b = color.b / 255;
@@ -61,7 +61,7 @@ function rgbaColorToHsbaColor(color) {
     };
 }
 
-function hsbaColorToCssFilters(color) {
+export function hsbaColorToCssFilters(color) {
     let h = color.h;
     let s = color.s;
     let b = color.b;
@@ -70,7 +70,7 @@ function hsbaColorToCssFilters(color) {
     return `opacity(${a}) saturate(${s}%) brightness(${b}%) hue-rotate(${h}deg)`;
 }
 
-function getColorBrightness(c) {
+export function getColorBrightness(c) {
     if (!c) {
         return null;
     }
@@ -78,11 +78,11 @@ function getColorBrightness(c) {
     return 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b;
 }
 
-function colorToCssRgba(c) {
+export function colorToCssRgba(c) {
     return `rgba(${c.r}, ${c.g}, ${c.b}, ${c.a / 255})`;
 }
 
-function hexColorToColor(c) {
+export function hexColorToColor(c) {
     let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(c);
 
     if (!result) {
@@ -97,19 +97,19 @@ function hexColorToColor(c) {
     };
 }
 
-function colorToHexColor(c) {
+export function colorToHexColor(c) {
     if (!c) {
         return null;
     }
     return '#' + componentToHex(c.r) + componentToHex(c.g) + componentToHex(c.b) + componentToHex(c.a);
 }
 
-function componentToHex(c) {
+export function componentToHex(c) {
     const hex = (+c).toString(16);
     return hex.length === 1 ? '0' + hex : hex;
 }
 
-function verticesToBounds(vertices) {
+export function verticesToBounds(vertices) {
     let positions = verticesToPositions(vertices);
 
     return createBounds(
@@ -120,11 +120,11 @@ function verticesToBounds(vertices) {
     );
 }
 
-function createBoundsWithSize(x, y, w, h) {
+export function createBoundsWithSize(x, y, w, h) {
     return createBounds(x, y, x + w, y + h);
 }
 
-function createBounds(minX, minY, maxX, maxY) {
+export function createBounds(minX, minY, maxX, maxY) {
     let bounds = { minX, minY, maxX, maxY };
 
     if (bounds.minX > bounds.maxX) {
@@ -140,14 +140,14 @@ function createBounds(minX, minY, maxX, maxY) {
     return bounds;
 }
 
-function fillBoundsFields(bounds) {
+export function fillBoundsFields(bounds) {
     bounds.x = bounds.minX;
     bounds.y = bounds.minY;
     bounds.width = bounds.maxX - bounds.minX;
     bounds.height = bounds.maxY - bounds.minY;
 }
 
-function shiftBounds(bounds, x, y) {
+export function shiftBounds(bounds, x, y) {
     bounds.x += x;
     bounds.y += y;
     bounds.minX += x;
@@ -156,7 +156,7 @@ function shiftBounds(bounds, x, y) {
     bounds.maxY += y;
 }
 
-function combineBounds(listOfBounds) {
+export function combineBounds(listOfBounds) {
     let aggregateFunc = (array, funcName, propertyName) => {
         let mapped = array.map(item => item[propertyName]);
 
@@ -171,13 +171,13 @@ function combineBounds(listOfBounds) {
     return createBounds(minX, minY, maxX, maxY);
 }
 
-function swapFields(object, a, b) {
+export function swapFields(object, a, b) {
     let temp = object[a];
     object[a] = object[b];
     object[b] = temp;
 }
 
-function verticesToPositions(vertices) {
+export function verticesToPositions(vertices) {
     return [
         this.verticeToPosition(vertices[0]),
         this.verticeToPosition(vertices[1]),
@@ -186,14 +186,14 @@ function verticesToPositions(vertices) {
     ];
 }
 
-function verticeToPosition(vertice) {
+export function verticeToPosition(vertice) {
     return {
         x: vertice[0],
         y: vertice[1],
     };
 }
 
-function createBoxVertices(x, y, w, h) {
+export function createBoxVertices(x, y, w, h) {
     return [
         [x,     y    ],
         [x,     y + h],
@@ -202,7 +202,7 @@ function createBoxVertices(x, y, w, h) {
     ];
 }
 
-function flipVertices(vertices, flipX, flipY) {
+export function flipVertices(vertices, flipX, flipY) {
     if (flipX) {
         vertices[0][0] = -vertices[0][0];
         vertices[1][0] = -vertices[1][0];
@@ -217,7 +217,7 @@ function flipVertices(vertices, flipX, flipY) {
     }
 }
 
-function swapVertices(vertices, swapX, swapY) {
+export function swapVertices(vertices, swapX, swapY) {
     if (swapX) {
         swapIndexes(vertices, 0, 2);
         swapIndexes(vertices, 1, 3);
@@ -230,14 +230,14 @@ function swapVertices(vertices, swapX, swapY) {
     return vertices;
 }
 
-function swapIndexes(array, index1, index2) {
+export function swapIndexes(array, index1, index2) {
     let temp = array[index1];
     array[index1] = array[index2];
     array[index2] = temp;
 }
 
 // noinspection JSUnusedGlobalSymbols
-function sumVertices(v1, v2) {
+export function sumVertices(v1, v2) {
     return [
         [v1[0][0] + v2[0][0], v1[0][1] + v2[0][1]],
         [v1[1][0] + v2[1][0], v1[1][1] + v2[1][1]],
@@ -246,7 +246,7 @@ function sumVertices(v1, v2) {
     ];
 }
 
-function reformatXml(xml) {
+export function reformatXml(xml) {
     let reg = /(>)\s*(<)(\/*)/g;
     let wsexp = / *(.*) +\n/g;
     let contexp = /(<.+>)(.+\n)/g;
@@ -322,7 +322,7 @@ function reformatXml(xml) {
     return formatted;
 }
 
-function downloadXml(filename, xml) {
+export function downloadXml(filename, xml) {
 
     let element = document.createElement('a');
 

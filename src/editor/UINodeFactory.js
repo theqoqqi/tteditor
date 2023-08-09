@@ -1,4 +1,11 @@
 import applyTransform from './util/matrix.js';
+import {
+    colorToCssRgba, createBoundsWithSize, createBoxVertices, flipVertices,
+    getNumericContent,
+    getTextContent,
+    hexIntColorToColor, hsbaColorToCssFilters,
+    rgbaColorToHsbaColor, swapVertices, verticesToBounds
+} from './util/utils.js';
 
 let COORDS_RATIO = 78 / 128;
 
