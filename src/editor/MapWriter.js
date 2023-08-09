@@ -1,6 +1,6 @@
 
 // noinspection CssInvalidHtmlTagReference
-import {colorToHexIntColor} from './util/utils.js';
+import {colorToHexIntColor} from './util/colors.js';
 
 export default class MapWriter {
 

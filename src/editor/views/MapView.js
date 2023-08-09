@@ -1,7 +1,7 @@
 import MapEditor from '../MapEditor.js';
 import AbstractView from './AbstractView.js';
-import {colorToCssRgba} from '../util/utils.js';
 import CompositeObserver from '../util/observables/CompositeObserver.js';
+import {colorToCssRgba} from '../util/colors.js';
 
 export default class MapView extends AbstractView {
 
