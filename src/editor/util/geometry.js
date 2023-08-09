@@ -85,9 +85,9 @@ export function verticeToPosition(vertice) {
 
 export function createBoxVertices(x, y, w, h) {
     return [
-        [x,     y    ],
-        [x,     y + h],
-        [x + w, y    ],
+        [x, y],
+        [x, y + h],
+        [x + w, y],
         [x + w, y + h],
     ];
 }
@@ -135,4 +135,3 @@ export function sumVertices(v1, v2) {
         [v1[3][0] + v2[3][0], v1[3][1] + v2[3][1]],
     ];
 }
-

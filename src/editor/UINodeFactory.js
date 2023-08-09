@@ -1,10 +1,13 @@
 import applyTransform from './util/matrix.js';
-import {
-    createBoundsWithSize, createBoxVertices, flipVertices,
-    swapVertices, verticesToBounds
-} from './util/utils.js';
 import {getNumericContent, getTextContent} from './util/xml.js';
 import {colorToCssRgba, hexIntColorToColor, hsbaColorToCssFilters, rgbaColorToHsbaColor} from './util/colors.js';
+import {
+    createBoundsWithSize,
+    createBoxVertices,
+    flipVertices,
+    swapVertices,
+    verticesToBounds
+} from './util/geometry.js';
 
 let COORDS_RATIO = 78 / 128;
 
