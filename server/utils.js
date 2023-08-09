@@ -2,7 +2,9 @@ import Workspace from './workspace.js';
 
 export function withWorkspace(handler) {
     return async (request, response) => {
-        let workspacePath = request.query.workspace ?? request.body.workspace;
+        let workspacePath = request.get('Workspace')
+            ?? request.query.workspace
+            ?? request.body.workspace;
 
         if (!workspacePath) {
             return responseJson(response, 400, {
