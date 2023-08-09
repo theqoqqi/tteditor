@@ -429,7 +429,7 @@ export default class EditorContext {
         };
 
         if (options.data) {
-            fetchOptions.data = JSON.stringify(options.data);
+            fetchOptions.body = JSON.stringify(options.data);
         }
 
         if (options.params) {
