@@ -10,11 +10,11 @@ export default class MoveNodesCommand extends MultiTargetCommand {
     }
 
     executeFor(mapNode) {
-        this.levelAccess.setMapNodePosition(mapNode, mapNode.x + this.movedByX, mapNode.y + this.movedByY);
+        this.editor.setMapNodePosition(mapNode, mapNode.x + this.movedByX, mapNode.y + this.movedByY);
     }
 
     undoFor(mapNode) {
-        this.levelAccess.setMapNodePosition(mapNode, mapNode.x - this.movedByX, mapNode.y - this.movedByY);
+        this.editor.setMapNodePosition(mapNode, mapNode.x - this.movedByX, mapNode.y - this.movedByY);
     }
 
     canBeMerged(other) {

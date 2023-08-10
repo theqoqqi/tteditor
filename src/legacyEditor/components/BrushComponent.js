@@ -54,7 +54,7 @@ export default class BrushComponent extends AbstractComponent {
         for (const mapNode of this.mapNodes) {
             let offset = this.offsetsByMapNodeIds.get(mapNode.editorId);
 
-            this.levelAccess.setMapNodePosition(mapNode, x + offset.x, y + offset.y);
+            this.levelEditor.setMapNodePosition(mapNode, x + offset.x, y + offset.y);
             this.editor.mapPositionToViewportPosition(mapNode);
         }
     }

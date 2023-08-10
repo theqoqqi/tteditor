@@ -5,11 +5,11 @@ export default class AbstractCommand {
 
     constructor() {
         this.editorId = nextEditorId++;
-        this.levelAccess = null;
+        this.editor = null;
     }
 
-    setup(levelAccess) {
-        this.levelAccess = levelAccess;
+    setup(editor) {
+        this.editor = editor;
     }
 
     execute() {

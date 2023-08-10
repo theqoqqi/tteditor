@@ -1,4 +1,3 @@
-import LevelAccess from '../editor/map/LevelAccess.js';
 import MapReader from '../editor/MapReader.js';
 import MapWriter from '../editor/MapWriter.js';
 import Hotkeys from '../editor/util/Hotkeys.js';
@@ -25,6 +24,7 @@ import PropertyListComponent from './components/sidebars/tabs/PropertyListCompon
 import RandomizerListComponent from './components/sidebars/tabs/RandomizerListComponent.js';
 import TriggerEditorComponent from './components/sidebars/tabs/TriggerEditorComponent.js';
 import TriggerListComponent from './components/sidebars/tabs/TriggerListComponent.js';
+import Editor from '../editor/Editor.js';
 
 export default class MapEditor {
 
@@ -37,7 +37,7 @@ export default class MapEditor {
     constructor(context) {
         this.context = context;
         this.uiNodeFactory = new UINodeFactory(context);
-        this.levelAccess = new LevelAccess();
+        this.levelEditor = new Editor();
 
         this.reader = new MapReader(context);
         this.writer = new MapWriter(context);
@@ -103,18 +103,18 @@ export default class MapEditor {
         });
 
         Hotkeys.bindGlobal('Control+Z', () => {
-            this.levelAccess.undoCommand();
+            this.levelEditor.undoCommand();
         });
 
         Hotkeys.bindGlobal('Control+Shift+Z', () => {
-            this.levelAccess.redoCommand();
+            this.levelEditor.redoCommand();
         });
 
         Hotkeys.bindGlobal('Delete', () => {
             let selectedMapNodes = this.getSelectedNodes();
             let command = new RemoveNodesCommand(selectedMapNodes);
 
-            this.levelAccess.executeCommand(command);
+            this.levelEditor.executeCommand(command);
         });
 
         Hotkeys.bindGlobal('Escape', () => {
@@ -193,16 +193,16 @@ export default class MapEditor {
 
     async saveCurrentLevel() {
         let filename = this.levelListComponent.getSelectedFile();
-        let levelXml = this.mapToXml(this.levelAccess.map);
+        let levelXml = this.mapToXml(this.levelEditor.map);
 
         await this.context.saveLevel(filename, levelXml);
-        this.levelAccess.setLevelClear();
+        this.levelEditor.setLevelClear();
     }
 
     downloadCurrentLevel() {
         let fullPath = this.levelListComponent.getSelectedFile();
         let filename = fullPath.split(/\//g).pop();
-        let levelXml = this.mapToXml(this.levelAccess.map);
+        let levelXml = this.mapToXml(this.levelEditor.map);
 
         downloadXml(filename, levelXml);
 
@@ -215,14 +215,14 @@ export default class MapEditor {
         let mapXml = await this.context.loadXml(filename);
         let map = this.reader.readLevel(mapXml);
 
-        this.levelAccess.commandExecutor.clear();
+        this.levelEditor.commandExecutor.clear();
         this.commandListComponent.clearCommands();
         this.triggerListComponent.clearTriggers();
 
         this.currentLevelFilename = filename;
         this.levelListComponent.setSelectedFile(filename);
 
-        this.commandListComponent.setCommandExecutor(this.levelAccess.commandExecutor);
+        this.commandListComponent.setCommandExecutor(this.levelEditor.commandExecutor);
 
         this.nodeListComponent.setMap(map);
         this.mapOptionsComponent.setMap(map);
@@ -238,10 +238,10 @@ export default class MapEditor {
         this.mapComponent.setMap(map);
         this.mapComponent.setViewportCenter(map.startX ?? map.playerBaseX, map.startY ?? map.playerBaseY);
 
-        this.levelAccess.setMap(map);
+        this.levelEditor.setMap(map);
 
-        this.levelAccess.setLevelClear();
-        this.levelAccess.executeCommand(this.createInitialCommand());
+        this.levelEditor.setLevelClear();
+        this.levelEditor.executeCommand(this.createInitialCommand());
     }
 
     createInitialCommand() {
@@ -249,7 +249,7 @@ export default class MapEditor {
     }
 
     executeCommand(command) {
-        this.levelAccess.executeCommand(command);
+        this.levelEditor.executeCommand(command);
     }
 
     setPointerMode(mode) {
@@ -390,12 +390,12 @@ export default class MapEditor {
         this.triggerEditorComponent.setTrigger(trigger);
     }
 
-    getLevelAccess() {
-        return this.levelAccess;
+    getLevelEditor() {
+        return this.levelEditor;
     }
 
     getMap() {
-        return this.levelAccess.getMap();
+        return this.levelEditor.getMap();
     }
 
     getContext() {

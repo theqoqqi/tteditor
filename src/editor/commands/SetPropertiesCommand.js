@@ -8,8 +8,8 @@ export default class SetPropertiesCommand extends MultiTargetCommand {
         this.propertyValues = propertyValues;
     }
 
-    setup(levelAccess) {
-        super.setup(levelAccess);
+    setup(editor) {
+        super.setup(editor);
 
         this.oldPropertyValuesByTargetIds = this.getCurrentPropertyValues(this.targets);
     }

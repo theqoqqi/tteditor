@@ -6,8 +6,8 @@ export default class AddRemoveCommand extends MultiTargetCommand {
         super(items);
     }
 
-    setup(levelAccess) {
-        super.setup(levelAccess);
+    setup(editor) {
+        super.setup(editor);
 
         this.indexesByItemIds = new Map(this.targets.map(item => {
             return [

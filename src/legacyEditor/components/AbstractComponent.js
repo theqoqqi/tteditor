@@ -2,13 +2,13 @@ export default class AbstractComponent {
 
     editor;
 
-    levelAccess;
+    levelEditor;
 
     context;
 
     constructor(editor, viewClass) {
         this.editor = editor;
-        this.levelAccess = editor.getLevelAccess();
+        this.levelEditor = editor.getLevelEditor();
         this.context = editor.getContext();
 
         this.view = new viewClass(this.editor);

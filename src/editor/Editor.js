@@ -1,8 +1,8 @@
-import CompositeObserver from '../util/observables/CompositeObserver.js';
-import CommandExecutor from '../util/CommandExecutor.js';
+import CommandExecutor from './util/CommandExecutor.js';
+import CompositeObserver from './util/observables/CompositeObserver.js';
 import {getProperty} from 'dot-prop';
 
-export default class LevelAccess {
+export default class Editor {
 
     #mapPropertySources = {
         width: 'map',

@@ -7,18 +7,18 @@ export default class AddRemoveRandomizersCommand extends AddRemoveCommand {
     }
 
     getIndexFor(randomizer) {
-        return this.levelAccess.indexOfRandomizer(randomizer);
+        return this.editor.indexOfRandomizer(randomizer);
     }
 
     addItem(randomizer) {
-        this.levelAccess.addRandomizer(randomizer);
+        this.editor.addRandomizer(randomizer);
     }
 
     insertItem(randomizer, index) {
-        this.levelAccess.insertRandomizer(randomizer, index);
+        this.editor.insertRandomizer(randomizer, index);
     }
 
     removeItem(randomizer) {
-        this.levelAccess.removeRandomizer(randomizer);
+        this.editor.removeRandomizer(randomizer);
     }
 }

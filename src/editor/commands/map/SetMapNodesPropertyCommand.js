@@ -9,7 +9,7 @@ export default class SetMapNodesPropertyCommand extends SetPropertiesCommand {
     }
 
     setPropertyValue(mapNode, propertyName, value) {
-        this.levelAccess.setMapNodePropertyValue(mapNode, propertyName, value);
+        this.editor.setMapNodePropertyValue(mapNode, propertyName, value);
     }
 
     getTargetId(mapNode) {

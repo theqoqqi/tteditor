@@ -56,7 +56,7 @@ export default class PaletteMapNodeContextMenuComponent extends ContextMenuCompo
 
                     // TODO: Скорее всего, это не должно быть прямым вызовом функции.
                     //       Ведь в таком случае это действие не попадает в историю команд и его невозможно отменить.
-                    this.levelAccess.addNode(mapNode);
+                    this.levelEditor.addNode(mapNode);
                 }
             }
         }
