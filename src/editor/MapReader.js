@@ -15,7 +15,7 @@ export default class MapReader {
         this.mapXml = null;
     }
 
-    readLevel(mapXml) {
+    async readLevel(mapXml) {
         this.map = new GameMap(this.context);
         this.mapXml = mapXml;
 
@@ -24,7 +24,7 @@ export default class MapReader {
         this.readSize();
         this.readStartPosition();
         this.readPlayerBasePosition();
-        this.readTerrain();
+        await this.readTerrain();
         this.readMapNodes();
 
         let map = this.map;
@@ -75,9 +75,9 @@ export default class MapReader {
         this.map.setPlayerBasePosition(playerBaseX, playerBaseY);
     }
 
-    readTerrain() {
+    async readTerrain() {
         let terrainName = getTextContent(this.mapXml, 'terrain');
-        let terrain = this.context.createTerrainByName(terrainName);
+        let terrain = await this.context.createTerrainByName(terrainName);
 
         this.map.setTerrain(terrain);
     }

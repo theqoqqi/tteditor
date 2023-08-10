@@ -61,7 +61,6 @@ export default class EditorContext {
         let start = Date.now();
 
         await this.reloadConfigs();
-        await this.preloadDataConfigs();
         await this.reloadImageSizes();
 
         let end = Date.now();
@@ -86,22 +85,6 @@ export default class EditorContext {
         };
     }
 
-    async preloadDataConfigs() {
-        let allNodePaths = Object.values(this.configsByNames)
-            .flatMap(configXml => Array.from(configXml.querySelectorAll('node, node2')))
-            .map(node => node.textContent);
-
-        for (const chunk of this.toChunks(allNodePaths, 10)) {
-            await Promise.all(chunk.map(async path => {
-                try {
-                    await this.loadXml(path);
-                } catch (e) {
-                    console.error('Failed to preload:', path);
-                }
-            }));
-        }
-    }
-
     toChunks(array, chunkSize) {
         let chunks = [];
 
@@ -122,9 +105,9 @@ export default class EditorContext {
         this.setImageSizes(imageSizes);
     }
 
-    createTerrainByName(terrainName) {
+    async createTerrainByName(terrainName) {
         let terrain = new MapTerrain(terrainName);
-        let terrainXml = this.getNodeByName('terrain', terrainName);
+        let terrainXml = await this.getNodeByName('terrain', terrainName);
 
         terrain.width = getNumericContent(terrainXml, 'width');
         terrain.height = getNumericContent(terrainXml, 'height');
@@ -217,10 +200,10 @@ export default class EditorContext {
         return sounds[randomIndex]?.textContent;
     }
 
-    getNodeByName(tagName, typeName) {
+    async getNodeByName(tagName, typeName) {
         let nodeInfo = this.getNodeInfoByName(tagName, typeName);
 
-        return this.getNodeXml(nodeInfo);
+        return await this.getNodeXml(nodeInfo);
     }
 
     getNodeInfoByName(tagName, typeName) {
@@ -294,7 +277,7 @@ export default class EditorContext {
         return this.nodeTagToConfigTagNameMap[tagName];
     }
 
-    getNodeXml(nodeInfo) {
+    async getNodeXml(nodeInfo) {
         let nodePath = getTextContent(nodeInfo, 'node')
             || getTextContent(nodeInfo, 'animation > node')
             || getTextContent(nodeInfo, 'structure > node');
@@ -303,7 +286,7 @@ export default class EditorContext {
             return null;
         }
 
-        return this.getXml(nodePath);
+        return await this.loadXml(nodePath);
     }
 
     getElementByXpath(dom, path) {
@@ -376,7 +359,7 @@ export default class EditorContext {
     async loadLevel(filename) {
         let mapXml = await this.loadXml(filename);
 
-        return this.reader.readLevel(mapXml);
+        return await this.reader.readLevel(mapXml);
     }
 
     async saveLevel(filename, map) {
@@ -401,12 +384,6 @@ export default class EditorContext {
 
     forgetFile(filename) {
         this.loadedXmlFiles[filename] = null;
-    }
-
-    getXml(filename) {
-        filename = this.normalizeDataPath(filename);
-
-        return this.loadedXmlFiles[filename];
     }
 
     async loadXml(filename) {
