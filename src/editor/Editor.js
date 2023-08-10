@@ -1,14 +1,18 @@
 import CommandExecutor from './util/CommandExecutor.js';
 import CompositeObserver from './util/observables/CompositeObserver.js';
 import {LevelEditor} from './LevelEditor.js';
+import DummyCommand from './commands/DummyCommand.js';
 
 export default class Editor {
 
     isLevelDirty;
 
-    constructor() {
+    constructor(context) {
+        this.context = context;
         this.commandExecutor = new CommandExecutor();
         this.levelEditor = new LevelEditor();
+
+        this.currentLevelFilename = null;
 
         this.createObservers();
     }
@@ -101,6 +105,26 @@ export default class Editor {
         addAttachDetachObservers('nodes', this.mapObservers, this.mapNodeObservers);
         addAttachDetachObservers('triggers', this.mapObservers, this.triggerObservers);
         addAttachDetachObservers('options.randomizers', this.mapObservers, this.randomizerObservers);
+    }
+
+    async loadLevel(filename) {
+        let map = this.context.loadLevel(filename);
+
+        this.currentLevelFilename = filename;
+
+        this.levelEditor.setMap(map);
+
+        this.commandExecutor.clear();
+        this.setLevelClear();
+        this.executeCommand(Editor.#createInitialCommand());
+    }
+
+    static #createInitialCommand() {
+        return new DummyCommand('Изначальное состояние', 'bi-circle');
+    }
+
+    hasLoadedLevel() {
+        return this.currentLevelFilename !== null;
     }
 
     setMap(map) {
