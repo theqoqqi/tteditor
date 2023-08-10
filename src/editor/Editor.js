@@ -107,6 +107,10 @@ export default class Editor {
         addAttachDetachObservers('options.randomizers', this.mapObservers, this.randomizerObservers);
     }
 
+    async loadLevelList() {
+        return this.context.loadLevelList();
+    }
+
     async loadLevel(filename) {
         let map = await this.context.loadLevel(filename);
 
