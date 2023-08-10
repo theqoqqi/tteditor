@@ -1,8 +1,6 @@
-import MapReader from '../editor/MapReader.js';
-import MapWriter from '../editor/MapWriter.js';
 import Hotkeys from '../editor/util/Hotkeys.js';
 import RemoveNodesCommand from '../editor/commands/map/RemoveNodesCommand.js';
-import {downloadXml, reformatXml} from '../editor/util/xml.js';
+import {downloadXml} from '../editor/util/xml.js';
 import DummyCommand from '../editor/commands/DummyCommand.js';
 import UINodeFactory from './UINodeFactory.js';
 import BrushComponent from './components/BrushComponent.js';
@@ -38,9 +36,6 @@ export default class MapEditor {
         this.context = context;
         this.uiNodeFactory = new UINodeFactory(context);
         this.levelEditor = new Editor();
-
-        this.reader = new MapReader(context);
-        this.writer = new MapWriter(context);
 
         this.mapComponent = new MapComponent(this);
 
@@ -193,16 +188,15 @@ export default class MapEditor {
 
     async saveCurrentLevel() {
         let filename = this.levelListComponent.getSelectedFile();
-        let levelXml = this.mapToXml(this.levelEditor.map);
 
-        await this.context.saveLevel(filename, levelXml);
+        await this.context.saveLevel(filename, this.levelEditor.map);
         this.levelEditor.setLevelClear();
     }
 
     downloadCurrentLevel() {
         let fullPath = this.levelListComponent.getSelectedFile();
         let filename = fullPath.split(/\//g).pop();
-        let levelXml = this.mapToXml(this.levelEditor.map);
+        let levelXml = this.context.writeLevel(this.levelEditor.map);
 
         downloadXml(filename, levelXml);
 
@@ -212,8 +206,7 @@ export default class MapEditor {
     }
 
     async loadLevel(filename) {
-        let mapXml = await this.context.loadXml(filename);
-        let map = this.reader.readLevel(mapXml);
+        let map = this.context.loadLevel(filename);
 
         this.levelEditor.commandExecutor.clear();
         this.commandListComponent.clearCommands();
@@ -292,15 +285,6 @@ export default class MapEditor {
 
     clearBrush() {
         this.brushComponent.clearBrush();
-    }
-
-    mapToXml(map) {
-        let writtenMapXml = this.writer.writeLevel(map);
-
-        let xmlSerializer = new XMLSerializer();
-        let serializedXml = xmlSerializer.serializeToString(writtenMapXml);
-
-        return reformatXml(serializedXml);
     }
 
     isLevelDirty() {
@@ -407,7 +391,7 @@ export default class MapEditor {
     }
 
     createMapNodeFromElement(element) {
-        return this.reader.createNodeFromElement(element);
+        return this.context.createMapNodeFromElement(element);
     }
 
     logMapNode(mapNode) {

@@ -1,7 +1,9 @@
 import MapTerrain from './map/MapTerrain.js';
 import MapNode from './map/MapNode.js';
-import {getNumericContent, getTextContent} from './util/xml.js';
+import {getNumericContent, getTextContent, reformatXml} from './util/xml.js';
 import {hexIntColorToColor} from './util/colors.js';
+import MapReader from './MapReader.js';
+import MapWriter from './MapWriter.js';
 
 // noinspection CssInvalidHtmlTagReference
 export default class EditorContext {
@@ -46,6 +48,9 @@ export default class EditorContext {
     constructor(serverUrl) {
         this.serverUrl = serverUrl;
         this.currentAudio = null;
+
+        this.reader = new MapReader(this);
+        this.writer = new MapWriter(this);
     }
 
     async reloadDataFromServer() {
@@ -154,6 +159,10 @@ export default class EditorContext {
         }
 
         return mapNode;
+    }
+
+    createMapNodeFromElement(element) {
+        return this.reader.createNodeFromElement(element);
     }
 
     getPaletteItemList(tagName) {
@@ -364,15 +373,30 @@ export default class EditorContext {
         return JSON.parse(responseText);
     }
 
-    async saveLevel(filename, levelXml) {
+    async loadLevel(filename) {
+        let mapXml = await this.loadXml(filename);
+
+        return this.reader.readLevel(mapXml);
+    }
+
+    async saveLevel(filename, map) {
         let responseText = await this.post('files', {
             path: filename,
-            contents: levelXml,
+            contents: this.writeLevel(map),
         });
 
         console.log(responseText)
 
         this.forgetFile(filename);
+    }
+
+    writeLevel(map) {
+        let writtenMapXml = this.writer.writeLevel(map);
+
+        let xmlSerializer = new XMLSerializer();
+        let serializedXml = xmlSerializer.serializeToString(writtenMapXml);
+
+        return reformatXml(serializedXml);
     }
 
     forgetFile(filename) {
