@@ -197,7 +197,7 @@ export default class NodeListView extends AbstractView {
 
     createListItem(mapNode) {
         let iconClass = this.uiNodeFactory.getIconClassForTagName(mapNode.tag);
-        let order = this.uiNodeFactory.getOrderTagName(mapNode.tag);
+        let order = this.uiNodeFactory.getOrderForTagName(mapNode.tag);
         let title = mapNode.type ?? mapNode.name ?? '';
 
         let $listItem = $(`

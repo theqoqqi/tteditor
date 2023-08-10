@@ -601,6 +601,8 @@ export default class UINodeFactory {
     }
 
     getLayerZForTagName(tagName) {
+        // Возможно, это можно было бы как-то брать из gamevisual.cfg.xml
+
         let layers = {
             landmark: 10000,
             structure: 20000,
@@ -617,7 +619,7 @@ export default class UINodeFactory {
         return layers[tagName];
     }
 
-    getOrderTagName(tagName) {
+    getOrderForTagName(tagName) {
         let layers = {
             landmark: 1,
             structure: 2,
