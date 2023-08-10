@@ -2,12 +2,15 @@ import CommandExecutor from './util/CommandExecutor.js';
 import CompositeObserver from './util/observables/CompositeObserver.js';
 import {LevelEditor} from './LevelEditor.js';
 import DummyCommand from './commands/DummyCommand.js';
+import Observable from './util/observables/Observable.js';
 
-export default class Editor {
+export default class Editor extends Observable {
 
     isLevelDirty;
 
     constructor(context) {
+        super();
+
         this.context = context;
         this.commandExecutor = new CommandExecutor();
         this.levelEditor = new LevelEditor();
