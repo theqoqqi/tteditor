@@ -2,8 +2,8 @@ import SetPropertiesCommand from '../SetPropertiesCommand.js';
 
 export default class SetRandomizerPropertyCommand extends SetPropertiesCommand {
 
-    constructor(levelAccess, randomizer, propertyName, newValue) {
-        super(levelAccess, [randomizer], {
+    constructor(randomizer, propertyName, newValue) {
+        super([randomizer], {
             [propertyName]: newValue,
         });
     }

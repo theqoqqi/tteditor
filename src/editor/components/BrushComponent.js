@@ -45,7 +45,7 @@ export default class BrushComponent extends AbstractComponent {
             return mapNode;
         });
 
-        let command = new AddNodesCommand(this.levelAccess, mapNodes);
+        let command = new AddNodesCommand(mapNodes);
 
         this.editor.executeCommand(command);
     }

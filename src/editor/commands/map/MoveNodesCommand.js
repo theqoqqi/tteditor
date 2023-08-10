@@ -2,8 +2,8 @@ import MultiTargetCommand from '../MultiTargetCommand.js';
 
 export default class MoveNodesCommand extends MultiTargetCommand {
 
-    constructor(levelAccess, mapNodes, movedByX, movedByY) {
-        super(levelAccess, mapNodes);
+    constructor(mapNodes, movedByX, movedByY) {
+        super(mapNodes);
 
         this.movedByX = movedByX;
         this.movedByY = movedByY;

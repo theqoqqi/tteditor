@@ -183,6 +183,8 @@ export default class LevelAccess {
     }
 
     executeCommand(command) {
+        command.setup(this);
+
         this.commandExecutor.execute(command);
     }
 

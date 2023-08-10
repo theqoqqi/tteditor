@@ -2,8 +2,8 @@ import SetPropertiesCommand from '../SetPropertiesCommand.js';
 
 export default class SetTerrainCommand extends SetPropertiesCommand {
 
-    constructor(levelAccess, map, terrain) {
-        super(levelAccess, [map], {
+    constructor(map, terrain) {
+        super([map], {
             terrain,
         });
     }

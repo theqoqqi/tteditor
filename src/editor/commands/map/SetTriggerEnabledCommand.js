@@ -2,8 +2,8 @@ import SetPropertiesCommand from '../SetPropertiesCommand.js';
 
 export default class SetTriggerEnabledCommand extends SetPropertiesCommand {
 
-    constructor(levelAccess, trigger, isEnabled) {
-        super(levelAccess, [trigger], {
+    constructor(trigger, isEnabled) {
+        super([trigger], {
             isEnabled,
         });
     }

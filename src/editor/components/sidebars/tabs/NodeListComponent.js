@@ -26,7 +26,7 @@ export default class NodeListComponent extends AbstractComponent {
         });
 
         this.view.setRemoveNodeButtonClickListener(mapNode => {
-            let command = new RemoveNodesCommand(this.levelAccess, [mapNode]);
+            let command = new RemoveNodesCommand([mapNode]);
 
             this.editor.executeCommand(command);
         });

@@ -2,8 +2,8 @@ import AddRemoveNodesCommand from './addRemove/AddRemoveNodesCommand.js';
 
 export default class AddNodesCommand extends AddRemoveNodesCommand {
 
-    constructor(levelAccess, mapNodes) {
-        super(levelAccess, mapNodes);
+    constructor(mapNodes) {
+        super(mapNodes);
     }
 
     get isAddCommand() {

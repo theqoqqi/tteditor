@@ -2,8 +2,8 @@ import AbstractCommand from './AbstractCommand.js';
 
 export default class MultiTargetCommand extends AbstractCommand {
 
-    constructor(levelAccess, targets) {
-        super(levelAccess);
+    constructor(targets) {
+        super();
 
         this.targets = targets;
         this.reversedTargets = null;

@@ -6,8 +6,8 @@ export default class DummyCommand extends AbstractCommand {
 
     #iconClass;
 
-    constructor(levelAccess, title, iconClass) {
-        super(levelAccess);
+    constructor(title, iconClass) {
+        super();
 
         this.#title = title;
         this.#iconClass = iconClass;

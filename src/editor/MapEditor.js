@@ -112,7 +112,7 @@ export default class MapEditor {
 
         Hotkeys.bindGlobal('Delete', () => {
             let selectedMapNodes = this.getSelectedNodes();
-            let command = new RemoveNodesCommand(this, selectedMapNodes);
+            let command = new RemoveNodesCommand(selectedMapNodes);
 
             this.levelAccess.executeCommand(command);
         });
@@ -245,7 +245,7 @@ export default class MapEditor {
     }
 
     createInitialCommand() {
-        return new DummyCommand(this, 'Изначальное состояние', 'bi-circle');
+        return new DummyCommand('Изначальное состояние', 'bi-circle');
     }
 
     executeCommand(command) {

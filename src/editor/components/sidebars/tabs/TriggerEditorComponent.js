@@ -31,7 +31,7 @@ export default class TriggerEditorComponent extends AbstractComponent {
     }
 
     #setTriggerProperty(trigger, propertyName, value) {
-        let command = new SetTriggerPropertyCommand(this.levelAccess, trigger, propertyName, value);
+        let command = new SetTriggerPropertyCommand(trigger, propertyName, value);
 
         this.editor.executeCommand(command);
     }

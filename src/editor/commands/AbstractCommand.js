@@ -3,8 +3,12 @@ let nextEditorId = 1;
 
 export default class AbstractCommand {
 
-    constructor(levelAccess) {
+    constructor() {
         this.editorId = nextEditorId++;
+        this.levelAccess = null;
+    }
+
+    setup(levelAccess) {
         this.levelAccess = levelAccess;
     }
 

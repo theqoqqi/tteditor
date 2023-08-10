@@ -2,10 +2,14 @@ import MultiTargetCommand from './MultiTargetCommand.js';
 
 export default class AddRemoveCommand extends MultiTargetCommand {
 
-    constructor(levelAccess, items) {
-        super(levelAccess, items);
+    constructor(items) {
+        super(items);
+    }
 
-        this.indexesByItemIds = new Map(items.map(item => {
+    setup(levelAccess) {
+        super.setup(levelAccess);
+
+        this.indexesByItemIds = new Map(this.targets.map(item => {
             return [
                 item,
                 this.getIndexFor(item)

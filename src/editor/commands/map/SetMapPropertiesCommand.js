@@ -2,8 +2,8 @@ import SetPropertiesCommand from '../SetPropertiesCommand.js';
 
 export default class SetMapPropertiesCommand extends SetPropertiesCommand {
 
-    constructor(levelAccess, map, propertyValues) {
-        super(levelAccess, [map], propertyValues);
+    constructor(map, propertyValues) {
+        super([map], propertyValues);
     }
 
     setPropertyValue(map, propertyName, value) {

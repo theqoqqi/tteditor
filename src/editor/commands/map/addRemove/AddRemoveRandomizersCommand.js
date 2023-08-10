@@ -2,8 +2,8 @@ import AddRemoveCommand from '../../AddRemoveCommand.js';
 
 export default class AddRemoveRandomizersCommand extends AddRemoveCommand {
 
-    constructor(levelAccess, randomizers) {
-        super(levelAccess, randomizers);
+    constructor(randomizers) {
+        super(randomizers);
     }
 
     getIndexFor(randomizer) {
