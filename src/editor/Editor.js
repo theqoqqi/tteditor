@@ -108,15 +108,17 @@ export default class Editor {
     }
 
     async loadLevel(filename) {
-        let map = this.context.loadLevel(filename);
+        let map = await this.context.loadLevel(filename);
 
         this.currentLevelFilename = filename;
 
-        this.levelEditor.setMap(map);
+        this.setMap(map);
 
         this.commandExecutor.clear();
         this.setLevelClear();
         this.executeCommand(Editor.#createInitialCommand());
+
+        return map;
     }
 
     static #createInitialCommand() {
