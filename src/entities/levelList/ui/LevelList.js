@@ -2,7 +2,7 @@ import styles from './LevelList.module.css';
 import React from 'react';
 import Level from './level/Level.js';
 import PropTypes from 'prop-types';
-import List from '../../shared/list/List.js';
+import {List} from '../../../shared/list';
 
 LevelList.propTypes = {
     levels: PropTypes.array,

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import LevelList from '../../../entities/levelList/LevelList.js';
+import {LevelList} from '../../../../entities/levelList';
 
 function LevelListTab({}) {
     let [levels, setLevels] = useState([]);

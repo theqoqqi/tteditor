@@ -1,7 +1,7 @@
 import styles from './App.module.css';
-import LeftSidebar from './components/widget/leftSidebar/LeftSidebar.js';
-import WorkArea from './components/widget/workArea/WorkArea.js';
-import RightSidebar from './components/widget/rightSidebar/RightSidebar.js';
+import {LeftSidebar} from './widget/leftSidebar';
+import {WorkArea} from './widget/workArea';
+import {RightSidebar} from './widget/rightSidebar';
 
 function App() {
     return (

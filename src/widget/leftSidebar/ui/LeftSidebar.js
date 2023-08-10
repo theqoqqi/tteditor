@@ -1,6 +1,6 @@
 import styles from './LeftSidebar.module.css';
 import React, {useState} from 'react';
-import TabbedSidebar from '../../entities/tabbedSidebar/TabbedSidebar.js';
+import {TabbedSidebar} from '../../../entities/tabbedSidebar';
 import {BsArrow90DegLeft, BsFolderFill, BsGripVertical} from 'react-icons/bs';
 import LevelListTab from './levelListTab/LevelListTab.js';
 
