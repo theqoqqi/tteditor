@@ -2,8 +2,8 @@ import SetPropertiesCommand from '../SetPropertiesCommand.js';
 
 export default class SetTriggerPropertyCommand extends SetPropertiesCommand {
 
-    constructor(editor, trigger, propertyName, newValue) {
-        super(editor, [trigger], {
+    constructor(levelAccess, trigger, propertyName, newValue) {
+        super(levelAccess, [trigger], {
             [propertyName]: newValue,
         });
     }

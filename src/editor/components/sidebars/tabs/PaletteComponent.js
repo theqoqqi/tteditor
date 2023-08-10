@@ -18,7 +18,7 @@ export default class PaletteComponent extends AbstractComponent {
 
                 if (tagName === 'terrain') {
                     let terrain = this.context.createTerrainByName(typeName);
-                    let command = new SetTerrainCommand(this.editor, this.map, terrain);
+                    let command = new SetTerrainCommand(this.levelAccess, this.map, terrain);
 
                     this.editor.executeCommand(command);
 

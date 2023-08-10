@@ -11,7 +11,7 @@ export default class PropertyListComponent extends AbstractComponent {
     bindListeners() {
         this.view.setPropertyChangedListener((propertyName, newValue) => {
             let selectedNodes = this.editor.getSelectedNodes();
-            let command = new SetMapNodesPropertyCommand(this.editor, selectedNodes, propertyName, newValue);
+            let command = new SetMapNodesPropertyCommand(this.levelAccess, selectedNodes, propertyName, newValue);
 
             this.editor.executeCommand(command);
         });

@@ -2,8 +2,8 @@ import AddRemoveRandomizersCommand from './addRemove/AddRemoveRandomizersCommand
 
 export default class RemoveRandomizersCommand extends AddRemoveRandomizersCommand {
 
-    constructor(editor, randomizers) {
-        super(editor, randomizers);
+    constructor(levelAccess, randomizers) {
+        super(levelAccess, randomizers);
     }
 
     get isAddCommand() {

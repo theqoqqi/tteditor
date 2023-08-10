@@ -1,6 +1,5 @@
 import ContextMenuComponent from '../ContextMenuComponent.js';
 import PaletteMapNodeContextMenuView from '../../views/menus/PaletteMapNodeContextMenuView.js';
-import MapNode from '../../map/MapNode.js';
 
 export default class PaletteMapNodeContextMenuComponent extends ContextMenuComponent {
 
@@ -55,7 +54,9 @@ export default class PaletteMapNodeContextMenuComponent extends ContextMenuCompo
                 if (shouldPlace) {
                     let mapNode = this.context.createMapNode(x, y, tagName, typeName, name);
 
-                    this.editor.addNode(mapNode);
+                    // TODO: Скорее всего, это не должно быть прямым вызовом функции.
+                    //       Ведь в таком случае это действие не попадает в историю команд и его невозможно отменить.
+                    this.levelAccess.addNode(mapNode);
                 }
             }
         }

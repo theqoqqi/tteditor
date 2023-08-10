@@ -13,21 +13,21 @@ export default class RandomizerListComponent extends AbstractComponent {
 
     bindListeners() {
         this.view.setRandomizerChangedListener((randomizer, newCount) => {
-            let command = new SetRandomizerPropertyCommand(this.editor, randomizer, 'count', newCount);
+            let command = new SetRandomizerPropertyCommand(this.levelAccess, randomizer, 'count', newCount);
 
             this.editor.executeCommand(command);
         });
 
         this.view.setAddRandomizerButtonListener((item, count) => {
             let randomizer = new RandomizerOption(item, count);
-            let command = new AddRandomizersCommand(this.editor, [randomizer]);
+            let command = new AddRandomizersCommand(this.levelAccess, [randomizer]);
 
             this.editor.executeCommand(command);
             this.view.clearAddRandomizerInputs();
         });
 
         this.view.setRemoveRandomizerButtonClickListener(randomizer => {
-            let command = new RemoveRandomizersCommand(this.editor, [randomizer]);
+            let command = new RemoveRandomizersCommand(this.levelAccess, [randomizer]);
 
             this.editor.executeCommand(command);
         });

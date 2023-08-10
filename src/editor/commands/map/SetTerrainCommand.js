@@ -2,14 +2,14 @@ import SetPropertiesCommand from '../SetPropertiesCommand.js';
 
 export default class SetTerrainCommand extends SetPropertiesCommand {
 
-    constructor(editor, map, terrain) {
-        super(editor, [map], {
+    constructor(levelAccess, map, terrain) {
+        super(levelAccess, [map], {
             terrain,
         });
     }
 
     setPropertyValue(map, propertyName, value) {
-        this.editor.setTerrain(value);
+        this.levelAccess.setTerrain(value);
     }
 
     getTargetId(map) {

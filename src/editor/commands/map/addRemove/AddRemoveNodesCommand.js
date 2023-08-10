@@ -2,23 +2,23 @@ import AddRemoveCommand from '../../AddRemoveCommand.js';
 
 export default class AddRemoveNodesCommand extends AddRemoveCommand {
 
-    constructor(editor, mapNodes) {
-        super(editor, mapNodes);
+    constructor(levelAccess, mapNodes) {
+        super(levelAccess, mapNodes);
     }
 
     getIndexFor(node) {
-        return this.editor.indexOfNode(node);
+        return this.levelAccess.indexOfNode(node);
     }
 
     addItem(node) {
-        this.editor.addNode(node);
+        this.levelAccess.addNode(node);
     }
 
     insertItem(node, index) {
-        this.editor.insertNode(node, index);
+        this.levelAccess.insertNode(node, index);
     }
 
     removeItem(node) {
-        this.editor.removeNode(node);
+        this.levelAccess.removeNode(node);
     }
 }

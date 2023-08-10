@@ -45,7 +45,7 @@ export default class BrushComponent extends AbstractComponent {
             return mapNode;
         });
 
-        let command = new AddNodesCommand(this.editor, mapNodes);
+        let command = new AddNodesCommand(this.levelAccess, mapNodes);
 
         this.editor.executeCommand(command);
     }
@@ -54,7 +54,7 @@ export default class BrushComponent extends AbstractComponent {
         for (const mapNode of this.mapNodes) {
             let offset = this.offsetsByMapNodeIds.get(mapNode.editorId);
 
-            this.editor.setMapNodePosition(mapNode, x + offset.x, y + offset.y);
+            this.levelAccess.setMapNodePosition(mapNode, x + offset.x, y + offset.y);
             this.editor.mapPositionToViewportPosition(mapNode);
         }
     }

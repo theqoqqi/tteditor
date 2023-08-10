@@ -35,7 +35,7 @@ export default class MapOptionsComponent extends AbstractComponent {
     }
 
     #setMapProperties(propertyValues) {
-        let command = new SetMapPropertiesCommand(this.editor, this.map, propertyValues);
+        let command = new SetMapPropertiesCommand(this.levelAccess, this.map, propertyValues);
 
         this.editor.executeCommand(command);
     }

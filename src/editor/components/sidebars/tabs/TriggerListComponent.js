@@ -15,7 +15,7 @@ export default class TriggerListComponent extends AbstractComponent {
     bindListeners() {
         this.view.setAddButtonListener(triggerTitle => {
             let trigger = new Trigger(triggerTitle);
-            let command = new AddTriggersCommand(this.editor, [trigger]);
+            let command = new AddTriggersCommand(this.levelAccess, [trigger]);
 
             this.editor.executeCommand(command);
             this.editor.setTriggerInEditor(trigger);
@@ -29,19 +29,19 @@ export default class TriggerListComponent extends AbstractComponent {
         });
 
         this.view.setTriggerRepeatingChangedListener((trigger, isRepeating) => {
-            let command = new SetTriggerPropertyCommand(this.editor, trigger, 'repeat', isRepeating);
+            let command = new SetTriggerPropertyCommand(this.levelAccess, trigger, 'repeat', isRepeating);
 
             this.editor.executeCommand(command);
         });
 
         this.view.setTriggerActivityChangedListener((trigger, isEnabled) => {
-            let command = new SetTriggerEnabledCommand(this.editor, trigger, isEnabled);
+            let command = new SetTriggerEnabledCommand(this.levelAccess, trigger, isEnabled);
 
             this.editor.executeCommand(command);
         });
 
         this.view.setRemoveTriggerButtonClickListener(trigger => {
-            let command = new RemoveTriggersCommand(this.editor, [trigger]);
+            let command = new RemoveTriggersCommand(this.levelAccess, [trigger]);
 
             this.editor.executeCommand(command);
             this.editor.setTriggerInEditor(null);

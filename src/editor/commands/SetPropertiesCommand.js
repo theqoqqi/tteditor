@@ -2,8 +2,8 @@ import MultiTargetCommand from './MultiTargetCommand.js';
 
 export default class SetPropertiesCommand extends MultiTargetCommand {
 
-    constructor(editor, targets, propertyValues) {
-        super(editor, targets);
+    constructor(levelAccess, targets, propertyValues) {
+        super(levelAccess, targets);
 
         this.propertyValues = propertyValues;
         this.oldPropertyValuesByTargetIds = this.getCurrentPropertyValues(targets);

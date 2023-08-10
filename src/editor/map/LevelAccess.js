@@ -131,18 +131,18 @@ export default class LevelAccess {
     }
 
     setMapPropertyValue(propertyName, value) {
-        let propertyHolder = this.getPropertyHolder(propertyName);
+        let propertyHolder = this.#getPropertyHolder(propertyName);
 
         propertyHolder[propertyName] = value;
     }
 
     getMapPropertyValue(propertyName) {
-        let propertyHolder = this.getPropertyHolder(propertyName);
+        let propertyHolder = this.#getPropertyHolder(propertyName);
 
         return propertyHolder[propertyName];
     }
 
-    getPropertyHolder(propertyName) {
+    #getPropertyHolder(propertyName) {
         let sourcePath = this.#mapPropertySources[propertyName];
 
         return getProperty(this, sourcePath);

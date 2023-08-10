@@ -2,14 +2,14 @@ import SetPropertiesCommand from '../SetPropertiesCommand.js';
 
 export default class SetMapNodesPropertyCommand extends SetPropertiesCommand {
 
-    constructor(editor, mapNodes, propertyName, newValue) {
-        super(editor, mapNodes, {
+    constructor(levelAccess, mapNodes, propertyName, newValue) {
+        super(levelAccess, mapNodes, {
             [propertyName]: newValue,
         });
     }
 
     setPropertyValue(mapNode, propertyName, value) {
-        this.editor.setMapNodePropertyValue(mapNode, propertyName, value);
+        this.levelAccess.setMapNodePropertyValue(mapNode, propertyName, value);
     }
 
     getTargetId(mapNode) {

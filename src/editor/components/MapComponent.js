@@ -109,7 +109,7 @@ export default class MapComponent extends AbstractComponent {
             if (alignedDraggedX !== this.executedDragX || alignedDraggedY !== this.executedDragY) {
                 let moveByX = alignedDraggedX - this.executedDragX;
                 let moveByY = alignedDraggedY - this.executedDragY;
-                let command = new MoveNodesCommand(this.editor, selectedMapNodes, moveByX, moveByY);
+                let command = new MoveNodesCommand(this.levelAccess, selectedMapNodes, moveByX, moveByY);
 
                 this.editor.executeCommand(command);
 
@@ -125,7 +125,7 @@ export default class MapComponent extends AbstractComponent {
 
             let selectedMapNodes = this.editor.getSelectedNodes().slice();
             let moveBy = this.#getMoveByForNodes(selectedMapNodes);
-            let command = new MoveNodesCommand(this.editor, selectedMapNodes, moveBy.x * x, moveBy.y * y);
+            let command = new MoveNodesCommand(this.levelAccess, selectedMapNodes, moveBy.x * x, moveBy.y * y);
 
             this.editor.executeCommand(command);
         });
@@ -138,7 +138,7 @@ export default class MapComponent extends AbstractComponent {
             e.preventDefault();
 
             let selectedMapNodes = this.editor.getSelectedNodes();
-            let command = new RemoveNodesCommand(this.editor, selectedMapNodes);
+            let command = new RemoveNodesCommand(this.levelAccess, selectedMapNodes);
 
             this.editor.executeCommand(command);
             Clipboard.from(e).writeMapNodes(selectedMapNodes);

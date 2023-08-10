@@ -23,10 +23,10 @@ import RemoveNodesCommand from './commands/map/RemoveNodesCommand.js';
 import PaletteMapNodeContextMenuComponent from './components/menus/PaletteMapNodeContextMenuComponent.js';
 import UINodeFactory from './UINodeFactory.js';
 import {downloadXml, reformatXml} from './util/xml.js';
-import LevelAccess from './map/LevelAccess.js';
 import DummyCommand from './commands/DummyCommand.js';
+import LevelAccess from './map/LevelAccess.js';
 
-export default class MapEditor extends LevelAccess {
+export default class MapEditor {
 
     static POINTER_MODE_SELECT = Symbol('MapEditor.POINTER_MODE_SELECT');
 
@@ -35,9 +35,9 @@ export default class MapEditor extends LevelAccess {
     static POINTER_MODE_SCROLL = Symbol('MapEditor.POINTER_MODE_SCROLL');
 
     constructor(context) {
-        super();
         this.context = context;
         this.uiNodeFactory = new UINodeFactory(context);
+        this.levelAccess = new LevelAccess();
 
         this.reader = new MapReader(context);
         this.writer = new MapWriter(context);
@@ -103,18 +103,18 @@ export default class MapEditor extends LevelAccess {
         });
 
         Hotkeys.bindGlobal('Control+Z', () => {
-            this.undoCommand();
+            this.levelAccess.undoCommand();
         });
 
         Hotkeys.bindGlobal('Control+Shift+Z', () => {
-            this.redoCommand();
+            this.levelAccess.redoCommand();
         });
 
         Hotkeys.bindGlobal('Delete', () => {
             let selectedMapNodes = this.getSelectedNodes();
             let command = new RemoveNodesCommand(this, selectedMapNodes);
 
-            this.executeCommand(command);
+            this.levelAccess.executeCommand(command);
         });
 
         Hotkeys.bindGlobal('Escape', () => {
@@ -193,16 +193,16 @@ export default class MapEditor extends LevelAccess {
 
     async saveCurrentLevel() {
         let filename = this.levelListComponent.getSelectedFile();
-        let levelXml = this.mapToXml(this.map);
+        let levelXml = this.mapToXml(this.levelAccess.map);
 
         await this.context.saveLevel(filename, levelXml);
-        this.setLevelClear();
+        this.levelAccess.setLevelClear();
     }
 
     downloadCurrentLevel() {
         let fullPath = this.levelListComponent.getSelectedFile();
         let filename = fullPath.split(/\//g).pop();
-        let levelXml = this.mapToXml(this.map);
+        let levelXml = this.mapToXml(this.levelAccess.map);
 
         downloadXml(filename, levelXml);
 
@@ -215,14 +215,14 @@ export default class MapEditor extends LevelAccess {
         let mapXml = await this.context.loadXml(filename);
         let map = this.reader.readLevel(mapXml);
 
-        this.commandExecutor.clear();
+        this.levelAccess.commandExecutor.clear();
         this.commandListComponent.clearCommands();
         this.triggerListComponent.clearTriggers();
 
         this.currentLevelFilename = filename;
         this.levelListComponent.setSelectedFile(filename);
 
-        this.commandListComponent.setCommandExecutor(this.commandExecutor);
+        this.commandListComponent.setCommandExecutor(this.levelAccess.commandExecutor);
 
         this.nodeListComponent.setMap(map);
         this.mapOptionsComponent.setMap(map);
@@ -238,14 +238,18 @@ export default class MapEditor extends LevelAccess {
         this.mapComponent.setMap(map);
         this.mapComponent.setViewportCenter(map.startX ?? map.playerBaseX, map.startY ?? map.playerBaseY);
 
-        this.setMap(map);
+        this.levelAccess.setMap(map);
 
-        this.setLevelClear();
-        this.executeCommand(this.createInitialCommand());
+        this.levelAccess.setLevelClear();
+        this.levelAccess.executeCommand(this.createInitialCommand());
     }
 
     createInitialCommand() {
         return new DummyCommand(this, 'Изначальное состояние', 'bi-circle');
+    }
+
+    executeCommand(command) {
+        this.levelAccess.executeCommand(command);
     }
 
     setPointerMode(mode) {
@@ -386,8 +390,20 @@ export default class MapEditor extends LevelAccess {
         this.triggerEditorComponent.setTrigger(trigger);
     }
 
+    getLevelAccess() {
+        return this.levelAccess;
+    }
+
+    getMap() {
+        return this.levelAccess.getMap();
+    }
+
     getContext() {
         return this.context;
+    }
+
+    getUiNodeFactory() {
+        return this.uiNodeFactory;
     }
 
     createMapNodeFromElement(element) {
@@ -438,9 +454,5 @@ export default class MapEditor extends LevelAccess {
         }
 
         throw new Error('Unsupported modalType: ' + modalType);
-    }
-
-    getUiNodeFactory() {
-        return this.uiNodeFactory;
     }
 }
