@@ -7,18 +7,18 @@ export default class AddRemoveNodesCommand extends AddRemoveCommand {
     }
 
     getIndexFor(node) {
-        return this.editor.indexOfNode(node);
+        return this.levelEditor.indexOfNode(node);
     }
 
     addItem(node) {
-        this.editor.addNode(node);
+        this.levelEditor.addNode(node);
     }
 
     insertItem(node, index) {
-        this.editor.insertNode(node, index);
+        this.levelEditor.insertNode(node, index);
     }
 
     removeItem(node) {
-        this.editor.removeNode(node);
+        this.levelEditor.removeNode(node);
     }
 }

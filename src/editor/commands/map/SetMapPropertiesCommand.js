@@ -7,11 +7,11 @@ export default class SetMapPropertiesCommand extends SetPropertiesCommand {
     }
 
     setPropertyValue(map, propertyName, value) {
-        this.editor.setMapPropertyValue(propertyName, value);
+        this.levelEditor.setMapPropertyValue(propertyName, value);
     }
 
     getPropertyValue(map, propertyName) {
-        return this.editor.getMapPropertyValue(propertyName);
+        return this.levelEditor.getMapPropertyValue(propertyName);
     }
 
     getTargetId(map) {

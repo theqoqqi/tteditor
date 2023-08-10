@@ -7,18 +7,18 @@ export default class AddRemoveTriggersCommand extends AddRemoveCommand {
     }
 
     getIndexFor(trigger) {
-        return this.editor.indexOfTrigger(trigger);
+        return this.levelEditor.indexOfTrigger(trigger);
     }
 
     addItem(trigger) {
-        this.editor.addTrigger(trigger);
+        this.levelEditor.addTrigger(trigger);
     }
 
     insertItem(trigger, index) {
-        this.editor.insertTrigger(trigger, index);
+        this.levelEditor.insertTrigger(trigger, index);
     }
 
     removeItem(trigger) {
-        this.editor.removeTrigger(trigger);
+        this.levelEditor.removeTrigger(trigger);
     }
 }

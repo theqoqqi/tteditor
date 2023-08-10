@@ -1,30 +1,14 @@
 import CommandExecutor from './util/CommandExecutor.js';
 import CompositeObserver from './util/observables/CompositeObserver.js';
-import {getProperty} from 'dot-prop';
+import {LevelEditor} from './LevelEditor.js';
 
 export default class Editor {
 
-    #mapPropertySources = {
-        width: 'map',
-        height: 'map',
-        startX: 'map',
-        startY: 'map',
-        playerBaseX: 'map',
-        playerBaseY: 'map',
-
-        id: 'map.options',
-        music: 'map.options',
-        coloring: 'map.options',
-        fowClearColor: 'map.options',
-        randomizers: 'map.options',
-    };
-
-    isDirty;
+    isLevelDirty;
 
     constructor() {
         this.commandExecutor = new CommandExecutor();
-
-        this.map = null;
+        this.levelEditor = new LevelEditor();
 
         this.createObservers();
     }
@@ -120,66 +104,22 @@ export default class Editor {
     }
 
     setMap(map) {
-        if (this.map) {
-            this.mapObservers.detachFrom(this.map);
+        if (this.getMap()) {
+            this.mapObservers.detachFrom(this.getMap());
         }
 
-        this.map = map;
+        this.levelEditor.setMap(map);
 
         this.mapObservers.attachTo(map);
         this.mapObservers.triggerForAll();
     }
 
-    setMapPropertyValue(propertyName, value) {
-        let propertyHolder = this.#getPropertyHolder(propertyName);
-
-        propertyHolder[propertyName] = value;
-    }
-
-    getMapPropertyValue(propertyName) {
-        let propertyHolder = this.#getPropertyHolder(propertyName);
-
-        return propertyHolder[propertyName];
-    }
-
-    #getPropertyHolder(propertyName) {
-        let sourcePath = this.#mapPropertySources[propertyName];
-
-        return getProperty(this, sourcePath);
-    }
-
-    setMapNodePropertyValue(mapNode, propertyName, value) {
-        if (propertyName === 'x') {
-            this.setMapNodePosition(mapNode, +value, mapNode.y);
-            return;
-        }
-
-        if (propertyName === 'y') {
-            this.setMapNodePosition(mapNode, mapNode.x, +value);
-            return;
-        }
-
-        let numericProperties = ['x', 'y', 'radius'];
-
-        if (numericProperties.includes(propertyName)) {
-            mapNode[propertyName] = +value;
-
-        } else {
-            mapNode[propertyName] = value;
-        }
-    }
-
     setLevelDirty() {
-        this.isDirty = true;
+        this.isLevelDirty = true;
     }
 
     setLevelClear() {
-        this.isDirty = false;
-    }
-
-    setMapNodePosition(mapNode, x, y) {
-        mapNode.x = x;
-        mapNode.y = y;
+        this.isLevelDirty = false;
     }
 
     executeCommand(command) {
@@ -196,59 +136,11 @@ export default class Editor {
         this.commandExecutor.redo();
     }
 
-    indexOfNode(node) {
-        return this.map.indexOfNode(node);
-    }
-
-    insertNode(node, index) {
-        this.map.insertNode(node, index);
-    }
-
-    addNode(mapNode) {
-        this.map.addNode(mapNode);
-    }
-
-    removeNode(mapNode) {
-        this.map.removeNode(mapNode);
-    }
-
-    indexOfTrigger(trigger) {
-        return this.map.indexOfTrigger(trigger);
-    }
-
-    insertTrigger(trigger, index) {
-        this.map.insertTrigger(trigger, index);
-    }
-
-    addTrigger(trigger) {
-        this.map.addTrigger(trigger);
-    }
-
-    removeTrigger(trigger) {
-        this.map.removeTrigger(trigger);
-    }
-
-    setTerrain(terrain) {
-        this.map.setTerrain(terrain);
-    }
-
-    indexOfRandomizer(randomizer) {
-        return this.map.options.indexOfRandomizer(randomizer);
-    }
-
-    insertRandomizer(randomizer, index) {
-        this.map.options.insertRandomizer(randomizer, index);
-    }
-
-    addRandomizer(randomizer) {
-        this.map.options.addRandomizer(randomizer);
-    }
-
-    removeRandomizer(randomizer) {
-        this.map.options.removeRandomizer(randomizer);
-    }
-
     getMap() {
-        return this.map;
+        return this.levelEditor.getMap();
+    }
+
+    getLevelEditor() {
+        return this.levelEditor;
     }
 }

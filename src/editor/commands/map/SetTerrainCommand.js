@@ -9,7 +9,7 @@ export default class SetTerrainCommand extends SetPropertiesCommand {
     }
 
     setPropertyValue(map, propertyName, value) {
-        this.editor.setTerrain(value);
+        this.levelEditor.setTerrain(value);
     }
 
     getTargetId(map) {
