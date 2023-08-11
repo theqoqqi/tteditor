@@ -1,4 +1,14 @@
 
 .workArea {
-    background-color: #ddd;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+
+    flex: 1;
+
+    overflow: hidden;
+    outline: none;
 }
