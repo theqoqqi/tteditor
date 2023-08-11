@@ -10,18 +10,26 @@ Level.propTypes = {
         path: PropTypes.string,
     }),
     selected: PropTypes.bool,
+    changed: PropTypes.bool,
 };
 
-function Level({ level, selected }) {
+function Level({ level, selected, changed }) {
     return (
         <div
             className={classNames(styles.level, {
                 [styles.selected]: selected,
             })}
         >
-            <span className={styles.header}>
-                {level.title}
-            </span>
+            <div className={styles.header}>
+                <span>
+                    {level.title}
+                </span>
+                {changed && (
+                    <span className={styles.modifiedLabel}>
+                        изменен
+                    </span>
+                )}
+            </div>
             <span className={styles.path}>
                 {level.path}
             </span>
