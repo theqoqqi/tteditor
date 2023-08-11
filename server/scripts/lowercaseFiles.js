@@ -20,6 +20,6 @@ async function renameFilesInDirectory(dir) {
     }
 }
 
-renameFilesInDirectory('../../data/texture')
+renameFilesInDirectory('../../public/data/texture')
     .then(() => console.log('File renaming completed'))
     .catch(error => console.error('Error:', error));
