@@ -9,6 +9,8 @@
 
     flex: 1;
 
+    background-color: #ddd;
+
     overflow: hidden;
     outline: none;
 }
