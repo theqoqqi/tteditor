@@ -6,6 +6,8 @@ import {List} from '../../../shared/list';
 
 LevelList.propTypes = {
     levels: PropTypes.array,
+    selected: PropTypes.object,
+    onSelect: PropTypes.func,
     isSelectedLevelDirty: PropTypes.bool,
 };
 
