@@ -12,6 +12,7 @@ List.propTypes = {
     keyBy: PropTypes.func,
     compareBy: PropTypes.func,
     listItemProps: PropTypes.func,
+    disabled: PropTypes.bool,
 };
 
 function List({
@@ -19,6 +20,7 @@ function List({
     itemClassName,
     items = [],
     selected,
+    disabled,
     onSelect = () => {},
     listItemContent = null,
     keyBy = null,
@@ -39,6 +41,7 @@ function List({
                     key={keyBy?.(item) ?? index}
                     className={itemClassName}
                     active={isSameItem(item, selected)}
+                    disabled={disabled}
                     onClick={() => onSelect?.(item)}
                     action
                     {...listItemProps?.(item, index, isSameItem(item, selected))}
