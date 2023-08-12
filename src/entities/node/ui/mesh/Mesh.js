@@ -1,6 +1,6 @@
 import styles from './Mesh.module.css';
 import React from 'react';
-import {createNodeMeshStyles, useRenderContext, xmlUtils} from '../../../../shared/editor';
+import {styling, useRenderContext, xmlUtils} from '../../../../shared/editor';
 import PropTypes from 'prop-types';
 
 Mesh.propTypes = {
@@ -25,7 +25,7 @@ function Mesh({ tag, type, nodeXml }) {
     }
 
     let texturePath = renderContext.getTexturePath(nodeXml);
-    let style = createNodeMeshStyles(renderContext, tag, type, nodeXml, meshXml);
+    let style = styling.createNodeMeshStyles(renderContext, tag, type, nodeXml, meshXml);
 
     return (
         <img
