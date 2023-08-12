@@ -8,6 +8,7 @@ import useListObserver from './lib/hooks/useListObserver.js';
 import useMapObserver from './lib/hooks/useMapObserver.js';
 import useEditorObserver from './lib/hooks/useEditorObserver.js';
 import EditorProvider from './lib/provider.js';
+import createNodeMeshStyles from './lib/rendering/styling.js';
 
 export {
     useMap,
@@ -20,4 +21,5 @@ export {
     useMapObserver,
     useEditorObserver,
     EditorProvider,
+    createNodeMeshStyles,
 };
