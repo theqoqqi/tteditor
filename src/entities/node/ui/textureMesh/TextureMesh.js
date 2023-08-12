@@ -1,16 +1,16 @@
-import styles from './Mesh.module.css';
+import styles from './TextureMesh.module.css';
 import React from 'react';
 import {styling, useRenderContext} from '../../../../shared/editor';
 import PropTypes from 'prop-types';
 import {getMeshXml, getTextureXml, isValidMesh} from '../../lib/xmlUtils.js';
 
-Mesh.propTypes = {
+TextureMesh.propTypes = {
     tag: PropTypes.string,
     type: PropTypes.string,
     nodeXml: PropTypes.instanceOf(Document),
 };
 
-function Mesh({ tag, type, nodeXml }) {
+function TextureMesh({ tag, type, nodeXml }) {
     let renderContext = useRenderContext();
     let meshXml = getMeshXml(nodeXml);
 
@@ -36,4 +36,4 @@ function Mesh({ tag, type, nodeXml }) {
     );
 }
 
-export default Mesh;
+export default TextureMesh;
