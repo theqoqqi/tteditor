@@ -3,6 +3,7 @@ import CompositeObserver from './util/observables/CompositeObserver.js';
 import {LevelEditor} from './LevelEditor.js';
 import DummyCommand from './commands/DummyCommand.js';
 import Observable from './util/observables/Observable.js';
+import RenderContext from './RenderContext.js';
 
 export default class Editor extends Observable {
 
@@ -12,6 +13,7 @@ export default class Editor extends Observable {
         super();
 
         this.context = context;
+        this.renderContext = new RenderContext(context);
         this.commandExecutor = new CommandExecutor();
         this.levelEditor = new LevelEditor();
 
