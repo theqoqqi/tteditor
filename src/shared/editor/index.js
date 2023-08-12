@@ -13,6 +13,12 @@ import * as colorsUtils from './core/util/colors.js';
 import * as geometryUtils from './core/util/geometry.js';
 import * as matrixUtils from './core/util/matrix.js';
 import * as xmlUtils from './core/util/xml.js';
+import GameMap from './core/map/GameMap.js';
+import MapNode from './core/map/MapNode.js';
+import MapOptions from './core/map/MapOptions.js';
+import MapTerrain from './core/map/MapTerrain.js';
+import RandomizerOption from './core/map/RandomizerOption.js';
+import Trigger from './core/map/Trigger.js';
 
 export {
     useMap,
@@ -30,4 +36,10 @@ export {
     geometryUtils,
     matrixUtils,
     xmlUtils,
+    GameMap,
+    MapNode,
+    MapOptions,
+    MapTerrain,
+    RandomizerOption,
+    Trigger,
 };
