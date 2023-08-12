@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {MapNode} from '../../../shared/editor';
 import {useNodeXml, useObserver} from '../../../shared/editor';
 import Mesh from './mesh/Mesh.js';
+import {getMeshXml} from '../lib/xmlUtils.js';
 
 Node.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
@@ -23,7 +24,7 @@ function Node({ mapNode }) {
 
     return (
         <div className={styles.node} style={style}>
-            {nodeXml && nodeXml.querySelector(':scope > mesh')
+            {nodeXml && getMeshXml(nodeXml)
                 ? <Mesh tag={tag} type={type} nodeXml={nodeXml} />
                 : null}
         </div>
