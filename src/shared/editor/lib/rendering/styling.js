@@ -7,6 +7,7 @@ import {
     hsbaColorToCssFilters,
     rgbaColorToHsbaColor
 } from '../../core/util/colors.js';
+import {xmlUtils} from '../../index.js';
 
 function createTransform(width, height, renderContext, meshXml) {
     let initialVertices = createBoxVertices(0, 0, width, height);
@@ -64,5 +65,17 @@ export function createMeshStyles(renderContext, tag, type, nodeXml, meshXml) {
         transformOrigin: `${x}px ${y}px`,
         transform,
         ...colorStyles,
+    };
+}
+
+export function createMarkerMeshStyles(meshXml) {
+    let width = xmlUtils.getNumericContent(meshXml, 'width');
+    let height = xmlUtils.getNumericContent(meshXml, 'height');
+
+    return {
+        left: -width / 2,
+        top: -height / 2,
+        width: width,
+        height: height,
     };
 }

@@ -1,0 +1,13 @@
+
+.markerMesh {
+    position: absolute;
+    border-radius: 50%;
+
+    color: black;
+    background-color: white;
+    border: 2px solid black;
+}
+
+.markerMesh.fallback {
+
+}
