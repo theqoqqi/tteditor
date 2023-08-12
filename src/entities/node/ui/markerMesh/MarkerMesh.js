@@ -1,7 +1,7 @@
 import styles from './MarkerMesh.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {styling} from '../../../../shared/editor';
+import {styling, xmlUtils} from '../../../../shared/editor';
 import classNames from 'classnames';
 
 MarkerMesh.propTypes = {
@@ -10,7 +10,10 @@ MarkerMesh.propTypes = {
 };
 
 function MarkerMesh({ variant, meshXml }) {
-    let style = styling.createMarkerMeshStyles(meshXml);
+    let width = xmlUtils.getNumericContent(meshXml, 'width');
+    let height = xmlUtils.getNumericContent(meshXml, 'height');
+
+    let style = styling.createMarkerMeshStyles(width, height);
 
     return (
         <div className={classNames(styles.markerMesh, styles[variant])} style={style} />
