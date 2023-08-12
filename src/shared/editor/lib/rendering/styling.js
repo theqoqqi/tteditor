@@ -46,7 +46,7 @@ function createBackgroundStyle(rgba) {
     };
 }
 
-export function createNodeMeshStyles(renderContext, tag, type, nodeXml, meshXml) {
+export function createMeshStyles(renderContext, tag, type, nodeXml, meshXml) {
     let frameBounds = renderContext.getDefaultFrameBoundsFor(tag, type, nodeXml);
     let x = frameBounds.x;
     let y = frameBounds.y;

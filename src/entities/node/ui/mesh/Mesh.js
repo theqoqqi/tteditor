@@ -25,7 +25,7 @@ function Mesh({ tag, type, nodeXml }) {
     }
 
     let texturePath = renderContext.getTexturePath(nodeXml);
-    let style = styling.createNodeMeshStyles(renderContext, tag, type, nodeXml, meshXml);
+    let style = styling.createMeshStyles(renderContext, tag, type, nodeXml, meshXml);
 
     return (
         <img
