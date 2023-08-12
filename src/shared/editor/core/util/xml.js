@@ -1,11 +1,19 @@
 
 export function getNumericContent(ofElement, selector, defaultValue = null) {
+    if (!ofElement) {
+        return defaultValue;
+    }
+
     let text = getTextContent(ofElement, selector, null);
 
     return text && text !== '' ? +text : defaultValue;
 }
 
 export function getTextContent(ofElement, selector, defaultValue = null) {
+    if (!ofElement) {
+        return defaultValue;
+    }
+
     let child = ofElement.querySelector(`:scope > ${selector}`);
 
     return child?.textContent ?? defaultValue;
