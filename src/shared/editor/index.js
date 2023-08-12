@@ -2,6 +2,7 @@ import useMap from './lib/hooks/useMap.js';
 import useEditor from './lib/hooks/useEditor.js';
 import useEditorContext from './lib/hooks/useEditorContext.js';
 import useRenderContext from './lib/hooks/useRenderContext.js';
+import useNodeXml from './lib/hooks/useNodeXml.js';
 import useObserver from './lib/hooks/useObserver.js';
 import useListObserver from './lib/hooks/useListObserver.js';
 import useMapObserver from './lib/hooks/useMapObserver.js';
@@ -13,6 +14,7 @@ export {
     useEditor,
     useEditorContext,
     useRenderContext,
+    useNodeXml,
     useObserver,
     useListObserver,
     useMapObserver,
