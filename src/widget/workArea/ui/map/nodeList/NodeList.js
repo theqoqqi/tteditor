@@ -1,7 +1,7 @@
 import styles from './NodeList.module.css';
 import React from 'react';
 import {useMapObserver} from '../../../../../shared/editor';
-import Node from '../node/Node.js';
+import Node from '../../../../../entities/node/ui/Node.js';
 
 function NodeList() {
     /** @type MapNode[] */

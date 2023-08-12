@@ -1,8 +1,8 @@
 import styles from './Node.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import MapNode from '../../../../../shared/editor/core/map/MapNode.js';
-import {useObserver} from '../../../../../shared/editor';
+import MapNode from '../../../shared/editor/core/map/MapNode.js';
+import {useObserver} from '../../../shared/editor';
 
 Node.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
