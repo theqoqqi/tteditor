@@ -1,0 +1,6 @@
+
+.mesh {
+    position: absolute;
+
+    pointer-events: none;
+}
