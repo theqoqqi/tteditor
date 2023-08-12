@@ -22,7 +22,7 @@ const allTabs = [
     },
 ];
 
-function LeftSidebar({}) {
+function LeftSidebar() {
     let [selectedTab, setSelectedTab] = useState(0);
 
     return (

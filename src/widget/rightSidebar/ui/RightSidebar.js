@@ -21,7 +21,7 @@ const allTabs = [
     },
 ];
 
-function RightSidebar({}) {
+function RightSidebar() {
     let [selectedTab, setSelectedTab] = useState(0);
 
     return (
