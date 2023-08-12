@@ -181,8 +181,8 @@ export default class EditorContext {
     }
 
     async getSoundFor(tagName, typeName) {
-        let nodeInfo = this.getNodeInfoByName(tagName, typeName);
-        let effectPath = getTextContent(nodeInfo, 'effect');
+        let nodeMetadata = this.getNodeMetadataByName(tagName, typeName);
+        let effectPath = getTextContent(nodeMetadata, 'effect');
         let effect = await this.loadXml(effectPath);
         let sounds = effect.querySelectorAll('node > prototype > sound');
 
@@ -201,12 +201,12 @@ export default class EditorContext {
     }
 
     async getNodeByName(tagName, typeName) {
-        let nodeInfo = this.getNodeInfoByName(tagName, typeName);
+        let nodeMetadata = this.getNodeMetadataByName(tagName, typeName);
 
-        return await this.getNodeXml(nodeInfo);
+        return await this.getNodeXml(nodeMetadata);
     }
 
-    getNodeInfoByName(tagName, typeName) {
+    getNodeMetadataByName(tagName, typeName) {
         let configTagName = this.getConfigTagNameByTagName(tagName);
         let nodeList = this.getConfigByTagName(tagName);
 
@@ -222,13 +222,13 @@ export default class EditorContext {
     }
 
     shouldAlignToGrid(tagName, typeName) {
-        let node = this.getNodeInfoByName(tagName, typeName);
+        let nodeMetadata = this.getNodeMetadataByName(tagName, typeName);
 
-        if (!node) {
+        if (!nodeMetadata) {
             return false;
         }
 
-        return node.querySelector('grid_align') !== null;
+        return nodeMetadata.querySelector('grid_align') !== null;
     }
 
     alignNodeToGrid(mapNode) {
@@ -277,10 +277,10 @@ export default class EditorContext {
         return this.nodeTagToConfigTagNameMap[tagName];
     }
 
-    async getNodeXml(nodeInfo) {
-        let nodePath = getTextContent(nodeInfo, 'node')
-            || getTextContent(nodeInfo, 'animation > node')
-            || getTextContent(nodeInfo, 'structure > node');
+    async getNodeXml(nodeMetadata) {
+        let nodePath = getTextContent(nodeMetadata, 'node')
+            || getTextContent(nodeMetadata, 'animation > node')
+            || getTextContent(nodeMetadata, 'structure > node');
 
         if (!nodePath) {
             return null;
