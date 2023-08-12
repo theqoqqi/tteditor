@@ -57,6 +57,16 @@ export default class RenderContext {
         return +result[1] ?? 0;
     }
 
+    getTexturePath(nodeXml) {
+        let src = getTextContent(nodeXml, 'texture');
+
+        if (!src) {
+            return null;
+        }
+
+        return src.startsWith('data') ? src : 'data/' + src;
+    }
+
     getDefaultFrameBoundsFor(tagName, typeName, nodeXml) {
         let rootNodeXml = this.context.getNodeXmlByName(tagName, typeName);
 
