@@ -107,7 +107,7 @@ export default class EditorContext {
 
     async createTerrainByName(terrainName) {
         let terrain = new MapTerrain(terrainName);
-        let terrainXml = await this.getNodeByName('terrain', terrainName);
+        let terrainXml = await this.getNodeXmlByName('terrain', terrainName);
 
         terrain.width = getNumericContent(terrainXml, 'width');
         terrain.height = getNumericContent(terrainXml, 'height');
@@ -200,7 +200,7 @@ export default class EditorContext {
         return sounds[randomIndex]?.textContent;
     }
 
-    async getNodeByName(tagName, typeName) {
+    async getNodeXmlByName(tagName, typeName) {
         let nodeMetadata = this.getNodeMetadataByName(tagName, typeName);
 
         return await this.getNodeXml(nodeMetadata);
