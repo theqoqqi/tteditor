@@ -204,11 +204,11 @@ export default class PaletteView extends AbstractView {
         let name = $item.data('name');
 
         let $preview = $item.find('.palette-item-preview');
-        let nodeInfo = $item.data('node-info');
+        let nodeMetadata = $item.data('node-info');
         let itemNode;
 
-        if (nodeInfo) {
-            itemNode = this.context.getNodeXml(nodeInfo);
+        if (nodeMetadata) {
+            itemNode = this.context.getNodeXml(nodeMetadata);
         }
 
         $item.data('node', itemNode);
@@ -226,7 +226,7 @@ export default class PaletteView extends AbstractView {
             $preview.append($mesh);
 
         } else if (tagName === 'composition') {
-            let items = nodeInfo.querySelectorAll(':scope > *');
+            let items = nodeMetadata.querySelectorAll(':scope > *');
             let mapNodes = [];
 
             for (const item of items) {
@@ -287,9 +287,9 @@ export default class PaletteView extends AbstractView {
 
             $preview.attr('data-size-is-set', 1);
 
-            let nodeInfo = $paletteItem.data('node-info');
+            let nodeMetadata = $paletteItem.data('node-info');
             let node = $paletteItem.data('node');
-            let scale = this.resolveScaleForMesh($mesh, node, nodeInfo);
+            let scale = this.resolveScaleForMesh($mesh, node, nodeMetadata);
 
             if ($nodes.length) {
                 $nodes.each((index, node) => {
@@ -309,15 +309,15 @@ export default class PaletteView extends AbstractView {
         });
     }
 
-    resolveScaleForMesh($mesh, node, nodeInfo) {
+    resolveScaleForMesh($mesh, node, nodeMetadata) {
 
         let rect = $mesh[0].getBoundingClientRect();
 
         let ratioX = ICON_SIZE / rect.width;
         let ratioY = ICON_SIZE / rect.height;
 
-        if (nodeInfo.tagName === 'composition') {
-            let items = nodeInfo.querySelectorAll(':scope > *');
+        if (nodeMetadata.tagName === 'composition') {
+            let items = nodeMetadata.querySelectorAll(':scope > *');
             let boundsOfItems = Array.from(items).map(item => {
                 let x = +item.getAttribute('x');
                 let y = +item.getAttribute('y');
@@ -360,9 +360,9 @@ export default class PaletteView extends AbstractView {
         }
 
         let typeName = item.getAttribute('type');
-        let node = this.context.getNodeByName(tagName, typeName);
+        let nodeXml = this.context.getNodeXmlByName(tagName, typeName);
 
-        if (!node.querySelector(':scope mesh')) {
+        if (!nodeXml.querySelector(':scope mesh')) {
             return createBoundsWithSize(-radius, -radius, radius * 2, radius * 2);
         }
 

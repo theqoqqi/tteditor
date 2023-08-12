@@ -402,17 +402,17 @@ export default class MapEditor {
 
         let tagName = mapNode.tag;
         let typeName = mapNode.type;
-        let node = this.context.getNodeByName(tagName, typeName);
-        let nodeInfo = this.context.getNodeInfoByName(tagName, typeName);
+        let node = this.context.getNodeXmlByName(tagName, typeName);
+        let nodeMetadata = this.context.getNodeMetadataByName(tagName, typeName);
 
-        console.log(`Node #${mapNode.editorId} (${tagName}, ${typeName})`, node, nodeInfo);
+        console.log(`Node #${mapNode.editorId} (${tagName}, ${typeName})`, node, nodeMetadata);
     }
 
     logNode(tagName, typeName) {
-        let node = this.context.getNodeByName(tagName, typeName);
-        let nodeInfo = this.context.getNodeInfoByName(tagName, typeName);
+        let node = this.context.getNodeXmlByName(tagName, typeName);
+        let nodeMetadata = this.context.getNodeMetadataByName(tagName, typeName);
 
-        console.log(`Node (${tagName}, ${typeName})`, node, nodeInfo);
+        console.log(`Node (${tagName}, ${typeName})`, node, nodeMetadata);
     }
 
     showModal(modalType, options) {

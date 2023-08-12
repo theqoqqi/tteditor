@@ -76,60 +76,6 @@ export default class UINodeFactory {
         return $node;
     }
 
-    getIconRadius(tagName) {
-        if (tagName === 'area') {
-            return 0;
-        }
-
-        return tagName === 'waypoint' ? 8 : 12;
-    }
-
-    getAreaRadiusSizesFor(mapNode) {
-        let declaredRadius = this.getDeclaredRadius(mapNode) ?? 0;
-        let applyRatio = mapNode.type !== 'Reveal200';
-
-        return this.getRadiusSizes(declaredRadius, applyRatio);
-    }
-
-    getRadiusSizes(radius, applyRatio) {
-        let radiusX, radiusY;
-
-        if (applyRatio) {
-            radiusX = radius;
-            radiusY = radiusX * COORDS_RATIO;
-        } else {
-            radiusX = radius;
-            radiusY = radius;
-        }
-
-        return { radiusX, radiusY };
-    }
-
-    getDeclaredRadius(mapNode) {
-        if (mapNode.radius) {
-            return mapNode.radius / 2;
-        }
-
-        let nodeInfo = this.context.getNodeInfoByName(mapNode.tag, mapNode.type);
-
-        return getNumericContent(nodeInfo, 'radius')
-            || getNumericContent(nodeInfo, 'structure > radius')
-            || UINodeFactory.tryParseRadius(mapNode.type, /Reveal(\d+)/g)
-            || UINodeFactory.tryParseRadius(mapNode.type, /Obstacle(\d+)/g)
-            || UINodeFactory.tryParseRadius(mapNode.type, /NoBuild(\d+)/g)
-            || (mapNode.tag === 'area' ? 16 : null);
-    }
-
-    static tryParseRadius(typeName, pattern) {
-        let result = pattern.exec(typeName);
-
-        if (!result) {
-            return null;
-        }
-
-        return +result[1] ?? 0;
-    }
-
     createMarkerMesh(meshClass, radiusX, radiusY) {
         let $markerMesh = $(`<div class='marker-mesh ${meshClass}'>`);
 
@@ -141,12 +87,12 @@ export default class UINodeFactory {
         return $markerMesh;
     }
 
-    createNode(tagName, typeName, mapNode, $parentNode = null, node = null) {
-        node ??= this.context.getNodeByName(tagName, typeName);
+    createNode(tagName, typeName, mapNode, $parentNode = null, nodeXml = null) {
+        nodeXml ??= this.context.getNodeXmlByName(tagName, typeName);
 
         try {
-            let $node = this.createGenericNode(tagName, mapNode, node, $parentNode);
-            let { x, y, z } = this.getCoordsForNode(tagName, mapNode, node, $parentNode);
+            let $node = this.createGenericNode(tagName, mapNode, nodeXml, $parentNode);
+            let { x, y, z } = this.getCoordsForNode(tagName, mapNode, nodeXml, $parentNode);
 
             this.storeNodeProperties($node, mapNode);
 
@@ -161,15 +107,15 @@ export default class UINodeFactory {
 
             let $mesh;
 
-            if (node.querySelector(':scope > mesh')) {
-                $mesh = this.createMesh(tagName, typeName, node);
+            if (nodeXml.querySelector(':scope > mesh')) {
+                $mesh = this.createMesh(tagName, typeName, nodeXml);
 
-                if (node.querySelector(':scope > keyframe')) {
-                    console.warn('node with keyframe:', node, tagName, mapNode);
+                if (nodeXml.querySelector(':scope > keyframe')) {
+                    console.warn('node with keyframe:', nodeXml, tagName, mapNode);
                 }
             }
 
-            if (!$parentNode && !$mesh && !node.querySelector('mesh')) {
+            if (!$parentNode && !$mesh && !nodeXml.querySelector('mesh')) {
                 $mesh = this.createMarkerMesh('icon-mesh', 12, 12);
 
                 let $icon = this.createMarkerIcon(tagName);
@@ -191,7 +137,7 @@ export default class UINodeFactory {
                 $node.append($mesh);
             }
 
-            for (let subNode of node.querySelectorAll(':scope > node')) {
+            for (let subNode of nodeXml.querySelectorAll(':scope > node')) {
                 let $subNode = this.createNode(tagName, typeName, mapNode, $node, subNode);
                 $node.append($subNode);
             }
@@ -222,14 +168,14 @@ export default class UINodeFactory {
                     $selectionBox.css('z-index', selectionBoxZ);
                     $node.append($selectionBox);
                 } else {
-                    console.error('Unable to create selection box: no mesh', $node, node, tagName, mapNode);
+                    console.error('Unable to create selection box: no mesh', $node, nodeXml, tagName, mapNode);
                 }
             }
 
             return $node;
         } catch (e) {
             console.error(e);
-            console.log(tagName, node, mapNode);
+            console.log(tagName, nodeXml, mapNode);
             return null;
         }
     }
@@ -263,16 +209,16 @@ export default class UINodeFactory {
         return $node;
     }
 
-    createMesh(tagName, typeName, node = null) {
-        node ??= this.context.getNodeByName(tagName, typeName);
+    createMesh(tagName, typeName, nodeXml = null) {
+        nodeXml ??= this.context.getNodeXmlByName(tagName, typeName);
 
-        let mesh = node.querySelector(':scope > mesh');
+        let mesh = nodeXml.querySelector(':scope > mesh');
 
         if (!getNumericContent(mesh, 'width') || !getNumericContent(mesh, 'height')) {
             return null;
         }
 
-        if (!node.querySelector(':scope > texture')) {
+        if (!nodeXml.querySelector(':scope > texture')) {
             let width = getNumericContent(mesh, 'width');
             let height = getNumericContent(mesh, 'height');
             let color = getTextContent(mesh, 'color');
@@ -284,7 +230,7 @@ export default class UINodeFactory {
             return $markerMesh;
         }
 
-        let frameBounds = this.getDefaultFrameBoundsFor(tagName, typeName, node);
+        let frameBounds = this.getDefaultFrameBoundsFor(tagName, typeName, nodeXml);
         let offsetX = frameBounds.x;
         let offsetY = frameBounds.y;
         let width = frameBounds.width;
@@ -292,7 +238,7 @@ export default class UINodeFactory {
 
         let $mesh;
 
-        let src = getTextContent(node, 'texture');
+        let src = getTextContent(nodeXml, 'texture');
         if (src) {
             src = src.startsWith('data') ? src : 'data/' + src;
             $mesh = $(`<img class="mesh" alt="" src="${src}" />`);
@@ -302,7 +248,7 @@ export default class UINodeFactory {
 
         $mesh.data('mesh', mesh);
 
-        let color = getTextContent(node, 'mesh > color');
+        let color = getTextContent(nodeXml, 'mesh > color');
 
         if (color) {
             let rgba = hexIntColorToColor(color);
@@ -333,111 +279,6 @@ export default class UINodeFactory {
         $mesh.data('target-vertices', targetVertices);
 
         return $mesh;
-    }
-
-    getDefaultFrameBoundsFor(tagName, typeName, node) {
-        let rootNode = this.context.getNodeByName(tagName, typeName);
-
-        if (rootNode !== node) {
-            return this.getFrameBoundsFor(node, 0);
-        }
-
-        let frameIndex = this.getDefaultFrameIndexFor(tagName, typeName);
-
-        return this.getFrameBoundsFor(node, frameIndex);
-    }
-
-    getDefaultFrameIndexFor(tagName, typeName) {
-        let nodeInfo = this.context.getNodeInfoByName(tagName, typeName);
-        let animation = nodeInfo.querySelector('animation');
-
-        if (!animation) {
-            return 0;
-        }
-
-        let southAnimation = animation.querySelector('s');
-        let standIndex = +southAnimation?.getAttribute('stand');
-
-        return standIndex || 0;
-    }
-
-    getFrameBoundsFor(node, frameIndex) {
-        let mesh = node.querySelector(':scope mesh');
-
-        let width = getNumericContent(mesh, 'width');
-        let height = getNumericContent(mesh, 'height');
-        let x = getNumericContent(mesh, 'textureoffsetx', 0);
-        let y = getNumericContent(mesh, 'textureoffsety', 0);
-
-        let texturePath = getTextContent(node, 'texture');
-
-        if (texturePath) {
-            let textureSize = this.context.getImageSize(texturePath);
-
-            if (frameIndex > 0) {
-                let framesPerRow = Math.floor(textureSize.width / width);
-                let cellX = frameIndex % framesPerRow;
-                let cellY = Math.floor(frameIndex / framesPerRow);
-
-                x += cellX * width;
-                y += cellY * height;
-            }
-        }
-
-        return createBoundsWithSize(x, y, width, height);
-    }
-
-    getMeshTargetVertices(mesh) {
-        let flipX = getNumericContent(mesh, 'fliphorizontal', 0);
-        let flipY = getNumericContent(mesh, 'flipvertical', 0);
-
-        if (mesh.querySelector('vertex1')) {
-            let vertices = this.parseMeshVertices(mesh);
-
-            swapVertices(vertices, flipX, flipY);
-
-            return vertices;
-        }
-
-        let width = getNumericContent(mesh, 'width');
-        let height = getNumericContent(mesh, 'height');
-        let anchorX = getNumericContent(mesh, 'anchorx', width / 2);
-        let anchorY = getNumericContent(mesh, 'anchory', height / 2);
-        let boundWidth = getNumericContent(mesh, 'boundwidth', width);
-        let boundHeight = getNumericContent(mesh, 'boundheight', height);
-
-        let boundScaleX = boundWidth / width;
-        let boundScaleY = boundHeight / height;
-        let boundAnchorX = anchorX * boundScaleX;
-        let boundAnchorY = anchorY * boundScaleY;
-
-        if (flipX) {
-            boundAnchorX = boundWidth - boundAnchorX;
-        }
-
-        if (flipY) {
-            boundAnchorY = boundHeight - boundAnchorY;
-        }
-
-        let vertices = createBoxVertices(-boundAnchorX, -boundAnchorY, boundWidth, boundHeight);
-
-        flipVertices(vertices, flipX, flipY);
-
-        return vertices;
-    }
-
-    parseMeshVertices(mesh) {
-        let vertex1 = mesh.querySelector('vertex1');
-        let vertex2 = mesh.querySelector('vertex2');
-        let vertex3 = mesh.querySelector('vertex3');
-        let vertex4 = mesh.querySelector('vertex4');
-
-        return [
-            [getNumericContent(vertex1, 'x'), getNumericContent(vertex1, 'y')],
-            [getNumericContent(vertex4, 'x'), getNumericContent(vertex4, 'y')],
-            [getNumericContent(vertex2, 'x'), getNumericContent(vertex2, 'y')],
-            [getNumericContent(vertex3, 'x'), getNumericContent(vertex3, 'y')],
-        ];
     }
 
     createMeshSelectionBox($node, $mesh, mapNode) {
@@ -542,115 +383,5 @@ export default class UINodeFactory {
 
             $element.css(property, `${oldLeft + increaseBy}px`);
         });
-    }
-
-    cssPixelsToNumber(cssPixels) {
-        return +cssPixels.substring(0, cssPixels.indexOf('px'));
-    }
-
-    getCoordsForNode(tagName, mapNode, node, $parentNode) {
-        let x = 0;
-        let y = 0;
-        let z = 0;
-        let position = node.querySelector(':scope > position');
-
-        if (position) {
-            let decimalZ = getNumericContent(position, 'z', 0);
-            let absoluteZ = Math.abs(decimalZ);
-            let signZ = z > 0 ? 1 : -1;
-
-            x += Math.ceil(getNumericContent(position, 'x', 0));
-            y += Math.ceil(getNumericContent(position, 'y', 0));
-            z += -Math.ceil(absoluteZ) * signZ;
-        }
-
-        let layerZ = this.getLayerZForTagName(tagName);
-
-        if ($parentNode) {
-            let $mesh = $parentNode.find('> .mesh');
-            if ($mesh.length) {
-                z += +$mesh.css('z-index');
-            } else {
-                z += mapNode.y;
-                z += layerZ;
-            }
-
-        } else {
-
-            x += mapNode.x;
-            y += mapNode.y;
-            z += mapNode.y; // Using Y as depth
-            z += layerZ;
-
-            if (tagName === 'landmark') {
-                let nodeInfo = this.context.getNodeInfoByName(tagName, mapNode.type);
-                let sublayer = getNumericContent(nodeInfo, 'sublayer', 0);
-
-                z = layerZ + sublayer;
-            }
-        }
-
-        return { x, y, z };
-    }
-
-    getSelectionBoxZIndex(tagName, x, y, z, width, height) {
-        let layerZ = 80000;
-        let weight = Math.ceil(width + height);
-
-        return layerZ - weight;
-    }
-
-    getLayerZForTagName(tagName) {
-        // Возможно, это можно было бы как-то брать из gamevisual.cfg.xml
-
-        let layers = {
-            landmark: 10000,
-            structure: 20000,
-            building: 20000,
-            unit: 20000,
-            item: 20000,
-            chest: 20000,
-            area: 30000,
-            waypoint: 40000,
-            magic: 40000,
-            ambient: 40000,
-        };
-
-        return layers[tagName];
-    }
-
-    getOrderForTagName(tagName) {
-        let layers = {
-            landmark: 1,
-            structure: 2,
-            building: 3,
-            item: 4,
-            chest: 5,
-            unit: 6,
-            magic: 7,
-            ambient: 8,
-            waypoint: 9,
-            area: 10,
-        };
-
-        return layers[tagName];
-    }
-
-    getIconClassForTagName(tagName) {
-        let iconClassesByTagNames = {
-            terrain: 'bi-square-fill',
-            landmark: 'bi-layers-fill',
-            structure: 'bi-tree-fill',
-            building: 'bi-house-fill',
-            unit: 'bi-person-fill',
-            item: 'bi-search',
-            chest: 'bi-lock-fill',
-            magic: 'bi-stars',
-            ambient: 'bi-volume-up',
-            waypoint: 'bi-record2',
-            area: 'bi-circle',
-        };
-
-        return iconClassesByTagNames[tagName];
     }
 }
