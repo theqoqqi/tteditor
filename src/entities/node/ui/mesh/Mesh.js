@@ -1,8 +1,7 @@
 import styles from './Mesh.module.css';
 import React from 'react';
-import {createNodeMeshStyles, useRenderContext} from '../../../../shared/editor';
+import {createNodeMeshStyles, useRenderContext, xmlUtils} from '../../../../shared/editor';
 import PropTypes from 'prop-types';
-import {getNumericContent} from '../../../../shared/editor/core/util/xml.js';
 
 Mesh.propTypes = {
     tag: PropTypes.string,
@@ -13,8 +12,8 @@ Mesh.propTypes = {
 function Mesh({ tag, type, nodeXml }) {
     let renderContext = useRenderContext();
     let meshXml = nodeXml.querySelector(':scope > mesh');
-    let meshWidth = getNumericContent(meshXml, 'width');
-    let meshHeight = getNumericContent(meshXml, 'height');
+    let meshWidth = xmlUtils.getNumericContent(meshXml, 'width');
+    let meshHeight = xmlUtils.getNumericContent(meshXml, 'height');
 
     if (!meshWidth || !meshHeight) {
         console.warn('trying to render mesh without size:', meshXml);

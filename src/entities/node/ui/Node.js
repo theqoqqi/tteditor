@@ -1,7 +1,7 @@
 import styles from './Node.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import MapNode from '../../../shared/editor/core/map/MapNode.js';
+import {MapNode} from '../../../shared/editor';
 import {useNodeXml, useObserver} from '../../../shared/editor';
 import Mesh from './mesh/Mesh.js';
 
