@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 MarkerMesh.propTypes = {
     variant: PropTypes.oneOf(['fallback']),
-    meshXml: PropTypes.instanceOf(Document),
+    meshXml: PropTypes.instanceOf(Element),
     size: PropTypes.number,
     sizeX: PropTypes.number,
     sizeY: PropTypes.number,
