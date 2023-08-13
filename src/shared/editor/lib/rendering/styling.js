@@ -82,3 +82,13 @@ export function createMarkerMeshStyles(width, height) {
         height: height,
     };
 }
+
+export function createSelectionBoxStyles(x, y, width, height, zIndex) {
+    return {
+        left: x,
+        top: y,
+        width: width,
+        height: height,
+        zIndex: zIndex,
+    };
+}
