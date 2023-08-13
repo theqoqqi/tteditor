@@ -26,6 +26,10 @@ function Mesh({ tag, type, nodeXml }) {
         return null;
     }
 
+    if (nodeXml.querySelector(':scope > keyframe')) {
+        console.warn('rendering node with keyframe (not implemented):', tag, nodeXml);
+    }
+
     if (!getTextureXml(nodeXml)) {
         return <MarkerMesh variant='fallback' meshXml={meshXml} />;
     }
