@@ -294,6 +294,10 @@ export default class EditorContext {
     }
 
     getLocalizedHint(hintPath, defaultValue = null) {
+        if (!hintPath) {
+            return defaultValue;
+        }
+
         if (!hintPath?.startsWith('$hierarchy')) {
             hintPath = '$hierarchy.Hint.' + hintPath;
         }
