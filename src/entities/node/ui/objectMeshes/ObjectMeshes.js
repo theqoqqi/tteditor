@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import MeshIcon from '../markerMesh/meshIcon/MeshIcon.js';
 import allTagStyles from './allTagStyles.js';
 
-Meshes.propTypes = {
+ObjectMeshes.propTypes = {
     tag: PropTypes.string,
     type: PropTypes.string,
     mapNode: PropTypes.instanceOf(MapNode),
@@ -19,7 +19,7 @@ Meshes.propTypes = {
     zIndex: PropTypes.number,
 };
 
-function Meshes({ tag, type, mapNode, isChild, nodeXml, zIndex }) {
+function ObjectMeshes({ tag, type, mapNode, isChild, nodeXml, zIndex }) {
     let renderContext = useRenderContext();
     let hasMesh = nodeXml && getMeshXml(nodeXml);
     let hasAnyMesh = nodeXml && nodeXml.querySelector('mesh');
@@ -51,4 +51,4 @@ function Meshes({ tag, type, mapNode, isChild, nodeXml, zIndex }) {
     return null;
 }
 
-export default Meshes;
+export default ObjectMeshes;

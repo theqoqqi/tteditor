@@ -2,7 +2,7 @@ import styles from './ObjectNode.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {getChildNodeXmls} from '../../lib/xmlUtils.js';
-import Meshes from '../meshes/Meshes.js';
+import ObjectMeshes from '../objectMeshes/ObjectMeshes.js';
 import {MapNode, styling, useEditorContext, useObserver, useRenderContext} from '../../../../shared/editor';
 import ObjectSelectionBox from '../selectionBox/ObjectSelectionBox.js';
 
@@ -32,7 +32,7 @@ function ObjectNode({ mapNode, nodeXml, isChild = false, zIndex, selected, onCli
 
     return (
         <div className={styles.objectNode} style={style} title={title}>
-            <Meshes
+            <ObjectMeshes
                 tag={tag}
                 type={type}
                 mapNode={mapNode}
