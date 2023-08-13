@@ -293,6 +293,14 @@ export default class EditorContext {
         return dom.evaluate(path, dom, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     }
 
+    getLocalizedHint(hintPath, defaultValue = null) {
+        if (!hintPath?.startsWith('$hierarchy')) {
+            hintPath = '$hierarchy.Hint.' + hintPath;
+        }
+
+        return this.getLocalizedString(hintPath, defaultValue);
+    }
+
     getLocalizedString(path, defaultValue = null) {
         if (!path) {
             return defaultValue;
