@@ -8,9 +8,10 @@ TextureMesh.propTypes = {
     tag: PropTypes.string,
     type: PropTypes.string,
     nodeXml: PropTypes.instanceOf(Document),
+    zIndex: PropTypes.number,
 };
 
-function TextureMesh({ tag, type, nodeXml }) {
+function TextureMesh({ tag, type, nodeXml, zIndex }) {
     let renderContext = useRenderContext();
     let meshXml = getMeshXml(nodeXml);
 
@@ -21,7 +22,7 @@ function TextureMesh({ tag, type, nodeXml }) {
         <img
             className={styles.mesh}
             src={texturePath ?? '/img/empty.png'}
-            style={style}
+            style={{...style, ...{zIndex}}}
             alt=''
         />
     );

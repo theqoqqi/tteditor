@@ -13,9 +13,10 @@ MarkerMesh.propTypes = {
     size: PropTypes.number,
     sizeX: PropTypes.number,
     sizeY: PropTypes.number,
+    zIndex: PropTypes.number,
 };
 
-function MarkerMesh({ variant, className, style, children, meshXml, size, sizeX, sizeY }) {
+function MarkerMesh({ variant, className, style, children, meshXml, size, sizeX, sizeY, zIndex }) {
     let width = sizeX ?? size ?? xmlUtils.getNumericContent(meshXml, 'width');
     let height = sizeY ?? size ?? xmlUtils.getNumericContent(meshXml, 'height');
 
@@ -24,7 +25,7 @@ function MarkerMesh({ variant, className, style, children, meshXml, size, sizeX,
     return (
         <div
             className={classNames(styles.markerMesh, styles[variant], className)}
-            style={{...meshStyle, ...style}}
+            style={{...meshStyle, ...style, ...{zIndex}}}
         >
             {children}
         </div>

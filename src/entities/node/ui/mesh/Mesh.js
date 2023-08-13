@@ -8,9 +8,10 @@ Mesh.propTypes = {
     tag: PropTypes.string,
     type: PropTypes.string,
     nodeXml: PropTypes.instanceOf(Document),
+    zIndex: PropTypes.number,
 };
 
-function Mesh({ tag, type, nodeXml }) {
+function Mesh({ tag, type, nodeXml, zIndex }) {
     if (!nodeXml) {
         return null;
     }
@@ -31,10 +32,10 @@ function Mesh({ tag, type, nodeXml }) {
     }
 
     if (!getTextureXml(nodeXml)) {
-        return <MarkerMesh variant='fallback' meshXml={meshXml} />;
+        return <MarkerMesh variant='fallback' meshXml={meshXml} zIndex={zIndex} />;
     }
 
-    return <TextureMesh tag={tag} type={type} nodeXml={nodeXml} />;
+    return <TextureMesh tag={tag} type={type} nodeXml={nodeXml} zIndex={zIndex} />;
 }
 
 export default Mesh;
