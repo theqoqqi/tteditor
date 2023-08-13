@@ -216,7 +216,7 @@ export default class RenderContext {
         return {x, y, z};
     }
 
-    getSelectionBoxZIndex(tagName, x, y, z, width, height) {
+    getSelectionBoxZIndex(width, height) {
         let layerZ = 80000;
         let weight = Math.ceil(width + height);
 
