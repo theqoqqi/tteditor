@@ -69,10 +69,10 @@ export function swapFields(object, a, b) {
 
 export function verticesToPositions(vertices) {
     return [
-        this.verticeToPosition(vertices[0]),
-        this.verticeToPosition(vertices[1]),
-        this.verticeToPosition(vertices[2]),
-        this.verticeToPosition(vertices[3]),
+        verticeToPosition(vertices[0]),
+        verticeToPosition(vertices[1]),
+        verticeToPosition(vertices[2]),
+        verticeToPosition(vertices[3]),
     ];
 }
 
