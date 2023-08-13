@@ -6,9 +6,10 @@ import Meshes from './meshes/Meshes.js';
 
 Node.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
+    parentMapNode: PropTypes.instanceOf(MapNode),
 };
 
-function Node({ mapNode }) {
+function Node({ mapNode, parentMapNode }) {
     let x = useObserver(mapNode, 'x');
     let y = useObserver(mapNode, 'y');
     let tag = useObserver(mapNode, 'tag');
@@ -26,6 +27,8 @@ function Node({ mapNode }) {
                 <Meshes
                     tag={tag}
                     type={type}
+                    mapNode={mapNode}
+                    parentMapNode={parentMapNode}
                     nodeXml={nodeXml}
                 />
             )}
