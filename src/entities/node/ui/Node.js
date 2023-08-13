@@ -1,20 +1,27 @@
 import styles from './Node.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {MapNode, useNodeXml, useObserver} from '../../../shared/editor';
+import {MapNode, useNodeXml, useObserver, useRenderContext} from '../../../shared/editor';
 import Meshes from './meshes/Meshes.js';
 
 Node.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
     parentMapNode: PropTypes.instanceOf(MapNode),
+    parentZIndex: PropTypes.number,
 };
 
-function Node({ mapNode, parentMapNode }) {
-    let x = useObserver(mapNode, 'x');
-    let y = useObserver(mapNode, 'y');
+function Node({ mapNode, parentMapNode, parentZIndex }) {
+    let renderContext = useRenderContext();
     let tag = useObserver(mapNode, 'tag');
     let type = useObserver(mapNode, 'type');
     let nodeXml = useNodeXml(tag, type);
+
+    if (!nodeXml) {
+        return null;
+    }
+
+    let hasParent = !!parentMapNode;
+    let {x, y, z} = renderContext.getCoordsForNode(tag, mapNode, nodeXml, hasParent, parentZIndex);
 
     let style = {
         left: x,
@@ -30,6 +37,7 @@ function Node({ mapNode, parentMapNode }) {
                     mapNode={mapNode}
                     parentMapNode={parentMapNode}
                     nodeXml={nodeXml}
+                    zIndex={z}
                 />
             )}
         </div>
