@@ -1,60 +1,28 @@
-import styles from './Node.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {MapNode, useEditorContext, useNodeXml, useObserver, useRenderContext} from '../../../shared/editor';
-import Meshes from './meshes/Meshes.js';
-import {createNodeStyles} from '../../../shared/editor/lib/rendering/styling.js';
-import {getChildNodeXmls} from '../lib/xmlUtils.js';
+import {MapNode, useEditorContext, useNodeXml, useObserver} from '../../../shared/editor';
+import ObjectNode from './objectNode/ObjectNode.js';
 
 Node.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
-    nodeXml: PropTypes.oneOfType([
-        PropTypes.instanceOf(Document),
-        PropTypes.instanceOf(Element),
-    ]),
-    isChild: PropTypes.bool,
-    zIndex: PropTypes.number,
+    nodeXml: PropTypes.instanceOf(Document),
 };
 
-function Node({ mapNode, nodeXml, isChild = false, zIndex }) {
+function Node({ mapNode }) {
     let editorContext = useEditorContext();
-    let renderContext = useRenderContext();
     let tag = useObserver(mapNode, 'tag');
     let type = useObserver(mapNode, 'type');
-    let rootNodeXml = useNodeXml(tag, type);
-
-    nodeXml ??= rootNodeXml;
+    let nodeXml = useNodeXml(tag, type);
 
     if (!nodeXml) {
         return null;
     }
 
-    let {x, y, z} = renderContext.getCoordsForNode(tag, mapNode, nodeXml, isChild, zIndex);
-    let style = createNodeStyles(x, y);
-    let title = editorContext.getLocalizedHint(mapNode.hint);
-    let childNodeXmls = getChildNodeXmls(nodeXml);
+    if (editorContext.isMarkerNode(tag)) {
+        return null;
+    }
 
-    return (
-        <div className={styles.node} style={style} title={title}>
-            <Meshes
-                tag={tag}
-                type={type}
-                mapNode={mapNode}
-                isChild={isChild}
-                nodeXml={nodeXml}
-                zIndex={z}
-            />
-            {childNodeXmls.map((childNodeXml, index) => (
-                <Node
-                    key={index}
-                    mapNode={mapNode}
-                    nodeXml={childNodeXml}
-                    isChild={true}
-                    zIndex={z}
-                />
-            ))}
-        </div>
-    );
+    return <ObjectNode mapNode={mapNode} nodeXml={nodeXml} />;
 }
 
 export default Node;
