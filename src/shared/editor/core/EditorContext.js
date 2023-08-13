@@ -293,10 +293,10 @@ export default class EditorContext {
         return dom.evaluate(path, dom, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     }
 
-    getLocalizedString(path) {
+    getLocalizedString(path, defaultValue = null) {
         let result = this.getElementByXpath(this.locale, path.replace(/[$.]/g, '/'));
 
-        return result ? result.textContent.replace(/#{!0x\w{8}}/g, '') : path;
+        return result ? result.textContent.replace(/#{!0x\w{8}}/g, '') : (defaultValue ?? path);
     }
 
     isSimpleNode(tagName) {
