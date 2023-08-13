@@ -294,6 +294,10 @@ export default class EditorContext {
     }
 
     getLocalizedString(path, defaultValue = null) {
+        if (!path) {
+            return defaultValue;
+        }
+
         let result = this.getElementByXpath(this.locale, path.replace(/[$.]/g, '/'));
 
         return result ? result.textContent.replace(/#{!0x\w{8}}/g, '') : (defaultValue ?? path);
