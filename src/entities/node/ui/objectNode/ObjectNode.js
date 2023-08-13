@@ -1,10 +1,9 @@
 import styles from './ObjectNode.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {createNodeStyles} from '../../../../shared/editor/lib/rendering/styling.js';
 import {getChildNodeXmls} from '../../lib/xmlUtils.js';
 import Meshes from '../meshes/Meshes.js';
-import {MapNode, useEditorContext, useObserver, useRenderContext} from '../../../../shared/editor';
+import {MapNode, styling, useEditorContext, useObserver, useRenderContext} from '../../../../shared/editor';
 
 ObjectNode.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
@@ -23,7 +22,7 @@ function ObjectNode({ mapNode, nodeXml, isChild = false, zIndex }) {
     let type = useObserver(mapNode, 'type');
 
     let {x, y, z} = renderContext.getCoordsForNode(tag, mapNode, nodeXml, isChild, zIndex);
-    let style = createNodeStyles(x, y);
+    let style = styling.createNodeStyles(x, y);
     let title = editorContext.getLocalizedHint(mapNode.hint);
     let childNodeXmls = getChildNodeXmls(nodeXml);
 
