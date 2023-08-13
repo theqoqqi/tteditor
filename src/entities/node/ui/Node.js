@@ -1,7 +1,7 @@
 import styles from './Node.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {MapNode, useNodeXml, useObserver, useRenderContext} from '../../../shared/editor';
+import {MapNode, useEditorContext, useNodeXml, useObserver, useRenderContext} from '../../../shared/editor';
 import Meshes from './meshes/Meshes.js';
 import {createNodeStyles} from '../../../shared/editor/lib/rendering/styling.js';
 
@@ -12,6 +12,7 @@ Node.propTypes = {
 };
 
 function Node({ mapNode, parentMapNode, parentZIndex }) {
+    let editorContext = useEditorContext();
     let renderContext = useRenderContext();
     let tag = useObserver(mapNode, 'tag');
     let type = useObserver(mapNode, 'type');
@@ -26,8 +27,10 @@ function Node({ mapNode, parentMapNode, parentZIndex }) {
 
     let style = createNodeStyles(x, y);
 
+    let title = editorContext.getLocalizedHint(mapNode.hint);
+
     return (
-        <div className={styles.node} style={style}>
+        <div className={styles.node} style={style} title={title}>
             {nodeXml && (
                 <Meshes
                     tag={tag}
