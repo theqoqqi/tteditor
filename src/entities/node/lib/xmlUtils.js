@@ -14,3 +14,7 @@ export function getMeshXml(nodeXml) {
 export function getTextureXml(nodeXml) {
     return nodeXml.querySelector(':scope > texture');
 }
+
+export function getChildNodeXmls(nodeXml) {
+    return Array.from(nodeXml.querySelectorAll(':scope > node'));
+}
