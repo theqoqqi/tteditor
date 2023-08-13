@@ -7,7 +7,10 @@ import MarkerMesh from '../markerMesh/MarkerMesh.js';
 Mesh.propTypes = {
     tag: PropTypes.string,
     type: PropTypes.string,
-    nodeXml: PropTypes.instanceOf(Document),
+    nodeXml: PropTypes.oneOfType([
+        PropTypes.instanceOf(Document),
+        PropTypes.instanceOf(Element),
+    ]),
     zIndex: PropTypes.number,
 };
 

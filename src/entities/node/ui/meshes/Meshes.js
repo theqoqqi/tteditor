@@ -12,7 +12,10 @@ Meshes.propTypes = {
     type: PropTypes.string,
     mapNode: PropTypes.instanceOf(MapNode),
     isChild: PropTypes.bool,
-    nodeXml: PropTypes.instanceOf(Document),
+    nodeXml: PropTypes.oneOfType([
+        PropTypes.instanceOf(Document),
+        PropTypes.instanceOf(Element),
+    ]),
     zIndex: PropTypes.number,
 };
 

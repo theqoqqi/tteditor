@@ -7,7 +7,10 @@ import {getMeshXml} from '../../lib/xmlUtils.js';
 TextureMesh.propTypes = {
     tag: PropTypes.string,
     type: PropTypes.string,
-    nodeXml: PropTypes.instanceOf(Document),
+    nodeXml: PropTypes.oneOfType([
+        PropTypes.instanceOf(Document),
+        PropTypes.instanceOf(Element),
+    ]),
     zIndex: PropTypes.number,
 };
 
