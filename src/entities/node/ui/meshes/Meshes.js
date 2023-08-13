@@ -11,12 +11,12 @@ Meshes.propTypes = {
     tag: PropTypes.string,
     type: PropTypes.string,
     mapNode: PropTypes.instanceOf(MapNode),
-    parentMapNode: PropTypes.instanceOf(MapNode),
+    isChild: PropTypes.bool,
     nodeXml: PropTypes.instanceOf(Document),
     zIndex: PropTypes.number,
 };
 
-function Meshes({ tag, type, mapNode, parentMapNode, nodeXml, zIndex }) {
+function Meshes({ tag, type, mapNode, isChild, nodeXml, zIndex }) {
     let renderContext = useRenderContext();
     let hasMesh = nodeXml && getMeshXml(nodeXml);
     let hasAnyMesh = nodeXml && nodeXml.querySelector('mesh');
@@ -25,7 +25,7 @@ function Meshes({ tag, type, mapNode, parentMapNode, nodeXml, zIndex }) {
         return <Mesh tag={tag} type={type} nodeXml={nodeXml} zIndex={zIndex} />;
     }
 
-    if (!parentMapNode && !hasAnyMesh) {
+    if (!isChild && !hasAnyMesh) {
         let { radiusX, radiusY } = renderContext.getAreaRadiusSizesFor(mapNode);
         let tagStyles = allTagStyles[tag];
 

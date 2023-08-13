@@ -7,11 +7,11 @@ import {createNodeStyles} from '../../../shared/editor/lib/rendering/styling.js'
 
 Node.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
-    parentMapNode: PropTypes.instanceOf(MapNode),
+    isChild: PropTypes.bool,
     parentZIndex: PropTypes.number,
 };
 
-function Node({ mapNode, parentMapNode, parentZIndex }) {
+function Node({ mapNode, isChild = false, parentZIndex }) {
     let editorContext = useEditorContext();
     let renderContext = useRenderContext();
     let tag = useObserver(mapNode, 'tag');
@@ -22,11 +22,8 @@ function Node({ mapNode, parentMapNode, parentZIndex }) {
         return null;
     }
 
-    let hasParent = !!parentMapNode;
-    let {x, y, z} = renderContext.getCoordsForNode(tag, mapNode, nodeXml, hasParent, parentZIndex);
-
+    let {x, y, z} = renderContext.getCoordsForNode(tag, mapNode, nodeXml, isChild, parentZIndex);
     let style = createNodeStyles(x, y);
-
     let title = editorContext.getLocalizedHint(mapNode.hint);
 
     return (
@@ -36,7 +33,7 @@ function Node({ mapNode, parentMapNode, parentZIndex }) {
                     tag={tag}
                     type={type}
                     mapNode={mapNode}
-                    parentMapNode={parentMapNode}
+                    isChild={isChild}
                     nodeXml={nodeXml}
                     zIndex={z}
                 />
