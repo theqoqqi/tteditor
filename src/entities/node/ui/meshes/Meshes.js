@@ -1,5 +1,5 @@
 import React from 'react';
-import Mesh from '../mesh/Mesh.js';
+import ObjectMesh from '../objectMesh/ObjectMesh.js';
 import MarkerMesh from '../markerMesh/MarkerMesh.js';
 import {MapNode, useRenderContext} from '../../../../shared/editor';
 import {getMeshXml} from '../../lib/xmlUtils.js';
@@ -25,7 +25,7 @@ function Meshes({ tag, type, mapNode, isChild, nodeXml, zIndex }) {
     let hasAnyMesh = nodeXml && nodeXml.querySelector('mesh');
 
     if (hasMesh) {
-        return <Mesh tag={tag} type={type} nodeXml={nodeXml} zIndex={zIndex} />;
+        return <ObjectMesh tag={tag} type={type} nodeXml={nodeXml} zIndex={zIndex} />;
     }
 
     if (!isChild && !hasAnyMesh) {

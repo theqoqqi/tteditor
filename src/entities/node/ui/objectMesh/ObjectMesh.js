@@ -4,7 +4,7 @@ import {getMeshXml, getTextureXml, isValidMesh} from '../../lib/xmlUtils.js';
 import TextureMesh from '../textureMesh/TextureMesh.js';
 import MarkerMesh from '../markerMesh/MarkerMesh.js';
 
-Mesh.propTypes = {
+ObjectMesh.propTypes = {
     tag: PropTypes.string,
     type: PropTypes.string,
     nodeXml: PropTypes.oneOfType([
@@ -14,7 +14,7 @@ Mesh.propTypes = {
     zIndex: PropTypes.number,
 };
 
-function Mesh({ tag, type, nodeXml, zIndex }) {
+function ObjectMesh({ tag, type, nodeXml, zIndex }) {
     if (!nodeXml) {
         return null;
     }
@@ -41,4 +41,4 @@ function Mesh({ tag, type, nodeXml, zIndex }) {
     return <TextureMesh tag={tag} type={type} nodeXml={nodeXml} zIndex={zIndex} />;
 }
 
-export default Mesh;
+export default ObjectMesh;
