@@ -27,7 +27,8 @@ export default function useCompositeObserver(target, propertyPath, isList = fals
     let initialValue = getProperty(target, propertyPath);
 
     let [observer] = useState(new CompositeObserver());
-    let [state, dispatch] = useReducer(reducer, initialValue, reducer);
+    // noinspection JSCheckFunctionSignatures
+    let [state, dispatch] = useReducer(reducer, reducer(null, initialValue));
 
     useEffect(() => {
         observer.addPropertyObserver(propertyPath, dispatch);
