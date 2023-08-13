@@ -5,7 +5,7 @@ import {styling, xmlUtils} from '../../../../shared/editor';
 import classNames from 'classnames';
 
 MarkerMesh.propTypes = {
-    variant: PropTypes.oneOf(['fallback']),
+    variant: PropTypes.oneOf(['fallback', 'icon', 'area']),
     className: PropTypes.any,
     meshXml: PropTypes.instanceOf(Element),
     size: PropTypes.number,
