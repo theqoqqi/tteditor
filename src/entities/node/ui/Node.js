@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {MapNode, useNodeXml, useObserver, useRenderContext} from '../../../shared/editor';
 import Meshes from './meshes/Meshes.js';
+import {createNodeStyles} from '../../../shared/editor/lib/rendering/styling.js';
 
 Node.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
@@ -23,10 +24,7 @@ function Node({ mapNode, parentMapNode, parentZIndex }) {
     let hasParent = !!parentMapNode;
     let {x, y, z} = renderContext.getCoordsForNode(tag, mapNode, nodeXml, hasParent, parentZIndex);
 
-    let style = {
-        left: x,
-        top: y,
-    };
+    let style = createNodeStyles(x, y);
 
     return (
         <div className={styles.node} style={style}>
