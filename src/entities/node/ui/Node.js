@@ -36,16 +36,14 @@ function Node({ mapNode, nodeXml, isChild = false, zIndex }) {
 
     return (
         <div className={styles.node} style={style} title={title}>
-            {nodeXml && (
-                <Meshes
-                    tag={tag}
-                    type={type}
-                    mapNode={mapNode}
-                    isChild={isChild}
-                    nodeXml={nodeXml}
-                    zIndex={z}
-                />
-            )}
+            <Meshes
+                tag={tag}
+                type={type}
+                mapNode={mapNode}
+                isChild={isChild}
+                nodeXml={nodeXml}
+                zIndex={z}
+            />
             {childNodeXmls.map((childNodeXml, index) => (
                 <Node
                     key={index}
