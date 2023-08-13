@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {getChildNodeXmls} from '../../lib/xmlUtils.js';
 import Meshes from '../meshes/Meshes.js';
 import {MapNode, styling, useEditorContext, useObserver, useRenderContext} from '../../../../shared/editor';
+import ObjectSelectionBox from '../selectionBox/ObjectSelectionBox.js';
 
 ObjectNode.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
@@ -13,13 +14,16 @@ ObjectNode.propTypes = {
     ]),
     isChild: PropTypes.bool,
     zIndex: PropTypes.number,
+    selected: PropTypes.bool,
+    onClick: PropTypes.func,
 };
 
-function ObjectNode({ mapNode, nodeXml, isChild = false, zIndex }) {
+function ObjectNode({ mapNode, nodeXml, isChild = false, zIndex, selected, onClick }) {
     let editorContext = useEditorContext();
     let renderContext = useRenderContext();
     let tag = useObserver(mapNode, 'tag');
     let type = useObserver(mapNode, 'type');
+    let isFake = useObserver(mapNode, 'isFake');
 
     let {x, y, z} = renderContext.getCoordsForNode(tag, mapNode, nodeXml, isChild, zIndex);
     let style = styling.createNodeStyles(x, y);
@@ -45,6 +49,13 @@ function ObjectNode({ mapNode, nodeXml, isChild = false, zIndex }) {
                     zIndex={z}
                 />
             ))}
+            {!isChild && !isFake && (
+                <ObjectSelectionBox
+                    nodeXml={nodeXml}
+                    selected={selected}
+                    onClick={onClick}
+                />
+            )}
         </div>
     );
 }
