@@ -7,11 +7,14 @@ import classNames from 'classnames';
 MarkerMesh.propTypes = {
     variant: PropTypes.oneOf(['fallback']),
     meshXml: PropTypes.instanceOf(Document),
+    size: PropTypes.number,
+    sizeX: PropTypes.number,
+    sizeY: PropTypes.number,
 };
 
-function MarkerMesh({ variant, meshXml }) {
-    let width = xmlUtils.getNumericContent(meshXml, 'width');
-    let height = xmlUtils.getNumericContent(meshXml, 'height');
+function MarkerMesh({ variant, meshXml, size, sizeX, sizeY }) {
+    let width = sizeX ?? size ?? xmlUtils.getNumericContent(meshXml, 'width');
+    let height = sizeY ?? size ?? xmlUtils.getNumericContent(meshXml, 'height');
 
     let style = styling.createMarkerMeshStyles(width, height);
 
