@@ -1,0 +1,14 @@
+
+.selectionBox {
+    position: absolute;
+}
+
+.selectionBox:hover {
+    border: 1px solid white;
+}
+
+.selectionBox.selected {
+    border: 1px solid black;
+    z-index: 100000 !important;
+    cursor: all-scroll;
+}
