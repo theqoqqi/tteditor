@@ -2,7 +2,7 @@ import styles from './Node.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {MapNode, useNodeXml, useObserver} from '../../../shared/editor';
-import Mesh from './mesh/Mesh.js';
+import Meshes from './meshes/Meshes.js';
 
 Node.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
@@ -22,7 +22,13 @@ function Node({ mapNode }) {
 
     return (
         <div className={styles.node} style={style}>
-            <Mesh tag={tag} type={type} nodeXml={nodeXml} />
+            {nodeXml && (
+                <Meshes
+                    tag={tag}
+                    type={type}
+                    nodeXml={nodeXml}
+                />
+            )}
         </div>
     );
 }
