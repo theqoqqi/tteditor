@@ -19,6 +19,7 @@ import MapOptions from './core/map/MapOptions.js';
 import MapTerrain from './core/map/MapTerrain.js';
 import RandomizerOption from './core/map/RandomizerOption.js';
 import Trigger from './core/map/Trigger.js';
+import {editorSlice} from './model/slice.js';
 
 export {
     useMap,
@@ -31,11 +32,15 @@ export {
     useMapObserver,
     useEditorObserver,
     EditorProvider,
+
+    editorSlice,
+
     styling,
     colorsUtils,
     geometryUtils,
     matrixUtils,
     xmlUtils,
+
     GameMap,
     MapNode,
     MapOptions,
