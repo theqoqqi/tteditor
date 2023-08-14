@@ -1,9 +1,16 @@
 import {configureStore} from '@reduxjs/toolkit';
 import {rootReducer} from './rootReducer.js';
+import {editorSlice} from '../shared/editor';
 
 function makeStore() {
     let store = configureStore({
         reducer: rootReducer,
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+            serializableCheck: {
+                ignoredPaths: [editorSlice.name],
+                ignoreActions: true,
+            },
+        }),
     });
 
     if ('hot' in module) {
