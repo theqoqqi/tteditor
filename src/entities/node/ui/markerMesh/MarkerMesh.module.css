@@ -31,3 +31,24 @@
 
     border: 2px solid orange;
 }
+
+.markerMesh.name,
+.markerMesh.caption {
+    border: none;
+    background: none;
+
+    font-weight: 500;
+    text-shadow: 0 0 4px white;
+}
+
+.markerMesh.name {
+    font-size: 16px;
+
+    transform: translate(-50%, -50%);
+}
+
+.markerMesh.caption {
+    font-size: 12px;
+
+    transform: translate(-50%, calc(-50% + 18px));
+}
