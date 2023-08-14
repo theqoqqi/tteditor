@@ -85,18 +85,6 @@ export default class EditorContext {
         };
     }
 
-    toChunks(array, chunkSize) {
-        let chunks = [];
-
-        for (let i = 0; i < array.length; i += chunkSize) {
-            const chunk = array.slice(i, i + chunkSize);
-
-            chunks.push(chunk);
-        }
-
-        return chunks;
-    }
-
     async reloadImageSizes() {
         let responseText = await this.get('images');
 
