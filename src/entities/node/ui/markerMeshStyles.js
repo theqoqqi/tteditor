@@ -1,5 +1,5 @@
 
-const allTagStyles = {
+const markerMeshStyles = {
     landmark: {
         area: {
             '--color1': 'rgba(255, 64, 0, 0.1)',
@@ -52,4 +52,4 @@ const allTagStyles = {
     },
 };
 
-export default allTagStyles;
+export default markerMeshStyles;

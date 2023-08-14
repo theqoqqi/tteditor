@@ -5,7 +5,7 @@ import {MapNode, useRenderContext} from '../../../../../shared/editor';
 import {getMeshXml} from '../../../lib/xmlUtils.js';
 import PropTypes from 'prop-types';
 import MeshIcon from '../../markerMesh/meshIcon/MeshIcon.js';
-import allTagStyles from './allTagStyles.js';
+import markerMeshStyles from '../../markerMeshStyles.js';
 
 ObjectMeshes.propTypes = {
     tag: PropTypes.string,
@@ -30,7 +30,7 @@ function ObjectMeshes({ tag, type, mapNode, isChild, nodeXml, zIndex }) {
 
     if (!isChild && !hasAnyMesh) {
         let { radiusX, radiusY } = renderContext.getAreaRadiusSizesFor(mapNode);
-        let tagStyles = allTagStyles[tag];
+        let tagStyles = markerMeshStyles[tag];
 
         return <>
             {radiusX && radiusY && (
