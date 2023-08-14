@@ -1,5 +1,5 @@
 import styles from './NodeList.module.css';
-import React from 'react';
+import React, {useCallback} from 'react';
 import {
     addToSelection,
     removeFromSelection,
@@ -16,10 +16,11 @@ function NodeList() {
     let mapNodes = useMapObserver('nodes');
     let dispatch = useDispatch();
     let selectedMapNodes = useSelector(selectSelectedMapNodes);
+    let onClickMapNode = useCallback(handleMapNodeClicked, [dispatch]);
 
     let isSelected = mapNode => selectedMapNodes?.includes(mapNode);
 
-    function onClickMapNode(mapNode) {
+    function handleMapNodeClicked(mapNode) {
         if (isHotkeyPressed('shift')) {
             dispatch(addToSelection(mapNode));
 
