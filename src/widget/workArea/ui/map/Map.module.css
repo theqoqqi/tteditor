@@ -1,4 +1,6 @@
 
 .map {
     position: relative;
+
+    user-select: none;
 }
