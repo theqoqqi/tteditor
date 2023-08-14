@@ -8,7 +8,6 @@ import classNames from 'classnames';
 
 Node.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
-    nodeXml: PropTypes.instanceOf(Document),
     selected: PropTypes.bool,
     onClick: PropTypes.func,
     hidden: PropTypes.bool,
