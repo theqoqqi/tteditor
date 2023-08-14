@@ -219,6 +219,32 @@ export default class EditorContext {
         return nodeMetadata.querySelector('grid_align') !== null;
     }
 
+    getMoveStepsForNodes(mapNodes) {
+        if (mapNodes.length === 0) {
+            return {
+                x: 0,
+                y: 0,
+                aligned: false,
+            };
+        }
+
+        let gridAlignedNodes = mapNodes.filter(mapNode => this.shouldMapNodeAlignToGrid(mapNode));
+
+        if (gridAlignedNodes.length === 0) {
+            return {
+                x: 1,
+                y: 1,
+                aligned: false,
+            };
+        }
+
+        return {
+            x: this.getAlignGridWidth(),
+            y: this.getAlignGridHeight(),
+            aligned: true,
+        };
+    }
+
     alignNodeToGrid(mapNode) {
         let config = this.getGameLogicConfig();
         let gridXml = config.querySelector('grid_grid');
