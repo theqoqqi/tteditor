@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {getChildNodeXmls} from '../../lib/xmlUtils.js';
 import ObjectMeshes from './objectMeshes/ObjectMeshes.js';
 import {MapNode, styling, useEditorContext, useObserver, useRenderContext} from '../../../../shared/editor';
-import ObjectSelectionBox from '../selectionBox/ObjectSelectionBox.js';
+import ObjectSelectionBox from './objectSelectionBox/ObjectSelectionBox.js';
 
 ObjectNode.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
