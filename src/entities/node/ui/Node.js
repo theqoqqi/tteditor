@@ -1,5 +1,5 @@
 import styles from './Node.module.css';
-import React from 'react';
+import React, {memo} from 'react';
 import PropTypes from 'prop-types';
 import {MapNode, useEditorContext, useNodeXml, useObserver} from '../../../shared/editor';
 import ObjectNode from './objectNode/ObjectNode.js';
@@ -43,4 +43,4 @@ function Node({ mapNode, selected, onClick, hidden, muted, highlight }) {
     return <ObjectNode mapNode={mapNode} nodeXml={nodeXml} {...nodeProps} />;
 }
 
-export default Node;
+export default memo(Node);
