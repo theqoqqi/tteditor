@@ -2,10 +2,6 @@ import AddRemoveCommand from '../../AddRemoveCommand.js';
 
 export default class AddRemoveTriggersCommand extends AddRemoveCommand {
 
-    constructor(triggers) {
-        super(triggers);
-    }
-
     getIndexFor(trigger) {
         return this.levelEditor.indexOfTrigger(trigger);
     }

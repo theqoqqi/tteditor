@@ -2,10 +2,6 @@ import AddRemoveCommand from '../../AddRemoveCommand.js';
 
 export default class AddRemoveNodesCommand extends AddRemoveCommand {
 
-    constructor(mapNodes) {
-        super(mapNodes);
-    }
-
     getIndexFor(node) {
         return this.levelEditor.indexOfNode(node);
     }

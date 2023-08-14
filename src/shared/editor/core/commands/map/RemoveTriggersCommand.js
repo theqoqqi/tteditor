@@ -2,10 +2,6 @@ import AddRemoveTriggersCommand from './addRemove/AddRemoveTriggersCommand.js';
 
 export default class RemoveTriggersCommand extends AddRemoveTriggersCommand {
 
-    constructor(triggers) {
-        super(triggers);
-    }
-
     get isAddCommand() {
         return false;
     }

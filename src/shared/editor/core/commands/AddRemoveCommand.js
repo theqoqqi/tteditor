@@ -2,10 +2,6 @@ import MultiTargetCommand from './MultiTargetCommand.js';
 
 export default class AddRemoveCommand extends MultiTargetCommand {
 
-    constructor(items) {
-        super(items);
-    }
-
     setup(editor) {
         super.setup(editor);
 
@@ -45,6 +41,7 @@ export default class AddRemoveCommand extends MultiTargetCommand {
 
     get isAddCommand() {
         // Abstract
+        return undefined;
     }
 
     insertItem(item, index) {
