@@ -1,4 +1,9 @@
 
-.mapContainer {
+.scrollableMapContainer {
     overflow: hidden;
+}
+
+.overscrollArea {
+    padding: 300px;
+    width: fit-content;
 }
