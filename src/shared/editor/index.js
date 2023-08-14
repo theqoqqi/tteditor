@@ -19,6 +19,19 @@ import MapOptions from './core/map/MapOptions.js';
 import MapTerrain from './core/map/MapTerrain.js';
 import RandomizerOption from './core/map/RandomizerOption.js';
 import Trigger from './core/map/Trigger.js';
+import AddNodesCommand from './core/commands/map/AddNodesCommand.js';
+import AddRandomizersCommand from './core/commands/map/AddRandomizersCommand.js';
+import AddTriggersCommand from './core/commands/map/AddTriggersCommand.js';
+import MoveNodesCommand from './core/commands/map/MoveNodesCommand.js';
+import RemoveNodesCommand from './core/commands/map/RemoveNodesCommand.js';
+import RemoveRandomizersCommand from './core/commands/map/RemoveRandomizersCommand.js';
+import RemoveTriggersCommand from './core/commands/map/RemoveTriggersCommand.js';
+import SetMapNodesPropertyCommand from './core/commands/map/SetMapNodesPropertyCommand.js';
+import SetMapPropertiesCommand from './core/commands/map/SetMapPropertiesCommand.js';
+import SetRandomizerPropertyCommand from './core/commands/map/SetRandomizerPropertyCommand.js';
+import SetTerrainCommand from './core/commands/map/SetTerrainCommand.js';
+import SetTriggerEnabledCommand from './core/commands/map/SetTriggerEnabledCommand.js';
+import SetTriggerPropertyCommand from './core/commands/map/SetTriggerPropertyCommand.js';
 import {
     editorSlice,
     selectSelectedMapNodes,
@@ -59,4 +72,18 @@ export {
     MapTerrain,
     RandomizerOption,
     Trigger,
+
+    AddNodesCommand,
+    AddRandomizersCommand,
+    AddTriggersCommand,
+    MoveNodesCommand,
+    RemoveNodesCommand,
+    RemoveRandomizersCommand,
+    RemoveTriggersCommand,
+    SetMapNodesPropertyCommand,
+    SetMapPropertiesCommand,
+    SetRandomizerPropertyCommand,
+    SetTerrainCommand,
+    SetTriggerEnabledCommand,
+    SetTriggerPropertyCommand,
 };
