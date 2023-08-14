@@ -53,6 +53,13 @@ export function createObjectNodeStyles(x, y) {
     };
 }
 
+export function createMarkerNodeStyles(x, y, radiusX, radiusY) {
+    return {
+        left: x + radiusX,
+        top: y + radiusY,
+    };
+}
+
 export function createMeshStyles(renderContext, tag, type, nodeXml, meshXml) {
     let frameBounds = renderContext.getDefaultFrameBoundsFor(tag, type, nodeXml);
     let x = frameBounds.x;
