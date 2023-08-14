@@ -27,6 +27,9 @@ function ObjectNode({ className, mapNode, nodeXml, isChild = false, zIndex, sele
     let type = useObserver(mapNode, 'type');
     let isFake = useObserver(mapNode, 'isFake');
 
+    useObserver(mapNode, 'x');
+    useObserver(mapNode, 'y');
+
     let {x, y, z} = renderContext.getCoordsForNode(tag, mapNode, nodeXml, isChild, zIndex);
     let style = styling.createObjectNodeStyles(x, y);
     let title = editorContext.getLocalizedHint(mapNode.hint);
