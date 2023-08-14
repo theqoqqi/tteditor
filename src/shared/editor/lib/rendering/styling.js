@@ -46,7 +46,7 @@ function createBackgroundStyle(rgba) {
     };
 }
 
-export function createNodeStyles(x, y) {
+export function createObjectNodeStyles(x, y) {
     return {
         left: x,
         top: y,
