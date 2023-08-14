@@ -1,7 +1,6 @@
 import styles from './Map.module.css';
 import React from 'react';
 import NodeList from './nodeList/NodeList.js';
-import Border from './border/Border.js';
 import {useMap} from '../../../../shared/editor';
 
 function Map() {
@@ -20,7 +19,6 @@ function Map() {
     return (
         <div className={styles.map} style={style}>
             <NodeList />
-            <Border />
         </div>
     );
 }
