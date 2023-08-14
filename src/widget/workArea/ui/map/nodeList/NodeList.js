@@ -9,7 +9,8 @@ import {
 } from '../../../../../shared/editor';
 import {Node} from '../../../../../entities/node';
 import {useDispatch, useSelector} from 'react-redux';
-import {isHotkeyPressed, useHotkeys} from 'react-hotkeys-hook';
+import {isHotkeyPressed} from 'react-hotkeys-hook';
+import useArrowMovement from '../../../lib/useArrowMovement.js';
 
 function NodeList() {
     /** @type MapNode[] */
@@ -18,31 +19,7 @@ function NodeList() {
     let selectedMapNodes = useSelector(selectSelectedMapNodes);
     let onClickMapNode = useCallback(handleMapNodeClicked, [dispatch]);
 
-    useHotkeys('up, down, left, right', (e, handler) => {
-        let h = handler.keys.includes('right') - handler.keys.includes('left');
-        let v = handler.keys.includes('down') - handler.keys.includes('up');
-        let baseStepSize = 5;
-        let stepSize = 1;
-
-        if (isHotkeyPressed('shift')) {
-            stepSize *= baseStepSize;
-        }
-
-        if (isHotkeyPressed('ctrl')) {
-            stepSize *= baseStepSize;
-        }
-
-        if (!isHotkeyPressed('alt')) {
-            stepSize *= baseStepSize;
-        }
-
-        for (const mapNode of selectedMapNodes) {
-            mapNode.x += h * stepSize;
-            mapNode.y += v * stepSize;
-        }
-    }, {
-        ignoreModifiers: true,
-    }, [selectedMapNodes]);
+    useArrowMovement(selectedMapNodes);
 
     let isSelected = mapNode => selectedMapNodes?.includes(mapNode);
 
