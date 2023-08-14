@@ -5,8 +5,10 @@ import {getChildNodeXmls} from '../../lib/xmlUtils.js';
 import ObjectMeshes from './objectMeshes/ObjectMeshes.js';
 import {MapNode, styling, useEditorContext, useObserver, useRenderContext} from '../../../../shared/editor';
 import ObjectSelectionBox from './objectSelectionBox/ObjectSelectionBox.js';
+import classNames from 'classnames';
 
 ObjectNode.propTypes = {
+    className: PropTypes.any,
     mapNode: PropTypes.instanceOf(MapNode),
     nodeXml: PropTypes.oneOfType([
         PropTypes.instanceOf(Document),
@@ -18,7 +20,7 @@ ObjectNode.propTypes = {
     onClick: PropTypes.func,
 };
 
-function ObjectNode({ mapNode, nodeXml, isChild = false, zIndex, selected, onClick }) {
+function ObjectNode({ className, mapNode, nodeXml, isChild = false, zIndex, selected, onClick }) {
     let editorContext = useEditorContext();
     let renderContext = useRenderContext();
     let tag = useObserver(mapNode, 'tag');
@@ -31,7 +33,7 @@ function ObjectNode({ mapNode, nodeXml, isChild = false, zIndex, selected, onCli
     let childNodeXmls = getChildNodeXmls(nodeXml);
 
     return (
-        <div className={styles.objectNode} style={style} title={title}>
+        <div className={classNames(styles.objectNode, className)} style={style} title={title}>
             <ObjectMeshes
                 tag={tag}
                 type={type}

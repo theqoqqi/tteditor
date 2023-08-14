@@ -6,14 +6,16 @@ import MarkerMesh from '../markerMesh/MarkerMesh.js';
 import MeshIcon from '../markerMesh/meshIcon/MeshIcon.js';
 import MarkerSelectionBox from './markerSelectionBox/MarkerSelectionBox.js';
 import markerMeshStyles from '../markerMeshStyles.js';
+import classNames from 'classnames';
 
 MarkerNode.propTypes = {
+    className: PropTypes.any,
     mapNode: PropTypes.instanceOf(MapNode),
     selected: PropTypes.bool,
     onClick: PropTypes.func,
 };
 
-function MarkerNode({ mapNode, selected, onClick }) {
+function MarkerNode({ className, mapNode, selected, onClick }) {
     let renderContext = useRenderContext();
     let x = useObserver(mapNode, 'x');
     let y = useObserver(mapNode, 'y');
@@ -34,7 +36,7 @@ function MarkerNode({ mapNode, selected, onClick }) {
     let tagStyles = markerMeshStyles[tag];
 
     return (
-        <div className={styles.markerNode} style={style}>
+        <div className={classNames(styles.markerNode, className)} style={style}>
             {hasArea && (
                 <MarkerMesh
                     variant='area'
