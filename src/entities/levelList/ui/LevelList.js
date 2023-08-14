@@ -22,7 +22,8 @@ function LevelList({ levels, selected, onSelect, isSelectedLevelDirty }) {
             selected={selected}
             disabled={isSelectedLevelDirty}
             onSelect={onSelect}
-            compareBy={level => level?.id}
+            keyBy={level => level?.path}
+            compareBy={level => level?.path}
             listItemContent={(level, index, isSelected) => (
                 <Level level={level} selected={isSelected} changed={isSelected && isSelectedLevelDirty} />
             )}
