@@ -1,10 +1,10 @@
 import React from 'react';
-import ObjectMesh from '../objectMesh/ObjectMesh.js';
-import MarkerMesh from '../markerMesh/MarkerMesh.js';
-import {MapNode, useRenderContext} from '../../../../shared/editor';
-import {getMeshXml} from '../../lib/xmlUtils.js';
+import ObjectMesh from '../../objectMesh/ObjectMesh.js';
+import MarkerMesh from '../../markerMesh/MarkerMesh.js';
+import {MapNode, useRenderContext} from '../../../../../shared/editor';
+import {getMeshXml} from '../../../lib/xmlUtils.js';
 import PropTypes from 'prop-types';
-import MeshIcon from '../markerMesh/meshIcon/MeshIcon.js';
+import MeshIcon from '../../markerMesh/meshIcon/MeshIcon.js';
 import allTagStyles from './allTagStyles.js';
 
 ObjectMeshes.propTypes = {
