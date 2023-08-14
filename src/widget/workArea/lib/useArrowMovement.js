@@ -1,6 +1,8 @@
 import {isHotkeyPressed, useHotkeys} from 'react-hotkeys-hook';
+import {MoveNodesCommand, useEditor} from '../../../shared/editor';
 
 export default function useArrowMovement(selectedMapNodes) {
+    let editor = useEditor();
 
     useHotkeys(
         'up, down, left, right',
@@ -16,10 +18,9 @@ export default function useArrowMovement(selectedMapNodes) {
         let v = pressedKeys.includes('down') - pressedKeys.includes('up');
         let stepSize = getStepSize();
 
-        for (const mapNode of selectedMapNodes) {
-            mapNode.x += h * stepSize;
-            mapNode.y += v * stepSize;
-        }
+        let command = new MoveNodesCommand(selectedMapNodes, h * stepSize, v * stepSize);
+
+        editor.executeCommand(command);
     }
 
     function getStepSize() {
