@@ -36,11 +36,7 @@ MeshIcon.propTypes = {
 function MeshIcon({ tag }) {
     let Icon = ICONS_BY_TAGS[tag];
 
-    return (
-        <div className={styles.meshIcon}>
-            {Icon && <Icon />}
-        </div>
-    );
+    return Icon && <Icon className={styles.meshIcon} />;
 }
 
 export default MeshIcon;
