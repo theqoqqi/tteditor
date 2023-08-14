@@ -38,7 +38,7 @@ function NodeList() {
                     key={mapNode.editorId}
                     mapNode={mapNode}
                     selected={isSelected(mapNode)}
-                    onClick={() => onClickMapNode(mapNode)}
+                    onClick={onClickMapNode}
                 />
             ))}
         </div>

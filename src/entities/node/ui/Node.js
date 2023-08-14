@@ -29,7 +29,7 @@ function Node({ mapNode, selected, onClick, hidden, muted, highlight }) {
             [styles.highlight]: highlight,
         }),
         selected,
-        onClick,
+        onClick: () => onClick(mapNode),
     };
 
     if (editorContext.isMarkerNode(tag)) {
