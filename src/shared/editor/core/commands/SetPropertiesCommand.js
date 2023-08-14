@@ -73,7 +73,7 @@ export default class SetPropertiesCommand extends MultiTargetCommand {
         let properties = Object.keys(this.propertyValues).sort();
         let otherProperties = Object.keys(other.propertyValues).sort();
 
-        return properties.length === properties.length
+        return properties.length === otherProperties.length
             && properties.every((target, index) => target === otherProperties[index]);
     }
 
