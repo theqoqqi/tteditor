@@ -1,39 +1,20 @@
 import styles from './NodeList.module.css';
-import React, {useCallback} from 'react';
-import {
-    addToSelection,
-    removeFromSelection,
-    selectSelectedMapNodes,
-    setSelection,
-    useMapObserver
-} from '../../../../../shared/editor';
+import React from 'react';
+import {selectSelectedMapNodes, useMapObserver} from '../../../../../shared/editor';
 import {Node} from '../../../../../entities/node';
-import {useDispatch, useSelector} from 'react-redux';
-import {isHotkeyPressed} from 'react-hotkeys-hook';
+import {useSelector} from 'react-redux';
 import useArrowMovement from '../../../lib/useArrowMovement.js';
+import useSelectMapNodeCallback from '../../../lib/useSelectOnClickCallback.js';
 
 function NodeList() {
     /** @type MapNode[] */
     let mapNodes = useMapObserver('nodes');
-    let dispatch = useDispatch();
     let selectedMapNodes = useSelector(selectSelectedMapNodes);
-    let onClickMapNode = useCallback(handleMapNodeClicked, [dispatch]);
+    let onClickMapNode = useSelectMapNodeCallback();
 
     useArrowMovement(selectedMapNodes);
 
     let isSelected = mapNode => selectedMapNodes?.includes(mapNode);
-
-    function handleMapNodeClicked(mapNode) {
-        if (isHotkeyPressed('shift')) {
-            dispatch(addToSelection(mapNode));
-
-        } else if (isHotkeyPressed('ctrl')) {
-            dispatch(removeFromSelection(mapNode));
-
-        } else {
-            dispatch(setSelection(mapNode));
-        }
-    }
 
     return (
         <div className={styles.mapNodeList}>
