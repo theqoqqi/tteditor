@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {MapNode, useEditorContext, useNodeXml, useObserver} from '../../../shared/editor';
 import ObjectNode from './objectNode/ObjectNode.js';
+import MarkerNode from './markerNode/MarkerNode.js';
 
 Node.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
@@ -14,11 +15,11 @@ function Node({ mapNode }) {
     let type = useObserver(mapNode, 'type');
     let nodeXml = useNodeXml(tag, type);
 
-    if (!nodeXml) {
-        return null;
+    if (editorContext.isMarkerNode(tag)) {
+        return <MarkerNode mapNode={mapNode} />;
     }
 
-    if (editorContext.isMarkerNode(tag)) {
+    if (!nodeXml) {
         return null;
     }
 
