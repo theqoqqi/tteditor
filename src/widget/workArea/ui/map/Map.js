@@ -5,11 +5,13 @@ import {selectSelectedMapNodes, useMap} from '../../../../shared/editor';
 import {useSelector} from 'react-redux';
 import useSelectMapNodeCallback from '../../lib/useSelectOnClickCallback.js';
 import useArrowMovement from '../../lib/useArrowMovement.js';
+import useDragMovement from '../../lib/useDragMovement.js';
 
 function Map() {
     let map = useMap();
     let selectedMapNodes = useSelector(selectSelectedMapNodes);
     let onClickMapNode = useSelectMapNodeCallback();
+    let onPointerDown = useDragMovement(selectedMapNodes);
 
     useArrowMovement(selectedMapNodes);
 
@@ -28,6 +30,7 @@ function Map() {
             <NodeList
                 selectedMapNodes={selectedMapNodes}
                 onClickMapNode={onClickMapNode}
+                onPointerDown={onPointerDown}
             />
         </div>
     );

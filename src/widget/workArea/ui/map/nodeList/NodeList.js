@@ -3,7 +3,7 @@ import React from 'react';
 import {useMapObserver} from '../../../../../shared/editor';
 import {Node} from '../../../../../entities/node';
 
-function NodeList({selectedMapNodes, onClickMapNode}) {
+function NodeList({selectedMapNodes, onClickMapNode, onPointerDown}) {
     /** @type MapNode[] */
     let mapNodes = useMapObserver('nodes');
 
@@ -17,6 +17,7 @@ function NodeList({selectedMapNodes, onClickMapNode}) {
                     mapNode={mapNode}
                     selected={isSelected(mapNode)}
                     onClick={onClickMapNode}
+                    onPointerDown={onPointerDown}
                 />
             ))}
         </div>
