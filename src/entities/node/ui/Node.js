@@ -10,12 +10,13 @@ Node.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
     selected: PropTypes.bool,
     onClick: PropTypes.func,
+    onPointerDown: PropTypes.func,
     hidden: PropTypes.bool,
     muted: PropTypes.bool,
     highlight: PropTypes.bool,
 };
 
-function Node({ mapNode, selected, onClick, hidden, muted, highlight }) {
+function Node({ mapNode, selected, onClick, onPointerDown, hidden, muted, highlight }) {
     let editorContext = useEditorContext();
     let tag = useObserver(mapNode, 'tag');
     let type = useObserver(mapNode, 'type');
@@ -29,6 +30,7 @@ function Node({ mapNode, selected, onClick, hidden, muted, highlight }) {
         }),
         selected,
         onClick: () => onClick(mapNode),
+        onPointerDown: e => onPointerDown?.(e, { mapNode, isSelected: selected }),
     };
 
     if (editorContext.isMarkerNode(tag)) {

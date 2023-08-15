@@ -13,9 +13,10 @@ MarkerNode.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
     selected: PropTypes.bool,
     onClick: PropTypes.func,
+    onPointerDown: PropTypes.func,
 };
 
-function MarkerNode({ className, mapNode, selected, onClick }) {
+function MarkerNode({ className, mapNode, selected, onClick, onPointerDown }) {
     let renderContext = useRenderContext();
     let x = useObserver(mapNode, 'x');
     let y = useObserver(mapNode, 'y');
@@ -36,7 +37,11 @@ function MarkerNode({ className, mapNode, selected, onClick }) {
     let tagStyles = markerMeshStyles[tag];
 
     return (
-        <div className={classNames(styles.markerNode, className)} style={style}>
+        <div
+            className={classNames(styles.markerNode, className)}
+            style={style}
+            onPointerDown={onPointerDown}
+        >
             {hasArea && (
                 <MarkerMesh
                     variant='area'
