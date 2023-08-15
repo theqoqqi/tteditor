@@ -17,11 +17,10 @@ ObjectNode.propTypes = {
     isChild: PropTypes.bool,
     zIndex: PropTypes.number,
     selected: PropTypes.bool,
-    onClick: PropTypes.func,
-    onPointerDown: PropTypes.func,
+    nodeProps: PropTypes.object,
 };
 
-function ObjectNode({ className, mapNode, nodeXml, isChild = false, zIndex, selected, onClick, onPointerDown }) {
+function ObjectNode({ className, mapNode, nodeXml, isChild = false, zIndex, selected, nodeProps }) {
     let editorContext = useEditorContext();
     let renderContext = useRenderContext();
     let tag = useObserver(mapNode, 'tag');
@@ -41,8 +40,7 @@ function ObjectNode({ className, mapNode, nodeXml, isChild = false, zIndex, sele
             className={classNames(styles.objectNode, className)}
             style={style}
             title={title}
-            onClick={onClick}
-            onPointerDown={onPointerDown}
+            {...nodeProps}
         >
             <ObjectMeshes
                 tag={tag}

@@ -23,25 +23,41 @@ function Node({ mapNode, selected, onClick, onPointerDown, hidden, muted, highli
     let nodeXml = useNodeXml(tag, type);
 
     let nodeProps = {
+        onClick: () => onClick(mapNode),
+        onPointerDown: e => onPointerDown?.(e, { mapNode, isSelected: selected }),
+    };
+
+    let commonProps = {
         className: classNames({
             [styles.hidden]: hidden,
             [styles.muted]: muted,
             [styles.highlight]: highlight,
         }),
         selected,
-        onClick: () => onClick(mapNode),
-        onPointerDown: e => onPointerDown?.(e, { mapNode, isSelected: selected }),
     };
 
     if (editorContext.isMarkerNode(tag)) {
-        return <MarkerNode mapNode={mapNode} {...nodeProps} />;
+        return (
+            <MarkerNode
+                mapNode={mapNode}
+                nodeProps={nodeProps}
+                {...commonProps}
+            />
+        );
     }
 
     if (!nodeXml) {
         return null;
     }
 
-    return <ObjectNode mapNode={mapNode} nodeXml={nodeXml} {...nodeProps} />;
+    return (
+        <ObjectNode
+            mapNode={mapNode}
+            nodeXml={nodeXml}
+            nodeProps={nodeProps}
+            {...commonProps}
+        />
+    );
 }
 
 export default memo(Node);

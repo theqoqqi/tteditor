@@ -12,11 +12,10 @@ MarkerNode.propTypes = {
     className: PropTypes.any,
     mapNode: PropTypes.instanceOf(MapNode),
     selected: PropTypes.bool,
-    onClick: PropTypes.func,
-    onPointerDown: PropTypes.func,
+    nodeProps: PropTypes.object,
 };
 
-function MarkerNode({ className, mapNode, selected, onClick, onPointerDown }) {
+function MarkerNode({ className, mapNode, selected, nodeProps }) {
     let renderContext = useRenderContext();
     let x = useObserver(mapNode, 'x');
     let y = useObserver(mapNode, 'y');
@@ -40,8 +39,7 @@ function MarkerNode({ className, mapNode, selected, onClick, onPointerDown }) {
         <div
             className={classNames(styles.markerNode, className)}
             style={style}
-            onClick={onClick}
-            onPointerDown={onPointerDown}
+            {...nodeProps}
         >
             {hasArea && (
                 <MarkerMesh
