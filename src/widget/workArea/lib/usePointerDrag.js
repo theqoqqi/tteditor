@@ -1,4 +1,5 @@
 import {useCallback, useEffect, useState} from 'react';
+import {useThrottle} from 'react-use';
 
 function positionFromEvent(e) {
     return {
@@ -8,8 +9,11 @@ function positionFromEvent(e) {
 }
 
 export default function usePointerDrag({ button, shouldStart, onStart, onMove, onFinish }) {
+    let limitPerSecond = 60;
     let [dragState, setDragState] = useState(null);
     let [startEventArgs, setStartEventArgs] = useState(null);
+    let throttledDragState = useThrottle(dragState, 1000 / limitPerSecond);
+    let throttlePassed = throttledDragState === dragState;
 
 
 
@@ -37,7 +41,7 @@ export default function usePointerDrag({ button, shouldStart, onStart, onMove, o
 
 
     let onPointerMove = useCallback(e => {
-        if (dragState) {
+        if (dragState && throttlePassed) {
             setDragState(state => {
                 let mouse = positionFromEvent(e);
                 let totalDrag = {
@@ -52,7 +56,7 @@ export default function usePointerDrag({ button, shouldStart, onStart, onMove, o
                 };
             });
         }
-    }, [dragState]);
+    }, [dragState, throttlePassed]);
 
     useEffect(() => {
         if (dragState) {
