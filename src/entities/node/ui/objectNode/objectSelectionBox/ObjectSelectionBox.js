@@ -12,10 +12,9 @@ ObjectSelectionBox.propTypes = {
         PropTypes.instanceOf(Element),
     ]),
     selected: PropTypes.bool,
-    onClick: PropTypes.func,
 };
 
-function ObjectSelectionBox({ nodeXml, selected, onClick }) {
+function ObjectSelectionBox({ nodeXml, selected }) {
     let renderContext = useRenderContext();
     let selectableMeshXml = getMeshXml(nodeXml);
     let meshBounds;
@@ -40,7 +39,6 @@ function ObjectSelectionBox({ nodeXml, selected, onClick }) {
         <SelectionBox
             selected={selected}
             bounds={meshBounds}
-            onClick={onClick}
         />
     );
 }

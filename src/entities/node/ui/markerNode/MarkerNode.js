@@ -40,6 +40,7 @@ function MarkerNode({ className, mapNode, selected, onClick, onPointerDown }) {
         <div
             className={classNames(styles.markerNode, className)}
             style={style}
+            onClick={onClick}
             onPointerDown={onPointerDown}
         >
             {hasArea && (
@@ -71,7 +72,6 @@ function MarkerNode({ className, mapNode, selected, onClick, onPointerDown }) {
                 width={(iconRadius || radiusX) * 2}
                 height={(iconRadius || radiusY) * 2}
                 selected={selected}
-                onClick={onClick}
             />
         </div>
     );

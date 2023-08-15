@@ -7,10 +7,9 @@ MarkerSelectionBox.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
     selected: PropTypes.bool,
-    onClick: PropTypes.func,
 };
 
-function MarkerSelectionBox({ width, height, selected, onClick }) {
+function MarkerSelectionBox({ width, height, selected }) {
     let halfWidth = width / 2;
     let halfHeight = height / 2;
 
@@ -20,7 +19,6 @@ function MarkerSelectionBox({ width, height, selected, onClick }) {
         <SelectionBox
             selected={selected}
             bounds={bounds}
-            onClick={onClick}
         />
     );
 }

@@ -12,10 +12,9 @@ SelectionBox.propTypes = {
         height: PropTypes.number,
     }),
     selected: PropTypes.bool,
-    onClick: PropTypes.func,
 };
 
-function SelectionBox({ bounds, selected, onClick }) {
+function SelectionBox({ bounds, selected }) {
     let { x, y, width, height } = bounds;
     let renderContext = useRenderContext();
 
@@ -28,7 +27,6 @@ function SelectionBox({ bounds, selected, onClick }) {
                 [styles.selected]: selected,
             })}
             style={style}
-            onClick={onClick}
         />
     );
 }

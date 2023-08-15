@@ -41,6 +41,7 @@ function ObjectNode({ className, mapNode, nodeXml, isChild = false, zIndex, sele
             className={classNames(styles.objectNode, className)}
             style={style}
             title={title}
+            onClick={onClick}
             onPointerDown={onPointerDown}
         >
             <ObjectMeshes
@@ -64,7 +65,6 @@ function ObjectNode({ className, mapNode, nodeXml, isChild = false, zIndex, sele
                 <ObjectSelectionBox
                     nodeXml={nodeXml}
                     selected={selected}
-                    onClick={onClick}
                 />
             )}
         </div>
