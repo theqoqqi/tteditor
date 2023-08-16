@@ -2,10 +2,11 @@ import React from 'react';
 import {ToolbarIconButton} from '../../../../shared/ui';
 import {BsFileEarmarkArrowDownFill} from 'react-icons/bs';
 import {useDownloadLevel} from '../../../../features/level';
-import {useEditor} from '../../../../entities/editor';
+import {useEditor, useMap} from '../../../../entities/editor';
 
 function DownloadLevelButton() {
     let editor = useEditor();
+    let map = useMap();
     let downloadLevel = useDownloadLevel();
 
     function onClick() {
@@ -20,6 +21,7 @@ function DownloadLevelButton() {
         <ToolbarIconButton
             icon={BsFileEarmarkArrowDownFill}
             onClick={onClick}
+            disabled={!map}
         />
     );
 }
