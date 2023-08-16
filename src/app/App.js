@@ -1,5 +1,5 @@
 import styles from './App.module.css';
-import {EditorProvider} from '../shared/editor';
+import {EditorProvider} from '../entities/editor';
 import {appStore} from './appStore.js';
 import {Provider as ReduxProvider} from 'react-redux';
 import MainPage from '../pages/main';

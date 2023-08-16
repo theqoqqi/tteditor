@@ -1,4 +1,4 @@
-import {xmlUtils} from '../../../shared/editor';
+import {xmlUtils} from '../../../entities/editor';
 
 export function isValidMesh(meshXml) {
     let meshWidth = xmlUtils.getNumericContent(meshXml, 'width');

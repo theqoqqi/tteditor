@@ -1,7 +1,7 @@
 import styles from './MarkerMesh.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {styling, xmlUtils} from '../../../../shared/editor';
+import {styling, xmlUtils} from '../../../../entities/editor';
 import classNames from 'classnames';
 
 MarkerMesh.propTypes = {

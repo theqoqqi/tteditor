@@ -1,4 +1,4 @@
-import {MoveNodesCommand, useEditor, useEditorContext} from '../../../shared/editor';
+import {MoveNodesCommand, useEditor, useEditorContext} from '../../../entities/editor';
 import {useCallback, useState} from 'react';
 import usePointerDrag from './usePointerDrag.js';
 

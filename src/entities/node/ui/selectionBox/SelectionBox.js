@@ -2,7 +2,7 @@ import styles from './SelectionBox.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {styling, useRenderContext} from '../../../../shared/editor';
+import {styling, useRenderContext} from '../../../../entities/editor';
 
 SelectionBox.propTypes = {
     bounds: PropTypes.shape({

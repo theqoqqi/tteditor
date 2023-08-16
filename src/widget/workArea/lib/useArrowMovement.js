@@ -1,5 +1,5 @@
 import {isHotkeyPressed, useHotkeys} from 'react-hotkeys-hook';
-import {MoveNodesCommand, useEditor, useEditorContext} from '../../../shared/editor';
+import {MoveNodesCommand, useEditor, useEditorContext} from '../../../entities/editor';
 
 export default function useArrowMovement(selectedMapNodes) {
     let editorContext = useEditorContext();

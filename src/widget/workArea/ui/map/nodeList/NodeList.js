@@ -1,6 +1,6 @@
 import styles from './NodeList.module.css';
 import React from 'react';
-import {useMapObserver} from '../../../../../shared/editor';
+import {useMapObserver} from '../../../../../entities/editor';
 import {Node} from '../../../../../entities/node';
 
 function NodeList({selectedMapNodes, onClickMapNode, onPointerDown}) {

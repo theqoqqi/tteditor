@@ -1,6 +1,6 @@
 import styles from './TextureMesh.module.css';
 import React from 'react';
-import {styling, useRenderContext} from '../../../../shared/editor';
+import {styling, useRenderContext} from '../../../../entities/editor';
 import PropTypes from 'prop-types';
 import {getMeshXml} from '../../lib/xmlUtils.js';
 

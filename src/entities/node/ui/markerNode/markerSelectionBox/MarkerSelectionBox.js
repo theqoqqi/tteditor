@@ -1,7 +1,7 @@
 import React from 'react';
 import SelectionBox from './../../selectionBox/SelectionBox.js';
 import PropTypes from 'prop-types';
-import {geometryUtils} from '../../../../../shared/editor';
+import {geometryUtils} from '../../../../../entities/editor';
 
 MarkerSelectionBox.propTypes = {
     width: PropTypes.number,

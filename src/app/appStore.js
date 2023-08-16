@@ -1,6 +1,6 @@
 import {configureStore} from '@reduxjs/toolkit';
 import {rootReducer} from './rootReducer.js';
-import {editorSlice} from '../shared/editor';
+import {editorSlice} from '../entities/editor';
 
 function makeStore() {
     let store = configureStore({

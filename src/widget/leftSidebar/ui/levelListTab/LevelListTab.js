@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {LevelList} from '../../../../entities/levelList';
-import {useEditor, useEditorObserver} from '../../../../shared/editor';
+import {useEditor, useEditorObserver} from '../../../../entities/editor';
 import {useAsync} from 'react-use';
 
 function LevelListTab() {

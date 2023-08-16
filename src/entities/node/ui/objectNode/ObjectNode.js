@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {getChildNodeXmls} from '../../lib/xmlUtils.js';
 import ObjectMeshes from './objectMeshes/ObjectMeshes.js';
-import {MapNode, styling, useEditorContext, useObserver, useRenderContext} from '../../../../shared/editor';
+import {MapNode, styling, useEditorContext, useObserver, useRenderContext} from '../../../../entities/editor';
 import ObjectSelectionBox from './objectSelectionBox/ObjectSelectionBox.js';
 import classNames from 'classnames';
 
