@@ -7,7 +7,7 @@ export default function MainPage() {
     return (
         <div className={styles.mainPage}>
             <LeftSidebar />
-            <WorkArea className={styles.workArea} />
+            <WorkArea />
             <RightSidebar />
         </div>
     );
