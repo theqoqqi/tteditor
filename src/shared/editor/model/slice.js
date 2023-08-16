@@ -1,4 +1,7 @@
 import {createSelector, createSlice} from '@reduxjs/toolkit';
+import uniq from 'lodash.uniq';
+import union from 'lodash.union';
+import pull from 'lodash.pull';
 
 const initialState = {
     selectedMapNodes: [],
@@ -12,23 +15,16 @@ export const editorSlice = createSlice({
             let mapNodes = Array.isArray(action.payload)
                 ? action.payload : [action.payload];
 
-            state.selectedMapNodes.length = 0;
-            state.selectedMapNodes.push(...mapNodes);
+            state.selectedMapNodes = uniq(mapNodes);
         },
         clearSelection(state) {
-            state.selectedMapNodes.length = 0;
+            state.selectedMapNodes = [];
         },
         addToSelection(state, action) {
-            if (!state.selectedMapNodes.includes(action.payload)) {
-                state.selectedMapNodes.push(action.payload);
-            }
+            state.selectedMapNodes = union(state.selectedMapNodes, [action.payload]);
         },
         removeFromSelection(state, action) {
-            let index = state.selectedMapNodes.indexOf(action.payload);
-
-            if (index !== -1) {
-                state.selectedMapNodes.splice(index, 1);
-            }
+            pull(state.selectedMapNodes, action.payload);
         },
     },
 });
