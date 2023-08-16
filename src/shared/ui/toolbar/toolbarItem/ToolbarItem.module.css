@@ -1,0 +1,33 @@
+
+.toolbarItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 40px;
+    height: 40px;
+    padding: 0;
+
+    color: #444;
+    text-align: center;
+    text-decoration: none;
+
+    cursor: pointer;
+    user-select: none;
+}
+
+.toolbarItem:hover {
+    background-color: #ccc;
+}
+
+.toolbarItem.active {
+    background-color: cornflowerblue;
+}
+
+.toolbarItem.toggle .title {
+    font-size: 14px;
+}
+
+.toolbarItem.toggle:not(.active):not(:hover) i {
+    opacity: 0.25;
+}
