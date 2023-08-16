@@ -19,6 +19,7 @@ function DownloadLevelButton() {
 
     return (
         <ToolbarIconButton
+            title='Скачать уровень'
             icon={BsFileEarmarkArrowDownFill}
             onClick={onClick}
             disabled={!map}

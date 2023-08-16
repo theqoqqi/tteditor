@@ -16,6 +16,7 @@ function ResetLevelButton() {
 
     return (
         <ToolbarIconButton
+            title='Перезагрузить уровень'
             icon={BsFileEarmarkXFill}
             onClick={onClick}
             disabled={!map}

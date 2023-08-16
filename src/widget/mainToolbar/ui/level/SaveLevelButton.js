@@ -10,6 +10,7 @@ function SaveLevelButton() {
 
     return (
         <ToolbarIconButton
+            title='Сохранить уровень'
             icon={BsFileEarmarkCheckFill}
             onClick={saveLevel}
             disabled={!map}
