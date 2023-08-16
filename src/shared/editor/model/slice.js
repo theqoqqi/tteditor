@@ -19,7 +19,9 @@ export const editorSlice = createSlice({
             state.selectedMapNodes.length = 0;
         },
         addToSelection(state, action) {
-            state.selectedMapNodes.push(action.payload);
+            if (!state.selectedMapNodes.includes(action.payload)) {
+                state.selectedMapNodes.push(action.payload);
+            }
         },
         removeFromSelection(state, action) {
             let index = state.selectedMapNodes.indexOf(action.payload);
