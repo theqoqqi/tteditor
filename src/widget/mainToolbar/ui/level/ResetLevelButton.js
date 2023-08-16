@@ -6,10 +6,16 @@ import {useResetLevel} from '../../../../features/level';
 function ResetLevelButton() {
     let resetLevel = useResetLevel();
 
+    function onClick() {
+        if (window.confirm('Сбросить все несохраненные изменения?')) {
+            resetLevel();
+        }
+    }
+
     return (
         <ToolbarIconButton
             icon={BsFileEarmarkXFill}
-            onClick={resetLevel}
+            onClick={onClick}
         />
     );
 }
