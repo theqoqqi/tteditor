@@ -142,6 +142,10 @@ export default class Editor extends Observable {
         return this.currentLevelFilename;
     }
 
+    get loadedLevelFilename() {
+        return this.currentLevelFilename.split(/\//g).pop();
+    }
+
     setMap(map) {
         if (this.getMap()) {
             this.mapObservers.detachFrom(this.getMap());
