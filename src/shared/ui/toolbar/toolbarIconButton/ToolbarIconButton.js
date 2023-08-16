@@ -8,10 +8,11 @@ ToolbarIconButton.propTypes = {
     icon: PropTypes.any,
     toggle: PropTypes.bool,
     active: PropTypes.bool,
+    disabled: PropTypes.bool,
     onClick: PropTypes.func,
 };
 
-function ToolbarIconButton({ icon, toggle, active, onClick }) {
+function ToolbarIconButton({ icon, toggle, active, disabled, onClick }) {
 
     let Icon = icon;
 
@@ -21,7 +22,8 @@ function ToolbarIconButton({ icon, toggle, active, onClick }) {
                 [styles.toggle]: toggle,
                 [styles.active]: active,
             })}
-            onClick={onClick}
+            disabled={disabled}
+            onClick={() => disabled ? null : onClick()}
         >
             <Icon className={styles.icon} />
         </ToolbarItem>
