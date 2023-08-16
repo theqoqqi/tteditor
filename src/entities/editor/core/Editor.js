@@ -7,6 +7,8 @@ import RenderContext from './RenderContext.js';
 
 export default class Editor extends Observable {
 
+    #loadedLevelPath;
+
     isLevelDirty;
 
     constructor(context) {
@@ -17,7 +19,7 @@ export default class Editor extends Observable {
         this.commandExecutor = new CommandExecutor();
         this.levelEditor = new LevelEditor();
 
-        this.currentLevelFilename = null;
+        this.#loadedLevelPath = null;
 
         this.createObservers();
     }
@@ -119,7 +121,7 @@ export default class Editor extends Observable {
     async loadLevel(filename) {
         let map = await this.context.loadLevel(filename);
 
-        this.currentLevelFilename = filename;
+        this.#loadedLevelPath = filename;
 
         this.setMap(map);
 
@@ -135,11 +137,11 @@ export default class Editor extends Observable {
     }
 
     async reloadCurrentLevel() {
-        return await this.loadLevel(this.currentLevelFilename);
+        return await this.loadLevel(this.#loadedLevelPath);
     }
 
     async saveCurrentLevel() {
-        let filename = this.currentLevelFilename;
+        let filename = this.#loadedLevelPath;
         let map = this.levelEditor.getMap();
 
         await this.context.saveLevel(filename, map);
@@ -148,15 +150,15 @@ export default class Editor extends Observable {
     }
 
     hasLoadedLevel() {
-        return this.currentLevelFilename !== null;
+        return this.#loadedLevelPath !== null;
     }
 
     get loadedLevelPath() {
-        return this.currentLevelFilename;
+        return this.#loadedLevelPath;
     }
 
     get loadedLevelFilename() {
-        return this.currentLevelFilename.split(/\//g).pop();
+        return this.#loadedLevelPath.split(/\//g).pop();
     }
 
     setMap(map) {
