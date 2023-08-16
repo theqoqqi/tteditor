@@ -134,6 +134,10 @@ export default class Editor extends Observable {
         return new DummyCommand('Изначальное состояние', 'bi-circle');
     }
 
+    async reloadCurrentLevel() {
+        return await this.loadLevel(this.currentLevelFilename);
+    }
+
     async saveCurrentLevel() {
         let filename = this.currentLevelFilename;
         let map = this.levelEditor.getMap();
