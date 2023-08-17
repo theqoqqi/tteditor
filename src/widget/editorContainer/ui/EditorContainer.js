@@ -1,7 +1,8 @@
 import styles from './EditorContainer.module.css';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import {useEditorContext} from '../../../entities/editor';
 
 EditorContainer.propTypes = {
     className: PropTypes.any,
@@ -13,6 +14,21 @@ EditorContainer.propTypes = {
 };
 
 function EditorContainer({ className, top, left, center, right, bottom }) {
+    let editorContext = useEditorContext();
+    let [loaded, setLoaded] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            await editorContext.setWorkspacePath('test');
+            await editorContext.reloadDataFromServer();
+            setLoaded(true);
+        })();
+    }, []);
+
+    if (!loaded) {
+        return <div>Загрузка...</div>;
+    }
+
     return (
         <div className={classNames(styles.editorContainer, className)}>
             {top}
