@@ -15,6 +15,7 @@ export default class EditorContext {
     imageSizes = null;
 
     locale = null;
+
     palette = null;
 
     loadedXmlFiles = {};
@@ -154,7 +155,7 @@ export default class EditorContext {
     async playSoundFor(tagName, typeName) {
         let randomSound = await this.getSoundFor(tagName, typeName);
 
-        this.playSound(randomSound)
+        this.playSound(randomSound);
     }
 
     playSound(path) {
@@ -398,7 +399,7 @@ export default class EditorContext {
             contents: this.writeLevel(map),
         });
 
-        console.log(responseText)
+        console.log(responseText);
 
         this.forgetFile(filename);
     }
