@@ -12,11 +12,10 @@ Node.propTypes = {
     onClick: PropTypes.func,
     onPointerDown: PropTypes.func,
     hidden: PropTypes.bool,
-    muted: PropTypes.bool,
     highlight: PropTypes.bool,
 };
 
-function Node({ mapNode, selected, onClick, onPointerDown, hidden, muted, highlight }) {
+function Node({ mapNode, selected, onClick, onPointerDown, hidden, highlight }) {
     let editorContext = useEditorContext();
     let tag = useObserver(mapNode, 'tag');
     let type = useObserver(mapNode, 'type');
@@ -30,7 +29,6 @@ function Node({ mapNode, selected, onClick, onPointerDown, hidden, muted, highli
     let commonProps = {
         className: classNames({
             [styles.hidden]: hidden,
-            [styles.muted]: muted,
             [styles.highlight]: highlight,
         }),
         selected,
