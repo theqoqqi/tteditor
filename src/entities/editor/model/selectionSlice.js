@@ -8,8 +8,8 @@ const initialState = {
     selectedMapNodes: [],
 };
 
-export const editorSlice = createSlice({
-    name: 'editor',
+export const selectionSlice = createSlice({
+    name: 'selection',
     initialState,
     reducers: {
         setSelection(state, action) {
@@ -29,7 +29,7 @@ export const editorSlice = createSlice({
     },
 });
 
-const selectSelf = state => state.editor;
+const selectSelf = state => state[selectionSlice.name];
 
 export const selectSelectedMapNodes = createSelector(
     selectSelf,
@@ -41,4 +41,4 @@ export const {
     clearSelection,
     addToSelection,
     removeFromSelection,
-} = editorSlice.actions;
+} = selectionSlice.actions;

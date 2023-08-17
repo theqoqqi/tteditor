@@ -33,13 +33,13 @@ import SetTerrainCommand from './core/commands/map/SetTerrainCommand.js';
 import SetTriggerEnabledCommand from './core/commands/map/SetTriggerEnabledCommand.js';
 import SetTriggerPropertyCommand from './core/commands/map/SetTriggerPropertyCommand.js';
 import {
-    editorSlice,
+    selectionSlice,
     selectSelectedMapNodes,
     setSelection,
     clearSelection,
     addToSelection,
     removeFromSelection
-} from './model/slice.js';
+} from './model/selectionSlice.js';
 
 export {
     useMap,
@@ -53,7 +53,7 @@ export {
     useEditorObserver,
     EditorProvider,
 
-    editorSlice,
+    selectionSlice,
     setSelection,
     clearSelection,
     selectSelectedMapNodes,

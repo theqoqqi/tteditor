@@ -1,13 +1,13 @@
 import {configureStore} from '@reduxjs/toolkit';
 import {rootReducer} from './rootReducer.js';
-import {editorSlice} from '../entities/editor';
+import {selectionSlice} from '../entities/editor';
 
 function makeStore() {
     let store = configureStore({
         reducer: rootReducer,
         middleware: (getDefaultMiddleware) => getDefaultMiddleware({
             serializableCheck: {
-                ignoredPaths: [editorSlice.name],
+                ignoredPaths: [selectionSlice.name],
                 ignoreActions: true,
             },
         }),

@@ -1,6 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import {editorSlice} from '../entities/editor';
+import {selectionSlice} from '../entities/editor';
 
 export const rootReducer = combineReducers({
-    [editorSlice.name]: editorSlice.reducer,
+    [selectionSlice.name]: selectionSlice.reducer,
 });
