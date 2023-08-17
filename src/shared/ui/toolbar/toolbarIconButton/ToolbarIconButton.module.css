@@ -3,6 +3,14 @@
 
 }
 
+.toolbarIconButton.active {
+    background-color: cornflowerblue;
+}
+
+.toolbarIconButton.active:hover {
+    background-color: #80adf1;
+}
+
 .icon {
     margin: auto 0;
 
@@ -12,10 +20,14 @@
     text-align: center;
 }
 
-.toolbarIconButton.active i {
+.toolbarIconButton.toggle .icon {
+    color: cornflowerblue;
+}
+
+.toolbarIconButton.active .icon {
     color: white;
 }
 
-.toolbarIconButton.toggle i {
-    color: cornflowerblue;
+.toolbarIconButton.toggle:not(.active):not(:hover) .icon {
+    opacity: 0.25;
 }
