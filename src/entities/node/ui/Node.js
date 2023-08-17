@@ -1,10 +1,11 @@
 import styles from './Node.module.css';
 import React, {memo} from 'react';
 import PropTypes from 'prop-types';
-import {MapNode, useEditorContext, useNodeXml, useObserver} from '../../../entities/editor';
+import {MapNode, selectIsLayerVisible, useEditorContext, useNodeXml, useObserver} from '../../../entities/editor';
 import ObjectNode from './objectNode/ObjectNode.js';
 import MarkerNode from './markerNode/MarkerNode.js';
 import classNames from 'classnames';
+import {useSelectorWithParams} from '../../../shared/lib';
 
 Node.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
@@ -20,6 +21,7 @@ function Node({ mapNode, selected, onClick, onPointerDown, hidden, highlight }) 
     let tag = useObserver(mapNode, 'tag');
     let type = useObserver(mapNode, 'type');
     let nodeXml = useNodeXml(tag, type);
+    let isLayerVisible = useSelectorWithParams(selectIsLayerVisible, tag);
 
     let nodeProps = {
         onClick: () => onClick(mapNode),
@@ -28,7 +30,7 @@ function Node({ mapNode, selected, onClick, onPointerDown, hidden, highlight }) 
 
     let commonProps = {
         className: classNames({
-            [styles.hidden]: hidden,
+            [styles.hidden]: hidden || !isLayerVisible,
             [styles.highlight]: highlight,
         }),
         selected,
