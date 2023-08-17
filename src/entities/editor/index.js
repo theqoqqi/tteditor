@@ -46,6 +46,7 @@ import {
     setVisibleLayers,
     setLayerVisible,
 } from './model/layersSlice.js';
+import {selectWorkspacePath, setWorkspacePath, workspaceSlice} from './model/workspaceSlice.js';
 
 export {
     useMap,
@@ -58,6 +59,10 @@ export {
     useMapObserver,
     useEditorObserver,
     EditorProvider,
+
+    workspaceSlice,
+    selectWorkspacePath,
+    setWorkspacePath,
 
     selectionSlice,
     setSelection,
