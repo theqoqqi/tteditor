@@ -26,6 +26,15 @@ export default class Workspace {
         return this.fileExists(this.#rootPath);
     }
 
+    async create() {
+        let publicDataPath = '../public/data';
+        let dataPath = this.#rootPath + '/data';
+
+        await fs.cp(publicDataPath, dataPath, {
+            recursive: true,
+        });
+    }
+
     async getTextureSizes() {
         let sizes = {};
         let imageFiles = await this.#getAllFilesInDirectory('data/texture');
