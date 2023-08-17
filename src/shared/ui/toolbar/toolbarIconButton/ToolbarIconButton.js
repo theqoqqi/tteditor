@@ -21,6 +21,7 @@ function ToolbarIconButton({ title, icon, toggle, active, disabled, onClick }) {
         <ToolbarItem
             title={title}
             className={classNames(styles.toolbarIconButton, {
+                [styles.disabled]: disabled,
                 [styles.toggle]: toggle,
                 [styles.active]: active,
             })}

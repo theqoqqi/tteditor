@@ -1,6 +1,16 @@
 
 .toolbarIconButton {
+    width: 40px;
+    height: 40px;
+}
 
+.toolbarIconButton.disabled:hover {
+    background-color: #bbb;
+}
+
+.toolbarIconButton:not(.disabled):hover {
+    background-color: #ccc;
+    cursor: pointer;
 }
 
 .toolbarIconButton.active {
@@ -9,6 +19,14 @@
 
 .toolbarIconButton.active:hover {
     background-color: #80adf1;
+}
+
+.toolbarIconButton.toggle .title {
+    font-size: 14px;
+}
+
+.toolbarIconButton.toggle:not(.active):not(:hover) i {
+    opacity: 0.25;
 }
 
 .icon {
