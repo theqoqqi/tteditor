@@ -459,7 +459,16 @@ export default class EditorContext {
             url += '?' + new URLSearchParams(options.params);
         }
 
-        const rawResponse = await fetch(this.serverUrl + '/' + url, fetchOptions);
+        const request = fetch(this.serverUrl + '/' + url, fetchOptions)
+            .then(async function (response) {
+                if (response.ok) {
+                    return response;
+                }
+
+                throw new Error(await response.text());
+            });
+
+        const rawResponse = await request;
 
         return await rawResponse.text();
     }
