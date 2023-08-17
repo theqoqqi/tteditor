@@ -16,15 +16,24 @@ EditorContainer.propTypes = {
 };
 
 function EditorContainer({ className, top, left, center, right, bottom }) {
-    let { isLoading } = useWorkspace();
+    let { isLoading, error } = useWorkspace();
     let dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(setWorkspacePath('test'));
     }, []);
 
+    if (error) {
+        return (
+            <div>
+                Не удалось загрузить рабочее пространство:
+                {error?.message ?? error?.reason ?? JSON.stringify(error, null, 4)}
+            </div>
+        );
+    }
+
     if (isLoading) {
-        return <div>Загрузка...</div>;
+        return <div>Загрузка рабочего пространства...</div>;
     }
 
     return (
