@@ -1,8 +1,10 @@
 import styles from './EditorContainer.module.css';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {useEditorContext} from '../../../entities/editor';
+import useWorkspace from '../lib/useWorkspace.js';
+import {useDispatch} from 'react-redux';
+import {setWorkspacePath} from '../../../entities/editor';
 
 EditorContainer.propTypes = {
     className: PropTypes.any,
@@ -14,18 +16,14 @@ EditorContainer.propTypes = {
 };
 
 function EditorContainer({ className, top, left, center, right, bottom }) {
-    let editorContext = useEditorContext();
-    let [loaded, setLoaded] = useState(false);
+    let { isLoading } = useWorkspace();
+    let dispatch = useDispatch();
 
     useEffect(() => {
-        (async () => {
-            await editorContext.setWorkspacePath('test');
-            await editorContext.reloadDataFromServer();
-            setLoaded(true);
-        })();
+        dispatch(setWorkspacePath('test'));
     }, []);
 
-    if (!loaded) {
+    if (isLoading) {
         return <div>Загрузка...</div>;
     }
 
