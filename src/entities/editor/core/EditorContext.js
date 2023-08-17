@@ -373,8 +373,18 @@ export default class EditorContext {
         return allTagNames.filter(tagName => tagName !== 'chest');
     }
 
-    setWorkspacePath(workspacePath) {
+    async setWorkspacePath(workspacePath) {
         this.workspacePath = workspacePath;
+
+        if (!this.workspacePath) {
+            return Promise.reject('Null workspace');
+        }
+
+        let responseText = await this.post('workspaces', {
+            path: workspacePath,
+        });
+
+        return JSON.parse(responseText);
     }
 
     getWorkspacePath() {

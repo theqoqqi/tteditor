@@ -6,7 +6,7 @@ async function createEditor() {
 
     let context = new EditorContext(SERVER_URL);
 
-    context.setWorkspacePath('test');
+    await context.setWorkspacePath('test');
     await context.reloadDataFromServer();
 
     return new Editor(context);
