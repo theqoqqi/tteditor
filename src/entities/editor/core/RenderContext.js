@@ -256,22 +256,4 @@ export default class RenderContext {
 
         return layers[tagName];
     }
-
-    getIconClassForTagName(tagName) {
-        let iconClassesByTagNames = {
-            terrain: 'bi-square-fill',
-            landmark: 'bi-layers-fill',
-            structure: 'bi-tree-fill',
-            building: 'bi-house-fill',
-            unit: 'bi-person-fill',
-            item: 'bi-search',
-            chest: 'bi-lock-fill',
-            magic: 'bi-stars',
-            ambient: 'bi-volume-up',
-            waypoint: 'bi-record2',
-            area: 'bi-circle',
-        };
-
-        return iconClassesByTagNames[tagName];
-    }
 }
