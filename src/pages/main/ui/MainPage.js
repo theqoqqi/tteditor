@@ -4,17 +4,17 @@ import {WorkArea} from '../../../widget/workArea';
 import {RightSidebar} from '../../../widget/rightSidebar';
 import {MainToolbar} from '../../../widget/mainToolbar';
 import {StatusBar} from '../../../widget/statusBar';
+import {EditorContainer} from '../../../widget/editorContainer';
 
 export default function MainPage() {
     return (
-        <div className={styles.mainPage}>
-            <MainToolbar />
-            <div className={styles.middleRow}>
-                <LeftSidebar />
-                <WorkArea />
-                <RightSidebar />
-            </div>
-            <StatusBar />
-        </div>
+        <EditorContainer
+            className={styles.mainPage}
+            top={<MainToolbar />}
+            left={<LeftSidebar />}
+            center={<WorkArea />}
+            right={<RightSidebar />}
+            bottom={<StatusBar />}
+        />
     );
 }
