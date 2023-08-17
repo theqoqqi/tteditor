@@ -40,6 +40,12 @@ import {
     addToSelection,
     removeFromSelection
 } from './model/selectionSlice.js';
+import {
+    layersSlice,
+    selectIsLayerVisible,
+    setVisibleLayers,
+    setLayerVisible,
+} from './model/layersSlice.js';
 
 export {
     useMap,
@@ -59,6 +65,11 @@ export {
     selectSelectedMapNodes,
     addToSelection,
     removeFromSelection,
+
+    layersSlice,
+    selectIsLayerVisible,
+    setVisibleLayers,
+    setLayerVisible,
 
     styling,
     colorsUtils,
