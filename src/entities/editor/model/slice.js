@@ -1,4 +1,5 @@
 import {createSelector, createSlice} from '@reduxjs/toolkit';
+import castArray from 'lodash.castarray';
 import uniq from 'lodash.uniq';
 import union from 'lodash.union';
 import pull from 'lodash.pull';
@@ -12,8 +13,7 @@ export const editorSlice = createSlice({
     initialState,
     reducers: {
         setSelection(state, action) {
-            let mapNodes = Array.isArray(action.payload)
-                ? action.payload : [action.payload];
+            let mapNodes = castArray(action.payload);
 
             state.selectedMapNodes = uniq(mapNodes);
         },
