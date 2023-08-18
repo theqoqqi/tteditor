@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {LevelList} from '../../../../entities/levelList';
-import {useEditor, useEditorObserver} from '../../../../entities/editor';
+import {useEditor, useEditorObserver, useWorkspace} from '../../../../entities/editor';
 import {useAsync} from 'react-use';
 
 function LevelListTab() {
     let editor = useEditor();
+    let { path } = useWorkspace();
     let [levels, setLevels] = useState([]);
     let [selected, setSelected] = useState(null);
-    let asyncLevelList = useAsync(() => editor.loadLevelList(), [editor]);
+    let asyncLevelList = useAsync(() => editor.loadLevelList(), [editor, path]);
     let isLevelDirty = useEditorObserver('isLevelDirty');
 
     useEffect(() => {
