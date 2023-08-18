@@ -19,7 +19,7 @@ function EditorContainer({ className, top, left, center, right, bottom }) {
 
     useEffect(() => {
         dispatch(setWorkspacePath('test'));
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className={classNames(styles.editorContainer, className)}>
