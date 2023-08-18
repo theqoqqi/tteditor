@@ -1,0 +1,19 @@
+
+.workspaceEditor {
+
+}
+
+.input {
+    min-width: 100px;
+    max-width: 400px;
+    height: 24px;
+
+    border: 1px solid #aaa;
+    border-top: none;
+    border-bottom: none;
+
+    font-family: Consolas, monospace;
+    font-size: 13px;
+
+    outline: none;
+}
