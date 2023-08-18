@@ -3,6 +3,7 @@
 # app data
 /public/data
 /workspaces
+/src/legacyEditor
 
 # dependencies
 /node_modules
