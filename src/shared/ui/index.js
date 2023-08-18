@@ -1,5 +1,6 @@
 import List from './list/List.js';
 import {Toolbar, ToolbarGroup, ToolbarButton, ToolbarIconButton, ToolbarItem, ToolbarSeparator} from './toolbar';
+import {TabbedSidebar} from './tabbedSidebar';
 
 export {
     List,
@@ -9,4 +10,5 @@ export {
     ToolbarButton,
     ToolbarIconButton,
     ToolbarSeparator,
+    TabbedSidebar,
 };

@@ -1,6 +1,6 @@
 import styles from './RightSidebar.module.css';
 import React, {useState} from 'react';
-import {TabbedSidebar} from '../../../entities/tabbedSidebar';
+import {TabbedSidebar} from '../../../shared/ui';
 import {BsBorderOuter, BsGridFill, BsPlayCircleFill} from 'react-icons/bs';
 
 const allTabs = [
