@@ -1,6 +1,7 @@
-import {selectWorkspacePath, useEditorContext} from '../../../entities/editor';
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect, useState} from 'react';
+import useEditorContext from './useEditorContext.js';
+import {selectWorkspacePath} from '../../model/workspaceSlice.js';
 
 export default function useWorkspace() {
     let editorContext = useEditorContext();

@@ -2,9 +2,8 @@ import styles from './EditorContainer.module.css';
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import useWorkspace from '../lib/useWorkspace.js';
 import {useDispatch} from 'react-redux';
-import {setWorkspacePath} from '../../../entities/editor';
+import {setWorkspacePath, useWorkspace} from '../../../entities/editor';
 
 EditorContainer.propTypes = {
     className: PropTypes.any,
