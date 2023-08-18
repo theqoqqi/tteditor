@@ -1,30 +1,33 @@
 import {useDispatch, useSelector} from 'react-redux';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import useEditorContext from './useEditorContext.js';
-import {selectWorkspacePath} from '../../model/workspaceSlice.js';
+import {
+    finishLoadingWorkspace,
+    selectError,
+    selectIsLoading,
+    selectLoadingPath,
+    selectWorkspacePath,
+    startLoadingWorkspace
+} from '../../model/workspaceSlice.js';
 
 export default function useWorkspace() {
     let editorContext = useEditorContext();
-    let workspacePath = useSelector(selectWorkspacePath);
     let dispatch = useDispatch();
-    let [startedWorkspace, setStartedWorkspace] = useState(null);
-    let [loadedWorkspace, setLoadedWorkspace] = useState(null);
-    let [isLoading, setIsLoading] = useState(false);
-    let [error, setError] = useState(null);
+    let workspacePath = useSelector(selectWorkspacePath);
+    let loadingPath = useSelector(selectLoadingPath);
+    let isLoading = useSelector(selectIsLoading);
+    let error = useSelector(selectError);
 
     useEffect(() => {
         if (isLoading) {
             return;
         }
 
-        if (startedWorkspace === workspacePath) {
+        if (loadingPath === workspacePath) {
             return;
         }
 
-        setIsLoading(true);
-        setLoadedWorkspace(null);
-        setError(null);
-        setStartedWorkspace(workspacePath);
+        dispatch(startLoadingWorkspace(workspacePath));
 
         (async () => {
 
@@ -34,26 +37,31 @@ export default function useWorkspace() {
                 if (response.status === 'OK') {
                     await editorContext.reloadDataFromServer();
 
-                    setLoadedWorkspace(workspacePath);
+                    dispatch(finishLoadingWorkspace());
                 } else {
-                    setError(response);
+                    dispatch(finishLoadingWorkspace({
+                        error: response,
+                    }));
                 }
             } catch (e) {
                 try {
-                    setError(JSON.parse(e.message));
+                    dispatch(finishLoadingWorkspace({
+                        error: JSON.parse(e.message),
+                    }));
                 } catch (parseError) {
-                    setError({
-                        message: e.message,
-                    });
+                    dispatch(finishLoadingWorkspace({
+                        error: {
+                            message: e.message,
+                        },
+                    }));
                 }
             }
-
-            setIsLoading(false);
         })();
-    }, [dispatch, editorContext, workspacePath, isLoading, loadedWorkspace, startedWorkspace]);
+    }, [dispatch, editorContext, workspacePath, isLoading, loadingPath]);
 
     return {
-        path: loadedWorkspace,
+        path: workspacePath,
+        loadingPath,
         isLoading,
         error,
     };
