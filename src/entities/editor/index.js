@@ -48,6 +48,8 @@ import {
     setLayerVisible,
 } from './model/layersSlice.js';
 import {selectWorkspacePath, setWorkspacePath, workspaceSlice} from './model/workspaceSlice.js';
+import {pointerModeSlice, selectPointerMode, setPointerMode} from './model/pointerModeSlice.js';
+import pointerModes from './model/pointerModes.js';
 
 export {
     useMap,
@@ -77,6 +79,11 @@ export {
     selectIsLayerVisible,
     setVisibleLayers,
     setLayerVisible,
+
+    pointerModeSlice,
+    selectPointerMode,
+    setPointerMode,
+    pointerModes,
 
     styling,
     colorsUtils,
