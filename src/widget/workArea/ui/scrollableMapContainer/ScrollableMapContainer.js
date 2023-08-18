@@ -1,16 +1,15 @@
 import styles from './ScrollableMapContainer.module.css';
 import React from 'react';
 import ScrollContainer from 'react-indiana-drag-scroll';
-import {useMap} from '../../../../entities/editor';
+import {useMap, usePointerMode} from '../../../../entities/editor';
 import MapContainer from '../mapContainer/MapContainer.js';
-
-let MIDDLE_MOUSE_BUTTON = 1;
 
 function ScrollableMapContainer() {
     let map = useMap();
+    let pointerMode = usePointerMode();
 
     return (
-        <ScrollContainer className={styles.scrollableMapContainer} buttons={[MIDDLE_MOUSE_BUTTON]}>
+        <ScrollContainer className={styles.scrollableMapContainer} buttons={pointerMode.scrollButtons}>
             <div className={styles.overscrollArea}>
                 {map && <MapContainer />}
             </div>

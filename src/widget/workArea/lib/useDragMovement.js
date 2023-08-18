@@ -1,4 +1,4 @@
-import {MoveNodesCommand, useEditor, useEditorContext} from '../../../entities/editor';
+import {MoveNodesCommand, useEditor, useEditorContext, usePointerMode} from '../../../entities/editor';
 import {useCallback, useState} from 'react';
 import usePointerDrag from './usePointerDrag.js';
 
@@ -9,6 +9,7 @@ function position(x, y) {
 export default function useDragMovement(selectedMapNodes) {
     let editor = useEditor();
     let editorContext = useEditorContext();
+    let pointerMode = usePointerMode();
     let [dragStep, setDragStep] = useState(null);
     let [executedDrag, setExecutedDrag] = useState(null);
 
@@ -40,7 +41,7 @@ export default function useDragMovement(selectedMapNodes) {
     }, [editor, selectedMapNodes, dragStep, executedDrag]);
 
     let onPointerDown = usePointerDrag({
-        button: 0,
+        button: pointerMode.dragButton,
         shouldStart,
         onStart,
         onMove,
