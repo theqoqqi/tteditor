@@ -12,7 +12,7 @@ const VIEW_MODE = 'VIEW_MODE';
 function WorkspaceStatus() {
     let [mode, setMode] = useState(VIEW_MODE);
     let dispatch = useDispatch();
-    let { path, loadingPath, isLoading } = useWorkspace();
+    let { workspacePath, loadingPath, isLoading } = useWorkspace();
 
     let isInViewMode = !isLoading && mode === VIEW_MODE;
     let isInEditMode = !isLoading && mode === EDIT_MODE;
@@ -31,7 +31,7 @@ function WorkspaceStatus() {
         <ToolbarGroup className={styles.workspaceStatus}>
             {isLoading && `Загрузка: ${loadingPath}`}
             {isInViewMode && <WorkspaceView onEdit={onEdit} />}
-            {isInEditMode && <WorkspaceEditor initialPath={path} onSave={onSave} />}
+            {isInEditMode && <WorkspaceEditor initialPath={workspacePath} onSave={onSave} />}
         </ToolbarGroup>
     );
 }

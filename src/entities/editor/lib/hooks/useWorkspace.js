@@ -8,7 +8,7 @@ export default function useWorkspace() {
     let error = useSelector(selectError);
 
     return {
-        path: workspacePath,
+        workspacePath,
         loadingPath,
         isLoading,
         error,

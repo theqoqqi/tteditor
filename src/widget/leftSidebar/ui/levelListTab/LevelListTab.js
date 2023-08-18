@@ -5,10 +5,10 @@ import {useAsync} from 'react-use';
 
 function LevelListTab() {
     let editor = useEditor();
-    let { path } = useWorkspace();
+    let { workspacePath } = useWorkspace();
     let [levels, setLevels] = useState([]);
     let [selected, setSelected] = useState(null);
-    let asyncLevelList = useAsync(() => editor.loadLevelList(), [editor, path]);
+    let asyncLevelList = useAsync(() => editor.loadLevelList(), [editor, workspacePath]);
     let isLevelDirty = useEditorObserver('isLevelDirty');
 
     useEffect(() => {
