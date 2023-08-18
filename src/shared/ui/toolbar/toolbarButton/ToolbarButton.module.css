@@ -1,6 +1,6 @@
 
 .toolbarButton {
-
+    padding: 0 8px;
 }
 
 .toolbarButton.disabled:hover {
