@@ -3,6 +3,7 @@ import useEditor from './lib/hooks/useEditor.js';
 import useEditorContext from './lib/hooks/useEditorContext.js';
 import useRenderContext from './lib/hooks/useRenderContext.js';
 import useWorkspace from './lib/hooks/useWorkspace.js';
+import usePointerMode from './lib/hooks/usePointerMode.js';
 import useNodeXml from './lib/hooks/useNodeXml.js';
 import useObserver from './lib/hooks/useObserver.js';
 import useListObserver from './lib/hooks/useListObserver.js';
@@ -52,6 +53,7 @@ export {
     useEditorContext,
     useRenderContext,
     useWorkspace,
+    usePointerMode,
     useNodeXml,
     useObserver,
     useListObserver,
