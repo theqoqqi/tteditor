@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {useDispatch} from 'react-redux';
-import {setWorkspacePath, useWorkspace} from '../../../entities/editor';
+import {setWorkspacePath} from '../../../entities/editor';
 
 EditorContainer.propTypes = {
     className: PropTypes.any,
@@ -15,25 +15,11 @@ EditorContainer.propTypes = {
 };
 
 function EditorContainer({ className, top, left, center, right, bottom }) {
-    let { isLoading, error } = useWorkspace();
     let dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(setWorkspacePath('test'));
     }, []);
-
-    if (error) {
-        return (
-            <div>
-                Не удалось загрузить рабочее пространство:
-                {error?.message ?? error?.reason ?? JSON.stringify(error, null, 4)}
-            </div>
-        );
-    }
-
-    if (isLoading) {
-        return <div>Загрузка рабочего пространства...</div>;
-    }
 
     return (
         <div className={classNames(styles.editorContainer, className)}>
