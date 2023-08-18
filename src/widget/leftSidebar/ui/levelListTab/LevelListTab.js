@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {LevelList} from '../../../../entities/levelList';
 import {useEditor, useEditorObserver, useWorkspace} from '../../../../entities/editor';
 import {useAsync} from 'react-use';
+import {useLoadLevel} from '../../../../features/level';
 
 function LevelListTab() {
     let editor = useEditor();
@@ -10,6 +11,7 @@ function LevelListTab() {
     let [selected, setSelected] = useState(null);
     let asyncLevelList = useAsync(() => editor.loadLevelList(), [editor, workspacePath]);
     let isLevelDirty = useEditorObserver('isLevelDirty');
+    let loadLevel = useLoadLevel();
 
     useEffect(() => {
         setLevels(asyncLevelList.value);
@@ -17,7 +19,7 @@ function LevelListTab() {
 
     useEffect(() => {
         if (selected) {
-            editor.loadLevel(selected.path)
+            loadLevel(selected.path)
                 .catch(e => console.error(e));
         }
     }, [editor, selected]);
