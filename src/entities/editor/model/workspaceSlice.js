@@ -1,4 +1,7 @@
-import {createSelector, createSlice} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSelector, createSlice} from '@reduxjs/toolkit';
+import editorInstance from '../lib/instance.js';
+
+const editorContext = editorInstance.context;
 
 const initialState = {
     currentPath: null,
@@ -7,27 +10,47 @@ const initialState = {
     error: null,
 };
 
+export const setWorkspacePath = createAsyncThunk(
+    'workspace/setWorkspacePath',
+    async (workspacePath, { rejectWithValue }) => {
+        let response = await editorContext.setWorkspacePath(workspacePath);
+
+        if (response.status !== 'OK') {
+            return rejectWithValue({
+                error: response,
+            });
+        }
+
+        await editorContext.reloadDataFromServer();
+
+        return workspacePath;
+    }
+);
+
 export const workspaceSlice = createSlice({
     name: 'workspace',
     initialState,
-    reducers: {
-        setWorkspacePath(state, action) {
-            state.currentPath = action.payload;
-        },
-        startLoadingWorkspace(state, action) {
-            state.isLoading = true;
-            state.loadingPath = action.payload;
-            state.error = null;
-        },
-        finishLoadingWorkspace(state, action) {
-            if (action.payload?.error) {
-                state.error = action.payload.error;
-            } else {
-                state.currentPath = state.loadingPath;
+    reducers: {},
+    extraReducers: {
+        [setWorkspacePath.pending]: (state, action) => {
+            if (state.isLoading) {
+                return;
             }
 
+            state.isLoading = true;
+            state.loadingPath = action.meta.arg;
+            state.error = null;
+        },
+        [setWorkspacePath.fulfilled]: (state, action) => {
+            state.currentPath = action.payload;
             state.isLoading = false;
-        }
+        },
+        [setWorkspacePath.rejected]: (state, action) => {
+            state.error = {
+                error: JSON.parse(action.error.message),
+            };
+            state.isLoading = false;
+        },
     },
 });
 
@@ -52,9 +75,3 @@ export const selectError = createSelector(
     selectSelf,
     state => state.error
 );
-
-export const {
-    setWorkspacePath,
-    startLoadingWorkspace,
-    finishLoadingWorkspace,
-} = workspaceSlice.actions;
