@@ -1,7 +1,7 @@
 import styles from './ToolbarIconButton.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import ToolbarItem from '../toolbarItem/ToolbarItem.js';
+import ToolbarButton from '../toolbarButton/ToolbarButton.js';
 import classNames from 'classnames';
 
 ToolbarIconButton.propTypes = {
@@ -18,18 +18,19 @@ function ToolbarIconButton({ title, icon, toggle, active, disabled, onClick }) {
     let Icon = icon;
 
     return (
-        <ToolbarItem
+        <ToolbarButton
             title={title}
             className={classNames(styles.toolbarIconButton, {
-                [styles.disabled]: disabled,
                 [styles.toggle]: toggle,
                 [styles.active]: active,
             })}
+            toggle={toggle}
+            active={active}
             disabled={disabled}
-            onClick={() => disabled ? null : onClick()}
+            onClick={onClick}
         >
             <Icon className={styles.icon} />
-        </ToolbarItem>
+        </ToolbarButton>
     );
 }
 
