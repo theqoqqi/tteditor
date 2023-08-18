@@ -34,19 +34,14 @@ import SetTerrainCommand from './core/commands/map/SetTerrainCommand.js';
 import SetTriggerEnabledCommand from './core/commands/map/SetTriggerEnabledCommand.js';
 import SetTriggerPropertyCommand from './core/commands/map/SetTriggerPropertyCommand.js';
 import {
+    addToSelection,
+    clearSelection,
+    removeFromSelection,
     selectionSlice,
     selectSelectedMapNodes,
-    setSelection,
-    clearSelection,
-    addToSelection,
-    removeFromSelection
+    setSelection
 } from './model/selectionSlice.js';
-import {
-    layersSlice,
-    selectIsLayerVisible,
-    setVisibleLayers,
-    setLayerVisible,
-} from './model/layersSlice.js';
+import {layersSlice, selectIsLayerVisible, setLayerVisible, setVisibleLayers} from './model/layersSlice.js';
 import {selectWorkspacePath, setWorkspacePath, workspaceSlice} from './model/workspaceSlice.js';
 import {pointerModeSlice, selectPointerMode, setPointerMode} from './model/pointerModeSlice.js';
 import pointerModes from './model/pointerModes.js';
