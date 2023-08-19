@@ -1,0 +1,44 @@
+
+.tabs {
+    display: flex;
+
+    z-index: 110000;
+}
+
+
+
+.tabs.left {
+    flex-direction: row;
+}
+
+.tabs.right {
+    flex-direction: row-reverse;
+}
+
+.tabs.top {
+    flex-direction: column;
+}
+
+.tabs.bottom {
+    flex-direction: column-reverse;
+}
+
+
+
+.left > .tabList {
+    flex-direction: column;
+    border-right: 1px solid #aaa;
+}
+
+.right > .tabList {
+    flex-direction: column;
+    border-left: 1px solid #aaa;
+}
+
+.top > .tabList {
+    border-bottom: 1px solid #aaa;
+}
+
+.bottom > .tabList {
+    border-top: 1px solid #aaa;
+}

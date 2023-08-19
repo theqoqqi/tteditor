@@ -1,0 +1,26 @@
+
+.tab {
+    display: flex;
+    flex-direction: column;
+
+    flex: 0;
+
+    padding: 0;
+
+    color: #444;
+    background-color: transparent;
+    text-decoration: none;
+    border: none;
+
+    cursor: pointer;
+    user-select: none;
+}
+
+.tab:hover {
+    background-color: #ccc;
+}
+
+.tab.selected {
+    background-color: #999;
+    color: white;
+}
