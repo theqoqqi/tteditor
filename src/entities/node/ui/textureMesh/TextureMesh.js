@@ -1,8 +1,9 @@
 import styles from './TextureMesh.module.css';
 import React from 'react';
-import {styling, useRenderContext} from '../../../../entities/editor';
+import {useRenderContext} from '../../../../entities/editor';
 import PropTypes from 'prop-types';
 import {getMeshXml} from '../../lib/xmlUtils.js';
+import {createMeshStyles} from '../../lib/cssUtils.js';
 
 TextureMesh.propTypes = {
     tag: PropTypes.string,
@@ -19,7 +20,7 @@ function TextureMesh({ tag, type, nodeXml, zIndex }) {
     let meshXml = getMeshXml(nodeXml);
 
     let texturePath = renderContext.getTexturePath(nodeXml);
-    let style = styling.createMeshStyles(renderContext, tag, type, nodeXml, meshXml);
+    let style = createMeshStyles(renderContext, tag, type, nodeXml, meshXml);
 
     return (
         <img

@@ -3,9 +3,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {getChildNodeXmls} from '../../lib/xmlUtils.js';
 import ObjectMeshes from './objectMeshes/ObjectMeshes.js';
-import {MapNode, styling, useEditorContext, useObserver, useRenderContext} from '../../../../entities/editor';
+import {MapNode, useEditorContext, useObserver, useRenderContext} from '../../../../entities/editor';
 import ObjectSelectionBox from './objectSelectionBox/ObjectSelectionBox.js';
 import classNames from 'classnames';
+import {createObjectNodeStyles} from '../../lib/cssUtils.js';
 
 ObjectNode.propTypes = {
     className: PropTypes.any,
@@ -31,7 +32,7 @@ function ObjectNode({ className, mapNode, nodeXml, isChild = false, zIndex, sele
     useObserver(mapNode, 'y');
 
     let {x, y, z} = renderContext.getCoordsForNode(tag, mapNode, nodeXml, isChild, zIndex);
-    let style = styling.createObjectNodeStyles(x, y);
+    let style = createObjectNodeStyles(x, y);
     let title = editorContext.getLocalizedHint(mapNode.hint);
     let childNodeXmls = getChildNodeXmls(nodeXml);
 

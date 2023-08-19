@@ -2,7 +2,8 @@ import styles from './SelectionBox.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {styling, useRenderContext} from '../../../../entities/editor';
+import {useRenderContext} from '../../../../entities/editor';
+import {createSelectionBoxStyles} from '../../lib/cssUtils.js';
 
 SelectionBox.propTypes = {
     bounds: PropTypes.shape({
@@ -19,7 +20,7 @@ function SelectionBox({ bounds, selected }) {
     let renderContext = useRenderContext();
 
     let zIndex = renderContext.getSelectionBoxZIndex(width, height);
-    let style = styling.createSelectionBoxStyles(x, y, width, height, zIndex);
+    let style = createSelectionBoxStyles(x, y, width, height, zIndex);
 
     return (
         <div

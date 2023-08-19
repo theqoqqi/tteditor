@@ -1,8 +1,9 @@
 import styles from './MarkerMesh.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {styling, xmlUtils} from '../../../../entities/editor';
+import {xmlUtils} from '../../../../entities/editor';
 import classNames from 'classnames';
+import {createMarkerMeshStyles} from '../../lib/cssUtils.js';
 
 MarkerMesh.propTypes = {
     variant: PropTypes.oneOf(['fallback', 'icon', 'area', 'name', 'caption']),
@@ -20,7 +21,7 @@ function MarkerMesh({ variant, className, style, children, meshXml, size, sizeX,
     let width = sizeX ?? size ?? xmlUtils.getNumericContent(meshXml, 'width');
     let height = sizeY ?? size ?? xmlUtils.getNumericContent(meshXml, 'height');
 
-    let meshStyle = styling.createMarkerMeshStyles(width, height);
+    let meshStyle = createMarkerMeshStyles(width, height);
 
     return (
         <div

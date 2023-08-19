@@ -1,12 +1,13 @@
 import styles from './MarkerNode.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {MapNode, styling, useObserver, useRenderContext} from '../../../../entities/editor';
+import {MapNode, useObserver, useRenderContext} from '../../../../entities/editor';
 import MarkerMesh from '../markerMesh/MarkerMesh.js';
 import MeshIcon from '../markerMesh/meshIcon/MeshIcon.js';
 import MarkerSelectionBox from './markerSelectionBox/MarkerSelectionBox.js';
 import markerMeshStyles from '../markerMeshStyles.js';
 import classNames from 'classnames';
+import {createMarkerNodeStyles} from '../../lib/cssUtils.js';
 
 MarkerNode.propTypes = {
     className: PropTypes.any,
@@ -32,7 +33,7 @@ function MarkerNode({ className, mapNode, selected, nodeProps }) {
 
     let zIndex = layerZ - radiusX;
 
-    let style = styling.createMarkerNodeStyles(x - radiusX, y - radiusY, radiusX, radiusY);
+    let style = createMarkerNodeStyles(x - radiusX, y - radiusY, radiusX, radiusY);
     let tagStyles = markerMeshStyles[tag];
 
     return (

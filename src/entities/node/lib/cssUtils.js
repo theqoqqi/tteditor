@@ -1,30 +1,22 @@
-import {createBoxVertices} from '../../core/util/geometry.js';
-import {getTransformMatrix, transpose} from '../../core/util/matrix.js';
-import {getTextContent} from '../../core/util/xml.js';
-import {
-    colorToCssRgba,
-    hexIntColorToColor,
-    hsbaColorToCssFilters,
-    rgbaColorToHsbaColor
-} from '../../core/util/colors.js';
+import {geometryUtils, matrixUtils, xmlUtils, colorsUtils} from '../../editor';
 
 function createTransform(width, height, renderContext, meshXml) {
-    let initialVertices = createBoxVertices(0, 0, width, height);
+    let initialVertices = geometryUtils.createBoxVertices(0, 0, width, height);
     let targetVertices = renderContext.getMeshTargetVertices(meshXml);
 
-    let matrix = getTransformMatrix(initialVertices, targetVertices);
+    let matrix = matrixUtils.getTransformMatrix(initialVertices, targetVertices);
 
-    return `matrix3d(${transpose(matrix).flatMap(row => row).join(',')})`;
+    return `matrix3d(${matrixUtils.transpose(matrix).flatMap(row => row).join(',')})`;
 }
 
 function createColorStyles(nodeXml, hasTexture) {
-    let intColor = getTextContent(nodeXml, 'mesh > color');
+    let intColor = xmlUtils.getTextContent(nodeXml, 'mesh > color');
 
     if (!intColor) {
         return null;
     }
 
-    let color = hexIntColorToColor(intColor);
+    let color = colorsUtils.hexIntColorToColor(intColor);
 
     return hasTexture
         ? createTintStyle(color)
@@ -32,8 +24,8 @@ function createColorStyles(nodeXml, hasTexture) {
 }
 
 function createTintStyle(rgba) {
-    let hsba = rgbaColorToHsbaColor(rgba);
-    let cssFilters = hsbaColorToCssFilters(hsba);
+    let hsba = colorsUtils.rgbaColorToHsbaColor(rgba);
+    let cssFilters = colorsUtils.hsbaColorToCssFilters(hsba);
 
     return {
         filter: cssFilters,
@@ -42,7 +34,7 @@ function createTintStyle(rgba) {
 
 function createBackgroundStyle(rgba) {
     return {
-        backgroundColor: colorToCssRgba(rgba),
+        backgroundColor: colorsUtils.colorToCssRgba(rgba),
     };
 }
 
