@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {ToolbarIconButton} from '../../../../shared/ui';
-import {pointerModes, selectPointerMode, setPointerMode} from '../../../../entities/editor';
-import {useDispatch, useSelector} from 'react-redux';
+import {pointerModes, selectPointerMode} from '../../../../entities/editor';
+import {useSelector} from 'react-redux';
+import {useSetPointerMode} from '../../../../features/pointerMode';
 
 PointerModeButton.propTypes = {
     mode: PropTypes.string,
@@ -11,11 +12,11 @@ PointerModeButton.propTypes = {
 function PointerModeButton({ mode }) {
     let pointerMode = pointerModes[mode];
     let activePointerMode = useSelector(selectPointerMode);
-    let dispatch = useDispatch();
+    let setPointerMode = useSetPointerMode();
     let isActive = pointerMode.name === activePointerMode;
 
     function togglePointerMode() {
-        dispatch(setPointerMode(pointerMode.name));
+        setPointerMode(mode);
     }
 
     return (
