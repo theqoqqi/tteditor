@@ -3,7 +3,7 @@ import React from 'react';
 import NodeList from './nodeList/NodeList.js';
 import {selectIsLayerVisible, selectSelectedMapNodes, useMap} from '../../../../entities/editor';
 import {useSelector} from 'react-redux';
-import useSelectMapNodeCallback from '../../lib/useSelectOnClickCallback.js';
+import useSelectMapNodeCallback from '../../lib/useSelectMapNodeCallback.js';
 import useArrowMovement from '../../lib/useArrowMovement.js';
 import useDragMovement from '../../lib/useDragMovement.js';
 import {useSelectorWithParams} from '../../../../shared/lib';
