@@ -1,0 +1,10 @@
+
+.palette {
+    flex: 1;
+
+    max-height: 100%;
+}
+
+.tabList {
+    background-color: #eee;
+}

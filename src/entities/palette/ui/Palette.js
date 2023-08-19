@@ -1,0 +1,36 @@
+import styles from './Palette.module.css';
+import React from 'react';
+import PropTypes from 'prop-types';
+import {Tabs} from '../../../shared/ui';
+import tabs from '../lib/tabs.js';
+import PaletteTab from './paletteTab/PaletteTab.js';
+import PaletteTabContent from './paletteTabContent/PaletteTabContent.js';
+
+Palette.propTypes = {
+    selectedTab: PropTypes.number,
+    onSelectTab: PropTypes.func,
+};
+
+function Palette({ selectedTab, onSelectTab }) {
+
+    let mappedTabs = tabs.map(tab => ({
+        key: tab.configName,
+        tab: <PaletteTab title={tab.title} icon={tab.icon} />,
+        content: <PaletteTabContent configName={tab.configName} nodeTags={tab.nodeTags} />,
+    }));
+
+    return (
+        <Tabs
+            side='top'
+            className={styles.palette}
+            classes={{
+                tabList: styles.tabList,
+            }}
+            selectedTab={selectedTab}
+            onSelect={onSelectTab}
+            tabs={mappedTabs}
+        />
+    );
+}
+
+export default Palette;

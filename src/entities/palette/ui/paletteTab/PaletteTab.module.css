@@ -1,0 +1,22 @@
+
+.paletteTab {
+    display: flex;
+    flex-direction: column;
+
+    width: 75px;
+    height: 50px;
+    padding: 0;
+
+    text-align: center;
+}
+
+.paletteTab .title {
+    font-size: 14px;
+}
+
+.paletteTab .icon {
+    margin: auto 0;
+
+    font-size: 20px;
+    line-height: 1;
+}
