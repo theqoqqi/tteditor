@@ -1,4 +1,5 @@
 import {
+    BsBoxes,
     BsCircle,
     BsHouseFill,
     BsLayersFill,
@@ -56,6 +57,10 @@ let tags = {
     area: {
         title: 'Зоны',
         icon: BsCircle,
+    },
+    composition: {
+        title: 'Группы',
+        icon: BsBoxes,
     },
 };
 
