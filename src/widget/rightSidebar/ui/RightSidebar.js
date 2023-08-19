@@ -1,22 +1,22 @@
 import styles from './RightSidebar.module.css';
 import React, {useState} from 'react';
-import {TabbedSidebar} from '../../../shared/ui';
 import {BsBorderOuter, BsGridFill, BsPlayCircleFill} from 'react-icons/bs';
+import {SidebarTab, Tabs} from '../../../shared/ui';
 
 const allTabs = [
     {
-        title: 'Элементы',
-        icon: <BsGridFill />,
+        key: 'nodeList',
+        tab: <SidebarTab side='right' title='Элементы' icon={<BsGridFill />} />,
         content: <b>Элементы</b>,
     },
     {
-        title: 'Триггеры',
-        icon: <BsPlayCircleFill />,
+        key: 'triggerList',
+        tab: <SidebarTab side='right' title='Триггеры' icon={<BsPlayCircleFill />} />,
         content: <b>Триггеры</b>,
     },
     {
-        title: 'Карта',
-        icon: <BsBorderOuter />,
+        key: 'mapOptions',
+        tab: <SidebarTab side='right' title='Карта' icon={<BsBorderOuter />} />,
         content: <b>Карта</b>,
     },
 ];
@@ -25,9 +25,12 @@ function RightSidebar() {
     let [selectedTab, setSelectedTab] = useState(0);
 
     return (
-        <TabbedSidebar
-            contentClassName={styles.rightSidebarContent}
+        <Tabs
             side='right'
+            classes={{
+                tabList: styles.tabList,
+                tabContent: styles.tabContent,
+            }}
             selectedTab={selectedTab}
             onSelect={setSelectedTab}
             tabs={allTabs}

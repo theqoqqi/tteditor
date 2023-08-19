@@ -1,23 +1,23 @@
 import styles from './LeftSidebar.module.css';
 import React, {useState} from 'react';
-import {TabbedSidebar} from '../../../shared/ui';
 import {BsArrow90DegLeft, BsFolderFill, BsGripVertical} from 'react-icons/bs';
 import LevelListTab from './levelListTab/LevelListTab.js';
+import {SidebarTab, Tabs} from '../../../shared/ui';
 
 const allTabs = [
     {
-        title: 'Список карт',
-        icon: <BsFolderFill />,
+        key: 'levelList',
+        tab: <SidebarTab side='left' title='Список карт' icon={<BsFolderFill />} />,
         content: <LevelListTab />,
     },
     {
-        title: 'Палитра',
-        icon: <BsGripVertical />,
+        key: 'palette',
+        tab: <SidebarTab side='left' title='Палитра' icon={<BsGripVertical />} />,
         content: <b>Палитра</b>,
     },
     {
-        title: 'Изменения',
-        icon: <BsArrow90DegLeft />,
+        key: 'commandList',
+        tab: <SidebarTab side='left' title='Изменения' icon={<BsArrow90DegLeft />} />,
         content: <b>Изменения</b>,
     },
 ];
@@ -26,9 +26,12 @@ function LeftSidebar() {
     let [selectedTab, setSelectedTab] = useState(0);
 
     return (
-        <TabbedSidebar
-            contentClassName={styles.leftSidebarContent}
+        <Tabs
             side='left'
+            classes={{
+                tabList: styles.tabList,
+                tabContent: styles.tabContent,
+            }}
             selectedTab={selectedTab}
             onSelect={setSelectedTab}
             tabs={allTabs}

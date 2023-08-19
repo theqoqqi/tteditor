@@ -1,4 +1,8 @@
 
-.rightSidebarContent {
+.tabList {
+    width: 24px;
+}
+
+.tabContent {
     width: 400px;
 }
