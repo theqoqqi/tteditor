@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {BsArrow90DegLeft, BsFolderFill, BsGripVertical} from 'react-icons/bs';
 import LevelListTab from './levelListTab/LevelListTab.js';
 import {SidebarTab, Tabs} from '../../../shared/ui';
+import PaletteTab from './paletteTab/PaletteTab.js';
 
 const allTabs = [
     {
@@ -13,7 +14,7 @@ const allTabs = [
     {
         key: 'palette',
         tab: <SidebarTab side='left' title='Палитра' icon={<BsGripVertical />} />,
-        content: <b>Палитра</b>,
+        content: <PaletteTab />,
     },
     {
         key: 'commandList',
