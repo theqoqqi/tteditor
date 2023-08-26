@@ -13,20 +13,21 @@ TextureMesh.propTypes = {
         PropTypes.instanceOf(Element),
     ]),
     zIndex: PropTypes.number,
+    style: PropTypes.object,
 };
 
-function TextureMesh({ tag, type, nodeXml, zIndex }) {
+function TextureMesh({ tag, type, nodeXml, zIndex, style }) {
     let renderContext = useRenderContext();
     let meshXml = getMeshXml(nodeXml);
 
     let texturePath = renderContext.getTexturePath(nodeXml);
-    let style = createMeshStyles(renderContext, tag, type, nodeXml, meshXml);
+    let meshStyle = createMeshStyles(renderContext, tag, type, nodeXml, meshXml);
 
     return (
         <img
             className={styles.mesh}
             src={texturePath ?? '/img/empty.png'}
-            style={{...style, ...{zIndex}}}
+            style={{...meshStyle, ...{zIndex}, ...style}}
             alt=''
         />
     );
