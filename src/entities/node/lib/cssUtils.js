@@ -73,12 +73,21 @@ export function createMeshStyles(renderContext, tag, type, nodeXml, meshXml) {
     };
 }
 
-export function createMarkerMeshStyles(width, height) {
+export function createMarkerMeshStyles(width, height, hexIntColor) {
+    let backgroundStyle = {};
+
+    if (hexIntColor) {
+        let rgba = colorsUtils.hexIntColorToColor(hexIntColor);
+
+        backgroundStyle = createBackgroundStyle(rgba);
+    }
+
     return {
         left: -width / 2,
         top: -height / 2,
         width: width,
         height: height,
+        ...backgroundStyle,
     };
 }
 

@@ -20,8 +20,9 @@ MarkerMesh.propTypes = {
 function MarkerMesh({ variant, className, style, children, meshXml, size, sizeX, sizeY, zIndex }) {
     let width = sizeX ?? size ?? xmlUtils.getNumericContent(meshXml, 'width');
     let height = sizeY ?? size ?? xmlUtils.getNumericContent(meshXml, 'height');
+    let color = xmlUtils.getTextContent(meshXml, 'color');
 
-    let meshStyle = createMarkerMeshStyles(width, height);
+    let meshStyle = createMarkerMeshStyles(width, height, color);
 
     return (
         <div
