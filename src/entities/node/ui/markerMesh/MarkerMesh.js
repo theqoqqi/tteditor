@@ -25,12 +25,12 @@ function MarkerMesh({ variant, className, style, children, tag, meshXml, size, s
     let color = xmlUtils.getTextContent(meshXml, 'color');
 
     let meshStyle = createMarkerMeshStyles(width, height, color);
-    let tagStyles = markerMeshStyles[tag]?.[variant];
+    let tagStyles = markerMeshStyles[tag]?.[variant] ?? {};
 
     return (
         <div
-            className={classNames(styles.markerMesh, styles[variant], className)}
-            style={{...meshStyle, tagStyles, ...style, ...{zIndex}}}
+            className={classNames(styles.markerMesh, styles[variant], styles[tag], className)}
+            style={{...meshStyle, ...tagStyles, ...style, ...{zIndex}}}
         >
             {children}
         </div>

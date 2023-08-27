@@ -3,7 +3,7 @@
 
 }
 
-.markerMesh:not(.fallback) {
+.markerMesh:not(.terrain) {
     position: absolute;
     border-radius: 50%;
 
