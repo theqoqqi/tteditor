@@ -4,6 +4,7 @@ import {useRenderContext} from '../../../../entities/editor';
 import PropTypes from 'prop-types';
 import {getMeshXml} from '../../lib/xmlUtils.js';
 import {createMeshStyles} from '../../lib/cssUtils.js';
+import {useAsync} from 'react-use';
 
 TextureMesh.propTypes = {
     tag: PropTypes.string,
@@ -19,15 +20,18 @@ TextureMesh.propTypes = {
 function TextureMesh({ tag, type, nodeXml, zIndex, style }) {
     let renderContext = useRenderContext();
     let meshXml = getMeshXml(nodeXml);
+    let asyncMeshStyle = useAsync(
+        async () => await createMeshStyles(renderContext, tag, type, nodeXml, meshXml),
+        [renderContext, tag, type, nodeXml, meshXml]
+    );
 
     let texturePath = renderContext.getTexturePath(nodeXml);
-    let meshStyle = createMeshStyles(renderContext, tag, type, nodeXml, meshXml);
 
     return (
         <img
             className={styles.mesh}
             src={texturePath ?? '/img/empty.png'}
-            style={{...meshStyle, ...{zIndex}, ...style}}
+            style={{...asyncMeshStyle.value, ...{zIndex}, ...style}}
             alt=''
         />
     );

@@ -52,8 +52,8 @@ export function createMarkerNodeStyles(x, y, radiusX, radiusY) {
     };
 }
 
-export function createMeshStyles(renderContext, tag, type, nodeXml, meshXml) {
-    let frameBounds = renderContext.getDefaultFrameBoundsFor(tag, type, nodeXml);
+export async function createMeshStyles(renderContext, tag, type, nodeXml, meshXml) {
+    let frameBounds = await renderContext.getDefaultFrameBoundsFor(tag, type, nodeXml);
     let x = frameBounds.x;
     let y = frameBounds.y;
     let width = frameBounds.width;

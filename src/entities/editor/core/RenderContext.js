@@ -67,8 +67,8 @@ export default class RenderContext {
         return src.startsWith('data') ? src : 'data/' + src;
     }
 
-    getDefaultFrameBoundsFor(tagName, typeName, nodeXml) {
-        let rootNodeXml = this.context.getNodeXmlByName(tagName, typeName);
+    async getDefaultFrameBoundsFor(tagName, typeName, nodeXml) {
+        let rootNodeXml = await this.context.getNodeXmlByName(tagName, typeName);
 
         if (rootNodeXml !== nodeXml) {
             return this.getFrameBoundsFor(nodeXml, 0);
