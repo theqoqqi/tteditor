@@ -18,6 +18,8 @@ export default class EditorContext {
 
     palette = null;
 
+    loadingXmlFiles = {};
+
     loadedXmlFiles = {};
 
     nodeTagToConfigNameMap = {
@@ -424,6 +426,7 @@ export default class EditorContext {
     }
 
     forgetFile(filename) {
+        this.loadingXmlFiles[filename] = null;
         this.loadedXmlFiles[filename] = null;
     }
 
@@ -435,11 +438,23 @@ export default class EditorContext {
         }
 
         let parser = new DOMParser();
-        let responseText = await this.get('files', {
+
+        if (this.loadingXmlFiles[filename]) {
+            let responseText = await this.loadingXmlFiles[filename];
+
+            return parser.parseFromString(responseText, 'text/xml');
+        }
+
+        let promise = this.get('files', {
             path: filename,
         });
 
+        this.loadingXmlFiles[filename] = promise;
+
+        let responseText = await promise;
+
         this.loadedXmlFiles[filename] = parser.parseFromString(responseText, 'text/xml');
+        this.loadingXmlFiles[filename] = null;
 
         return this.loadedXmlFiles[filename];
     }
