@@ -48,6 +48,20 @@ export default class EditorContext {
         composition: 'composition',
     };
 
+    nodeTagToLayerNameMap = {
+        terrain: 'terrain',
+        landmark: 'landmark',
+        building: 'building',
+        structure: 'structure',
+        unit: 'unit',
+        item: 'item',
+        chest: 'item',
+        magic: 'magic',
+        ambient: 'ambient',
+        area: 'area',
+        waypoint: 'waypoint',
+    };
+
     constructor(serverUrl) {
         this.serverUrl = serverUrl;
         this.currentAudio = null;
@@ -365,6 +379,10 @@ export default class EditorContext {
         let markerTagNames = this.getMarkerTagNames();
 
         return [...simpleTagNames.concat(markerTagNames)];
+    }
+
+    getLayerNameByTagName(tagName) {
+        return this.nodeTagToLayerNameMap[tagName];
     }
 
     getLayerTagNames() {
