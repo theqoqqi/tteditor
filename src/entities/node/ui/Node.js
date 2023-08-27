@@ -21,7 +21,8 @@ function Node({ mapNode, selected, onClick, onPointerDown, hidden, highlight }) 
     let tag = useObserver(mapNode, 'tag');
     let type = useObserver(mapNode, 'type');
     let nodeXml = useNodeXml(tag, type);
-    let isLayerVisible = useSelectorWithParams(selectIsLayerVisible, tag);
+    let layerName = editorContext.getConfigTagNameByTagName(tag);
+    let isLayerVisible = useSelectorWithParams(selectIsLayerVisible, layerName);
 
     let nodeProps = {
         onClick: () => onClick(mapNode),
