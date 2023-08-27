@@ -21,17 +21,15 @@ function Node({ mapNode, selected, onClick, onPointerDown, hidden, highlight }) 
     let tag = useObserver(mapNode, 'tag');
     let type = useObserver(mapNode, 'type');
     let nodeXml = useNodeXml(tag, type);
-    let layerName = editorContext.getConfigTagNameByTagName(tag);
-    let isLayerVisible = useSelectorWithParams(selectIsLayerVisible, layerName);
 
     let nodeProps = {
-        onClick: () => onClick(mapNode),
+        onClick: () => onClick?.(mapNode),
         onPointerDown: e => onPointerDown?.(e, { mapNode, isSelected: selected }),
     };
 
     let commonProps = {
         className: classNames({
-            [styles.hidden]: hidden || !isLayerVisible,
+            [styles.hidden]: hidden,
             [styles.highlight]: highlight,
         }),
         selected,
