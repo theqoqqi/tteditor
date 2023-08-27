@@ -386,11 +386,9 @@ export default class EditorContext {
     }
 
     getLayerTagNames() {
-        let allTagNames = [...this.getAllTagNames()];
+        let layerNames = Object.values(this.nodeTagToLayerNameMap);
 
-        allTagNames.unshift('terrain');
-
-        return allTagNames.filter(tagName => tagName !== 'chest');
+        return layerNames.filter((layerName, index, array) => array.indexOf(layerName) === index);
     }
 
     async setWorkspacePath(workspacePath) {
