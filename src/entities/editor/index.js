@@ -41,7 +41,13 @@ import {
     selectSelectedMapNodes,
     setSelection
 } from './model/selectionSlice.js';
-import {layersSlice, selectIsLayerVisible, setLayerVisible, setVisibleLayers} from './model/layersSlice.js';
+import {
+    layersSlice,
+    selectIsLayerVisible,
+    selectVisibleLayers,
+    setLayerVisible,
+    setVisibleLayers
+} from './model/layersSlice.js';
 import {selectWorkspacePath, setWorkspacePath, workspaceSlice} from './model/workspaceSlice.js';
 import {pointerModeSlice, selectPointerMode, setPointerMode} from './model/pointerModeSlice.js';
 import pointerModes from './model/pointerModes.js';
@@ -72,6 +78,7 @@ export {
     removeFromSelection,
 
     layersSlice,
+    selectVisibleLayers,
     selectIsLayerVisible,
     setVisibleLayers,
     setLayerVisible,

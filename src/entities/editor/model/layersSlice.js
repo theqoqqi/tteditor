@@ -30,6 +30,11 @@ export const layersSlice = createSlice({
 
 const selectSelf = state => state[layersSlice.name];
 
+export const selectVisibleLayers = createSelector(
+    selectSelf,
+    state => state.visibleLayers
+);
+
 export const selectIsLayerVisible = createSelector(
     [
         selectSelf,
