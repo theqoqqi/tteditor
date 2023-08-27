@@ -5,7 +5,6 @@ import {MapNode, useObserver, useRenderContext} from '../../../../entities/edito
 import MarkerMesh from '../markerMesh/MarkerMesh.js';
 import MeshIcon from '../markerMesh/meshIcon/MeshIcon.js';
 import MarkerSelectionBox from './markerSelectionBox/MarkerSelectionBox.js';
-import markerMeshStyles from '../markerMeshStyles.js';
 import classNames from 'classnames';
 import {createMarkerNodeStyles} from '../../lib/cssUtils.js';
 
@@ -34,7 +33,6 @@ function MarkerNode({ className, mapNode, selected, nodeProps }) {
     let zIndex = layerZ - radiusX;
 
     let style = createMarkerNodeStyles(x - radiusX, y - radiusY, radiusX, radiusY);
-    let tagStyles = markerMeshStyles[tag];
 
     return (
         <div
@@ -45,24 +43,25 @@ function MarkerNode({ className, mapNode, selected, nodeProps }) {
             {hasArea && (
                 <MarkerMesh
                     variant='area'
+                    tag={tag}
                     sizeX={radiusX * 2}
                     sizeY={radiusY * 2}
                     zIndex={zIndex}
-                    style={tagStyles?.area}
                 />
             )}
             {hasIcon && (
                 <MarkerMesh
                     variant='icon'
+                    tag={tag}
                     size={iconRadius * 2}
                     zIndex={zIndex}
                     children={<MeshIcon tag={tag} />}
-                    style={tagStyles?.icon}
                 />
             )}
             {hasText && (
                 <MarkerMesh
                     variant={hasIcon ? 'caption' : 'name'}
+                    tag={tag}
                     zIndex={zIndex}
                     children={name || type}
                 />

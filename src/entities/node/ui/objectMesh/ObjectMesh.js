@@ -36,7 +36,7 @@ function ObjectMesh({ tag, type, nodeXml, zIndex, style }) {
     }
 
     if (!getTextureXml(nodeXml)) {
-        return <MarkerMesh variant='fallback' meshXml={meshXml} zIndex={zIndex} style={style} />;
+        return <MarkerMesh variant='fallback' tag={tag} meshXml={meshXml} zIndex={zIndex} style={style} />;
     }
 
     return <TextureMesh tag={tag} type={type} nodeXml={nodeXml} zIndex={zIndex} style={style} />;
