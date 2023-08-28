@@ -38,12 +38,7 @@ export function fillBoundsFields(bounds) {
 }
 
 export function shiftBounds(bounds, x, y) {
-    bounds.x += x;
-    bounds.y += y;
-    bounds.minX += x;
-    bounds.minY += y;
-    bounds.maxX += x;
-    bounds.maxY += y;
+    return createBoundsWithSize(bounds.x + x, bounds.y + y, bounds.width, bounds.height);
 }
 
 export function combineBounds(listOfBounds) {
