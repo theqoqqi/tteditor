@@ -41,7 +41,7 @@ export function shiftBounds(bounds, x, y) {
     return createBoundsWithSize(bounds.x + x, bounds.y + y, bounds.width, bounds.height);
 }
 
-export function combineBounds(listOfBounds) {
+export function combineBounds(...listOfBounds) {
     let aggregateFunc = (array, funcName, propertyName) => {
         let mapped = array.map(item => item[propertyName]);
 
