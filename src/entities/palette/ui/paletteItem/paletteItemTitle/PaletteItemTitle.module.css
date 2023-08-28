@@ -1,0 +1,18 @@
+
+.paletteItemTitle {
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+    width: 64px;
+
+    font-size: 11px;
+    line-height: 12px;
+
+    background: rgba(255, 255, 255, 0.5);
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    z-index: 10;
+}

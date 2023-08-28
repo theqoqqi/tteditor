@@ -1,0 +1,31 @@
+
+.paletteItemPreview {
+    position: relative;
+
+    width: 64px;
+    height: 64px;
+}
+
+.paletteItemPreview > i {
+    display: block;
+
+    width: 64px;
+
+    font-size: 32px;
+    line-height: 64px;
+
+    text-align: center;
+}
+
+.paletteItemPreview img {
+    position: absolute;
+}
+
+.scalingWrapper {
+    position: absolute;
+
+    left: 32px;
+    top: 32px;
+    width: 0;
+    height: 0;
+}

@@ -1,4 +1,16 @@
 
 .paletteTabContent {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: space-between;
 
+    flex: 1;
+
+    overflow: hidden scroll;
+}
+
+.paletteTabContent::after {
+    content: '';
+    flex: auto;
 }

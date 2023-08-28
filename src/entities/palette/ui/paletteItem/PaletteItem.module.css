@@ -1,0 +1,33 @@
+
+.paletteItem {
+    /* available horizontal space for items: 283px (300px - 17px for scrollbar) */
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+
+    width: 70px;
+    height: 82px;
+
+    margin-bottom: 1px;
+
+    background-color: white;
+    border: 3px solid transparent;
+}
+
+.paletteItem:hover {
+    background-color: lightgray;
+
+    z-index: 200;
+}
+
+.paletteItem:hover .title {
+    white-space: break-spaces;
+    word-break: break-all;
+}
+
+.paletteItem.selected {
+    border-color: dodgerblue;
+
+    z-index: 100;
+}
