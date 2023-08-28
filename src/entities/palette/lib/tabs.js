@@ -1,5 +1,4 @@
 import {getPluralTagTitle, getTagIconComponent} from '../../../shared/lib';
-import React from 'react';
 
 const tabs = [
     createTab('terrain', 'terrain'),
