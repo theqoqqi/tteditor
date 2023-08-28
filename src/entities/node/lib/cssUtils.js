@@ -4,6 +4,10 @@ function createTransform(width, height, renderContext, meshXml) {
     let initialVertices = geometryUtils.createBoxVertices(0, 0, width, height);
     let targetVertices = renderContext.getMeshTargetVertices(meshXml);
 
+    if (!targetVertices) {
+        return null;
+    }
+
     let matrix = matrixUtils.getTransformMatrix(initialVertices, targetVertices);
 
     return `matrix3d(${matrixUtils.transpose(matrix).flatMap(row => row).join(',')})`;

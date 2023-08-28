@@ -22,7 +22,9 @@ function ObjectSelectionBox({ nodeXml, selected }) {
     if (selectableMeshXml) {
         let targetVertices = renderContext.getMeshTargetVertices(selectableMeshXml);
 
-        meshBounds = geometryUtils.verticesToBounds(targetVertices);
+        if (targetVertices) {
+            meshBounds = geometryUtils.verticesToBounds(targetVertices);
+        }
     } else {
         let radiusX = ICON_MESH_SIZE / 2;
         let radiusY = ICON_MESH_SIZE / 2;

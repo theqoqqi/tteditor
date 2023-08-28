@@ -133,6 +133,11 @@ export default class RenderContext {
 
         let width = getNumericContent(meshXml, 'width');
         let height = getNumericContent(meshXml, 'height');
+
+        if (width === null || height === null) {
+            return null;
+        }
+
         let anchorX = getNumericContent(meshXml, 'anchorx', width / 2);
         let anchorY = getNumericContent(meshXml, 'anchory', height / 2);
         let boundWidth = getNumericContent(meshXml, 'boundwidth', width);
