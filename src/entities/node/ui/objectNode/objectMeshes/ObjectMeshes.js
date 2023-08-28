@@ -31,7 +31,7 @@ function ObjectMeshes({ tag, type, mapNode, isChild, nodeXml, zIndex }) {
         let { radiusX, radiusY } = renderContext.getAreaRadiusSizesFor(mapNode);
 
         return <>
-            {radiusX && radiusY && (
+            {radiusX > 0 && radiusY > 0 && (
                 <MarkerMesh
                     variant='area'
                     tag={tag}
