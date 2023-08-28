@@ -1,7 +1,7 @@
 import styles from './PaletteItemPreview.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {MeshIcon} from '../../../../node';
+import {MeshIcon} from '../../../../../entities/node';
 
 PaletteItemPreview.propTypes = {
     nodeMetadata: PropTypes.instanceOf(Element),

@@ -2,7 +2,7 @@ import styles from './PaletteTabContent.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {useEditorContext, useWorkspace} from '../../../editor';
-import PaletteItem from '../paletteItem/PaletteItem.js';
+import {PaletteItem} from '../../../../features/palette/item';
 
 PaletteTabContent.propTypes = {
     configName: PropTypes.string,
