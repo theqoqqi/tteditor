@@ -3,7 +3,7 @@ import {createBoundsWithSize, createBoxVertices, flipVertices, swapVertices} fro
 
 let COORDS_RATIO = 78 / 128;
 
-// noinspection CssInvalidHtmlTagReference
+// noinspection CssInvalidHtmlTagReference,JSMethodCanBeStatic
 export default class RenderContext {
 
     constructor(context) {

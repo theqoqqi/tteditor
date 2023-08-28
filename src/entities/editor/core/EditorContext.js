@@ -5,7 +5,7 @@ import {hexIntColorToColor} from './util/colors.js';
 import MapReader from './MapReader.js';
 import MapWriter from './MapWriter.js';
 
-// noinspection CssInvalidHtmlTagReference
+// noinspection CssInvalidHtmlTagReference,JSMethodCanBeStatic
 export default class EditorContext {
 
     serverUrl = null;
