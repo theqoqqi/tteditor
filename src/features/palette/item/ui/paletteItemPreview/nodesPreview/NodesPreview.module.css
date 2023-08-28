@@ -1,0 +1,14 @@
+
+.nodesPreview:not(.visible) {
+    visibility: hidden;
+}
+
+.nodesPreview.visible {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.nodesPreview * {
+    pointer-events: none;
+    user-select: none;
+}
