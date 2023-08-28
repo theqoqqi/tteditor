@@ -1,5 +1,5 @@
 import styles from './Palette.module.css';
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {Tabs} from '../../../shared/ui';
 import tabs from '../lib/tabs.js';
@@ -9,15 +9,15 @@ import PaletteTabContent from './paletteTabContent/PaletteTabContent.js';
 Palette.propTypes = {
     selectedTab: PropTypes.number,
     onSelectTab: PropTypes.func,
+    tabFiller: PropTypes.func,
 };
 
-function Palette({ selectedTab, onSelectTab }) {
-
-    let mappedTabs = tabs.map(tab => ({
+function Palette({ selectedTab, onSelectTab, tabFiller }) {
+    let [mappedTabs] = useState(() => tabs.map(tab => ({
         key: tab.configName,
         tab: <PaletteTab title={tab.title} icon={tab.icon} />,
-        content: <PaletteTabContent configName={tab.configName} />,
-    }));
+        content: <PaletteTabContent children={tabFiller(tab.configName)} />,
+    })));
 
     return (
         <Tabs
