@@ -16,7 +16,7 @@ function Palette({ selectedTab, onSelectTab }) {
     let mappedTabs = tabs.map(tab => ({
         key: tab.configName,
         tab: <PaletteTab title={tab.title} icon={tab.icon} />,
-        content: <PaletteTabContent configName={tab.configName} nodeTags={tab.nodeTags} />,
+        content: <PaletteTabContent configName={tab.configName} />,
     }));
 
     return (
