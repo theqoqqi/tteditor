@@ -77,8 +77,27 @@ export default function useRescaleNodesToFitPreview(ref, nodeMetadata) {
             height: 0,
             opacity: 1,
             transform: `scale(${scale})`,
-            transition: 'all .3s',
+            transition: createTransition(),
         };
+    }
+
+    function createTransition() {
+        const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+
+        if (isChrome) {
+            /*
+            * В некоторых случаях, комбинация некоторых css-свойств в хроме приводит к странному багу:
+            * когда определенные элементы с такими стилями попадают на экран, визуально интерфейс зависает.
+            * При этом интерфейс реагирует на курсор и можно прокрутить палитру обратно, таким образом убрав
+            * элемент, вызывающий баг. Тогда интерфейс снова вернется рабочее состояние.
+            *
+            * Точную комбинацию выяснить не удалось, но как минимум этот набор полей влияет на наличие бага:
+            * clip, transform и transition: transform.
+            * */
+            return 'opacity .3s';
+        }
+
+        return 'all .3s';
     }
 
     function applyStyles(newStyles) {
