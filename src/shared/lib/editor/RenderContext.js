@@ -3,14 +3,14 @@ import {createBoundsWithSize, createBoxVertices, flipVertices, swapVertices} fro
 
 let COORDS_RATIO = 78 / 128;
 
-// noinspection CssInvalidHtmlTagReference,JSMethodCanBeStatic
+// noinspection CssInvalidHtmlTagReference
 export default class RenderContext {
 
     constructor(context) {
         this.context = context;
     }
 
-    getIconRadius(tagName) {
+    static getIconRadius(tagName) {
         if (tagName === 'area') {
             return 0;
         }
@@ -22,10 +22,10 @@ export default class RenderContext {
         let declaredRadius = this.getDeclaredRadius(mapNode) ?? 0;
         let applyRatio = mapNode.type !== 'Reveal200';
 
-        return this.getRadiusSizes(declaredRadius, applyRatio);
+        return RenderContext.#getRadiusSizes(declaredRadius, applyRatio);
     }
 
-    getRadiusSizes(radius, applyRatio) {
+    static #getRadiusSizes(radius, applyRatio) {
         const radiusX = radius;
         const radiusY = radius * (applyRatio ? COORDS_RATIO : 1);
 
@@ -57,7 +57,7 @@ export default class RenderContext {
         return +result[1] ?? 0;
     }
 
-    getTexturePath(nodeXml) {
+    static getTexturePath(nodeXml) {
         let src = getTextContent(nodeXml, 'texture');
 
         if (!src) {
@@ -119,12 +119,12 @@ export default class RenderContext {
         return createBoundsWithSize(x, y, width, height);
     }
 
-    getMeshTargetVertices(meshXml) {
+    static getMeshTargetVertices(meshXml) {
         let flipX = getNumericContent(meshXml, 'fliphorizontal', 0);
         let flipY = getNumericContent(meshXml, 'flipvertical', 0);
 
         if (meshXml.querySelector('vertex1')) {
-            let vertices = this.parseMeshVertices(meshXml);
+            let vertices = RenderContext.parseMeshVertices(meshXml);
 
             swapVertices(vertices, flipX, flipY);
 
@@ -163,7 +163,7 @@ export default class RenderContext {
         return vertices;
     }
 
-    parseMeshVertices(meshXml) {
+    static parseMeshVertices(meshXml) {
         let vertex1 = meshXml.querySelector('vertex1');
         let vertex2 = meshXml.querySelector('vertex2');
         let vertex3 = meshXml.querySelector('vertex3');
@@ -193,7 +193,7 @@ export default class RenderContext {
             z += -Math.ceil(absoluteZ) * signZ;
         }
 
-        let layerZ = this.getLayerZForTagName(tagName);
+        let layerZ = RenderContext.getLayerZForTagName(tagName);
 
         if (hasParent) {
             if (meshZIndex !== null) {
@@ -221,14 +221,14 @@ export default class RenderContext {
         return {x, y, z};
     }
 
-    getSelectionBoxZIndex(width, height) {
+    static getSelectionBoxZIndex(width, height) {
         let layerZ = 80000;
         let weight = Math.ceil(width + height);
 
         return layerZ - weight;
     }
 
-    getLayerZForTagName(tagName) {
+    static getLayerZForTagName(tagName) {
         let layers = {
             landmark: 10000,
             structure: 20000,
@@ -245,7 +245,7 @@ export default class RenderContext {
         return layers[tagName];
     }
 
-    getOrderForTagName(tagName) {
+    static getOrderForTagName(tagName) {
         let layers = {
             landmark: 1,
             structure: 2,

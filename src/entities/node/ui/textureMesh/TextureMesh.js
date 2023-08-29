@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {getMeshXml} from '../../lib/xmlUtils.js';
 import {createMeshStyles} from '../../lib/cssUtils.js';
 import {useAsync} from 'react-use';
+import {RenderContext} from '../../../../shared/lib/index.js';
 
 TextureMesh.propTypes = {
     tag: PropTypes.string,
@@ -25,7 +26,7 @@ function TextureMesh({ tag, type, nodeXml, zIndex, style }) {
         [renderContext, tag, type, nodeXml, meshXml]
     );
 
-    let texturePath = renderContext.getTexturePath(nodeXml);
+    let texturePath = RenderContext.getTexturePath(nodeXml);
 
     return (
         <img

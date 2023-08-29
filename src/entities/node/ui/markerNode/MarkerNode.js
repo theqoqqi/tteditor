@@ -2,7 +2,7 @@ import styles from './MarkerNode.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {useObserver, useRenderContext} from '../../../../entities/editor';
-import {MapNode} from '../../../../shared/lib';
+import {MapNode, RenderContext} from '../../../../shared/lib';
 import MarkerMesh from '../markerMesh/MarkerMesh.js';
 import MeshIcon from '../markerMesh/meshIcon/MeshIcon.js';
 import MarkerSelectionBox from './markerSelectionBox/MarkerSelectionBox.js';
@@ -24,8 +24,8 @@ function MarkerNode({ className, mapNode, selected, nodeProps }) {
     let type = useObserver(mapNode, 'type');
     let name = useObserver(mapNode, 'name');
 
-    let layerZ = renderContext.getLayerZForTagName(tag);
-    let iconRadius = renderContext.getIconRadius(tag);
+    let layerZ = RenderContext.getLayerZForTagName(tag);
+    let iconRadius = RenderContext.getIconRadius(tag);
     let {radiusX, radiusY} = renderContext.getAreaRadiusSizesFor(mapNode);
     let hasArea = radiusX > 0 && radiusY > 0;
     let hasIcon = iconRadius > 0;

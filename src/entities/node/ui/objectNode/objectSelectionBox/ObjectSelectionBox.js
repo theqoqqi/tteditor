@@ -2,8 +2,7 @@ import React from 'react';
 import {getMeshXml} from '../../../lib/xmlUtils.js';
 import SelectionBox from './../../selectionBox/SelectionBox.js';
 import PropTypes from 'prop-types';
-import {useRenderContext} from '../../../../../entities/editor';
-import {geometryUtils} from '../../../../../shared/lib';
+import {geometryUtils, RenderContext} from '../../../../../shared/lib';
 
 let ICON_MESH_SIZE = 24;
 
@@ -16,12 +15,11 @@ ObjectSelectionBox.propTypes = {
 };
 
 function ObjectSelectionBox({ nodeXml, selected }) {
-    let renderContext = useRenderContext();
     let selectableMeshXml = getMeshXml(nodeXml);
     let meshBounds;
 
     if (selectableMeshXml) {
-        let targetVertices = renderContext.getMeshTargetVertices(selectableMeshXml);
+        let targetVertices = RenderContext.getMeshTargetVertices(selectableMeshXml);
 
         if (targetVertices) {
             meshBounds = geometryUtils.verticesToBounds(targetVertices);

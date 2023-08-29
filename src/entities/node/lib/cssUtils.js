@@ -1,8 +1,8 @@
-import {geometryUtils, matrixUtils, xmlUtils, colorsUtils} from '../../../shared/lib';
+import {geometryUtils, matrixUtils, xmlUtils, colorsUtils, RenderContext} from '../../../shared/lib';
 
 function createTransform(width, height, renderContext, meshXml) {
     let initialVertices = geometryUtils.createBoxVertices(0, 0, width, height);
-    let targetVertices = renderContext.getMeshTargetVertices(meshXml);
+    let targetVertices = RenderContext.getMeshTargetVertices(meshXml);
 
     if (!targetVertices) {
         return null;
@@ -62,7 +62,7 @@ export async function createMeshStyles(renderContext, tag, type, nodeXml, meshXm
     let y = frameBounds.y;
     let width = frameBounds.width;
     let height = frameBounds.height;
-    let hasTexture = renderContext.getTexturePath(nodeXml) !== null;
+    let hasTexture = RenderContext.getTexturePath(nodeXml) !== null;
 
     let transform = createTransform(width, height, renderContext, meshXml);
     let colorStyles = createColorStyles(nodeXml, hasTexture);
