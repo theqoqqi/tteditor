@@ -2,7 +2,7 @@ import styles from './Map.module.css';
 import React from 'react';
 import NodeList from './nodeList/NodeList.js';
 import {selectSelectedMapNodes} from '../../../../entities/editor';
-import {useMap} from '../../../../shared/lib';
+import {useMap, useMapObserver} from '../../../../shared/lib';
 import {useSelector} from 'react-redux';
 import useSelectMapNodeCallback from '../../lib/useSelectMapNodeCallback.js';
 import useArrowMovement from '../../lib/useArrowMovement.js';
@@ -11,6 +11,7 @@ import Terrain from './terrain/Terrain.js';
 
 function Map() {
     let map = useMap();
+    let terrain = useMapObserver('terrain');
     let selectedMapNodes = useSelector(selectSelectedMapNodes);
     let onClickMapNode = useSelectMapNodeCallback();
     let onPointerDown = useDragMovement(selectedMapNodes);
@@ -28,7 +29,7 @@ function Map() {
 
     return (
         <div className={styles.map} style={style}>
-            <Terrain terrain={map.terrain} />
+            <Terrain terrain={terrain} />
             <NodeList
                 selectedMapNodes={selectedMapNodes}
                 onClickMapNode={onClickMapNode}
