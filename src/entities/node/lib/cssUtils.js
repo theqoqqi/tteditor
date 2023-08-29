@@ -1,46 +1,5 @@
-import {geometryUtils, matrixUtils, xmlUtils, colorsUtils, RenderContext} from '../../../shared/lib';
-
-function createTransform(width, height, renderContext, meshXml) {
-    let initialVertices = geometryUtils.createBoxVertices(0, 0, width, height);
-    let targetVertices = RenderContext.getMeshTargetVertices(meshXml);
-
-    if (!targetVertices) {
-        return null;
-    }
-
-    let matrix = matrixUtils.getTransformMatrix(initialVertices, targetVertices);
-
-    return `matrix3d(${matrixUtils.transpose(matrix).flatMap(row => row).join(',')})`;
-}
-
-function createColorStyles(nodeXml, hasTexture) {
-    let intColor = xmlUtils.getTextContent(nodeXml, 'mesh > color');
-
-    if (!intColor) {
-        return null;
-    }
-
-    let color = colorsUtils.hexIntColorToColor(intColor);
-
-    return hasTexture
-        ? createTintStyle(color)
-        : createBackgroundStyle(color);
-}
-
-function createTintStyle(rgba) {
-    let hsba = colorsUtils.rgbaColorToHsbaColor(rgba);
-    let cssFilters = colorsUtils.hsbaColorToCssFilters(hsba);
-
-    return {
-        filter: cssFilters,
-    };
-}
-
-function createBackgroundStyle(rgba) {
-    return {
-        backgroundColor: colorsUtils.colorToCssRgba(rgba),
-    };
-}
+import {colorsUtils, RenderContext} from '../../../shared/lib';
+import {createBackgroundStyle, createColorStyles, createTransform} from '../../../shared/lib/cssUtils.js';
 
 export function createObjectNodeStyles(x, y) {
     return {
