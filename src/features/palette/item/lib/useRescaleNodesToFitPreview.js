@@ -1,6 +1,5 @@
 import {useState} from 'react';
-import {useEditorContext} from '../../../../entities/editor';
-import {EditorContext, geometryUtils, xmlUtils} from '../../../../shared/lib';
+import {EditorContext, geometryUtils, useEditorContext, xmlUtils} from '../../../../shared/lib';
 import {useTimeoutFn} from 'react-use';
 
 let ICON_SIZE = 64;

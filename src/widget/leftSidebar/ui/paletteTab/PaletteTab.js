@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Palette} from '../../../../entities/palette';
-import {useEditorContext, useWorkspace} from '../../../../entities/editor';
+import {useWorkspace} from '../../../../entities/editor';
+import {useEditorContext} from '../../../../shared/lib';
 import {PaletteItem} from '../../../../features/palette';
 
 function PaletteTab() {

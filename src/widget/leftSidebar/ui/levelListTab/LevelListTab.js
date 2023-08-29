@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {LevelList} from '../../../../entities/levelList';
-import {useEditor, useEditorObserver, useWorkspace} from '../../../../entities/editor';
+import {useWorkspace} from '../../../../entities/editor';
+import {useEditor, useEditorObserver} from '../../../../shared/lib';
 import {useAsync} from 'react-use';
 import {useLoadLevel} from '../../../../features/level';
 

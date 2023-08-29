@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSelector, createSlice} from '@reduxjs/toolkit';
-import editorInstance from '../lib/instance.js';
+import {editorInstance} from '../../../shared/lib';
 
 const editorContext = editorInstance.context;
 

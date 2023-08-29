@@ -1,7 +1,8 @@
 import styles from './ScrollableMapContainer.module.css';
 import React from 'react';
 import ScrollContainer from 'react-indiana-drag-scroll';
-import {useMap, usePointerMode} from '../../../../entities/editor';
+import {usePointerMode} from '../../../../entities/editor';
+import {useMap} from '../../../../shared/lib';
 import MapContainer from '../mapContainer/MapContainer.js';
 
 function ScrollableMapContainer() {

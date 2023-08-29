@@ -1,8 +1,7 @@
 import styles from './MarkerNode.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {useObserver, useRenderContext} from '../../../../entities/editor';
-import {MapNode, RenderContext} from '../../../../shared/lib';
+import {MapNode, RenderContext, useObserver, useRenderContext} from '../../../../shared/lib';
 import MarkerMesh from '../markerMesh/MarkerMesh.js';
 import MeshIcon from '../markerMesh/meshIcon/MeshIcon.js';
 import MarkerSelectionBox from './markerSelectionBox/MarkerSelectionBox.js';

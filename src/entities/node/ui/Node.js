@@ -1,8 +1,7 @@
 import styles from './Node.module.css';
 import React, {memo} from 'react';
 import PropTypes from 'prop-types';
-import {useNodeXml, useObserver} from '../../../entities/editor';
-import {EditorContext, MapNode} from '../../../shared/lib';
+import {EditorContext, MapNode, useNodeXml, useObserver} from '../../../shared/lib';
 import ObjectNode from './objectNode/ObjectNode.js';
 import MarkerNode from './markerNode/MarkerNode.js';
 import classNames from 'classnames';

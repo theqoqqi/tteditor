@@ -1,11 +1,10 @@
 import styles from './TextureMesh.module.css';
 import React from 'react';
-import {useRenderContext} from '../../../../entities/editor';
+import {RenderContext, useRenderContext} from '../../../../shared/lib';
 import PropTypes from 'prop-types';
 import {getMeshXml} from '../../lib/xmlUtils.js';
 import {createMeshStyles} from '../../lib/cssUtils.js';
 import {useAsync} from 'react-use';
-import {RenderContext} from '../../../../shared/lib/index.js';
 
 TextureMesh.propTypes = {
     tag: PropTypes.string,

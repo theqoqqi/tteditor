@@ -1,10 +1,10 @@
 import {useContext} from 'react';
-import Context from './../context.js';
+import Context from '../../context/context.js';
 
-export default function useRenderContext() {
+export default function useEditor() {
     // noinspection UnnecessaryLocalVariableJS
     /** @type Editor */
     let editor = useContext(Context);
 
-    return editor.renderContext;
+    return editor;
 }

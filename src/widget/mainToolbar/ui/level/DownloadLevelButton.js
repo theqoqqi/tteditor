@@ -2,7 +2,7 @@ import React from 'react';
 import {ToolbarIconButton} from '../../../../shared/ui';
 import {BsFileEarmarkArrowDownFill} from 'react-icons/bs';
 import {useDownloadLevel} from '../../../../features/level';
-import {useEditor, useMap} from '../../../../entities/editor';
+import {useEditor, useMap} from '../../../../shared/lib';
 
 function DownloadLevelButton() {
     let editor = useEditor();

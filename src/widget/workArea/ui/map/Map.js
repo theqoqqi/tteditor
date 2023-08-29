@@ -1,7 +1,8 @@
 import styles from './Map.module.css';
 import React from 'react';
 import NodeList from './nodeList/NodeList.js';
-import {selectSelectedMapNodes, useMap} from '../../../../entities/editor';
+import {selectSelectedMapNodes} from '../../../../entities/editor';
+import {useMap} from '../../../../shared/lib';
 import {useSelector} from 'react-redux';
 import useSelectMapNodeCallback from '../../lib/useSelectMapNodeCallback.js';
 import useArrowMovement from '../../lib/useArrowMovement.js';

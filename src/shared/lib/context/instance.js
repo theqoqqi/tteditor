@@ -1,4 +1,4 @@
-import {Editor, EditorContext} from '../../../shared/lib';
+import {Editor, EditorContext} from '../index.js';
 
 async function createEditor() {
     let SERVER_URL = 'http://localhost:4000';

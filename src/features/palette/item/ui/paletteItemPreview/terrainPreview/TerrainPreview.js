@@ -1,8 +1,7 @@
 import React, {useLayoutEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {ObjectMesh} from '../../../../../../entities/node';
-import {useNodeXml} from '../../../../../../entities/editor';
-import {xmlUtils} from '../../../../../../shared/lib';
+import {useNodeXml, xmlUtils} from '../../../../../../shared/lib';
 
 let ICON_SIZE = 64;
 

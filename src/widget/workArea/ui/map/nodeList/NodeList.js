@@ -1,9 +1,9 @@
 import styles from './NodeList.module.css';
 import React from 'react';
-import {selectVisibleLayers, useMapObserver} from '../../../../../entities/editor';
+import {selectVisibleLayers} from '../../../../../entities/editor';
 import {Node} from '../../../../../entities/node';
 import {useSelector} from 'react-redux';
-import {EditorContext} from '../../../../../shared/lib';
+import {EditorContext, useMapObserver} from '../../../../../shared/lib';
 
 function NodeList({ selectedMapNodes, onClickMapNode, onPointerDown }) {
     /** @type MapNode[] */

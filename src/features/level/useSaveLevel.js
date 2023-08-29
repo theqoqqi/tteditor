@@ -1,4 +1,4 @@
-import {useEditor} from '../../entities/editor';
+import {useEditor} from '../../shared/lib';
 import {useCallback} from 'react';
 
 export default function useSaveLevel() {

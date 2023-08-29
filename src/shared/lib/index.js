@@ -32,6 +32,17 @@ import * as colorsUtils from './editor/util/colors.js';
 import * as geometryUtils from './editor/util/geometry.js';
 import * as matrixUtils from './editor/util/matrix.js';
 import * as xmlUtils from './editor/util/xml.js';
+import useMap from './hooks/editor/useMap.js';
+import useEditor from './hooks/editor/useEditor.js';
+import useEditorContext from './hooks/editor/useEditorContext.js';
+import useRenderContext from './hooks/editor/useRenderContext.js';
+import useNodeXml from './hooks/editor/useNodeXml.js';
+import useObserver from './hooks/editor/useObserver.js';
+import useListObserver from './hooks/editor/useListObserver.js';
+import useMapObserver from './hooks/editor/useMapObserver.js';
+import useEditorObserver from './hooks/editor/useEditorObserver.js';
+import editorInstance from './context/instance.js';
+import EditorProvider from './context/provider.js';
 
 export {
     getPluralTagTitle,
@@ -74,4 +85,17 @@ export {
     geometryUtils,
     matrixUtils,
     xmlUtils,
+
+    useMap,
+    useEditor,
+    useEditorContext,
+    useRenderContext,
+    useNodeXml,
+    useObserver,
+    useListObserver,
+    useMapObserver,
+    useEditorObserver,
+
+    editorInstance,
+    EditorProvider,
 };

@@ -1,5 +1,4 @@
-import {useEditor, useEditorContext, useMap} from '../../entities/editor';
-import {xmlUtils} from '../../shared/lib';
+import {useEditor, useEditorContext, useMap, xmlUtils} from '../../shared/lib';
 import {useCallback} from 'react';
 
 export default function useDownloadLevel() {

@@ -1,5 +1,5 @@
 import {useAsync} from 'react-use';
-import {useEditorContext} from '../../index.js';
+import useEditorContext from './useEditorContext.js';
 
 export default function useNodeXml(tag, type) {
     let context = useEditorContext();
