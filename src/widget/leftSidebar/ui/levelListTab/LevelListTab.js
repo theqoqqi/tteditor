@@ -23,7 +23,7 @@ function LevelListTab() {
             loadLevel(selected.path)
                 .catch(e => console.error(e));
         }
-    }, [editor, selected]);
+    }, [editor, selected, loadLevel]);
 
     return (
         <LevelList
