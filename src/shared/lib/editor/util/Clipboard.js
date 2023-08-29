@@ -9,7 +9,6 @@ export default class Clipboard {
         this.xmlSerializer = new XMLSerializer();
         this.domParser = new DOMParser();
         this.mapWriter = new MapWriter();
-        this.mapReader = new MapReader();
 
         this.mapWriter.init();
     }
@@ -32,7 +31,7 @@ export default class Clipboard {
         let mapNodeXmlElements = xmlDocument.querySelectorAll(`:scope > *`);
 
         return Array.from(mapNodeXmlElements).map(element => {
-            return this.mapReader.createNodeFromElement(element);
+            return MapReader.createNodeFromElement(element);
         });
     }
 

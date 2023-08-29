@@ -150,7 +150,7 @@ export default class EditorContext {
     }
 
     createMapNodeFromElement(element) {
-        return this.reader.createNodeFromElement(element);
+        return MapReader.createNodeFromElement(element);
     }
 
     getPaletteItemList(tagName) {

@@ -46,7 +46,7 @@ export default class MapReader {
 
     readOptions() {
         let optionsElement = this.mapXml.querySelector('options');
-        let options = this.createOptionsFromElement(optionsElement);
+        let options = MapReader.createOptionsFromElement(optionsElement);
 
         this.map.setOptions(options);
     }
@@ -88,13 +88,13 @@ export default class MapReader {
         for (const tagName of tagNames) {
             let nodeElements = this.mapXml.querySelectorAll(`:scope > ${tagName}`);
             for (let nodeElement of nodeElements) {
-                let node = this.createNodeFromElement(nodeElement);
+                let node = MapReader.createNodeFromElement(nodeElement);
                 this.map.addNode(node);
             }
         }
     }
 
-    createOptionsFromElement(element) {
+    static createOptionsFromElement(element) {
         let options = new MapOptions();
 
         options.id = getNumericContent(element, 'id');
@@ -129,14 +129,14 @@ export default class MapReader {
     createStatementsFromContent(content) {
         let lines = content.split('\n').filter(line => line.trim().length > 0);
 
-        let commonStart = this.getCommonStartPart(lines);
+        let commonStart = MapReader.#getCommonStartPart(lines);
 
         return lines.map(line => {
             return line.slice(commonStart.length);
         });
     }
 
-    createNodeFromElement(element) {
+    static createNodeFromElement(element) {
         let tag = element.tagName;
         let x = +element.getAttribute('x');
         let y = +element.getAttribute('y');
@@ -153,7 +153,7 @@ export default class MapReader {
         return node;
     }
 
-    getCommonStartPart(lines) {
+    static #getCommonStartPart(lines) {
         let sortedLines = lines.concat().sort();
         let first = sortedLines[0];
         let last = sortedLines[sortedLines.length - 1];
