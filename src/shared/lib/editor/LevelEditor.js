@@ -52,32 +52,6 @@ export default class LevelEditor extends Observable {
         return getProperty(this, sourcePath);
     }
 
-    setMapNodePropertyValue(mapNode, propertyName, value) {
-        if (propertyName === 'x') {
-            this.setMapNodePosition(mapNode, +value, mapNode.y);
-            return;
-        }
-
-        if (propertyName === 'y') {
-            this.setMapNodePosition(mapNode, mapNode.x, +value);
-            return;
-        }
-
-        let numericProperties = ['x', 'y', 'radius'];
-
-        if (numericProperties.includes(propertyName)) {
-            mapNode[propertyName] = +value;
-
-        } else {
-            mapNode[propertyName] = value;
-        }
-    }
-
-    setMapNodePosition(mapNode, x, y) {
-        mapNode.x = x;
-        mapNode.y = y;
-    }
-
     indexOfNode(node) {
         return this.map.indexOfNode(node);
     }

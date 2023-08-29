@@ -18,7 +18,8 @@ export default class MoveNodesCommand extends MultiTargetCommand {
     }
 
     moveMapNodeBy(mapNode, byX, byY) {
-        this.levelEditor.setMapNodePosition(mapNode, mapNode.x + byX, mapNode.y + byY);
+        mapNode.x += byX;
+        mapNode.y += byY;
 
         if (this.editor.context.shouldMapNodeAlignToGrid(mapNode)) {
             this.editor.context.alignNodeToGrid(mapNode);
