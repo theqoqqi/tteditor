@@ -2,7 +2,8 @@ import React from 'react';
 import {getMeshXml} from '../../../lib/xmlUtils.js';
 import SelectionBox from './../../selectionBox/SelectionBox.js';
 import PropTypes from 'prop-types';
-import {geometryUtils, useRenderContext} from '../../../../../entities/editor';
+import {useRenderContext} from '../../../../../entities/editor';
+import {geometryUtils} from '../../../../../shared/lib';
 
 let ICON_MESH_SIZE = 24;
 

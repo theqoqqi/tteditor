@@ -2,7 +2,8 @@ import styles from './Terrain.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {useSelectorWithParams} from '../../../../../shared/lib';
-import {MapTerrain, selectIsLayerVisible} from '../../../../../entities/editor';
+import {selectIsLayerVisible} from '../../../../../entities/editor';
+import {MapTerrain} from '../../../../../shared/lib';
 
 Terrain.propTypes = {
     terrain: PropTypes.instanceOf(MapTerrain),

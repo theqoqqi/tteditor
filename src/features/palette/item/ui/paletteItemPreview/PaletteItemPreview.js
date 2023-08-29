@@ -2,7 +2,7 @@ import styles from './PaletteItemPreview.module.css';
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import useFirstIntersection from '../../lib/useFirstIntersection.js';
-import {MapNode} from '../../../../../entities/editor';
+import {MapNode} from '../../../../../shared/lib';
 import TerrainPreview from './terrainPreview/TerrainPreview.js';
 import NodesPreview from './nodesPreview/NodesPreview.js';
 

@@ -1,6 +1,6 @@
 import CommandExecutor from './util/CommandExecutor.js';
 import CompositeObserver from './util/observables/CompositeObserver.js';
-import {LevelEditor} from './LevelEditor.js';
+import LevelEditor from './LevelEditor.js';
 import DummyCommand from './commands/DummyCommand.js';
 import Observable from './util/observables/Observable.js';
 import RenderContext from './RenderContext.js';

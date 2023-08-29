@@ -2,7 +2,7 @@ import styles from './NodesPreview.module.css';
 import React, {useRef} from 'react';
 import PropTypes from 'prop-types';
 import {Node} from '../../../../../../entities/node';
-import {MapNode} from '../../../../../../entities/editor';
+import {MapNode} from '../../../../../../shared/lib';
 import classNames from 'classnames';
 import useRescaleNodesToFitPreview from '../../../lib/useRescaleNodesToFitPreview.js';
 

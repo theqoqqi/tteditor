@@ -1,7 +1,7 @@
 import {getProperty} from 'dot-prop';
 import Observable from './util/observables/Observable.js';
 
-export class LevelEditor extends Observable {
+export default class LevelEditor extends Observable {
 
     map;
 

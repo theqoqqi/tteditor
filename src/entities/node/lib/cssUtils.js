@@ -1,4 +1,4 @@
-import {geometryUtils, matrixUtils, xmlUtils, colorsUtils} from '../../editor';
+import {geometryUtils, matrixUtils, xmlUtils, colorsUtils} from '../../../shared/lib';
 
 function createTransform(width, height, renderContext, meshXml) {
     let initialVertices = geometryUtils.createBoxVertices(0, 0, width, height);

@@ -1,5 +1,5 @@
 import {useEditor, useEditorContext, useMap} from '../../entities/editor';
-import {downloadXml} from '../../entities/editor/core/util/xml.js';
+import {xmlUtils} from '../../shared/lib';
 import {useCallback} from 'react';
 
 export default function useDownloadLevel() {
@@ -11,6 +11,6 @@ export default function useDownloadLevel() {
         let filename = editor.loadedLevelFilename;
         let levelXml = editorContext.writeLevel(map);
 
-        downloadXml(filename, levelXml);
+        xmlUtils.downloadXml(filename, levelXml);
     }, [editor, editorContext, map]);
 }
