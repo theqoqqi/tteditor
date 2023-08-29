@@ -3,10 +3,10 @@ import castArray from 'lodash.castarray';
 import uniq from 'lodash.uniq';
 import union from 'lodash.union';
 import pull from 'lodash.pull';
-import editorInstance from '../lib/instance.js';
+import {EditorContext} from '../../../shared/lib';
 
 const initialState = {
-    visibleLayers: editorInstance.context.getLayerTagNames(),
+    visibleLayers: EditorContext.getLayerTagNames(),
 };
 
 export const layersSlice = createSlice({

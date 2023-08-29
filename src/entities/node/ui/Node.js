@@ -1,8 +1,8 @@
 import styles from './Node.module.css';
 import React, {memo} from 'react';
 import PropTypes from 'prop-types';
-import {useEditorContext, useNodeXml, useObserver} from '../../../entities/editor';
-import {MapNode} from '../../../shared/lib';
+import {useNodeXml, useObserver} from '../../../entities/editor';
+import {EditorContext, MapNode} from '../../../shared/lib';
 import ObjectNode from './objectNode/ObjectNode.js';
 import MarkerNode from './markerNode/MarkerNode.js';
 import classNames from 'classnames';
@@ -17,7 +17,6 @@ Node.propTypes = {
 };
 
 function Node({ mapNode, selected, onClick, onPointerDown, hidden, highlight }) {
-    let editorContext = useEditorContext();
     let tag = useObserver(mapNode, 'tag');
     let type = useObserver(mapNode, 'type');
     let nodeXml = useNodeXml(tag, type);
@@ -35,7 +34,7 @@ function Node({ mapNode, selected, onClick, onPointerDown, hidden, highlight }) 
         selected,
     };
 
-    if (editorContext.isMarkerNode(tag)) {
+    if (EditorContext.isMarkerNode(tag)) {
         return (
             <MarkerNode
                 mapNode={mapNode}

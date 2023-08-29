@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {useEditorContext} from '../../../../entities/editor';
-import {geometryUtils, xmlUtils} from '../../../../shared/lib';
+import {EditorContext, geometryUtils, xmlUtils} from '../../../../shared/lib';
 import {useTimeoutFn} from 'react-use';
 
 let ICON_SIZE = 64;
@@ -36,7 +36,7 @@ export default function useRescaleNodesToFitPreview(ref, nodeMetadata) {
         let ratioX = ICON_SIZE / bounds.width;
         let ratioY = ICON_SIZE / bounds.height;
 
-        if (editorContext.isSimpleNode(tag)) {
+        if (EditorContext.isSimpleNode(tag)) {
             let texture = nodeXml?.querySelector('texture')?.textContent;
 
             let imageSize = editorContext.getImageSize(texture);

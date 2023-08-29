@@ -5,7 +5,7 @@ import {hexIntColorToColor} from './util/colors.js';
 import MapReader from './MapReader.js';
 import MapWriter from './MapWriter.js';
 
-// noinspection CssInvalidHtmlTagReference,JSMethodCanBeStatic
+// noinspection CssInvalidHtmlTagReference
 export default class EditorContext {
 
     serverUrl = null;
@@ -22,7 +22,7 @@ export default class EditorContext {
 
     loadedXmlFiles = {};
 
-    nodeTagToConfigNameMap = {
+    static nodeTagToConfigNameMap = {
         terrain: 'terrain',
         landmark: 'landmark',
         structure: 'structure',
@@ -35,7 +35,7 @@ export default class EditorContext {
         composition: 'composed',
     };
 
-    nodeTagToConfigTagNameMap = {
+    static nodeTagToConfigTagNameMap = {
         terrain: 'terrain',
         landmark: 'landmark',
         structure: 'structure',
@@ -48,7 +48,7 @@ export default class EditorContext {
         composition: 'composition',
     };
 
-    nodeTagToLayerNameMap = {
+    static nodeTagToLayerNameMap = {
         terrain: 'terrain',
         landmark: 'landmark',
         building: 'building',
@@ -67,7 +67,7 @@ export default class EditorContext {
         this.currentAudio = null;
 
         this.reader = new MapReader(this);
-        this.writer = new MapWriter(this);
+        this.writer = new MapWriter();
     }
 
     async reloadDataFromServer() {
@@ -132,7 +132,7 @@ export default class EditorContext {
         return terrain;
     }
 
-    createMapNode(x, y, tagName, typeName, name, isFake) {
+    static createMapNode(x, y, tagName, typeName, name, isFake) {
         let mapNode = new MapNode(tagName, x, y, isFake);
 
         mapNode.type = typeName;
@@ -149,7 +149,7 @@ export default class EditorContext {
         return mapNode;
     }
 
-    createMapNodeFromElement(element) {
+    static createMapNodeFromElement(element) {
         return MapReader.createNodeFromElement(element);
     }
 
@@ -164,7 +164,7 @@ export default class EditorContext {
     }
 
     getImageSize(imagePath) {
-        imagePath = this.normalizeDataPath(imagePath);
+        imagePath = EditorContext.#normalizeDataPath(imagePath);
         return this.imageSizes[imagePath.toLowerCase()];
     }
 
@@ -179,7 +179,7 @@ export default class EditorContext {
             this.currentAudio.pause();
         }
 
-        let normalizedPath = this.normalizeDataPath(path);
+        let normalizedPath = EditorContext.#normalizeDataPath(path);
 
         this.currentAudio = new Audio(`${this.workspacePath}/${normalizedPath}`);
         this.currentAudio.play();
@@ -212,7 +212,7 @@ export default class EditorContext {
     }
 
     getNodeMetadataByName(tagName, typeName) {
-        let configTagName = this.getConfigTagNameByTagName(tagName);
+        let configTagName = EditorContext.getConfigTagNameByTagName(tagName);
         let nodeList = this.getConfigByTagName(tagName);
 
         if (!nodeList) {
@@ -291,7 +291,7 @@ export default class EditorContext {
     }
 
     getConfigByTagName(tagName) {
-        let configName = this.getConfigNameByTagName(tagName);
+        let configName = EditorContext.getConfigNameByTagName(tagName);
 
         return this.getConfigByName(configName);
     }
@@ -300,12 +300,12 @@ export default class EditorContext {
         return this.configsByNames[configName];
     }
 
-    getConfigNameByTagName(tagName) {
-        return this.nodeTagToConfigNameMap[tagName];
+    static getConfigNameByTagName(tagName) {
+        return EditorContext.nodeTagToConfigNameMap[tagName];
     }
 
-    getConfigTagNameByTagName(tagName) {
-        return this.nodeTagToConfigTagNameMap[tagName];
+    static getConfigTagNameByTagName(tagName) {
+        return EditorContext.nodeTagToConfigTagNameMap[tagName];
     }
 
     async getNodeXml(nodeMetadata) {
@@ -318,10 +318,6 @@ export default class EditorContext {
         }
 
         return await this.loadXml(nodePath);
-    }
-
-    getElementByXpath(dom, path) {
-        return dom.evaluate(path, dom, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     }
 
     getLocalizedHint(hintPath, defaultValue = null) {
@@ -341,20 +337,24 @@ export default class EditorContext {
             return defaultValue;
         }
 
-        let result = this.getElementByXpath(this.locale, path.replace(/[$.]/g, '/'));
+        let result = EditorContext.#getElementByXpath(this.locale, path.replace(/[$.]/g, '/'));
 
         return result ? result.textContent.replace(/#{!0x\w{8}}/g, '') : (defaultValue ?? path);
     }
 
-    isSimpleNode(tagName) {
-        return this.getSimpleTagNames().includes(tagName);
+    static #getElementByXpath(dom, path) {
+        return dom.evaluate(path, dom, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     }
 
-    isMarkerNode(tagName) {
-        return this.getMarkerTagNames().includes(tagName);
+    static isSimpleNode(tagName) {
+        return EditorContext.getSimpleTagNames().includes(tagName);
     }
 
-    getSimpleTagNames() {
+    static isMarkerNode(tagName) {
+        return EditorContext.getMarkerTagNames().includes(tagName);
+    }
+
+    static getSimpleTagNames() {
         return [
             'landmark',
             'building',
@@ -365,7 +365,7 @@ export default class EditorContext {
         ];
     }
 
-    getMarkerTagNames() {
+    static getMarkerTagNames() {
         return [
             'area',
             'magic',
@@ -374,19 +374,19 @@ export default class EditorContext {
         ];
     }
 
-    getAllTagNames() {
-        let simpleTagNames = this.getSimpleTagNames();
-        let markerTagNames = this.getMarkerTagNames();
+    static getAllTagNames() {
+        let simpleTagNames = EditorContext.getSimpleTagNames();
+        let markerTagNames = EditorContext.getMarkerTagNames();
 
         return [...simpleTagNames.concat(markerTagNames)];
     }
 
-    getLayerNameByTagName(tagName) {
-        return this.nodeTagToLayerNameMap[tagName];
+    static getLayerNameByTagName(tagName) {
+        return EditorContext.nodeTagToLayerNameMap[tagName];
     }
 
-    getLayerTagNames() {
-        let layerNames = Object.values(this.nodeTagToLayerNameMap);
+    static getLayerTagNames() {
+        let layerNames = Object.values(EditorContext.nodeTagToLayerNameMap);
 
         return layerNames.filter((layerName, index, array) => array.indexOf(layerName) === index);
     }
@@ -447,7 +447,7 @@ export default class EditorContext {
     }
 
     async loadXml(filename) {
-        filename = this.normalizeDataPath(filename);
+        filename = EditorContext.#normalizeDataPath(filename);
 
         if (this.loadedXmlFiles[filename]) {
             return this.loadedXmlFiles[filename];
@@ -514,7 +514,7 @@ export default class EditorContext {
         return await rawResponse.text();
     }
 
-    normalizeDataPath(path) {
+    static #normalizeDataPath(path) {
         if (!path) {
             return '';
         }

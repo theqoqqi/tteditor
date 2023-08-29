@@ -5,6 +5,7 @@ import MapOptions from './map/MapOptions.js';
 import RandomizerOption from './map/RandomizerOption.js';
 import {getNumericContent, getTextContent} from './util/xml.js';
 import {hexIntColorToColor} from './util/colors.js';
+import EditorContext from './EditorContext.js';
 
 // noinspection CssInvalidHtmlTagReference
 export default class MapReader {
@@ -16,7 +17,7 @@ export default class MapReader {
     }
 
     async readLevel(mapXml) {
-        this.map = new GameMap(this.context);
+        this.map = new GameMap();
         this.mapXml = mapXml;
 
         this.readTriggers();
@@ -83,7 +84,7 @@ export default class MapReader {
     }
 
     readMapNodes() {
-        let tagNames = this.context.getAllTagNames();
+        let tagNames = EditorContext.getAllTagNames();
 
         for (const tagName of tagNames) {
             let nodeElements = this.mapXml.querySelectorAll(`:scope > ${tagName}`);

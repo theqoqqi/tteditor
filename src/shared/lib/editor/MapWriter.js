@@ -1,11 +1,11 @@
 
 // noinspection CssInvalidHtmlTagReference
 import {colorToHexIntColor} from './util/colors.js';
+import EditorContext from './EditorContext.js';
 
 export default class MapWriter {
 
-    constructor(context) {
-        this.context = context;
+    constructor() {
         this.map = null;
         this.parser = null;
         this.mapDocument = null;
@@ -106,7 +106,7 @@ export default class MapWriter {
     }
 
     writeMapNodes() {
-        let tagNames = this.context.getAllTagNames();
+        let tagNames = EditorContext.getAllTagNames();
 
         for (const tagName of tagNames) {
             let nodes = this.map.getNodesOfType(tagName);

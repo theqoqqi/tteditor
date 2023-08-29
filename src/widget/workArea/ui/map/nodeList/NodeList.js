@@ -1,11 +1,11 @@
 import styles from './NodeList.module.css';
 import React from 'react';
-import {selectVisibleLayers, useEditorContext, useMapObserver} from '../../../../../entities/editor';
+import {selectVisibleLayers, useMapObserver} from '../../../../../entities/editor';
 import {Node} from '../../../../../entities/node';
 import {useSelector} from 'react-redux';
+import {EditorContext} from '../../../../../shared/lib';
 
 function NodeList({ selectedMapNodes, onClickMapNode, onPointerDown }) {
-    let editorContext = useEditorContext();
     /** @type MapNode[] */
     let mapNodes = useMapObserver('nodes');
     let visibleLayers = useSelector(selectVisibleLayers);
@@ -15,7 +15,7 @@ function NodeList({ selectedMapNodes, onClickMapNode, onPointerDown }) {
     return (
         <div className={styles.mapNodeList}>
             {mapNodes?.map(mapNode => {
-                let layerName = editorContext.getLayerNameByTagName(mapNode.tag);
+                let layerName = EditorContext.getLayerNameByTagName(mapNode.tag);
                 let isLayerVisible = visibleLayers.includes(layerName);
 
                 return (
