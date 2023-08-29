@@ -149,10 +149,6 @@ export default class Editor extends Observable {
         this.setLevelClear();
     }
 
-    hasLoadedLevel() {
-        return this.#loadedLevelPath !== null;
-    }
-
     get loadedLevelPath() {
         return this.#loadedLevelPath;
     }
