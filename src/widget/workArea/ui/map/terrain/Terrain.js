@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {useSelectorWithParams} from '../../../../../shared/lib';
 import {selectIsLayerVisible} from '../../../../../entities/editor';
 import {MapTerrain} from '../../../../../shared/lib';
+import {createTerrainStyles} from '../../../lib/cssUtils.js';
 
 Terrain.propTypes = {
     terrain: PropTypes.instanceOf(MapTerrain),
@@ -12,11 +13,9 @@ Terrain.propTypes = {
 function Terrain({ terrain }) {
     let isTerrainLayerVisible = useSelectorWithParams(selectIsLayerVisible, 'terrain');
 
-    let terrainStyles = {
-        backgroundImage: isTerrainLayerVisible
-            ? `url('data${terrain.texture}')`
-            : 'none',
-    };
+    let terrainStyles = isTerrainLayerVisible
+        ? createTerrainStyles(terrain)
+        : null;
 
     return <div className={styles.terrain} style={terrainStyles} />;
 }
