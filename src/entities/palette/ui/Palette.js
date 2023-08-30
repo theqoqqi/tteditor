@@ -16,7 +16,7 @@ function Palette({ selectedTab, onSelectTab, tabFiller }) {
     let [mappedTabs] = useState(() => tabs.map(tab => ({
         key: tab.configName,
         tab: <PaletteTab title={tab.title} icon={tab.icon} />,
-        content: <PaletteTabContent children={tabFiller(tab.configName)} />,
+        content: <PaletteTabContent children={tabFiller(tab)} />,
     })));
 
     return (

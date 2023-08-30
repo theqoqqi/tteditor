@@ -13,8 +13,8 @@ function PaletteTab() {
         return null;
     }
 
-    function fillTab(configName) {
-        let config = editorContext.getConfigByName(configName);
+    function fillTab(tab) {
+        let config = editorContext.getConfigByName(tab.configName);
         let configItems = config.querySelectorAll(':scope > *');
 
         let paletteItems = Array.from(configItems).filter(item => {
