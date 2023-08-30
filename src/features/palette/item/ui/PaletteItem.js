@@ -29,7 +29,7 @@ function PaletteItem({nodeMetadata, name}) {
             })}
             onClick={onClick}
         >
-            <PaletteItemPreview nodeMetadata={nodeMetadata} mapNodes={mapNodes} />
+            <PaletteItemPreview tag={tag} type={type} mapNodes={mapNodes} />
             <PaletteItemTitle className={styles.title} title={title} />
         </div>
     );

@@ -7,14 +7,12 @@ import TerrainPreview from './terrainPreview/TerrainPreview.js';
 import NodesPreview from './nodesPreview/NodesPreview.js';
 
 PaletteItemPreview.propTypes = {
-    nodeMetadata: PropTypes.instanceOf(Element),
+    tag: PropTypes.string,
+    type: PropTypes.string,
     mapNodes: PropTypes.arrayOf(PropTypes.instanceOf(MapNode)),
 };
 
-function createContent(nodeMetadata, mapNodes) {
-    let tag = nodeMetadata.tagName;
-    let type = nodeMetadata.getAttribute('name');
-
+function createContent(tag, type, mapNodes) {
     if (tag === 'terrain') {
         return <TerrainPreview tag={tag} type={type} />;
     }
@@ -22,11 +20,11 @@ function createContent(nodeMetadata, mapNodes) {
     return <NodesPreview tag={tag} type={type} mapNodes={mapNodes} />;
 }
 
-function PaletteItemPreview({ nodeMetadata, mapNodes }) {
+function PaletteItemPreview({ tag, type, mapNodes }) {
     let [content, setContent] = useState(null);
     let ref = useFirstIntersection(() => {
-        setContent(createContent(nodeMetadata, mapNodes));
-    }, [nodeMetadata, mapNodes]);
+        setContent(createContent(tag, type, mapNodes));
+    }, [tag, type, mapNodes]);
 
     return (
         <div ref={ref} className={styles.paletteItemPreview}>
