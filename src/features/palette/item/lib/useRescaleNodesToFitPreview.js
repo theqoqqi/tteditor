@@ -93,6 +93,9 @@ export default function useRescaleNodesToFitPreview(ref, nodeMetadata) {
             *
             * Точную комбинацию выяснить не удалось, но как минимум этот набор полей влияет на наличие бага:
             * clip, transform и transition: transform.
+            *
+            * Подробнее см. баг в dev/bugs/scrollBug.html
+            * Или здесь: https://bugs.chromium.org/p/chromium/issues/detail?id=1477299
             * */
             return 'opacity .3s';
         }

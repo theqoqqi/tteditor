@@ -1,0 +1,54 @@
+<!--
+При примерно таком наборе css-свойств в chromium-браузерах происходит странный баг.
+Если во время анимации хотя бы один раз проскролить страницу (можно просто скролить туда-сюда),
+то в конце анимации вся страница визуально зависнет. Можно попытаться прокрутить за ползунок,
+и иногда это позволяет уйти с забагованного места, но прокрутить обратно может не получиться.
+При этом, например, курсор реагирует на наведение на текст, даже когда страница зависла.
+Если свернуть и развернуть браузер обратно (или сменить вкладку и вернуться обратно),
+страница оживает и перестает виснуть.
+-->
+<style>
+    .container {
+        height: 400px;
+        overflow: hidden scroll;
+    }
+
+
+
+    .item.invisible {
+        transform: scale(0);
+    }
+
+    .item {
+        height: 500px;
+
+        transform: scale(0.561096);
+        transition: transform 3.3s ease 0s;
+    }
+
+
+
+    .image {
+        position: absolute;
+        clip: rect(0px, 220px, 171px, 0px);
+        transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+</style>
+<div class='container'>
+    <a href='#some-text'>
+        Click me when page is frozen
+    </a>
+    <div id='item' class='item invisible'>
+        <img class='image' src='https://placehold.co/256/png' alt='' />
+    </div>
+    <p id='some-text'>
+        Some text (hover me when page is frozen)
+    </p>
+</div>
+<script>
+    let $item = document.getElementById('item');
+
+    setTimeout(() => {
+        $item.classList.remove('invisible');
+    }, 300);
+</script>
