@@ -1,5 +1,5 @@
 import {useDispatch} from 'react-redux';
-import {selectIsLayerVisible, setLayerVisible} from '../../entities/editor';
+import {selectIsLayerVisible, setLayerVisible} from '../../entities/layers';
 import {useCallback} from 'react';
 import {useSelectorWithParams} from '../../shared/lib';
 

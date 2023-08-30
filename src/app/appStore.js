@@ -1,6 +1,6 @@
 import {configureStore} from '@reduxjs/toolkit';
 import {rootReducer} from './rootReducer.js';
-import {selectionSlice} from '../entities/editor';
+import {selectionSlice} from '../entities/selection';
 
 function makeStore() {
     let store = configureStore({

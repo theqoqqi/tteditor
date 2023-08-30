@@ -2,7 +2,7 @@ import styles from './WorkspaceView.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {ToolbarButton, ToolbarGroup} from '../../../../../shared/ui';
-import {useWorkspace} from '../../../../../entities/editor';
+import {useWorkspace} from '../../../../../entities/workspace';
 
 WorkspaceView.propTypes = {
     onEdit: PropTypes.func,

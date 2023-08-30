@@ -1,6 +1,6 @@
 import {useCallback} from 'react';
 import {isHotkeyPressed} from 'react-hotkeys-hook';
-import {addToSelection, removeFromSelection, setSelection} from '../../../entities/editor';
+import {addToSelection, removeFromSelection, setSelection} from '../../../entities/selection';
 import {useDispatch} from 'react-redux';
 
 export default function useSelectMapNodeCallback() {

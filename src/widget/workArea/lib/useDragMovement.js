@@ -1,4 +1,4 @@
-import {usePointerMode} from '../../../entities/editor';
+import {usePointerMode} from '../../../entities/pointerMode';
 import {useEditor, useEditorContext, MoveNodesCommand} from '../../../shared/lib';
 import {useCallback, useState} from 'react';
 import usePointerDrag from './usePointerDrag.js';

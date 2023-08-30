@@ -1,6 +1,6 @@
 import styles from './NodeList.module.css';
 import React from 'react';
-import {selectVisibleLayers} from '../../../../../entities/editor';
+import {selectVisibleLayers} from '../../../../../entities/layers';
 import {Node} from '../../../../../entities/node';
 import {useSelector} from 'react-redux';
 import {EditorContext, useMapObserver} from '../../../../../shared/lib';

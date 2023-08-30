@@ -4,7 +4,7 @@ import {Toolbar, ToolbarGroup, ToolbarSeparator} from '../../../shared/ui';
 import ResetLevelButton from './level/ResetLevelButton.js';
 import SaveLevelButton from './level/SaveLevelButton.js';
 import DownloadLevelButton from './level/DownloadLevelButton.js';
-import {pointerModes} from '../../../entities/editor';
+import {pointerModes} from '../../../entities/pointerMode';
 import ToggleLayerButton from './toggleLayerButton/ToggleLayerButton.js';
 import PointerModeButton from './pointerModeButton/PointerModeButton.js';
 import {EditorContext} from '../../../shared/lib';

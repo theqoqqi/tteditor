@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {ToolbarIconButton} from '../../../../shared/ui';
-import {pointerModes, selectPointerMode} from '../../../../entities/editor';
+import {pointerModes, selectPointerMode} from '../../../../entities/pointerMode';
 import {useSelector} from 'react-redux';
 import {useSetPointerMode} from '../../../../features/pointerMode';
 
