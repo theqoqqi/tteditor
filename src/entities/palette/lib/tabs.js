@@ -7,11 +7,15 @@ const tabs = [
     createTab('building', 'building'),
     createTab('unit', 'unit'),
     createTab('item', 'item'),
-    createTab('magic', 'magic'),
+    createTab('magic', 'magic', [
+        { tag: 'waypoint' },
+        { tag: 'area' },
+        { tag: 'area', name: 'startup' },
+    ]),
     createTab('composed', 'composition'),
 ];
 
-function createTab(configName, displayTag) {
+function createTab(configName, displayTag, additionalItems) {
     let title = getPluralTagTitle(displayTag);
     let icon = getTagIconComponent(displayTag);
 
@@ -19,6 +23,7 @@ function createTab(configName, displayTag) {
         configName,
         title,
         icon,
+        additionalItems,
     };
 }
 

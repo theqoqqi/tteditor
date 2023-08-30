@@ -16,6 +16,7 @@ function PaletteTab() {
     function fillTab(tab) {
         let config = editorContext.getConfigByName(tab.configName);
         let configItems = config.querySelectorAll(':scope > *');
+        let additionalItems = tab.additionalItems ?? [];
 
         let paletteItemProps = Array.from(configItems)
             .filter(item => {
@@ -30,6 +31,8 @@ function PaletteTab() {
                 type: item.getAttribute('name'),
                 name: null,
             }));
+
+        paletteItemProps.unshift(...additionalItems);
 
         return paletteItemProps.map((item, index) => (
             <PaletteItem key={index} {...item} />
