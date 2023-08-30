@@ -1,10 +1,7 @@
 import {useState} from 'react';
 import {EditorContext} from '../../../../shared/lib';
 
-function createMapNodes(nodeMetadata, name) {
-    let tag = nodeMetadata.tagName;
-    let type = nodeMetadata.getAttribute('name');
-
+function createMapNodes(nodeMetadata, tag, type, name) {
     if (tag === 'terrain') {
         return null;
     }
@@ -22,8 +19,8 @@ function createMapNodes(nodeMetadata, name) {
     ];
 }
 
-export default function usePrototypeMapNodes(nodeMetadata, name) {
-    let [mapNodes] = useState(createMapNodes(nodeMetadata, name));
+export default function usePrototypeMapNodes(nodeMetadata, tag, type, name) {
+    let [mapNodes] = useState(createMapNodes(nodeMetadata, tag, type, name));
 
     return mapNodes;
 }

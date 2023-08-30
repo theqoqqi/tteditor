@@ -10,15 +10,15 @@ import useOnSelectPaletteItem from '../lib/useOnSelectPaletteItem.js';
 
 PaletteItem.propTypes = {
     nodeMetadata: PropTypes.instanceOf(Element),
+    tag: PropTypes.string,
+    type: PropTypes.string,
     name: PropTypes.string,
 };
 
-function PaletteItem({nodeMetadata, name}) {
-    let mapNodes = usePrototypeMapNodes(nodeMetadata, name);
-    let isSelected = useIsPaletteItemSelected(nodeMetadata);
-    let onClick = useOnSelectPaletteItem(nodeMetadata);
-    let tag = nodeMetadata.tagName;
-    let type = nodeMetadata.getAttribute('name');
+function PaletteItem({ nodeMetadata, tag, type, name }) {
+    let mapNodes = usePrototypeMapNodes(nodeMetadata, tag, type, name);
+    let isSelected = useIsPaletteItemSelected(tag, type);
+    let onClick = useOnSelectPaletteItem(tag, type);
 
     let title = name ?? type ?? tag;
 

@@ -17,15 +17,22 @@ function PaletteTab() {
         let config = editorContext.getConfigByName(tab.configName);
         let configItems = config.querySelectorAll(':scope > *');
 
-        let paletteItems = Array.from(configItems).filter(item => {
-            let typeName = item.getAttribute('name');
-            let paletteItemNames = editorContext.getPaletteItemList(item.tagName);
+        let paletteItemProps = Array.from(configItems)
+            .filter(item => {
+                let typeName = item.getAttribute('name');
+                let paletteItemNames = editorContext.getPaletteItemList(item.tagName);
 
-            return typeName === null || paletteItemNames.includes(typeName);
-        });
+                return typeName === null || paletteItemNames.includes(typeName);
+            })
+            .map(item => ({
+                nodeMetadata: item,
+                tag: item.tagName,
+                type: item.getAttribute('name'),
+                name: null,
+            }));
 
-        return paletteItems.map((item, index) => (
-            <PaletteItem key={index} nodeMetadata={item} />
+        return paletteItemProps.map((item, index) => (
+            <PaletteItem key={index} {...item} />
         ));
     }
 

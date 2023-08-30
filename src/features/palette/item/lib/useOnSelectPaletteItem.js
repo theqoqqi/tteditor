@@ -1,7 +1,7 @@
 import {SetTerrainCommand, useEditor, useEditorContext, useMap} from '../../../../shared/lib';
 import {useCallback} from 'react';
 
-export default function useOnSelectPaletteItem(nodeMetadata) {
+export default function useOnSelectPaletteItem(tag, type) {
     let editor = useEditor();
     let editorContext = useEditorContext();
     let map = useMap();
@@ -10,17 +10,14 @@ export default function useOnSelectPaletteItem(nodeMetadata) {
             return;
         }
 
-        let tag = nodeMetadata.tagName;
-
         if (tag === 'terrain') {
-            let terrainName = nodeMetadata.getAttribute('name');
-            let terrain = await editorContext.createTerrainByName(terrainName);
+            let terrain = await editorContext.createTerrainByName(type);
 
             editor.executeCommand(new SetTerrainCommand(map, terrain));
         } else {
 
         }
-    }, [editor, editorContext, map, nodeMetadata]);
+    }, [editor, editorContext, map]);
 
     return onSelect;
 }
