@@ -1,10 +1,10 @@
 import {useState} from 'react';
-import {EditorContext, geometryUtils, useEditorContext, xmlUtils} from '../../../../shared/lib';
+import {geometryUtils, useEditorContext, xmlUtils} from '../../../../shared/lib';
 import {useTimeoutFn} from 'react-use';
 
 let ICON_SIZE = 64;
 
-export default function useRescaleNodesToFitPreview(ref, nodeMetadata) {
+export default function useRescaleNodesToFitPreview(ref, nodeXml) {
     let editorContext = useEditorContext();
     let [isVisible, setIsVisible] = useState(false);
     let [scalingStyles, setScalingStyles] = useState(null);
@@ -27,36 +27,31 @@ export default function useRescaleNodesToFitPreview(ref, nodeMetadata) {
     }, timeoutDelay);
 
     async function resolvePlacement(bounds) {
-        let tag = nodeMetadata.tagName;
-        let nodeXml = await editorContext.getNodeXml(nodeMetadata);
-
         let x = ICON_SIZE / 2;
         let y = ICON_SIZE / 2;
         let ratioX = ICON_SIZE / bounds.width;
         let ratioY = ICON_SIZE / bounds.height;
 
-        if (EditorContext.isSimpleNode(tag)) {
-            let texture = nodeXml?.querySelector('texture')?.textContent;
+        let texture = nodeXml?.querySelector('texture')?.textContent;
 
-            let imageSize = editorContext.getImageSize(texture);
-            let imageWidth = imageSize?.width;
-            let imageHeight = imageSize?.height;
+        let imageSize = editorContext.getImageSize(texture);
+        let imageWidth = imageSize?.width;
+        let imageHeight = imageSize?.height;
 
-            let meshXml = nodeXml.querySelector(':scope mesh');
-            let meshWidth = xmlUtils.getNumericContent(meshXml, 'width');
-            let meshHeight = xmlUtils.getNumericContent(meshXml, 'height');
-            let meshAnchorX = xmlUtils.getNumericContent(meshXml, 'anchorx', meshWidth / 2);
-            let meshAnchorY = xmlUtils.getNumericContent(meshXml, 'anchory', meshHeight / 2);
+        let meshXml = nodeXml?.querySelector(':scope mesh');
+        let meshWidth = xmlUtils.getNumericContent(meshXml, 'width');
+        let meshHeight = xmlUtils.getNumericContent(meshXml, 'height');
+        let meshAnchorX = xmlUtils.getNumericContent(meshXml, 'anchorx', meshWidth / 2);
+        let meshAnchorY = xmlUtils.getNumericContent(meshXml, 'anchory', meshHeight / 2);
 
-            if (imageWidth && imageHeight && meshWidth && meshHeight) {
-                ratioX *= imageWidth / meshWidth;
-                ratioY *= imageHeight / meshHeight;
-            }
+        if (imageWidth && imageHeight && meshWidth && meshHeight) {
+            ratioX *= imageWidth / meshWidth;
+            ratioY *= imageHeight / meshHeight;
+        }
 
-            if (texture) {
-                x = ICON_SIZE * (meshAnchorX / meshWidth);
-                y = ICON_SIZE * (meshAnchorY / meshHeight);
-            }
+        if (texture) {
+            x = ICON_SIZE * (meshAnchorX / meshWidth);
+            y = ICON_SIZE * (meshAnchorY / meshHeight);
         }
 
         let scale = Math.min(1, ratioX, ratioY);

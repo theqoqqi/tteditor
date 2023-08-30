@@ -2,7 +2,7 @@ import styles from './NodesPreview.module.css';
 import React, {useRef} from 'react';
 import PropTypes from 'prop-types';
 import {Node} from '../../../../../../entities/node';
-import {MapNode} from '../../../../../../shared/lib';
+import {MapNode, useNodeXml} from '../../../../../../shared/lib';
 import classNames from 'classnames';
 import useRescaleNodesToFitPreview from '../../../lib/useRescaleNodesToFitPreview.js';
 
@@ -13,7 +13,10 @@ NodesPreview.propTypes = {
 
 function NodesPreview({ nodeMetadata, mapNodes }) {
     let ref = useRef();
-    let { isVisible, scalingStyles } = useRescaleNodesToFitPreview(ref, nodeMetadata);
+    let tag = nodeMetadata.tagName;
+    let type = nodeMetadata.getAttribute('name');
+    let nodeXml = useNodeXml(tag, type);
+    let { isVisible, scalingStyles } = useRescaleNodesToFitPreview(ref, nodeXml);
 
     return (
         <div
