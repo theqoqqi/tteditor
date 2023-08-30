@@ -7,14 +7,13 @@ import classNames from 'classnames';
 import useRescaleNodesToFitPreview from '../../../lib/useRescaleNodesToFitPreview.js';
 
 NodesPreview.propTypes = {
-    nodeMetadata: PropTypes.instanceOf(Element),
+    tag: PropTypes.string,
+    type: PropTypes.string,
     mapNodes: PropTypes.arrayOf(PropTypes.instanceOf(MapNode)),
 };
 
-function NodesPreview({ nodeMetadata, mapNodes }) {
+function NodesPreview({ tag, type, mapNodes }) {
     let ref = useRef();
-    let tag = nodeMetadata.tagName;
-    let type = nodeMetadata.getAttribute('name');
     let nodeXml = useNodeXml(tag, type);
     let { isVisible, scalingStyles } = useRescaleNodesToFitPreview(ref, nodeXml);
 

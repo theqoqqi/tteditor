@@ -19,7 +19,7 @@ function createContent(nodeMetadata, mapNodes) {
         return <TerrainPreview tag={tag} type={type} />;
     }
 
-    return <NodesPreview nodeMetadata={nodeMetadata} mapNodes={mapNodes} />;
+    return <NodesPreview tag={tag} type={type} mapNodes={mapNodes} />;
 }
 
 function PaletteItemPreview({ nodeMetadata, mapNodes }) {
