@@ -337,9 +337,16 @@ export default class EditorContext {
             return defaultValue;
         }
 
-        let result = EditorContext.#getElementByXpath(this.locale, path.replace(/[$.]/g, '/'));
+        defaultValue ??= path;
 
-        return result ? result.textContent.replace(/#{!0x\w{8}}/g, '') : (defaultValue ?? path);
+        try {
+            let result = EditorContext.#getElementByXpath(this.locale, path.replace(/[$.]/g, '/'));
+
+            return result ? result.textContent.replace(/#{!0x\w{8}}/g, '') : defaultValue;
+        } catch (e) {
+            console.warn('Missing localization string: ' + path);
+            return defaultValue;
+        }
     }
 
     static #getElementByXpath(dom, path) {
