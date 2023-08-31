@@ -3,11 +3,10 @@ import React from 'react';
 import {selectVisibleLayers} from '../../../../../entities/layers';
 import {Node} from '../../../../../entities/node';
 import {useSelector} from 'react-redux';
-import {EditorContext, useMapObserver} from '../../../../../shared/lib';
+import {EditorContext, useMapListObserver} from '../../../../../shared/lib';
 
 function NodeList({ selectedMapNodes, onClickMapNode, onPointerDown }) {
-    /** @type MapNode[] */
-    let mapNodes = useMapObserver('nodes');
+    let [mapNodes] = useMapListObserver('nodes');
     let visibleLayers = useSelector(selectVisibleLayers);
 
     let isSelected = mapNode => selectedMapNodes?.includes(mapNode);
