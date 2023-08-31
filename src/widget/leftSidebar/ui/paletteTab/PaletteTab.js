@@ -34,6 +34,12 @@ function PaletteTab() {
 
         paletteItemProps.unshift(...additionalItems);
 
+        paletteItemProps = paletteItemProps.map((props, index) => ({
+            tabId: tab.id,
+            id: `${tab.id}-${index}`,
+            ...props,
+        }));
+
         return paletteItemProps.map((item, index) => (
             <PaletteItem key={index} {...item} />
         ));

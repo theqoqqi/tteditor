@@ -9,16 +9,18 @@ import useIsPaletteItemSelected from '../lib/useIsPaletteItemSelected.js';
 import useOnSelectPaletteItem from '../lib/useOnSelectPaletteItem.js';
 
 PaletteItem.propTypes = {
+    tabId: PropTypes.string,
+    id: PropTypes.string,
     nodeMetadata: PropTypes.instanceOf(Element),
     tag: PropTypes.string,
     type: PropTypes.string,
     name: PropTypes.string,
 };
 
-function PaletteItem({ nodeMetadata, tag, type, name }) {
+function PaletteItem({ tabId, id, nodeMetadata, tag, type, name }) {
     let mapNodes = usePrototypeMapNodes(nodeMetadata, tag, type, name);
-    let isSelected = useIsPaletteItemSelected(tag, type);
-    let onClick = useOnSelectPaletteItem(tag, type);
+    let isSelected = useIsPaletteItemSelected(tabId, id);
+    let onClick = useOnSelectPaletteItem(tabId, id, tag, type);
 
     let title = name ?? type ?? tag;
 

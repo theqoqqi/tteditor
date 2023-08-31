@@ -20,6 +20,7 @@ function createTab(configName, displayTag, additionalItems) {
     let icon = getTagIconComponent(displayTag);
 
     return {
+        id: configName,
         configName,
         title,
         icon,

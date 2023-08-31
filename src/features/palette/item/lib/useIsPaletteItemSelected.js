@@ -1,11 +1,8 @@
-import {useMapObserver} from '../../../../shared/lib';
+import {useSelectorWithParams} from '../../../../shared/lib';
+import {selectIsPaletteItemSelected} from '../../../../entities/palette';
 
-export default function useIsPaletteItemSelected(tag, type) {
-    let terrain = useMapObserver('terrain');
+export default function useIsPaletteItemSelected(tabId, itemId) {
+    let isSelected = useSelectorWithParams(selectIsPaletteItemSelected, tabId, itemId);
 
-    if (tag === 'terrain') {
-        return type === terrain?.name;
-    }
-
-    return false;
+    return isSelected;
 }
