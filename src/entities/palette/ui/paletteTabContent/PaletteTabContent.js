@@ -3,13 +3,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 PaletteTabContent.propTypes = {
-    children: PropTypes.any,
+    items: PropTypes.arrayOf(PropTypes.element),
 };
 
-function PaletteTabContent({ children }) {
+function PaletteTabContent({ items }) {
     return (
         <div className={styles.paletteTabContent}>
-            {children}
+            {items}
         </div>
     );
 }
