@@ -40,8 +40,8 @@ function PaletteTab() {
             ...props,
         }));
 
-        return paletteItemProps.map((item, index) => (
-            <PaletteItem key={index} {...item} />
+        return paletteItemProps.map(item => (
+            <PaletteItem {...item} />
         ));
     }
 

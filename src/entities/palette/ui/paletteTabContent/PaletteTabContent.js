@@ -6,10 +6,15 @@ PaletteTabContent.propTypes = {
     items: PropTypes.arrayOf(PropTypes.element),
 };
 
+/** @param {React.ReactElement[]} items */
 function PaletteTabContent({ items }) {
     return (
         <div className={styles.paletteTabContent}>
-            {items}
+            {items.map(item => (
+                <React.Fragment key={item.props.id}>
+                    {item}
+                </React.Fragment>
+            ))}
         </div>
     );
 }
