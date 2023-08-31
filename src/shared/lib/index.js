@@ -40,6 +40,7 @@ import useNodeXml from './hooks/editor/useNodeXml.js';
 import useObserver from './hooks/editor/useObserver.js';
 import useListObserver from './hooks/editor/useListObserver.js';
 import useMapObserver from './hooks/editor/useMapObserver.js';
+import useMapListObserver from './hooks/editor/useMapListObserver.js';
 import useEditorObserver from './hooks/editor/useEditorObserver.js';
 import editorInstance from './context/instance.js';
 import EditorProvider from './context/provider.js';
@@ -94,6 +95,7 @@ export {
     useObserver,
     useListObserver,
     useMapObserver,
+    useMapListObserver,
     useEditorObserver,
 
     editorInstance,
