@@ -7,6 +7,7 @@ import usePrototypeMapNodes from '../lib/usePrototypeMapNodes.js';
 import classNames from 'classnames';
 import useIsPaletteItemSelected from '../lib/useIsPaletteItemSelected.js';
 import useOnSelectPaletteItem from '../lib/useOnSelectPaletteItem.js';
+import useSyncWithTerrain from '../lib/useSyncWithTerrain.js';
 
 PaletteItem.propTypes = {
     tabId: PropTypes.string,
@@ -17,10 +18,12 @@ PaletteItem.propTypes = {
     name: PropTypes.string,
 };
 
-function PaletteItem({ tabId, id, nodeMetadata, tag, type, name }) {
+function PaletteItem({tabId, id, nodeMetadata, tag, type, name}) {
     let mapNodes = usePrototypeMapNodes(nodeMetadata, tag, type, name);
     let isSelected = useIsPaletteItemSelected(tabId, id);
     let onClick = useOnSelectPaletteItem(tabId, id, tag, type);
+
+    useSyncWithTerrain(tabId, id, tag, type);
 
     let title = name ?? type ?? tag;
 
