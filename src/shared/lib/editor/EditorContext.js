@@ -262,6 +262,15 @@ export default class EditorContext {
         };
     }
 
+    setMapNodePosition(mapNode, x, y) {
+        mapNode.x = x;
+        mapNode.y = y;
+
+        if (this.shouldMapNodeAlignToGrid(mapNode)) {
+            this.alignNodeToGrid(mapNode);
+        }
+    }
+
     alignNodeToGrid(mapNode) {
         let config = this.getGameLogicConfig();
         let gridXml = config.querySelector('grid_grid');
