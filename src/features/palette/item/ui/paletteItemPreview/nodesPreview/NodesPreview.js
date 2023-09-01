@@ -25,7 +25,9 @@ function NodesPreview({ tag, type, mapNodes }) {
             })}
             style={scalingStyles}
         >
-            {mapNodes.map(mapNode => <Node key={mapNode.editorId} mapNode={mapNode} />)}
+            {mapNodes.map(mapNode => (
+                <Node key={mapNode.editorId} mapNode={mapNode} interactable={false} />
+            ))}
         </div>
     );
 }
