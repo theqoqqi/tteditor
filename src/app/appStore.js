@@ -1,13 +1,17 @@
 import {configureStore} from '@reduxjs/toolkit';
 import {rootReducer} from './rootReducer.js';
 import {selectionSlice} from '../entities/selection';
+import {brushSlice} from '../entities/brush/index.js';
 
 function makeStore() {
     let store = configureStore({
         reducer: rootReducer,
         middleware: (getDefaultMiddleware) => getDefaultMiddleware({
             serializableCheck: {
-                ignoredPaths: [selectionSlice.name],
+                ignoredPaths: [
+                    selectionSlice.name,
+                    brushSlice.name,
+                ],
                 ignoreActions: true,
             },
         }),
