@@ -10,7 +10,13 @@ function ScrollableMapContainer() {
     let pointerMode = usePointerMode();
 
     return (
-        <ScrollContainer className={styles.scrollableMapContainer} buttons={pointerMode.scrollButtons}>
+        <ScrollContainer
+            className={styles.scrollableMapContainer}
+            buttons={pointerMode.scrollButtons}
+            style={{
+                cursor: pointerMode.cursor,
+            }}
+        >
             <div className={styles.overscrollArea}>
                 {map && <MapContainer />}
             </div>

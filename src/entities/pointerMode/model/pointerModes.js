@@ -11,6 +11,7 @@ const pointerModes = {
         scrollButtons: [MIDDLE_MOUSE_BUTTON],
         dragButton: LEFT_MOUSE_BUTTON,
         canSelectNodes: true,
+        cursor: 'default',
     },
     scroll: {
         name: 'scroll',
@@ -19,6 +20,7 @@ const pointerModes = {
         scrollButtons: [LEFT_MOUSE_BUTTON, MIDDLE_MOUSE_BUTTON],
         dragButton: null,
         canSelectNodes: false,
+        cursor: 'move',
     },
 };
 
