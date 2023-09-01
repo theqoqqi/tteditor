@@ -1,6 +1,7 @@
 
 .node {
     pointer-events: none;
+    user-select: none;
 }
 
 .hidden {
