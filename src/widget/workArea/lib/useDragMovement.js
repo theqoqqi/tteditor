@@ -1,7 +1,7 @@
 import {usePointerMode} from '../../../entities/pointerMode';
-import {useEditor, useEditorContext, MoveNodesCommand} from '../../../shared/lib';
+import {MoveNodesCommand, useEditor, useEditorContext} from '../../../shared/lib';
 import {useCallback, useState} from 'react';
-import usePointerDrag from './usePointerDrag.js';
+import usePointerDrag from './usePointerDrag';
 
 function position(x, y) {
     return { x, y };

@@ -1,4 +1,4 @@
-import AddRemoveTriggersCommand from './addRemove/AddRemoveTriggersCommand.js';
+import AddRemoveTriggersCommand from './addRemove/AddRemoveTriggersCommand';
 
 export default class RemoveTriggersCommand extends AddRemoveTriggersCommand {
 

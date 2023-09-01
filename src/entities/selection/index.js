@@ -5,7 +5,7 @@ import {
     selectionSlice,
     selectSelectedMapNodes,
     setSelection
-} from './model/selectionSlice.js';
+} from './model/selectionSlice';
 
 export {
     selectionSlice,

@@ -1,9 +1,9 @@
-import MapTerrain from './map/MapTerrain.js';
-import MapNode from './map/MapNode.js';
-import {getNumericContent, getTextContent, reformatXml} from './util/xml.js';
-import {hexIntColorToColor} from './util/colors.js';
-import MapReader from './MapReader.js';
-import MapWriter from './MapWriter.js';
+import MapTerrain from './map/MapTerrain';
+import MapNode from './map/MapNode';
+import {getNumericContent, getTextContent, reformatXml} from './util/xml';
+import {hexIntColorToColor} from './util/colors';
+import MapReader from './MapReader';
+import MapWriter from './MapWriter';
 
 // noinspection CssInvalidHtmlTagReference
 export default class EditorContext {

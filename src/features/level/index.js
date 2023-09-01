@@ -1,7 +1,7 @@
-import useResetLevel from './useResetLevel.js';
-import useSaveLevel from './useSaveLevel.js';
-import useLoadLevel from './useLoadLevel.js';
-import useDownloadLevel from './useDownloadLevel.js';
+import useResetLevel from './useResetLevel';
+import useSaveLevel from './useSaveLevel';
+import useLoadLevel from './useLoadLevel';
+import useDownloadLevel from './useDownloadLevel';
 
 export {
     useResetLevel,

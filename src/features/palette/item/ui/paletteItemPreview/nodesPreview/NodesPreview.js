@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {Node} from '../../../../../../entities/node';
 import {MapNode, useNodeXml} from '../../../../../../shared/lib';
 import classNames from 'classnames';
-import useRescaleNodesToFitPreview from '../../../lib/useRescaleNodesToFitPreview.js';
+import useRescaleNodesToFitPreview from '../../../lib/useRescaleNodesToFitPreview';
 
 NodesPreview.propTypes = {
     tag: PropTypes.string,

@@ -1,4 +1,4 @@
-import useCompositeObserver from './useCompositeObserver.js';
+import useCompositeObserver from './useCompositeObserver';
 
 export default function useListObserver(target, propertyPath) {
     let state = useCompositeObserver(target, propertyPath, true);

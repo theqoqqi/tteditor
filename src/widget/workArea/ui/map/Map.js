@@ -1,13 +1,13 @@
 import styles from './Map.module.css';
 import React from 'react';
-import NodeList from './nodeList/NodeList.js';
+import NodeList from './nodeList/NodeList';
 import {selectSelectedMapNodes} from '../../../../entities/selection';
 import {useMap, useMapObserver} from '../../../../shared/lib';
 import {useSelector} from 'react-redux';
-import useSelectMapNodeCallback from '../../lib/useSelectMapNodeCallback.js';
-import useArrowMovement from '../../lib/useArrowMovement.js';
-import useDragMovement from '../../lib/useDragMovement.js';
-import Terrain from './terrain/Terrain.js';
+import useSelectMapNodeCallback from '../../lib/useSelectMapNodeCallback';
+import useArrowMovement from '../../lib/useArrowMovement';
+import useDragMovement from '../../lib/useDragMovement';
+import Terrain from './terrain/Terrain';
 
 function Map() {
     let map = useMap();

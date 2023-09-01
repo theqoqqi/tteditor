@@ -1,7 +1,7 @@
 import styles from './StatusBar.module.css';
 import React from 'react';
 import {Toolbar} from '../../../shared/ui';
-import WorkspaceStatus from './workspaceStatus/WorkspaceStatus.js';
+import WorkspaceStatus from './workspaceStatus/WorkspaceStatus';
 
 function StatusBar() {
     return (

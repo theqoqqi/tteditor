@@ -1,13 +1,13 @@
 import styles from './PaletteItem.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import PaletteItemPreview from './paletteItemPreview/PaletteItemPreview.js';
-import PaletteItemTitle from './paletteItemTitle/PaletteItemTitle.js';
-import usePrototypeMapNodes from '../lib/usePrototypeMapNodes.js';
+import PaletteItemPreview from './paletteItemPreview/PaletteItemPreview';
+import PaletteItemTitle from './paletteItemTitle/PaletteItemTitle';
+import usePrototypeMapNodes from '../lib/usePrototypeMapNodes';
 import classNames from 'classnames';
-import useIsPaletteItemSelected from '../lib/useIsPaletteItemSelected.js';
-import useOnSelectPaletteItem from '../lib/useOnSelectPaletteItem.js';
-import useSyncWithTerrain from '../lib/useSyncWithTerrain.js';
+import useIsPaletteItemSelected from '../lib/useIsPaletteItemSelected';
+import useOnSelectPaletteItem from '../lib/useOnSelectPaletteItem';
+import useSyncWithTerrain from '../lib/useSyncWithTerrain';
 
 PaletteItem.propTypes = {
     tabId: PropTypes.string,

@@ -1,5 +1,5 @@
-import useObserver from './useObserver.js';
-import useEditor from './useEditor.js';
+import useObserver from './useObserver';
+import useEditor from './useEditor';
 
 export default function useEditorObserver(propertyPath) {
     let editor = useEditor();

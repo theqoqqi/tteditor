@@ -1,9 +1,9 @@
 import styles from './LeftSidebar.module.css';
 import React, {useState} from 'react';
 import {BsArrow90DegLeft, BsFolderFill, BsGripVertical} from 'react-icons/bs';
-import LevelListTab from './levelListTab/LevelListTab.js';
+import LevelListTab from './levelListTab/LevelListTab';
 import {SidebarTab, Tabs} from '../../../shared/ui';
-import PaletteTab from './paletteTab/PaletteTab.js';
+import PaletteTab from './paletteTab/PaletteTab';
 
 const allTabs = [
     {

@@ -3,7 +3,7 @@ import React from 'react';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import {usePointerMode} from '../../../../entities/pointerMode';
 import {useMap} from '../../../../shared/lib';
-import MapContainer from '../mapContainer/MapContainer.js';
+import MapContainer from '../mapContainer/MapContainer';
 
 function ScrollableMapContainer() {
     let map = useMap();

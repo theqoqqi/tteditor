@@ -2,10 +2,10 @@ import styles from './Tabs.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Tab from './tab/Tab.js';
-import TabList from './tabList/TabList.js';
-import TabContentList from './tabContentList/TabContentList.js';
-import TabContent from './tabContent/TabContent.js';
+import Tab from './tab/Tab';
+import TabList from './tabList/TabList';
+import TabContentList from './tabContentList/TabContentList';
+import TabContent from './tabContent/TabContent';
 
 Tabs.propTypes = {
     className: PropTypes.any,

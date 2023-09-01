@@ -1,7 +1,7 @@
 import {createSelector, createSlice} from '@reduxjs/toolkit';
 import castArray from 'lodash.castarray';
 import uniq from 'lodash.uniq';
-import {editorInstance} from '../../../shared/lib/index.js';
+import {editorInstance} from '../../../shared/lib';
 
 const initialState = {
     mapNodes: [],

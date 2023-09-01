@@ -1,4 +1,4 @@
-import AddRemoveRandomizersCommand from './addRemove/AddRemoveRandomizersCommand.js';
+import AddRemoveRandomizersCommand from './addRemove/AddRemoveRandomizersCommand';
 
 export default class RemoveRandomizersCommand extends AddRemoveRandomizersCommand {
 

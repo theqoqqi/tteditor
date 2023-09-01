@@ -1,4 +1,4 @@
-import SetPropertiesCommand from '../SetPropertiesCommand.js';
+import SetPropertiesCommand from '../SetPropertiesCommand';
 
 export default class SetMapNodesPropertyCommand extends SetPropertiesCommand {
 

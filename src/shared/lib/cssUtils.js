@@ -1,8 +1,8 @@
-import {getTransformMatrix, transpose} from './editor/util/matrix.js';
-import {getTextContent} from './editor/util/xml.js';
-import {colorToCssRgba, hexIntColorToColor, hsbaColorToCssFilters, rgbaColorToHsbaColor} from './editor/util/colors.js';
-import {createBoxVertices} from './editor/util/geometry.js';
-import RenderContext from './editor/RenderContext.js';
+import {getTransformMatrix, transpose} from './editor/util/matrix';
+import {getTextContent} from './editor/util/xml';
+import {colorToCssRgba, hexIntColorToColor, hsbaColorToCssFilters, rgbaColorToHsbaColor} from './editor/util/colors';
+import {createBoxVertices} from './editor/util/geometry';
+import RenderContext from './editor/RenderContext';
 
 export function createTransform(width, height, renderContext, meshXml) {
     let initialVertices = createBoxVertices(0, 0, width, height);

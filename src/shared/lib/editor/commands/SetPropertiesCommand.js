@@ -1,4 +1,4 @@
-import MultiTargetCommand from './MultiTargetCommand.js';
+import MultiTargetCommand from './MultiTargetCommand';
 
 export default class SetPropertiesCommand extends MultiTargetCommand {
 

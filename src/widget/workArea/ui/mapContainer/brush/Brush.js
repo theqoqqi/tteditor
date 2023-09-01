@@ -3,7 +3,7 @@ import React, {useCallback, useEffect, useRef} from 'react';
 import {AddNodesCommand, useEditor} from '../../../../../shared/lib';
 import {Node} from '../../../../../entities/node';
 import {useMouse} from 'react-use';
-import ClickReceiver from './clickReceiver/ClickReceiver.js';
+import ClickReceiver from './clickReceiver/ClickReceiver';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectBrushMapNodes, setBrushPosition} from '../../../../../entities/brush';
 import {pointerModes, setPointerMode, usePointerMode} from '../../../../../entities/pointerMode';

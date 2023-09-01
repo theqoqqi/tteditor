@@ -1,4 +1,4 @@
-import useEditorObserver from './useEditorObserver.js';
+import useEditorObserver from './useEditorObserver';
 
 export default function useMap() {
     // noinspection UnnecessaryLocalVariableJS

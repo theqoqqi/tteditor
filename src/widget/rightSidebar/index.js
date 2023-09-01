@@ -1,4 +1,4 @@
-import RightSidebar from './ui/RightSidebar.js';
+import RightSidebar from './ui/RightSidebar';
 
 export {
     RightSidebar,

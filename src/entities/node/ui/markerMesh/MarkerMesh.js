@@ -3,8 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {xmlUtils} from '../../../../shared/lib';
 import classNames from 'classnames';
-import {createMarkerMeshStyles} from '../../lib/cssUtils.js';
-import markerMeshStyles from './markerMeshStyles.js';
+import {createMarkerMeshStyles} from '../../lib/cssUtils';
+import markerMeshStyles from './markerMeshStyles';
 
 MarkerMesh.propTypes = {
     variant: PropTypes.oneOf(['fallback', 'icon', 'area', 'name', 'caption']),

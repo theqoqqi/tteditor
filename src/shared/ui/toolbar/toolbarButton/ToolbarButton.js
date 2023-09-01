@@ -1,7 +1,7 @@
 import styles from './ToolbarButton.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import ToolbarItem from '../toolbarItem/ToolbarItem.js';
+import ToolbarItem from '../toolbarItem/ToolbarItem';
 import classNames from 'classnames';
 
 ToolbarButton.propTypes = {

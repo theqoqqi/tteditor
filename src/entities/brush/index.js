@@ -4,7 +4,7 @@ import {
     selectBrushMapNodes,
     setBrushMapNodes,
     setBrushPosition
-} from './model/brushSlice.js';
+} from './model/brushSlice';
 
 export {
     brushSlice,

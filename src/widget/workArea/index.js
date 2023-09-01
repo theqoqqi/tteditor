@@ -1,4 +1,4 @@
-import WorkArea from './ui/WorkArea.js';
+import WorkArea from './ui/WorkArea';
 
 export {
     WorkArea,

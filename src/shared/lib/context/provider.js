@@ -1,5 +1,5 @@
-import Context from './context.js';
-import editorInstance from './instance.js';
+import Context from './context';
+import editorInstance from './instance';
 
 export default function EditorProvider({ children }) {
     return (

@@ -1,4 +1,4 @@
-import LevelList from './ui/LevelList.js';
+import LevelList from './ui/LevelList';
 
 export {
     LevelList,

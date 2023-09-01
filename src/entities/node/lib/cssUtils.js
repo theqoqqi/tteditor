@@ -1,5 +1,5 @@
 import {colorsUtils, RenderContext} from '../../../shared/lib';
-import {createBackgroundStyle, createColorStyles, createTransform} from '../../../shared/lib/cssUtils.js';
+import {createBackgroundStyle, createColorStyles, createTransform} from '../../../shared/lib/cssUtils';
 
 export function createObjectNodeStyles(x, y) {
     return {

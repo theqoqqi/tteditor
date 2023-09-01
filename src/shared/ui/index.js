@@ -1,5 +1,5 @@
-import List from './list/List.js';
-import {Toolbar, ToolbarGroup, ToolbarButton, ToolbarIconButton, ToolbarItem, ToolbarSeparator} from './toolbar';
+import List from './list/List';
+import {Toolbar, ToolbarButton, ToolbarGroup, ToolbarIconButton, ToolbarItem, ToolbarSeparator} from './toolbar';
 import {SidebarTab} from './sidebarTab';
 import {Tabs} from './tabs';
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {getMeshXml, getTextureXml, isValidMesh} from '../../lib/xmlUtils.js';
-import TextureMesh from '../textureMesh/TextureMesh.js';
-import MarkerMesh from '../markerMesh/MarkerMesh.js';
+import {getMeshXml, getTextureXml, isValidMesh} from '../../lib/xmlUtils';
+import TextureMesh from '../textureMesh/TextureMesh';
+import MarkerMesh from '../markerMesh/MarkerMesh';
 
 ObjectMesh.propTypes = {
     tag: PropTypes.string,

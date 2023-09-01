@@ -1,5 +1,5 @@
 import {useSelector} from 'react-redux';
-import {selectError, selectIsLoading, selectLoadingPath, selectWorkspacePath} from '../model/workspaceSlice.js';
+import {selectError, selectIsLoading, selectLoadingPath, selectWorkspacePath} from '../model/workspaceSlice';
 
 export default function useWorkspace() {
     let workspacePath = useSelector(selectWorkspacePath);

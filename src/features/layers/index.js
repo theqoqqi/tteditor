@@ -1,4 +1,4 @@
-import useToggleLayer from './useToggleLayer.js';
+import useToggleLayer from './useToggleLayer';
 
 export {
     useToggleLayer,

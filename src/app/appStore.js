@@ -1,7 +1,7 @@
 import {configureStore} from '@reduxjs/toolkit';
-import {rootReducer} from './rootReducer.js';
+import {rootReducer} from './rootReducer';
 import {selectionSlice} from '../entities/selection';
-import {brushSlice} from '../entities/brush/index.js';
+import {brushSlice} from '../entities/brush';
 
 function makeStore() {
     let store = configureStore({

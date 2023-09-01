@@ -1,5 +1,5 @@
 import {createContext} from 'react';
-import editorInstance from './instance.js';
+import editorInstance from './instance';
 
 let Context = createContext(editorInstance);
 

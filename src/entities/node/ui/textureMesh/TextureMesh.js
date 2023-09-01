@@ -2,8 +2,8 @@ import styles from './TextureMesh.module.css';
 import React from 'react';
 import {RenderContext, useRenderContext} from '../../../../shared/lib';
 import PropTypes from 'prop-types';
-import {getMeshXml} from '../../lib/xmlUtils.js';
-import {createMeshStyles} from '../../lib/cssUtils.js';
+import {getMeshXml} from '../../lib/xmlUtils';
+import {createMeshStyles} from '../../lib/cssUtils';
 import {useAsync} from 'react-use';
 
 TextureMesh.propTypes = {

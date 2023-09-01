@@ -1,12 +1,12 @@
 import styles from './MainToolbar.module.css';
 import React from 'react';
 import {Toolbar, ToolbarGroup, ToolbarSeparator} from '../../../shared/ui';
-import ResetLevelButton from './level/ResetLevelButton.js';
-import SaveLevelButton from './level/SaveLevelButton.js';
-import DownloadLevelButton from './level/DownloadLevelButton.js';
+import ResetLevelButton from './level/ResetLevelButton';
+import SaveLevelButton from './level/SaveLevelButton';
+import DownloadLevelButton from './level/DownloadLevelButton';
 import {pointerModes} from '../../../entities/pointerMode';
-import ToggleLayerButton from './toggleLayerButton/ToggleLayerButton.js';
-import PointerModeButton from './pointerModeButton/PointerModeButton.js';
+import ToggleLayerButton from './toggleLayerButton/ToggleLayerButton';
+import PointerModeButton from './pointerModeButton/PointerModeButton';
 import {EditorContext} from '../../../shared/lib';
 
 function MainToolbar() {

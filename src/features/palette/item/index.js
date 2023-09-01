@@ -1,4 +1,4 @@
-import PaletteItem from './ui/PaletteItem.js';
+import PaletteItem from './ui/PaletteItem';
 
 export {
     PaletteItem,

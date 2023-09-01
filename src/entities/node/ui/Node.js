@@ -2,8 +2,8 @@ import styles from './Node.module.css';
 import React, {memo} from 'react';
 import PropTypes from 'prop-types';
 import {EditorContext, MapNode, useNodeXml, useObserver} from '../../../shared/lib';
-import ObjectNode from './objectNode/ObjectNode.js';
-import MarkerNode from './markerNode/MarkerNode.js';
+import ObjectNode from './objectNode/ObjectNode';
+import MarkerNode from './markerNode/MarkerNode';
 import classNames from 'classnames';
 
 Node.propTypes = {

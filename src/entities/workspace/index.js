@@ -1,5 +1,5 @@
-import {selectWorkspacePath, setWorkspacePath, workspaceSlice} from './model/workspaceSlice.js';
-import useWorkspace from './lib/useWorkspace.js';
+import {selectWorkspacePath, setWorkspacePath, workspaceSlice} from './model/workspaceSlice';
+import useWorkspace from './lib/useWorkspace';
 
 export {
     workspaceSlice,

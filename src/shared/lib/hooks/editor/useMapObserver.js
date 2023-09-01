@@ -1,5 +1,5 @@
-import useObserver from './useObserver.js';
-import useMap from './useMap.js';
+import useObserver from './useObserver';
+import useMap from './useMap';
 
 export default function useMapObserver(propertyPath) {
     let map = useMap();

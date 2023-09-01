@@ -4,7 +4,7 @@ import {selectVisibleLayers} from '../../../../../entities/layers';
 import {Node} from '../../../../../entities/node';
 import {useSelector} from 'react-redux';
 import {EditorContext, useMapListObserver} from '../../../../../shared/lib';
-import {usePointerMode} from '../../../../../entities/pointerMode/index.js';
+import {usePointerMode} from '../../../../../entities/pointerMode';
 
 function NodeList({ selectedMapNodes, onClickMapNode, onPointerDown }) {
     let [mapNodes] = useMapListObserver('nodes');

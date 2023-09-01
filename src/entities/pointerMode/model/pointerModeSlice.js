@@ -1,5 +1,5 @@
 import {createSelector, createSlice} from '@reduxjs/toolkit';
-import pointerModes from './pointerModes.js';
+import pointerModes from './pointerModes';
 
 const initialState = {
     currentMode: pointerModes.select.name,

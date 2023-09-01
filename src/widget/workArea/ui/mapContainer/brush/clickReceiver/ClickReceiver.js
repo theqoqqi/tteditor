@@ -1,7 +1,7 @@
 import styles from './ClickReceiver.module.css';
 import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
-import {MapNode} from '../../../../../../shared/lib/index.js';
+import {MapNode} from '../../../../../../shared/lib';
 
 ClickReceiver.propTypes = {
     x: PropTypes.number,

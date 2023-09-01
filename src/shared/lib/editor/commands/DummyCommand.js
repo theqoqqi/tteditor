@@ -1,4 +1,4 @@
-import AbstractCommand from './AbstractCommand.js';
+import AbstractCommand from './AbstractCommand';
 
 export default class DummyCommand extends AbstractCommand {
 

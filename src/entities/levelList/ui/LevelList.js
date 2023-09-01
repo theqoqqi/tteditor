@@ -1,6 +1,6 @@
 import styles from './LevelList.module.css';
 import React from 'react';
-import Level from './level/Level.js';
+import Level from './level/Level';
 import PropTypes from 'prop-types';
 import {List} from '../../../shared/ui';
 

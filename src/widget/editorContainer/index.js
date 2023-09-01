@@ -1,4 +1,4 @@
-import EditorContainer from './ui/EditorContainer.js';
+import EditorContainer from './ui/EditorContainer';
 
 export {
     EditorContainer,

@@ -2,8 +2,8 @@ import styles from './SelectionBox.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {createSelectionBoxStyles} from '../../lib/cssUtils.js';
-import {RenderContext} from '../../../../shared/lib/index.js';
+import {createSelectionBoxStyles} from '../../lib/cssUtils';
+import {RenderContext} from '../../../../shared/lib';
 
 SelectionBox.propTypes = {
     bounds: PropTypes.shape({

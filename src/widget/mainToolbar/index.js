@@ -1,4 +1,4 @@
-import MainToolbar from './ui/MainToolbar.js';
+import MainToolbar from './ui/MainToolbar';
 
 export {
     MainToolbar,

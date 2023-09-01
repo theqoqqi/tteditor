@@ -1,4 +1,4 @@
-import Tabs from './Tabs.js';
+import Tabs from './Tabs';
 
 export {
     Tabs,

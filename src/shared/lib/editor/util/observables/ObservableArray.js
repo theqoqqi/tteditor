@@ -1,4 +1,4 @@
-import Observable from './Observable.js';
+import Observable from './Observable';
 
 let listChangedSymbol = Symbol();
 let elementAddedSymbol = Symbol();

@@ -1,6 +1,6 @@
 import React from 'react';
-import {getMeshXml} from '../../../lib/xmlUtils.js';
-import SelectionBox from './../../selectionBox/SelectionBox.js';
+import {getMeshXml} from '../../../lib/xmlUtils';
+import SelectionBox from './../../selectionBox/SelectionBox';
 import PropTypes from 'prop-types';
 import {geometryUtils, RenderContext} from '../../../../../shared/lib';
 

@@ -2,11 +2,11 @@ import styles from './MarkerNode.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {MapNode, RenderContext, useObserver, useRenderContext} from '../../../../shared/lib';
-import MarkerMesh from '../markerMesh/MarkerMesh.js';
-import MeshIcon from '../markerMesh/meshIcon/MeshIcon.js';
-import MarkerSelectionBox from './markerSelectionBox/MarkerSelectionBox.js';
+import MarkerMesh from '../markerMesh/MarkerMesh';
+import MeshIcon from '../markerMesh/meshIcon/MeshIcon';
+import MarkerSelectionBox from './markerSelectionBox/MarkerSelectionBox';
 import classNames from 'classnames';
-import {createMarkerNodeStyles} from '../../lib/cssUtils.js';
+import {createMarkerNodeStyles} from '../../lib/cssUtils';
 
 MarkerNode.propTypes = {
     className: PropTypes.any,

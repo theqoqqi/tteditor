@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {setSelectedPaletteItem} from '../../../../entities/palette';
-import {useMapObserver} from '../../../../shared/lib/index.js';
+import {useMapObserver} from '../../../../shared/lib';
 
 export default function useSyncWithTerrain(tabId, itemId, tag, type) {
     let terrain = useMapObserver('terrain');

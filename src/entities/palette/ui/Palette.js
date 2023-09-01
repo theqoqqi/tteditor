@@ -2,9 +2,9 @@ import styles from './Palette.module.css';
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {Tabs} from '../../../shared/ui';
-import tabs from '../lib/tabs.js';
-import PaletteTab from './paletteTab/PaletteTab.js';
-import PaletteTabContent from './paletteTabContent/PaletteTabContent.js';
+import tabs from '../lib/tabs';
+import PaletteTab from './paletteTab/PaletteTab';
+import PaletteTabContent from './paletteTabContent/PaletteTabContent';
 
 Palette.propTypes = {
     selectedTab: PropTypes.number,

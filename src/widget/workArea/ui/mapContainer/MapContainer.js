@@ -1,8 +1,8 @@
 import styles from './MapContainer.module.css';
 import React from 'react';
-import Map from '../map/Map.js';
-import Border from './border/Border.js';
-import Brush from './brush/Brush.js';
+import Map from '../map/Map';
+import Border from './border/Border';
+import Brush from './brush/Brush';
 
 function MapContainer() {
     return (

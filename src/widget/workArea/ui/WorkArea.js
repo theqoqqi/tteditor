@@ -1,6 +1,6 @@
 import styles from './WorkArea.module.css';
 import React from 'react';
-import ScrollableMapContainer from './scrollableMapContainer/ScrollableMapContainer.js';
+import ScrollableMapContainer from './scrollableMapContainer/ScrollableMapContainer';
 
 function WorkArea() {
     return (

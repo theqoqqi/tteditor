@@ -1,6 +1,6 @@
 import {useEffect, useReducer, useState} from 'react';
 import {getProperty} from 'dot-prop';
-import {CompositeObserver} from '../../index.js';
+import CompositeObserver from '../../editor/util/observables/CompositeObserver';
 
 let propertyReducer = (state, newValue) => {
     return {

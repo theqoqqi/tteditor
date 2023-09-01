@@ -1,5 +1,5 @@
-import {getNumericContent, getTextContent} from './util/xml.js';
-import {createBoundsWithSize, createBoxVertices, flipVertices, swapVertices} from './util/geometry.js';
+import {getNumericContent, getTextContent} from './util/xml';
+import {createBoundsWithSize, createBoxVertices, flipVertices, swapVertices} from './util/geometry';
 
 let COORDS_RATIO = 78 / 128;
 

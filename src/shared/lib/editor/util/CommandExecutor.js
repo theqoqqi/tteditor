@@ -1,4 +1,4 @@
-import Observable from './observables/Observable.js';
+import Observable from './observables/Observable';
 
 export default class CommandExecutor extends Observable {
 

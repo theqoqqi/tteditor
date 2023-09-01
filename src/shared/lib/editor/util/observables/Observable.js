@@ -1,4 +1,4 @@
-import ObservableArray from './ObservableArray.js';
+import ObservableArray from './ObservableArray';
 
 let allObserversSymbol = Symbol();
 

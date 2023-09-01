@@ -1,5 +1,5 @@
-import Observable from './Observable.js';
-import ObservableArray from './ObservableArray.js';
+import Observable from './Observable';
+import ObservableArray from './ObservableArray';
 
 export default class CompositeObserver {
 

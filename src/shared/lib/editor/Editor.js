@@ -1,9 +1,9 @@
-import CommandExecutor from './util/CommandExecutor.js';
-import CompositeObserver from './util/observables/CompositeObserver.js';
-import LevelEditor from './LevelEditor.js';
-import DummyCommand from './commands/DummyCommand.js';
-import Observable from './util/observables/Observable.js';
-import RenderContext from './RenderContext.js';
+import CommandExecutor from './util/CommandExecutor';
+import CompositeObserver from './util/observables/CompositeObserver';
+import LevelEditor from './LevelEditor';
+import DummyCommand from './commands/DummyCommand';
+import Observable from './util/observables/Observable';
+import RenderContext from './RenderContext';
 
 export default class Editor extends Observable {
 

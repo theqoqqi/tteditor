@@ -1,4 +1,4 @@
-import useSetPointerMode from './useSetPointerMode.js';
+import useSetPointerMode from './useSetPointerMode';
 
 export {
     useSetPointerMode,

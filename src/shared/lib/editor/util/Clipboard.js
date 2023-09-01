@@ -1,6 +1,6 @@
-import MapWriter from '../MapWriter.js';
-import MapReader from '../MapReader.js';
-import {reformatXml} from './xml.js';
+import MapWriter from '../MapWriter';
+import MapReader from '../MapReader';
+import {reformatXml} from './xml';
 
 export default class Clipboard {
 

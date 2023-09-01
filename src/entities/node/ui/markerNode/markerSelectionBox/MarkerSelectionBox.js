@@ -1,5 +1,5 @@
 import React from 'react';
-import SelectionBox from './../../selectionBox/SelectionBox.js';
+import SelectionBox from './../../selectionBox/SelectionBox';
 import PropTypes from 'prop-types';
 import {geometryUtils} from '../../../../../shared/lib';
 

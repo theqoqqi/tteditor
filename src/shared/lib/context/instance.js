@@ -1,4 +1,5 @@
-import {Editor, EditorContext} from '../index.js';
+import Editor from '../editor/Editor';
+import EditorContext from '../editor/EditorContext';
 
 async function createEditor() {
     let SERVER_URL = 'http://localhost:4000';

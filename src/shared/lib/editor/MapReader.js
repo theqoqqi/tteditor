@@ -1,11 +1,11 @@
-import GameMap from './map/GameMap.js';
-import MapNode from './map/MapNode.js';
-import Trigger from './map/Trigger.js';
-import MapOptions from './map/MapOptions.js';
-import RandomizerOption from './map/RandomizerOption.js';
-import {getNumericContent, getTextContent} from './util/xml.js';
-import {hexIntColorToColor} from './util/colors.js';
-import EditorContext from './EditorContext.js';
+import GameMap from './map/GameMap';
+import MapNode from './map/MapNode';
+import Trigger from './map/Trigger';
+import MapOptions from './map/MapOptions';
+import RandomizerOption from './map/RandomizerOption';
+import {getNumericContent, getTextContent} from './util/xml';
+import {hexIntColorToColor} from './util/colors';
+import EditorContext from './EditorContext';
 
 // noinspection CssInvalidHtmlTagReference
 export default class MapReader {

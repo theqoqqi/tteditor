@@ -1,4 +1,4 @@
-import {createBackgroundStyle, createTintStyle} from '../../../shared/lib/cssUtils.js';
+import {createBackgroundStyle, createTintStyle} from '../../../shared/lib/cssUtils';
 
 export function createTerrainStyles(terrain) {
     let hasTexture = terrain.texture !== null;

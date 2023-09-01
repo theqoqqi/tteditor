@@ -1,9 +1,9 @@
-import Toolbar from './Toolbar.js';
-import ToolbarGroup from './toolbarGroup/ToolbarGroup.js';
-import ToolbarItem from './toolbarItem/ToolbarItem.js';
-import ToolbarButton from './toolbarButton/ToolbarButton.js';
-import ToolbarIconButton from './toolbarIconButton/ToolbarIconButton.js';
-import ToolbarSeparator from './toolbarSeparator/ToolbarSeparator.js';
+import Toolbar from './Toolbar';
+import ToolbarGroup from './toolbarGroup/ToolbarGroup';
+import ToolbarItem from './toolbarItem/ToolbarItem';
+import ToolbarButton from './toolbarButton/ToolbarButton';
+import ToolbarIconButton from './toolbarIconButton/ToolbarIconButton';
+import ToolbarSeparator from './toolbarSeparator/ToolbarSeparator';
 
 export {
     Toolbar,

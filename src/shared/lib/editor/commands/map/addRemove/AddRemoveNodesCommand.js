@@ -1,4 +1,4 @@
-import AddRemoveCommand from '../../AddRemoveCommand.js';
+import AddRemoveCommand from '../../AddRemoveCommand';
 
 export default class AddRemoveNodesCommand extends AddRemoveCommand {
 

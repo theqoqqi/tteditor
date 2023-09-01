@@ -1,12 +1,12 @@
 import styles from './ObjectNode.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {getChildNodeXmls} from '../../lib/xmlUtils.js';
-import ObjectMeshes from './objectMeshes/ObjectMeshes.js';
+import {getChildNodeXmls} from '../../lib/xmlUtils';
+import ObjectMeshes from './objectMeshes/ObjectMeshes';
 import {MapNode, useEditorContext, useObserver, useRenderContext} from '../../../../shared/lib';
-import ObjectSelectionBox from './objectSelectionBox/ObjectSelectionBox.js';
+import ObjectSelectionBox from './objectSelectionBox/ObjectSelectionBox';
 import classNames from 'classnames';
-import {createObjectNodeStyles} from '../../lib/cssUtils.js';
+import {createObjectNodeStyles} from '../../lib/cssUtils';
 
 ObjectNode.propTypes = {
     className: PropTypes.any,

@@ -1,4 +1,4 @@
-import SidebarTab from './SidebarTab.js';
+import SidebarTab from './SidebarTab';
 
 export {
     SidebarTab,

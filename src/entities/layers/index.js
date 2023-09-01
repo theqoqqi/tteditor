@@ -4,7 +4,7 @@ import {
     selectVisibleLayers,
     setLayerVisible,
     setVisibleLayers
-} from './model/layersSlice.js';
+} from './model/layersSlice';
 
 export {
     layersSlice,
