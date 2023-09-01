@@ -4,12 +4,14 @@ import {selectVisibleLayers} from '../../../../../entities/layers';
 import {Node} from '../../../../../entities/node';
 import {useSelector} from 'react-redux';
 import {EditorContext, useMapListObserver} from '../../../../../shared/lib';
+import {usePointerMode} from '../../../../../entities/pointerMode/index.js';
 
 function NodeList({ selectedMapNodes, onClickMapNode, onPointerDown }) {
     let [mapNodes] = useMapListObserver('nodes');
     let visibleLayers = useSelector(selectVisibleLayers);
+    let pointerMode = usePointerMode();
 
-    let isSelected = mapNode => selectedMapNodes?.includes(mapNode);
+    let isSelected = mapNode => pointerMode.canSelectNodes && selectedMapNodes?.includes(mapNode);
 
     return (
         <div className={styles.mapNodeList}>
@@ -23,6 +25,7 @@ function NodeList({ selectedMapNodes, onClickMapNode, onPointerDown }) {
                         mapNode={mapNode}
                         selected={isSelected(mapNode)}
                         hidden={!isLayerVisible}
+                        interactable={pointerMode.canSelectNodes}
                         onClick={onClickMapNode}
                         onPointerDown={onPointerDown}
                     />

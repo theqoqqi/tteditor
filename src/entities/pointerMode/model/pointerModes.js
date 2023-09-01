@@ -10,6 +10,7 @@ const pointerModes = {
         icon: BsFullscreen,
         scrollButtons: [MIDDLE_MOUSE_BUTTON],
         dragButton: LEFT_MOUSE_BUTTON,
+        canSelectNodes: true,
     },
     scroll: {
         name: 'scroll',
@@ -17,6 +18,7 @@ const pointerModes = {
         icon: BsArrowsMove,
         scrollButtons: [LEFT_MOUSE_BUTTON, MIDDLE_MOUSE_BUTTON],
         dragButton: null,
+        canSelectNodes: false,
     },
 };
 
