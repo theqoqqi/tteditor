@@ -273,17 +273,18 @@ export default class EditorContext {
     }
 
     getAlignGridWidth() {
-        let config = this.getGameLogicConfig();
-        let gridXml = config.querySelector('grid_grid');
-
-        return +gridXml.getAttribute('x');
+        return this.getAlignGridAxis('x');
     }
 
     getAlignGridHeight() {
+        return this.getAlignGridAxis('y');
+    }
+
+    getAlignGridAxis(axis) {
         let config = this.getGameLogicConfig();
         let gridXml = config.querySelector('grid_grid');
 
-        return +gridXml.getAttribute('y');
+        return +gridXml.getAttribute(axis);
     }
 
     getGameLogicConfig() {
