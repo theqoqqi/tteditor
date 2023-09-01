@@ -218,7 +218,7 @@ export default class RenderContext {
             }
         }
 
-        return {x, y, z};
+        return { x, y, z };
     }
 
     static getSelectionBoxZIndex(width, height) {

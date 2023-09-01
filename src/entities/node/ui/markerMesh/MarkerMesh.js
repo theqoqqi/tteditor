@@ -30,7 +30,7 @@ function MarkerMesh({ variant, className, style, children, tag, meshXml, size, s
     return (
         <div
             className={classNames(styles.markerMesh, styles[variant], styles[tag], className)}
-            style={{...meshStyle, ...tagStyles, ...style, ...{zIndex}}}
+            style={{ ...meshStyle, ...tagStyles, ...style, ...{ zIndex } }}
         >
             {children}
         </div>

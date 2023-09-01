@@ -1,4 +1,3 @@
-
 export function verticesToBounds(vertices) {
     let positions = verticesToPositions(vertices);
 

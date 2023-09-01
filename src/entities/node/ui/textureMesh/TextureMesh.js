@@ -31,7 +31,7 @@ function TextureMesh({ tag, type, nodeXml, zIndex, style }) {
         <img
             className={styles.mesh}
             src={texturePath ?? '/img/empty.png'}
-            style={{...asyncMeshStyle.value, ...{zIndex}, ...style}}
+            style={{ ...asyncMeshStyle.value, ...{ zIndex }, ...style }}
             alt=''
         />
     );

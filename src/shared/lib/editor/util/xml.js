@@ -1,4 +1,3 @@
-
 export function getNumericContent(ofElement, selector, defaultValue = null) {
     if (!ofElement) {
         return defaultValue;

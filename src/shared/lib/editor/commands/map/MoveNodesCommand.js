@@ -18,7 +18,7 @@ export default class MoveNodesCommand extends MultiTargetCommand {
     }
 
     moveMapNodeBy(mapNode, byX, byY) {
-        this.editor.context.setMapNodePosition(mapNode, mapNode.x + byX, mapNode.y + byY)
+        this.editor.context.setMapNodePosition(mapNode, mapNode.x + byX, mapNode.y + byY);
     }
 
     canBeMerged(other) {

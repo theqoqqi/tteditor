@@ -1,11 +1,15 @@
-
 export default class Hotkeys {
 
     isNoModifiersPressed;
+
     isAnyModifierPressed;
+
     isNothingPressed;
+
     isAnythingPressed;
+
     pressedShortcut;
+
     pressedModifiers;
 
     constructor(e) {

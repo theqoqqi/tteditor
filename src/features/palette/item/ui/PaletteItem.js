@@ -18,7 +18,7 @@ PaletteItem.propTypes = {
     name: PropTypes.string,
 };
 
-function PaletteItem({tabId, id, nodeMetadata, tag, type, name}) {
+function PaletteItem({ tabId, id, nodeMetadata, tag, type, name }) {
     let mapNodes = usePrototypeMapNodes(nodeMetadata, tag, type, name);
     let isSelected = useIsPaletteItemSelected(tabId, id);
     let onClick = useOnSelectPaletteItem(tabId, id, tag, type, mapNodes);

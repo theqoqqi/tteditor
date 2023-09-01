@@ -20,7 +20,7 @@ function makeStore() {
     if ('hot' in module) {
         module.hot.accept('./rootReducer', () => {
             store.replaceReducer(require('./rootReducer').rootReducer);
-        })
+        });
     }
 
     return store;

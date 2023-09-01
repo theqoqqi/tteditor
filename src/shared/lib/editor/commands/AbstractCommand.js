@@ -1,4 +1,3 @@
-
 let nextEditorId = 1;
 
 export default class AbstractCommand {

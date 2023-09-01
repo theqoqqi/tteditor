@@ -1,4 +1,3 @@
-
 // noinspection CssInvalidHtmlTagReference
 import {colorToHexIntColor} from './util/colors.js';
 import EditorContext from './EditorContext.js';

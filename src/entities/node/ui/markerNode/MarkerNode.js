@@ -25,7 +25,7 @@ function MarkerNode({ className, mapNode, selected, nodeProps }) {
 
     let layerZ = RenderContext.getLayerZForTagName(tag);
     let iconRadius = RenderContext.getIconRadius(tag);
-    let {radiusX, radiusY} = renderContext.getAreaRadiusSizesFor(mapNode);
+    let { radiusX, radiusY } = renderContext.getAreaRadiusSizesFor(mapNode);
     let hasArea = radiusX > 0 && radiusY > 0;
     let hasIcon = iconRadius > 0;
     let hasText = Boolean(name || type);

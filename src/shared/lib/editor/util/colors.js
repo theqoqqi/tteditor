@@ -1,4 +1,3 @@
-
 export function hexIntColorToColor(color) {
     if (!color) {
         return null;

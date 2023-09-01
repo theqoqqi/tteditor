@@ -9,7 +9,7 @@ ClickReceiver.propTypes = {
     mapNodes: PropTypes.arrayOf(PropTypes.instanceOf(MapNode)),
 };
 
-function ClickReceiver({x, y, mapNodes, onPlace, onCancel}) {
+function ClickReceiver({ x, y, mapNodes, onPlace, onCancel }) {
     let onClick = useCallback(() => {
         let mapNodesToPlace = mapNodes.map(mapNode => {
             mapNode = mapNode.clone();

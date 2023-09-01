@@ -17,7 +17,7 @@ function WorkspaceEditor({ initialPath, onSave }) {
                 className={styles.input}
                 value={inputPath}
                 onChange={e => setInputPath(e.target.value)}
-                style={{width: (inputPath.length + 1) + 'ch'}}
+                style={{ width: (inputPath.length + 1) + 'ch' }}
             />
             <ToolbarButton onClick={() => onSave(inputPath)}>
                 Сохранить

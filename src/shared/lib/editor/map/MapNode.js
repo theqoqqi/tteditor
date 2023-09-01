@@ -5,11 +5,17 @@ let nextEditorId = 1;
 export default class MapNode extends Observable {
 
     radius = null;
+
     type = null;
+
     name = null;
+
     hint = null;
+
     owner = null;
+
     subId = null;
+
     group = null;
 
     constructor(tag, x, y, isFake = false) {
