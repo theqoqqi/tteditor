@@ -26,7 +26,7 @@ export default function useOnSelectPaletteItem(tabId, itemId, tag, type) {
         } else {
 
         }
-    }, [editor, editorContext, map]);
+    }, [dispatch, editor, editorContext, map, tabId, itemId, tag, type]);
 
     return onSelect;
 }
