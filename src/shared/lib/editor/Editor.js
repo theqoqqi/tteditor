@@ -1,7 +1,7 @@
 import CommandExecutor from './util/CommandExecutor';
 import CompositeObserver from './util/observables/CompositeObserver';
 import LevelEditor from './LevelEditor';
-import DummyCommand from './commands/DummyCommand';
+import InitialCommand from './commands/InitialCommand';
 import Observable from './util/observables/Observable';
 import RenderContext from './RenderContext';
 
@@ -127,13 +127,9 @@ export default class Editor extends Observable {
 
         this.commandExecutor.clear();
         this.setLevelClear();
-        this.executeCommand(Editor.#createInitialCommand());
+        this.executeCommand(new InitialCommand());
 
         return map;
-    }
-
-    static #createInitialCommand() {
-        return new DummyCommand('Изначальное состояние', 'bi-circle');
     }
 
     async reloadCurrentLevel() {

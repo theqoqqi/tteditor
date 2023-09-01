@@ -13,6 +13,7 @@ import MapTerrain from './editor/map/MapTerrain';
 import RandomizerOption from './editor/map/RandomizerOption';
 import Trigger from './editor/map/Trigger';
 import AbstractCommand from './editor/commands/AbstractCommand';
+import InitialCommand from './editor/commands/InitialCommand';
 import AddNodesCommand from './editor/commands/map/AddNodesCommand';
 import AddRandomizersCommand from './editor/commands/map/AddRandomizersCommand';
 import AddTriggersCommand from './editor/commands/map/AddTriggersCommand';
@@ -66,6 +67,7 @@ export {
     Trigger,
 
     AbstractCommand,
+    InitialCommand,
     AddNodesCommand,
     AddRandomizersCommand,
     AddTriggersCommand,
