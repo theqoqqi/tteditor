@@ -2,8 +2,10 @@ import {SetTerrainCommand, useEditor, useEditorContext, useMap} from '../../../.
 import {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 import {setSelectedPaletteItem} from '../../../../entities/palette';
+import {setBrushMapNodes} from '../../../../entities/brush';
+import {pointerModes, setPointerMode} from '../../../../entities/pointerMode';
 
-export default function useOnSelectPaletteItem(tabId, itemId, tag, type) {
+export default function useOnSelectPaletteItem(tabId, itemId, tag, type, mapNodes) {
     let editor = useEditor();
     let editorContext = useEditorContext();
     let map = useMap();
@@ -24,9 +26,10 @@ export default function useOnSelectPaletteItem(tabId, itemId, tag, type) {
 
             editor.executeCommand(new SetTerrainCommand(map, terrain));
         } else {
-
+            dispatch(setPointerMode(pointerModes.insert.name));
+            dispatch(setBrushMapNodes(mapNodes.map(mapNode => mapNode.clone())));
         }
-    }, [dispatch, editor, editorContext, map, tabId, itemId, tag, type]);
+    }, [dispatch, editor, editorContext, map, tabId, itemId, tag, type, mapNodes]);
 
     return onSelect;
 }
