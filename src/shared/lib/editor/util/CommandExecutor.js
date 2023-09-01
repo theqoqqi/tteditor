@@ -73,7 +73,7 @@ export default class CommandExecutor extends Observable {
     }
 
     clear() {
-        this.commands = [];
+        this.commands.splice(0);
         this.executedCommands = 0;
     }
 
