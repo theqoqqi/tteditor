@@ -7,6 +7,7 @@ export default class CommandExecutor extends Observable {
 
         this.commands = [];
         this.executedCommands = 0;
+        this.version = 0;
     }
 
     execute(command) {
@@ -16,6 +17,8 @@ export default class CommandExecutor extends Observable {
 
         command.execute();
         this.#pushCommand(command);
+
+        this.version++;
     }
 
     #pushCommand(command) {
@@ -44,6 +47,7 @@ export default class CommandExecutor extends Observable {
 
         this.commands[this.lastExecutedIndex + 1].execute();
         this.executedCommands++;
+        this.version++;
     }
 
     undo() {
@@ -59,6 +63,7 @@ export default class CommandExecutor extends Observable {
 
         command.undo();
         this.executedCommands--;
+        this.version++;
     }
 
     rewindTo(command) {
@@ -70,11 +75,14 @@ export default class CommandExecutor extends Observable {
         } else if (commandIndex < this.lastExecutedIndex) {
             this.#undoUntil(commandIndex);
         }
+
+        this.version++;
     }
 
     clear() {
         this.commands.splice(0);
         this.executedCommands = 0;
+        this.version = 0;
     }
 
     getCommand(index) {
