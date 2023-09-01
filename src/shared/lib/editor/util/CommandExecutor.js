@@ -23,7 +23,7 @@ export default class CommandExecutor extends Observable {
 
     #pushCommand(command) {
         if (this.#canBeMerged(command)) {
-            this.#lastExecutedCommand.merge(command);
+            this.lastExecutedCommand.merge(command);
         } else {
             this.commands.push(command);
             this.executedCommands++;
@@ -35,7 +35,7 @@ export default class CommandExecutor extends Observable {
             return;
         }
 
-        let lastCommand = this.#lastExecutedCommand;
+        let lastCommand = this.lastExecutedCommand;
 
         return lastCommand.canBeMerged(command);
     }
@@ -127,7 +127,7 @@ export default class CommandExecutor extends Observable {
         return this.executedCommands - 1;
     }
 
-    get #lastExecutedCommand() {
+    get lastExecutedCommand() {
         if (this.lastExecutedIndex < 0) {
             return null;
         }
