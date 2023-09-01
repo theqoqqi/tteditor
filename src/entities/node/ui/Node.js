@@ -12,10 +12,11 @@ Node.propTypes = {
     onClick: PropTypes.func,
     onPointerDown: PropTypes.func,
     hidden: PropTypes.bool,
+    interactable: PropTypes.bool,
     highlight: PropTypes.bool,
 };
 
-function Node({ mapNode, selected, onClick, onPointerDown, hidden, highlight }) {
+function Node({ mapNode, selected, onClick, onPointerDown, hidden, interactable = true, highlight }) {
     let tag = useObserver(mapNode, 'tag');
     let type = useObserver(mapNode, 'type');
     let nodeXml = useNodeXml(tag, type);
@@ -26,9 +27,10 @@ function Node({ mapNode, selected, onClick, onPointerDown, hidden, highlight }) 
     };
 
     let commonProps = {
-        className: classNames({
+        className: classNames(styles.node, {
             [styles.hidden]: hidden,
             [styles.highlight]: highlight,
+            [styles.interactable]: interactable,
         }),
         selected,
     };

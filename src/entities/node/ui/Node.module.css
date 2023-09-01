@@ -1,6 +1,14 @@
 
+.node {
+    pointer-events: none;
+}
+
 .hidden {
     visibility: hidden;
+}
+
+.interactable {
+    pointer-events: auto;
 }
 
 .highlight {
