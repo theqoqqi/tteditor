@@ -19,8 +19,4 @@ export default class SetRandomizerPropertyCommand extends SetPropertiesCommand {
     get title() {
         return `Изменено ${this.targets.length} рандомайзеров`;
     }
-
-    get iconClass() {
-        return 'bi-patch-check-fill';
-    }
 }

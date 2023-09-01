@@ -9,8 +9,4 @@ export default class InitialCommand extends AbstractCommand {
     get title() {
         return 'Изначальное состояние';
     }
-
-    get iconClass() {
-        return 'bi-circle';
-    }
 }

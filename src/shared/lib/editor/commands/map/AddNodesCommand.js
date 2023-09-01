@@ -9,8 +9,4 @@ export default class AddNodesCommand extends AddRemoveNodesCommand {
     get title() {
         return `Добавлено ${this.targets.length} объектов`;
     }
-
-    get iconClass() {
-        return 'bi-node-plus-fill';
-    }
 }

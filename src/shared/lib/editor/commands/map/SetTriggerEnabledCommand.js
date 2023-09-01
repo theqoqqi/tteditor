@@ -27,8 +27,4 @@ export default class SetTriggerEnabledCommand extends SetPropertiesCommand {
     get title() {
         return `Переключено ${this.targets.length} триггеров`;
     }
-
-    get iconClass() {
-        return 'bi-file-earmark-check-fill';
-    }
 }

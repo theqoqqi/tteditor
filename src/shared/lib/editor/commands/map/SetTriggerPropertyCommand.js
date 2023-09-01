@@ -19,8 +19,4 @@ export default class SetTriggerPropertyCommand extends SetPropertiesCommand {
     get title() {
         return `Изменено ${this.targets.length} триггеров`;
     }
-
-    get iconClass() {
-        return 'bi-file-earmark-medical-fill';
-    }
 }

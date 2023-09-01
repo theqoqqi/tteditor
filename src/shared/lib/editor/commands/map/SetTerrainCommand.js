@@ -19,8 +19,4 @@ export default class SetTerrainCommand extends SetPropertiesCommand {
     get title() {
         return `Изменена базовая текстура`;
     }
-
-    get iconClass() {
-        return 'bi-square-fill';
-    }
 }

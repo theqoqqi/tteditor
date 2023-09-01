@@ -19,8 +19,4 @@ export default class SetMapNodesPropertyCommand extends SetPropertiesCommand {
     get title() {
         return `Изменено ${this.targets.length} объектов`;
     }
-
-    get iconClass() {
-        return 'bi-gear-fill';
-    }
 }

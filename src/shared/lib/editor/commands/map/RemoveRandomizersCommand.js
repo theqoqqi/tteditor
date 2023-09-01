@@ -9,8 +9,4 @@ export default class RemoveRandomizersCommand extends AddRemoveRandomizersComman
     get title() {
         return `Удалено ${this.targets.length} рандомайзеров`;
     }
-
-    get iconClass() {
-        return 'bi-patch-minus-fill';
-    }
 }

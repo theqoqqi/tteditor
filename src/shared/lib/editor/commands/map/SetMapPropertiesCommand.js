@@ -21,8 +21,4 @@ export default class SetMapPropertiesCommand extends SetPropertiesCommand {
     get title() {
         return `Изменено ${Object.entries(this.propertyValues).length} свойств карты`;
     }
-
-    get iconClass() {
-        return 'bi-border-outer';
-    }
 }

@@ -33,8 +33,4 @@ export default class MoveNodesCommand extends MultiTargetCommand {
     get title() {
         return `Перемещено ${this.targets.length} объектов`;
     }
-
-    get iconClass() {
-        return 'bi-arrows-move';
-    }
 }
