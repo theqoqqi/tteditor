@@ -263,22 +263,28 @@ export default class EditorContext {
     }
 
     setMapNodePosition(mapNode, x, y) {
-        mapNode.x = x;
-        mapNode.y = y;
+        let aligned = this.alignMapNodePositionToGrid(mapNode, x, y);
 
-        if (this.shouldMapNodeAlignToGrid(mapNode)) {
-            this.alignNodeToGrid(mapNode);
-        }
+        mapNode.x = aligned.x;
+        mapNode.y = aligned.y;
     }
 
-    alignNodeToGrid(mapNode) {
-        let config = this.getGameLogicConfig();
-        let gridXml = config.querySelector('grid_grid');
-        let gridWidth = +gridXml.getAttribute('x');
-        let gridHeight = +gridXml.getAttribute('y');
+    alignMapNodePositionToGrid(mapNode, x, y) {
+        if (!this.shouldMapNodeAlignToGrid(mapNode)) {
+            return { x, y };
+        }
 
-        mapNode.x = Math.round(mapNode.x / gridWidth) * gridWidth;
-        mapNode.y = Math.round(mapNode.y / gridHeight) * gridHeight;
+        return this.alignPositionToGrid(x, y);
+    }
+
+    alignPositionToGrid(x, y) {
+        let gridWidth = this.getAlignGridWidth();
+        let gridHeight = this.getAlignGridHeight();
+
+        return {
+            x: Math.round(x / gridWidth) * gridWidth,
+            y: Math.round(y / gridHeight) * gridHeight,
+        };
     }
 
     getAlignGridWidth() {
