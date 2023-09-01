@@ -8,6 +8,8 @@ import {pointerModes} from '../../../entities/pointerMode';
 import ToggleLayerButton from './toggleLayerButton/ToggleLayerButton';
 import PointerModeButton from './pointerModeButton/PointerModeButton';
 import {EditorContext} from '../../../shared/lib';
+import Undo from './undoRedo/Undo';
+import Redo from './undoRedo/Redo';
 
 function MainToolbar() {
     let layerTags = EditorContext.getLayerTagNames();
@@ -18,6 +20,11 @@ function MainToolbar() {
                 <ResetLevelButton />
                 <SaveLevelButton />
                 <DownloadLevelButton />
+            </ToolbarGroup>
+            <ToolbarSeparator />
+            <ToolbarGroup>
+                <Undo />
+                <Redo />
             </ToolbarGroup>
             <ToolbarSeparator />
             <ToolbarGroup>
