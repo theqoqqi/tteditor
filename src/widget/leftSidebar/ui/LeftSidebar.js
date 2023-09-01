@@ -4,6 +4,7 @@ import {BsArrow90DegLeft, BsFolderFill, BsGripVertical} from 'react-icons/bs';
 import LevelListTab from './levelListTab/LevelListTab';
 import {SidebarTab, Tabs} from '../../../shared/ui';
 import PaletteTab from './paletteTab/PaletteTab';
+import CommandListTab from './commandListTab/CommandListTab';
 
 const allTabs = [
     {
@@ -19,7 +20,7 @@ const allTabs = [
     {
         key: 'commandList',
         tab: <SidebarTab side='left' title='Изменения' icon={<BsArrow90DegLeft />} />,
-        content: <b>Изменения</b>,
+        content: <CommandListTab />,
     },
 ];
 

@@ -1,0 +1,44 @@
+
+.command {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    padding: 4px 0;
+
+    font-size: 12px;
+
+    cursor: default;
+}
+
+.command:hover {
+    background-color: #eee;
+}
+
+.command.selected {
+    background-color: #57bdff;
+    color: white;
+}
+
+.command:not(.executed) {
+    color: lightgray;
+}
+
+.command .icon {
+    width: 30px;
+}
+
+.command .title {
+    flex: 1;
+
+    padding: 0 5px;
+    border-left: 1px solid #ddd;
+
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
