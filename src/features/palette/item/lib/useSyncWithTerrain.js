@@ -18,5 +18,5 @@ export default function useSyncWithTerrain(tabId, itemId, tag, type) {
                 itemId,
             }));
         }
-    }, [tabId, itemId, tag, type, terrain]);
+    }, [dispatch, tabId, itemId, tag, type, terrain]);
 }
