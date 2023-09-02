@@ -11,4 +11,6 @@ export default function useFirstIntersection(ref, callback, deps = []) {
             setPassed(true);
         }
     }, [intersection, callback, passed, deps]);
+
+    return passed;
 }
