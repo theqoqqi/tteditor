@@ -19,7 +19,7 @@ function CommandListTab() {
             className={styles.levelList}
             itemClassName='p-0 border-0'
             items={[...commands].reverse()}
-            selected={commandExecutor.lastExecutedCommand}
+            selectedItem={commandExecutor.lastExecutedCommand}
             onSelect={onSelect}
             keyBy={command => command?.editorId}
             compareBy={command => command?.editorId}

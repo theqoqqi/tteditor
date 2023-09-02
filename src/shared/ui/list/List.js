@@ -6,7 +6,7 @@ List.propTypes = {
     className: PropTypes.any,
     itemClassName: PropTypes.any,
     items: PropTypes.array,
-    selected: PropTypes.object,
+    selectedItem: PropTypes.any,
     onSelect: PropTypes.func,
     listItemContent: PropTypes.func.isRequired,
     keyBy: PropTypes.func,
@@ -19,7 +19,7 @@ function List({
     className,
     itemClassName,
     items = [],
-    selected,
+    selectedItem,
     disabled,
     onSelect = () => {},
     listItemContent = null,
@@ -29,6 +29,10 @@ function List({
     ...listGroupProps
 }) {
     compareBy ??= item => item;
+
+    function isSelected(item) {
+        return isSameItem(item, selectedItem);
+    }
 
     function isSameItem(a, b) {
         return compareBy(a) === compareBy(b);
@@ -40,13 +44,13 @@ function List({
                 <ListGroupItem
                     key={keyBy?.(item) ?? index}
                     className={itemClassName}
-                    active={isSameItem(item, selected)}
+                    active={isSelected(item)}
                     disabled={disabled}
                     onClick={() => onSelect?.(item)}
                     action
-                    {...listItemProps?.(item, index, isSameItem(item, selected))}
+                    {...listItemProps?.(item, index, isSelected(item))}
                 >
-                    {listItemContent(item, index, isSameItem(item, selected))}
+                    {listItemContent(item, index, isSelected(item))}
                 </ListGroupItem>
             ))}
         </ListGroup>

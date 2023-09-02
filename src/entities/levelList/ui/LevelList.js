@@ -19,7 +19,7 @@ function LevelList({ levels, selected, onSelect, isSelectedLevelDirty }) {
             className={styles.levelList}
             itemClassName='px-3 py-1'
             items={levels}
-            selected={selected}
+            selectedItem={selected}
             disabled={isSelectedLevelDirty}
             onSelect={onSelect}
             keyBy={level => level?.path}
