@@ -7,6 +7,7 @@ List.propTypes = {
     itemClassName: PropTypes.any,
     items: PropTypes.array,
     selectedItem: PropTypes.any,
+    selectedItems: PropTypes.arrayOf(PropTypes.any),
     onSelect: PropTypes.func,
     listItemContent: PropTypes.func.isRequired,
     keyBy: PropTypes.func,
@@ -20,6 +21,7 @@ function List({
     itemClassName,
     items = [],
     selectedItem,
+    selectedItems = [],
     disabled,
     onSelect = () => {},
     listItemContent = null,
@@ -31,7 +33,8 @@ function List({
     compareBy ??= item => item;
 
     function isSelected(item) {
-        return isSameItem(item, selectedItem);
+        return isSameItem(item, selectedItem)
+            || selectedItems.some(selected => isSameItem(item, selected));
     }
 
     function isSameItem(a, b) {
