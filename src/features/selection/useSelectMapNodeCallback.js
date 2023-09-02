@@ -1,6 +1,6 @@
 import {useCallback} from 'react';
-import {addToSelection, removeFromSelection, selectSelectedMapNodes, setSelection} from '../../entities/selection';
-import {useDispatch, useSelector} from 'react-redux';
+import {addToSelection, removeFromSelection, setSelection, toggleSelection} from '../../entities/selection';
+import {useDispatch} from 'react-redux';
 
 export const actions = {
     add: Symbol('useSelectMapNodeCallback.actions.add'),
@@ -11,10 +11,8 @@ export const actions = {
 
 export default function useSelectMapNodeCallback(resolveAction) {
     let dispatch = useDispatch();
-    let selectedMapNodes = useSelector(selectSelectedMapNodes);
 
     function handleMapNodeClicked(mapNode) {
-        let isSelected = selectedMapNodes.includes(mapNode);
         let action = resolveAction();
         let actionCreator = resolveActionCreator(action);
 
@@ -27,12 +25,12 @@ export default function useSelectMapNodeCallback(resolveAction) {
                 case actions.remove:
                     return removeFromSelection;
                 case actions.toggle:
-                    return isSelected ? removeFromSelection : addToSelection;
+                    return toggleSelection;
                 default:
                     return setSelection;
             }
         }
     }
 
-    return useCallback(handleMapNodeClicked, [dispatch, resolveAction, selectedMapNodes]);
+    return useCallback(handleMapNodeClicked, [dispatch, resolveAction]);
 }
