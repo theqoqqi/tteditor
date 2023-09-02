@@ -1,22 +1,38 @@
 import {useCallback} from 'react';
-import {isHotkeyPressed} from 'react-hotkeys-hook';
-import {addToSelection, removeFromSelection, setSelection} from '../../entities/selection';
-import {useDispatch} from 'react-redux';
+import {addToSelection, removeFromSelection, selectSelectedMapNodes, setSelection} from '../../entities/selection';
+import {useDispatch, useSelector} from 'react-redux';
 
-export default function useSelectMapNodeCallback() {
+export const actions = {
+    add: Symbol('useSelectMapNodeCallback.actions.add'),
+    remove: Symbol('useSelectMapNodeCallback.actions.remove'),
+    toggle: Symbol('useSelectMapNodeCallback.actions.toggle'),
+    set: Symbol('useSelectMapNodeCallback.actions.set'),
+};
+
+export default function useSelectMapNodeCallback(resolveAction) {
     let dispatch = useDispatch();
+    let selectedMapNodes = useSelector(selectSelectedMapNodes);
 
     function handleMapNodeClicked(mapNode) {
-        if (isHotkeyPressed('shift')) {
-            dispatch(addToSelection(mapNode));
+        let isSelected = selectedMapNodes.includes(mapNode);
+        let action = resolveAction();
+        let actionCreator = resolveActionCreator(action);
 
-        } else if (isHotkeyPressed('ctrl')) {
-            dispatch(removeFromSelection(mapNode));
+        dispatch(actionCreator(mapNode));
 
-        } else {
-            dispatch(setSelection(mapNode));
+        function resolveActionCreator(action) {
+            switch (action) {
+                case actions.add:
+                    return addToSelection;
+                case actions.remove:
+                    return removeFromSelection;
+                case actions.toggle:
+                    return isSelected ? removeFromSelection : addToSelection;
+                default:
+                    return setSelection;
+            }
         }
     }
 
-    return useCallback(handleMapNodeClicked, [dispatch]);
+    return useCallback(handleMapNodeClicked, [dispatch, resolveAction, selectedMapNodes]);
 }

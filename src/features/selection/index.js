@@ -1,5 +1,6 @@
-import useSelectMapNodeCallback from './useSelectMapNodeCallback';
+import useSelectMapNodeCallback, {actions} from './useSelectMapNodeCallback';
 
 export {
     useSelectMapNodeCallback,
+    actions,
 };
