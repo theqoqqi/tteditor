@@ -4,7 +4,7 @@ import NodeList from './nodeList/NodeList';
 import {selectSelectedMapNodes} from '../../../../entities/selection';
 import {useMap, useMapObserver} from '../../../../shared/lib';
 import {useSelector} from 'react-redux';
-import useSelectMapNodeCallback from '../../lib/useSelectMapNodeCallback';
+import {useSelectMapNodeCallback} from '../../../../features/selection';
 import useArrowMovement from '../../lib/useArrowMovement';
 import useDragMovement from '../../lib/useDragMovement';
 import Terrain from './terrain/Terrain';
