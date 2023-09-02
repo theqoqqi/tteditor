@@ -1,5 +1,5 @@
 import styles from './Map.module.css';
-import React from 'react';
+import React, {useCallback} from 'react';
 import NodeList from './nodeList/NodeList';
 import {selectSelectedMapNodes} from '../../../../entities/selection';
 import {useMap, useMapObserver} from '../../../../shared/lib';
@@ -14,7 +14,7 @@ function Map() {
     let map = useMap();
     let terrain = useMapObserver('terrain');
     let selectedMapNodes = useSelector(selectSelectedMapNodes);
-    let onClickMapNode = useSelectMapNodeCallback(() => {
+    let resolveAction = useCallback(() => {
         if (isHotkeyPressed('shift')) {
             return actions.add;
         }
@@ -24,7 +24,8 @@ function Map() {
         }
 
         return actions.set;
-    });
+    }, []);
+    let onClickMapNode = useSelectMapNodeCallback(resolveAction);
     let onPointerDown = useDragMovement(selectedMapNodes);
 
     useArrowMovement(selectedMapNodes);
