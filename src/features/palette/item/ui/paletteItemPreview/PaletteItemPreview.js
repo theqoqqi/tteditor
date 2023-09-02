@@ -1,5 +1,5 @@
 import styles from './PaletteItemPreview.module.css';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useFirstIntersection} from '../../../../../shared/lib';
 import {MapNode} from '../../../../../shared/lib';
@@ -22,7 +22,9 @@ function createContent(tag, type, mapNodes) {
 
 function PaletteItemPreview({ tag, type, mapNodes }) {
     let [content, setContent] = useState(null);
-    let ref = useFirstIntersection(() => {
+    let ref = useRef(null);
+
+    useFirstIntersection(ref, () => {
         setContent(createContent(tag, type, mapNodes));
     }, [tag, type, mapNodes]);
 
