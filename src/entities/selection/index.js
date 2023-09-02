@@ -4,7 +4,8 @@ import {
     removeFromSelection,
     selectionSlice,
     selectSelectedMapNodes,
-    setSelection
+    setSelection,
+    toggleSelection
 } from './model/selectionSlice';
 
 export {
@@ -14,4 +15,5 @@ export {
     selectSelectedMapNodes,
     addToSelection,
     removeFromSelection,
+    toggleSelection,
 };

@@ -26,6 +26,13 @@ export const selectionSlice = createSlice({
         removeFromSelection(state, action) {
             pull(state.selectedMapNodes, action.payload);
         },
+        toggleSelection(state, action) {
+            if (state.selectedMapNodes.includes(action.payload)) {
+                pull(state.selectedMapNodes, action.payload);
+            } else {
+                state.selectedMapNodes.push(action.payload);
+            }
+        },
     },
 });
 
@@ -41,4 +48,5 @@ export const {
     clearSelection,
     addToSelection,
     removeFromSelection,
+    toggleSelection,
 } = selectionSlice.actions;
