@@ -1,6 +1,7 @@
 import {getPluralTagTitle, getTagIconComponent} from './tags';
 import {getCommandIconComponent} from './commands';
 import useSelectorWithParams from './hooks/useSelectorWithParams';
+import useFirstIntersection from './hooks/useFirstIntersection';
 import Editor from './editor/Editor';
 import EditorContext from './editor/EditorContext';
 import RenderContext from './editor/RenderContext';
@@ -53,6 +54,7 @@ export {
     getTagIconComponent,
     getCommandIconComponent,
     useSelectorWithParams,
+    useFirstIntersection,
 
     Editor,
     LevelEditor,
