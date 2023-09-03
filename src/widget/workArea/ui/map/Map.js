@@ -9,6 +9,7 @@ import useArrowMovement from '../../lib/useArrowMovement';
 import useDragMovement from '../../lib/useDragMovement';
 import Terrain from './terrain/Terrain';
 import {isHotkeyPressed} from 'react-hotkeys-hook';
+import useFocusNodeListAtId from '../../lib/useFocusNodeListAtId';
 
 function Map() {
     let map = useMap();
@@ -27,6 +28,7 @@ function Map() {
     }, []);
     let onClickMapNode = useSelectMapNodeCallback(resolveAction);
     let onPointerDown = useDragMovement(selectedMapNodes);
+    let onDoubleClick = useFocusNodeListAtId();
 
     useArrowMovement(selectedMapNodes);
 
@@ -46,6 +48,7 @@ function Map() {
                 selectedMapNodes={selectedMapNodes}
                 onClickMapNode={onClickMapNode}
                 onPointerDown={onPointerDown}
+                onDoubleClick={onDoubleClick}
             />
         </div>
     );

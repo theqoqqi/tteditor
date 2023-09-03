@@ -1,5 +1,5 @@
 import styles from './NodeListItem.module.css';
-import React, {memo, useRef} from 'react';
+import React, {memo, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 import {getTagIconComponent, MapNode, useFirstIntersection, useObserver} from '../../../../../../shared/lib';
 import {Toolbar, ToolbarSeparator} from '../../../../../../shared/ui';
@@ -8,9 +8,10 @@ import classNames from 'classnames';
 NodeListItem.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
     selected: PropTypes.bool,
+    focused: PropTypes.bool,
 };
 
-function NodeListItem({ mapNode, selected }) {
+function NodeListItem({ mapNode, selected, focused }) {
     /** @type React.Ref<HTMLDivElement> */
     let ref = useRef();
     let isVisible = useFirstIntersection(ref);
@@ -19,6 +20,15 @@ function NodeListItem({ mapNode, selected }) {
     let tag = useObserver(mapNode, 'tag');
     let type = useObserver(mapNode, 'type');
     let name = useObserver(mapNode, 'name');
+
+    useEffect(() => {
+        if (focused) {
+            ref.current.scrollIntoView({
+                behavior: 'instant',
+                block: 'center',
+            });
+        }
+    }, [focused]);
 
     let Icon = getTagIconComponent(tag);
 
