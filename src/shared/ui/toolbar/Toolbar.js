@@ -7,11 +7,12 @@ Toolbar.propTypes = {
     itemRef: PropTypes.any,
     className: PropTypes.any,
     children: PropTypes.any,
+    onDoubleClick: PropTypes.func,
 };
 
-function Toolbar({ itemRef, className, children }) {
+function Toolbar({ itemRef, className, children, onDoubleClick }) {
     return (
-        <div ref={itemRef} className={classNames(styles.toolbar, className)}>
+        <div ref={itemRef} className={classNames(styles.toolbar, className)} onDoubleClick={onDoubleClick}>
             {children}
         </div>
     );
