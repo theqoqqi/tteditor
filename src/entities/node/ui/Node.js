@@ -11,12 +11,13 @@ Node.propTypes = {
     selected: PropTypes.bool,
     onClick: PropTypes.func,
     onPointerDown: PropTypes.func,
+    onDoubleClick: PropTypes.func,
     hidden: PropTypes.bool,
     interactable: PropTypes.bool,
     highlight: PropTypes.bool,
 };
 
-function Node({ mapNode, selected, onClick, onPointerDown, hidden, interactable = true, highlight }) {
+function Node({ mapNode, selected, onClick, onPointerDown, onDoubleClick, hidden, interactable = true, highlight }) {
     let tag = useObserver(mapNode, 'tag');
     let type = useObserver(mapNode, 'type');
     let nodeXml = useNodeXml(tag, type);
@@ -24,6 +25,7 @@ function Node({ mapNode, selected, onClick, onPointerDown, hidden, interactable 
     let nodeProps = {
         onClick: () => onClick?.(mapNode),
         onPointerDown: e => onPointerDown?.(e, { mapNode, isSelected: selected }),
+        onDoubleClick: () => onDoubleClick?.(mapNode),
     };
 
     let commonProps = {
