@@ -24,7 +24,7 @@ function ToolbarButton({ className, children, title, toggle, active, disabled, o
                 [styles.active]: active,
             })}
             disabled={disabled}
-            onClick={() => disabled ? null : onClick()}
+            onClick={e => disabled ? null : onClick(e)}
         >
             {children}
         </ToolbarItem>
