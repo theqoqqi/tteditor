@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 import {EditorContext, useMapListObserver} from '../../../../../shared/lib';
 import {usePointerMode} from '../../../../../entities/pointerMode';
 
-function NodeList({ selectedMapNodes, onClickMapNode, onPointerDown }) {
+function NodeList({ selectedMapNodes, onClickMapNode, onPointerDown, onDoubleClick }) {
     let [mapNodes] = useMapListObserver('nodes');
     let visibleLayers = useSelector(selectVisibleLayers);
     let pointerMode = usePointerMode();
@@ -28,6 +28,7 @@ function NodeList({ selectedMapNodes, onClickMapNode, onPointerDown }) {
                         interactable={pointerMode.canSelectNodes}
                         onClick={onClickMapNode}
                         onPointerDown={onPointerDown}
+                        onDoubleClick={onDoubleClick}
                     />
                 );
             })}
