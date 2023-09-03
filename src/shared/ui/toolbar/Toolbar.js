@@ -4,13 +4,14 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 Toolbar.propTypes = {
+    itemRef: PropTypes.any,
     className: PropTypes.any,
     children: PropTypes.any,
 };
 
-function Toolbar({ className, children }) {
+function Toolbar({ itemRef, className, children }) {
     return (
-        <div className={classNames(styles.toolbar, className)}>
+        <div ref={itemRef} className={classNames(styles.toolbar, className)}>
             {children}
         </div>
     );
