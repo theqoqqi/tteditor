@@ -5,6 +5,7 @@ import {layersSlice} from '../entities/layers';
 import {pointerModeSlice} from '../entities/pointerMode';
 import {paletteSlice} from '../entities/palette';
 import {brushSlice} from '../entities/brush';
+import {focusSlice} from '../entities/focus';
 
 export const rootReducer = combineReducers({
     [workspaceSlice.name]: workspaceSlice.reducer,
@@ -13,4 +14,5 @@ export const rootReducer = combineReducers({
     [pointerModeSlice.name]: pointerModeSlice.reducer,
     [paletteSlice.name]: paletteSlice.reducer,
     [brushSlice.name]: brushSlice.reducer,
+    [focusSlice.name]: focusSlice.reducer,
 });
