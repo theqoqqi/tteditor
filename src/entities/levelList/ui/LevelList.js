@@ -15,7 +15,6 @@ function LevelList({ levels, selected, onSelect, isSelectedLevelDirty }) {
 
     return (
         <List
-            variant='flush'
             className={styles.levelList}
             itemClassName='px-3 py-1'
             items={levels}

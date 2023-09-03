@@ -15,7 +15,6 @@ function CommandListTab() {
 
     return (
         <List
-            variant='flush'
             className={styles.levelList}
             itemClassName='p-0 border-0'
             items={[...commands].reverse()}
