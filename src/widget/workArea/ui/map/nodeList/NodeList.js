@@ -1,10 +1,18 @@
 import styles from './NodeList.module.css';
 import React from 'react';
+import PropTypes from 'prop-types';
 import {selectVisibleLayers} from '../../../../../entities/layers';
 import {Node} from '../../../../../entities/node';
 import {useSelector} from 'react-redux';
-import {EditorContext, useMapListObserver} from '../../../../../shared/lib';
+import {EditorContext, MapNode, useMapListObserver} from '../../../../../shared/lib';
 import {usePointerMode} from '../../../../../entities/pointerMode';
+
+NodeList.propTypes = {
+    selectedMapNodes: PropTypes.arrayOf(PropTypes.instanceOf(MapNode)),
+    onClickMapNode: PropTypes.func,
+    onPointerDown: PropTypes.func,
+    onDoubleClick: PropTypes.func,
+};
 
 function NodeList({ selectedMapNodes, onClickMapNode, onPointerDown, onDoubleClick }) {
     let [mapNodes] = useMapListObserver('nodes');
