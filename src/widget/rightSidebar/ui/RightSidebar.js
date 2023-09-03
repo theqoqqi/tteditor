@@ -2,12 +2,13 @@ import styles from './RightSidebar.module.css';
 import React, {useState} from 'react';
 import {BsBorderOuter, BsGridFill, BsPlayCircleFill} from 'react-icons/bs';
 import {SidebarTab, Tabs} from '../../../shared/ui';
+import NodeListTab from './nodeListTab/NodeListTab';
 
 const allTabs = [
     {
         key: 'nodeList',
         tab: <SidebarTab side='right' title='Элементы' icon={<BsGridFill />} />,
-        content: <b>Элементы</b>,
+        content: <NodeListTab />,
     },
     {
         key: 'triggerList',

@@ -1,0 +1,73 @@
+
+.nodeListItem {
+    display: flex;
+    align-items: center;
+
+    min-height: 22px;
+    padding-left: 6px;
+
+    background-color: transparent;
+
+    box-sizing: content-box;
+    user-select: none;
+
+    z-index: 120000;
+}
+
+.separator {
+    align-self: stretch;
+
+    margin: 4px 5px;
+
+    background-color: #ddd;
+}
+
+.icon {
+    width: 20px;
+}
+
+.tag {
+    font-size: 12px;
+
+    width: 50px;
+}
+
+.type {
+    flex: 1;
+
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.coord {
+    font-size: 12px;
+    text-align: center;
+
+    width: 30px;
+}
+
+.button {
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    margin-right: 5px;
+}
+
+.button:hover {
+    background-color: transparent !important;
+}
+
+.buttonIcon {
+    font-size: 16px;
+}
+
+.button:hover .buttonIcon {
+    color: #0d6efd;
+}
+
+.selected .buttonIcon {
+    color: white;
+}
