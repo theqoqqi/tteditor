@@ -5,6 +5,8 @@ import ToolbarButton from '../toolbarButton/ToolbarButton';
 import classNames from 'classnames';
 
 ToolbarIconButton.propTypes = {
+    className: PropTypes.any,
+    iconClassName: PropTypes.any,
     title: PropTypes.string,
     icon: PropTypes.any,
     toggle: PropTypes.bool,
@@ -13,14 +15,14 @@ ToolbarIconButton.propTypes = {
     onClick: PropTypes.func,
 };
 
-function ToolbarIconButton({ title, icon, toggle, active, disabled, onClick }) {
+function ToolbarIconButton({ className, iconClassName, title, icon, toggle, active, disabled, onClick }) {
 
     let Icon = icon;
 
     return (
         <ToolbarButton
             title={title}
-            className={classNames(styles.toolbarIconButton, {
+            className={classNames(styles.toolbarIconButton, className, {
                 [styles.toggle]: toggle,
                 [styles.active]: active,
             })}
@@ -29,7 +31,7 @@ function ToolbarIconButton({ title, icon, toggle, active, disabled, onClick }) {
             disabled={disabled}
             onClick={onClick}
         >
-            <Icon className={styles.icon} />
+            <Icon className={classNames(styles.icon, iconClassName)} />
         </ToolbarButton>
     );
 }
