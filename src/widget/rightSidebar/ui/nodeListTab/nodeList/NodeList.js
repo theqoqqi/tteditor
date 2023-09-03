@@ -1,9 +1,14 @@
 import styles from './NodeList.module.css';
-import React from 'react';
+import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {MapNode, RenderContext} from '../../../../../shared/lib';
 import NodeListItem from './nodeListItem/NodeListItem';
 import {List} from '../../../../../shared/ui';
+import {useSelector} from 'react-redux';
+import {selectSelectedMapNodes} from '../../../../../entities/selection';
+import {actions, useSelectMapNodeCallback, useSelectMapNodesCallback} from '../../../../../features/selection';
+import {isHotkeyPressed} from 'react-hotkeys-hook';
+import classNames from 'classnames';
 import {sort} from 'mathjs';
 
 NodeList.propTypes = {
@@ -23,14 +28,53 @@ function NodeList({ mapNodes }) {
 
         return a.editorId - b.editorId;
     });
+    let selectedMapNodes = useSelector(selectSelectedMapNodes);
+    let selectMapNode = useSelectMapNodeCallback(() => {
+        if (isHotkeyPressed('shift')) {
+            return actions.add;
+        }
+
+        if (isHotkeyPressed('ctrl')) {
+            return actions.toggle;
+        }
+
+        return actions.set;
+    });
+    let selectMapNodes = useSelectMapNodesCallback();
+
+    let onClickMapNode = useCallback(mapNode => {
+        if (isHotkeyPressed('shift')) {
+            let lastSelectedMapNode = selectedMapNodes[selectedMapNodes.length - 1];
+
+            selectMapNodesBetween(lastSelectedMapNode, mapNode);
+        }
+
+        selectMapNode(mapNode);
+
+        function selectMapNodesBetween(firstMapNode, secondMapNode) {
+            let lastSelectedMapNodeIndex = sortedMapNodes.indexOf(firstMapNode);
+            let mapNodeIndex = sortedMapNodes.indexOf(secondMapNode);
+            let fromIndex = Math.min(lastSelectedMapNodeIndex, mapNodeIndex);
+            let toIndex = Math.max(lastSelectedMapNodeIndex, mapNodeIndex);
+            let mapNodesToSelect = sortedMapNodes.slice(fromIndex, toIndex + 1);
+
+            selectMapNodes(mapNodesToSelect);
+        }
+    }, [selectedMapNodes, sortedMapNodes, selectMapNode, selectMapNodes]);
 
     return (
         <List
             className={styles.nodeList}
-            itemClassName='p-0 border-0'
             items={sortedMapNodes}
+            selectedItems={selectedMapNodes}
+            onSelect={onClickMapNode}
             keyBy={mapNode => mapNode?.editorId}
             compareBy={mapNode => mapNode?.editorId}
+            listItemProps={(mapNode, index, isSelected) => ({
+                className: classNames('p-0 border-0', {
+                    [styles.selected]: isSelected,
+                }),
+            })}
             listItemContent={(mapNode, index, isSelected) => (
                 <NodeListItem
                     mapNode={mapNode}

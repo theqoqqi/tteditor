@@ -6,3 +6,9 @@
 
     overflow: hidden scroll;
 }
+
+.selected {
+    margin-top: 0 !important;
+
+    background-color: #57bdff !important;
+}

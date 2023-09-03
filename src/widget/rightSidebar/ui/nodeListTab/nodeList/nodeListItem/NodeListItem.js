@@ -3,12 +3,14 @@ import React, {memo, useRef} from 'react';
 import PropTypes from 'prop-types';
 import {getTagIconComponent, MapNode, useFirstIntersection, useObserver} from '../../../../../../shared/lib';
 import {Toolbar, ToolbarSeparator} from '../../../../../../shared/ui';
+import classNames from 'classnames';
 
 NodeListItem.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
+    selected: PropTypes.bool,
 };
 
-function NodeListItem({ mapNode }) {
+function NodeListItem({ mapNode, selected }) {
     /** @type React.Ref<HTMLDivElement> */
     let ref = useRef();
     let isVisible = useFirstIntersection(ref);
@@ -23,7 +25,9 @@ function NodeListItem({ mapNode }) {
     return (
         <Toolbar
             itemRef={ref}
-            className={styles.nodeListItem}
+            className={classNames(styles.nodeListItem, {
+                [styles.selected]: selected,
+            })}
         >
             {isVisible && <>
                 <Icon className={styles.icon} />
