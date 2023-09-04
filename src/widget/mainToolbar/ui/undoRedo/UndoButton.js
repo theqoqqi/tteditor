@@ -3,7 +3,7 @@ import {BsArrowCounterclockwise} from 'react-icons/bs';
 import {useEditorObserver, useObserver} from '../../../../shared/lib';
 import IconButton from '../iconButton/IconButton';
 
-function Undo() {
+function UndoButton() {
     let commandExecutor = useEditorObserver('commandExecutor');
     let onClick = useCallback(() => {
         commandExecutor.undo();
@@ -24,4 +24,4 @@ function Undo() {
     );
 }
 
-export default Undo;
+export default UndoButton;

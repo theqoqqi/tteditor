@@ -3,7 +3,7 @@ import {BsArrowClockwise} from 'react-icons/bs';
 import {useEditorObserver, useListObserver, useObserver} from '../../../../shared/lib';
 import IconButton from '../iconButton/IconButton';
 
-function Redo() {
+function RedoButton() {
     let commandExecutor = useEditorObserver('commandExecutor');
     let [commands] = useListObserver(commandExecutor, 'commands');
     let onClick = useCallback(() => {
@@ -24,4 +24,4 @@ function Redo() {
     );
 }
 
-export default Redo;
+export default RedoButton;

@@ -7,8 +7,8 @@ import {pointerModes} from '../../../entities/pointerMode';
 import ToggleLayerButton from './toggleLayerButton/ToggleLayerButton';
 import PointerModeButton from './pointerModeButton/PointerModeButton';
 import {EditorContext} from '../../../shared/lib';
-import Undo from './undoRedo/Undo';
-import Redo from './undoRedo/Redo';
+import UndoButton from './undoRedo/UndoButton';
+import RedoButton from './undoRedo/RedoButton';
 import Separator from './separator/Separator';
 
 function MainToolbar() {
@@ -23,8 +23,8 @@ function MainToolbar() {
             </>
             <Separator />
             <>
-                <Undo />
-                <Redo />
+                <UndoButton />
+                <RedoButton />
             </>
             <Separator />
             <>
