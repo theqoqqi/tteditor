@@ -1,6 +1,14 @@
 
 .toolbarButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     padding: 0 8px;
+}
+
+.toolbarButton.disabled {
+    opacity: 0.25;
 }
 
 .toolbarButton.disabled:hover {

@@ -1,7 +1,6 @@
 import styles from './ToolbarButton.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import ToolbarItem from '../toolbarItem/ToolbarItem';
 import classNames from 'classnames';
 
 ToolbarButton.propTypes = {
@@ -16,18 +15,17 @@ ToolbarButton.propTypes = {
 
 function ToolbarButton({ className, children, title, toggle, active, disabled, onClick }) {
     return (
-        <ToolbarItem
+        <div
             title={title}
             className={classNames(styles.toolbarButton, className, {
                 [styles.disabled]: disabled,
                 [styles.toggle]: toggle,
                 [styles.active]: active,
             })}
-            disabled={disabled}
             onClick={e => disabled ? null : onClick(e)}
         >
             {children}
-        </ToolbarItem>
+        </div>
     );
 }
 
