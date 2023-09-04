@@ -9,13 +9,13 @@ import {
     useFirstIntersection,
     useObserver
 } from '../../../../../../shared/lib';
-import {ToolbarIconButton} from '../../../../../../shared/ui';
 import {BsEyeFill, BsEyeSlashFill, BsPlusCircle, BsXCircleFill} from 'react-icons/bs';
 import {useDispatch} from 'react-redux';
 import {focusCameraAtMapNode} from '../../../../../../entities/focus';
 import classNames from 'classnames';
 import {toggleMapNodeVisibility} from '../../../../../../entities/hiddenNodes';
 import Separator from './separator/Separator';
+import IconButton from './iconButton/IconButton';
 
 NodeListItem.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
@@ -93,27 +93,22 @@ function NodeListItem({ mapNode, selected, focused, hidden }) {
                     {y}
                 </span>
                 <Separator />
-                <ToolbarIconButton
-                    className={classNames(styles.button, {
-                        [styles.active]: !hidden,
-                    })}
-                    iconClassName={styles.buttonIcon}
+                <IconButton
+                    itemSelected={selected}
                     toggle
                     active={!hidden}
                     title={hidden ? 'Показать объект' : 'Скрыть объект'}
                     icon={hidden ? BsEyeSlashFill : BsEyeFill}
                     onClick={onToggle}
                 />
-                <ToolbarIconButton
-                    className={styles.button}
-                    iconClassName={styles.buttonIcon}
+                <IconButton
+                    itemSelected={selected}
                     title='В центр экрана'
                     icon={BsPlusCircle}
                     onClick={onFocus}
                 />
-                <ToolbarIconButton
-                    className={styles.button}
-                    iconClassName={styles.buttonIcon}
+                <IconButton
+                    itemSelected={selected}
                     title='Удалить объект'
                     icon={BsXCircleFill}
                     onClick={onRemove}

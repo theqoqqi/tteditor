@@ -1,0 +1,39 @@
+
+.iconButton {
+
+}
+
+.iconButton {
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    margin-right: 5px;
+}
+
+.iconButton.active {
+    background-color: transparent;
+}
+
+.iconButton:hover {
+    background-color: transparent !important;
+}
+
+.icon {
+    font-size: 16px;
+}
+
+.iconButton.toggle .icon {
+    color: lightgray;
+}
+
+.iconButton.active .icon {
+    color: black;
+}
+
+.iconButton.active.itemSelected .icon {
+    color: white;
+}
+
+.iconButton:hover .icon {
+    color: #0d6efd !important;
+}
