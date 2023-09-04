@@ -1,7 +1,7 @@
 import styles from './WorkspaceEditor.module.css';
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {ToolbarButton} from '../../../../../shared/ui';
+import {Button} from '../../../../../shared/ui';
 
 WorkspaceEditor.propTypes = {
     initialPath: PropTypes.string,
@@ -19,9 +19,9 @@ function WorkspaceEditor({ initialPath, onSave }) {
                 onChange={e => setInputPath(e.target.value)}
                 style={{ width: (inputPath.length + 1) + 'ch' }}
             />
-            <ToolbarButton onClick={() => onSave(inputPath)}>
+            <Button onClick={() => onSave(inputPath)}>
                 Сохранить
-            </ToolbarButton>
+            </Button>
         </div>
     );
 }

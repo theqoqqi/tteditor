@@ -1,7 +1,7 @@
 import styles from './WorkspaceView.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ToolbarButton} from '../../../../../shared/ui';
+import {Button} from '../../../../../shared/ui';
 import {useWorkspace} from '../../../../../entities/workspace';
 
 WorkspaceView.propTypes = {
@@ -16,9 +16,9 @@ function WorkspaceView({ onEdit }) {
             <span>
                 {workspacePath}
             </span>
-            <ToolbarButton onClick={onEdit}>
+            <Button onClick={onEdit}>
                 Изменить
-            </ToolbarButton>
+            </Button>
         </div>
     );
 }

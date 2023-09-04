@@ -1,11 +1,11 @@
 import List from './list/List';
-import {ToolbarButton} from './toolbar';
+import {Button} from './button';
 import {SidebarTab} from './sidebarTab';
 import {Tabs} from './tabs';
 
 export {
     List,
-    ToolbarButton,
+    Button,
     SidebarTab,
     Tabs,
 };

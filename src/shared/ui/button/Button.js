@@ -1,9 +1,9 @@
-import styles from './ToolbarButton.module.css';
+import styles from './Button.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-ToolbarButton.propTypes = {
+Button.propTypes = {
     className: PropTypes.any,
     children: PropTypes.any,
     title: PropTypes.string,
@@ -13,11 +13,11 @@ ToolbarButton.propTypes = {
     onClick: PropTypes.func,
 };
 
-function ToolbarButton({ className, children, title, toggle, active, disabled, onClick }) {
+function Button({ className, children, title, toggle, active, disabled, onClick }) {
     return (
         <div
             title={title}
-            className={classNames(styles.toolbarButton, className, {
+            className={classNames(styles.button, className, {
                 [styles.disabled]: disabled,
                 [styles.toggle]: toggle,
                 [styles.active]: active,
@@ -29,4 +29,4 @@ function ToolbarButton({ className, children, title, toggle, active, disabled, o
     );
 }
 
-export default ToolbarButton;
+export default Button;
