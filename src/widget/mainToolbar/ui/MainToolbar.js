@@ -1,6 +1,6 @@
 import styles from './MainToolbar.module.css';
 import React from 'react';
-import {ToolbarGroup, ToolbarSeparator} from '../../../shared/ui';
+import {ToolbarGroup} from '../../../shared/ui';
 import ResetLevelButton from './level/ResetLevelButton';
 import SaveLevelButton from './level/SaveLevelButton';
 import DownloadLevelButton from './level/DownloadLevelButton';
@@ -10,6 +10,7 @@ import PointerModeButton from './pointerModeButton/PointerModeButton';
 import {EditorContext} from '../../../shared/lib';
 import Undo from './undoRedo/Undo';
 import Redo from './undoRedo/Redo';
+import Separator from './separator/Separator';
 
 function MainToolbar() {
     let layerTags = EditorContext.getLayerTagNames();
@@ -21,18 +22,18 @@ function MainToolbar() {
                 <SaveLevelButton />
                 <DownloadLevelButton />
             </ToolbarGroup>
-            <ToolbarSeparator />
+            <Separator />
             <ToolbarGroup>
                 <Undo />
                 <Redo />
             </ToolbarGroup>
-            <ToolbarSeparator />
+            <Separator />
             <ToolbarGroup>
                 {Object.keys(pointerModes).map(mode => (
                     <PointerModeButton key={mode} mode={mode} />
                 ))}
             </ToolbarGroup>
-            <ToolbarSeparator />
+            <Separator />
             <ToolbarGroup>
                 {layerTags.map(layerTag => (
                     <ToggleLayerButton key={layerTag} tag={layerTag} />
