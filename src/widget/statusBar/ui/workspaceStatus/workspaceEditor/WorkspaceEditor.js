@@ -1,7 +1,7 @@
 import styles from './WorkspaceEditor.module.css';
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {ToolbarButton, ToolbarGroup} from '../../../../../shared/ui';
+import {ToolbarButton} from '../../../../../shared/ui';
 
 WorkspaceEditor.propTypes = {
     initialPath: PropTypes.string,
@@ -12,7 +12,7 @@ function WorkspaceEditor({ initialPath, onSave }) {
     let [inputPath, setInputPath] = useState(initialPath);
 
     return (
-        <ToolbarGroup className={styles.workspaceEditor}>
+        <div className={styles.workspaceEditor}>
             <input
                 className={styles.input}
                 value={inputPath}
@@ -22,7 +22,7 @@ function WorkspaceEditor({ initialPath, onSave }) {
             <ToolbarButton onClick={() => onSave(inputPath)}>
                 Сохранить
             </ToolbarButton>
-        </ToolbarGroup>
+        </div>
     );
 }
 

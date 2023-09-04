@@ -1,6 +1,6 @@
 
 .workspaceEditor {
-
+    display: flex;
 }
 
 .input {

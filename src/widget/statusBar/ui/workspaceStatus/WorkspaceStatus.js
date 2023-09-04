@@ -1,6 +1,4 @@
-import styles from './WorkspaceStatus.module.css';
 import React, {useState} from 'react';
-import {ToolbarGroup} from '../../../../shared/ui';
 import {setWorkspacePath, useWorkspace} from '../../../../entities/workspace';
 import WorkspaceEditor from './workspaceEditor/WorkspaceEditor';
 import WorkspaceView from './workspaceView/WorkspaceView';
@@ -27,13 +25,11 @@ function WorkspaceStatus() {
         setMode(VIEW_MODE);
     }
 
-    return (
-        <ToolbarGroup className={styles.workspaceStatus}>
-            {isLoading && `Загрузка: ${loadingPath}`}
-            {isInViewMode && <WorkspaceView onEdit={onEdit} />}
-            {isInEditMode && <WorkspaceEditor initialPath={workspacePath} onSave={onSave} />}
-        </ToolbarGroup>
-    );
+    return <>
+        {isLoading && `Загрузка: ${loadingPath}`}
+        {isInViewMode && <WorkspaceView onEdit={onEdit} />}
+        {isInEditMode && <WorkspaceEditor initialPath={workspacePath} onSave={onSave} />}
+    </>;
 }
 
 export default WorkspaceStatus;

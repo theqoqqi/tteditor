@@ -1,7 +1,7 @@
 import styles from './WorkspaceView.module.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ToolbarButton, ToolbarGroup} from '../../../../../shared/ui';
+import {ToolbarButton} from '../../../../../shared/ui';
 import {useWorkspace} from '../../../../../entities/workspace';
 
 WorkspaceView.propTypes = {
@@ -12,7 +12,7 @@ function WorkspaceView({ onEdit }) {
     let { workspacePath } = useWorkspace();
 
     return (
-        <ToolbarGroup className={styles.workspaceView}>
+        <div className={styles.workspaceView}>
             <span>
                 Рабочее пространство:
             </span>
@@ -22,7 +22,7 @@ function WorkspaceView({ onEdit }) {
             <ToolbarButton onClick={onEdit}>
                 Изменить
             </ToolbarButton>
-        </ToolbarGroup>
+        </div>
     );
 }
 

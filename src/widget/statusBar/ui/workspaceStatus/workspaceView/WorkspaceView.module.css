@@ -1,4 +1,6 @@
 
 .workspaceView {
+    display: flex;
+
     gap: 10px;
 }
