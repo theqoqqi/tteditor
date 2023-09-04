@@ -1,3 +1,4 @@
+import styles from './WorkspaceStatus.module.css';
 import React, {useState} from 'react';
 import {setWorkspacePath, useWorkspace} from '../../../../entities/workspace';
 import WorkspaceEditor from './workspaceEditor/WorkspaceEditor';
@@ -25,11 +26,19 @@ function WorkspaceStatus() {
         setMode(VIEW_MODE);
     }
 
-    return <>
-        {isLoading && `Загрузка: ${loadingPath}`}
-        {isInViewMode && <WorkspaceView onEdit={onEdit} />}
-        {isInEditMode && <WorkspaceEditor initialPath={workspacePath} onSave={onSave} />}
-    </>;
+    if (isLoading) {
+        return `Загрузка: ${loadingPath}`;
+    }
+
+    return (
+        <div className={styles.workspaceStatus}>
+            <span>
+                Рабочее пространство:
+            </span>
+            {isInViewMode && <WorkspaceView onEdit={onEdit} />}
+            {isInEditMode && <WorkspaceEditor initialPath={workspacePath} onSave={onSave} />}
+        </div>
+    );
 }
 
 export default WorkspaceStatus;

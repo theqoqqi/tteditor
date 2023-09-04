@@ -14,9 +14,6 @@ function WorkspaceView({ onEdit }) {
     return (
         <div className={styles.workspaceView}>
             <span>
-                Рабочее пространство:
-            </span>
-            <span>
                 {workspacePath}
             </span>
             <ToolbarButton onClick={onEdit}>
