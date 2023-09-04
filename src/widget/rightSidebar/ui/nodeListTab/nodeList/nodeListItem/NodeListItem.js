@@ -9,7 +9,7 @@ import {
     useFirstIntersection,
     useObserver
 } from '../../../../../../shared/lib';
-import {Toolbar, ToolbarIconButton, ToolbarSeparator} from '../../../../../../shared/ui';
+import {ToolbarIconButton, ToolbarSeparator} from '../../../../../../shared/ui';
 import {BsEyeFill, BsEyeSlashFill, BsPlusCircle, BsXCircleFill} from 'react-icons/bs';
 import {useDispatch} from 'react-redux';
 import {focusCameraAtMapNode} from '../../../../../../entities/focus';
@@ -65,8 +65,8 @@ function NodeListItem({ mapNode, selected, focused, hidden }) {
     let Icon = getTagIconComponent(tag);
 
     return (
-        <Toolbar
-            itemRef={ref}
+        <div
+            ref={ref}
             className={classNames(styles.nodeListItem, {
                 [styles.selected]: selected,
                 [styles.hidden]: hidden,
@@ -118,7 +118,7 @@ function NodeListItem({ mapNode, selected, focused, hidden }) {
                     onClick={onRemove}
                 />
             </>}
-        </Toolbar>
+        </div>
     );
 }
 

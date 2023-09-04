@@ -1,7 +1,9 @@
 
 .mainToolbar {
+    display: flex;
     justify-content: center;
 
+    background-color: #ddd;
     border-bottom: 1px solid #aaa;
 
     z-index: 120000;

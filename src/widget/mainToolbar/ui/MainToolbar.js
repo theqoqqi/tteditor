@@ -1,6 +1,6 @@
 import styles from './MainToolbar.module.css';
 import React from 'react';
-import {Toolbar, ToolbarGroup, ToolbarSeparator} from '../../../shared/ui';
+import {ToolbarGroup, ToolbarSeparator} from '../../../shared/ui';
 import ResetLevelButton from './level/ResetLevelButton';
 import SaveLevelButton from './level/SaveLevelButton';
 import DownloadLevelButton from './level/DownloadLevelButton';
@@ -15,7 +15,7 @@ function MainToolbar() {
     let layerTags = EditorContext.getLayerTagNames();
 
     return (
-        <Toolbar className={styles.mainToolbar}>
+        <div className={styles.mainToolbar}>
             <ToolbarGroup>
                 <ResetLevelButton />
                 <SaveLevelButton />
@@ -38,7 +38,7 @@ function MainToolbar() {
                     <ToggleLayerButton key={layerTag} tag={layerTag} />
                 ))}
             </ToolbarGroup>
-        </Toolbar>
+        </div>
     );
 }
 
