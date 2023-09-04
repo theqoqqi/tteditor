@@ -1,8 +1,8 @@
 import React from 'react';
-import {ToolbarIconButton} from '../../../../shared/ui';
 import {BsFileEarmarkArrowDownFill} from 'react-icons/bs';
 import {useDownloadLevel} from '../../../../features/level';
 import {useEditor, useMap} from '../../../../shared/lib';
+import IconButton from '../iconButton/IconButton';
 
 function DownloadLevelButton() {
     let editor = useEditor();
@@ -18,7 +18,7 @@ function DownloadLevelButton() {
     }
 
     return (
-        <ToolbarIconButton
+        <IconButton
             title='Скачать уровень'
             icon={BsFileEarmarkArrowDownFill}
             onClick={onClick}

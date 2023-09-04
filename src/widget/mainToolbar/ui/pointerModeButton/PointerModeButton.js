@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ToolbarIconButton} from '../../../../shared/ui';
 import {pointerModes, selectPointerMode} from '../../../../entities/pointerMode';
 import {useSelector} from 'react-redux';
 import {useSetPointerMode} from '../../../../features/pointerMode';
+import IconButton from '../iconButton/IconButton';
 
 PointerModeButton.propTypes = {
     mode: PropTypes.string,
@@ -20,7 +20,7 @@ function PointerModeButton({ mode }) {
     }
 
     return (
-        <ToolbarIconButton
+        <IconButton
             title={pointerMode.title}
             icon={pointerMode.icon}
             active={isActive}

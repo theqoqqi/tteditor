@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {getPluralTagTitle, getTagIconComponent, useSelectorWithParams} from '../../../../shared/lib';
-import {ToolbarIconButton} from '../../../../shared/ui';
 import {selectIsLayerVisible} from '../../../../entities/layers';
 import {useToggleLayer} from '../../../../features/layers';
+import IconButton from '../iconButton/IconButton';
 
 ToggleLayerButton.propTypes = {
     tag: PropTypes.string,
@@ -16,7 +16,7 @@ function ToggleLayerButton({ tag }) {
     let toggleLayer = useToggleLayer(tag);
 
     return (
-        <ToolbarIconButton
+        <IconButton
             title={title}
             icon={Icon}
             toggle

@@ -1,0 +1,13 @@
+
+.iconButton {
+    width: 40px;
+    height: 40px;
+}
+
+.icon {
+    font-size: 24px;
+}
+
+.iconButton.toggle:not(.active):not(:hover) {
+    opacity: 0.25;
+}

@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
-import {ToolbarIconButton} from '../../../../shared/ui';
 import {BsArrowClockwise} from 'react-icons/bs';
 import {useEditorObserver, useListObserver, useObserver} from '../../../../shared/lib';
+import IconButton from '../iconButton/IconButton';
 
 function Redo() {
     let commandExecutor = useEditorObserver('commandExecutor');
@@ -15,7 +15,7 @@ function Redo() {
     let canRedo = commandExecutor.executedCommands < commands.length;
 
     return (
-        <ToolbarIconButton
+        <IconButton
             title='Повторить отмененное действие'
             icon={BsArrowClockwise}
             disabled={!canRedo}
