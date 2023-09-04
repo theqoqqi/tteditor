@@ -2,6 +2,7 @@ import {configureStore} from '@reduxjs/toolkit';
 import {rootReducer} from './rootReducer';
 import {selectionSlice} from '../entities/selection';
 import {brushSlice} from '../entities/brush';
+import {hiddenNodesSlice} from '../entities/hiddenNodes';
 
 function makeStore() {
     let store = configureStore({
@@ -11,6 +12,7 @@ function makeStore() {
                 ignoredPaths: [
                     selectionSlice.name,
                     brushSlice.name,
+                    hiddenNodesSlice.name,
                 ],
                 ignoreActions: true,
             },
