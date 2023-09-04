@@ -14,7 +14,7 @@
     z-index: 120000;
 }
 
-.nodeListItem.hidden:not(:hover) {
+.nodeListItem.hidden:not(:hover):not(.selected) {
     opacity: 0.25;
 }
 
