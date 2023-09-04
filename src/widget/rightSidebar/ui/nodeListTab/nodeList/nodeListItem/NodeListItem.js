@@ -2,7 +2,8 @@ import styles from './NodeListItem.module.css';
 import React, {memo, useCallback, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 import {getTagIconComponent, MapNode, useFirstIntersection, useObserver} from '../../../../../../shared/lib';
-import {Toolbar, ToolbarSeparator} from '../../../../../../shared/ui';
+import {Toolbar, ToolbarIconButton, ToolbarSeparator} from '../../../../../../shared/ui';
+import {BsPlusCircle} from 'react-icons/bs';
 import {useDispatch} from 'react-redux';
 import {focusCameraAtMapNode} from '../../../../../../entities/focus';
 import classNames from 'classnames';
@@ -67,6 +68,14 @@ function NodeListItem({ mapNode, selected, focused }) {
                 <span className={styles.coord}>
                     {y}
                 </span>
+                <ToolbarSeparator className={styles.separator} />
+                <ToolbarIconButton
+                    className={styles.button}
+                    iconClassName={styles.buttonIcon}
+                    title='В центр экрана'
+                    icon={BsPlusCircle}
+                    onClick={onFocus}
+                />
             </>}
         </Toolbar>
     );
