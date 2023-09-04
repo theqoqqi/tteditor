@@ -20,18 +20,15 @@
     cursor: pointer;
 }
 
+.toolbarButton.toggle {
+    color: cornflowerblue;
+}
+
 .toolbarButton.active {
+    color: white;
     background-color: cornflowerblue;
 }
 
 .toolbarButton.active:hover {
     background-color: #80adf1;
-}
-
-.toolbarButton.toggle .title {
-    font-size: 14px;
-}
-
-.toolbarButton.toggle:not(.active):not(:hover) i {
-    opacity: 0.25;
 }
