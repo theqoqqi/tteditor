@@ -1,8 +1,10 @@
 import styles from './NodeListItem.module.css';
-import React, {memo, useEffect, useRef} from 'react';
+import React, {memo, useCallback, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 import {getTagIconComponent, MapNode, useFirstIntersection, useObserver} from '../../../../../../shared/lib';
 import {Toolbar, ToolbarSeparator} from '../../../../../../shared/ui';
+import {useDispatch} from 'react-redux';
+import {focusCameraAtMapNode} from '../../../../../../entities/focus';
 import classNames from 'classnames';
 
 NodeListItem.propTypes = {
@@ -20,6 +22,7 @@ function NodeListItem({ mapNode, selected, focused }) {
     let tag = useObserver(mapNode, 'tag');
     let type = useObserver(mapNode, 'type');
     let name = useObserver(mapNode, 'name');
+    let dispatch = useDispatch();
 
     useEffect(() => {
         if (focused) {
@@ -30,6 +33,12 @@ function NodeListItem({ mapNode, selected, focused }) {
         }
     }, [focused]);
 
+    let onFocus = useCallback(e => {
+        e.stopPropagation();
+
+        dispatch(focusCameraAtMapNode({ x, y }));
+    }, [dispatch, x, y]);
+
     let Icon = getTagIconComponent(tag);
 
     return (
@@ -38,6 +47,7 @@ function NodeListItem({ mapNode, selected, focused }) {
             className={classNames(styles.nodeListItem, {
                 [styles.selected]: selected,
             })}
+            onDoubleClick={onFocus}
         >
             {isVisible && <>
                 <Icon className={styles.icon} />
