@@ -9,12 +9,13 @@ import {
     useFirstIntersection,
     useObserver
 } from '../../../../../../shared/lib';
-import {ToolbarIconButton, ToolbarSeparator} from '../../../../../../shared/ui';
+import {ToolbarIconButton} from '../../../../../../shared/ui';
 import {BsEyeFill, BsEyeSlashFill, BsPlusCircle, BsXCircleFill} from 'react-icons/bs';
 import {useDispatch} from 'react-redux';
 import {focusCameraAtMapNode} from '../../../../../../entities/focus';
 import classNames from 'classnames';
 import {toggleMapNodeVisibility} from '../../../../../../entities/hiddenNodes';
+import Separator from './separator/Separator';
 
 NodeListItem.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
@@ -75,23 +76,23 @@ function NodeListItem({ mapNode, selected, focused, hidden }) {
         >
             {isVisible && <>
                 <Icon className={styles.icon} />
-                <ToolbarSeparator className={styles.separator} />
+                <Separator />
                 <span className={styles.tag}>
                     {tag}
                 </span>
-                <ToolbarSeparator className={styles.separator} />
+                <Separator />
                 <span className={styles.type}>
                     {type ?? name}
                 </span>
-                <ToolbarSeparator className={styles.separator} />
+                <Separator />
                 <span className={styles.coord}>
                     {x}
                 </span>
-                <ToolbarSeparator className={styles.separator} />
+                <Separator />
                 <span className={styles.coord}>
                     {y}
                 </span>
-                <ToolbarSeparator className={styles.separator} />
+                <Separator />
                 <ToolbarIconButton
                     className={classNames(styles.button, {
                         [styles.active]: !hidden,

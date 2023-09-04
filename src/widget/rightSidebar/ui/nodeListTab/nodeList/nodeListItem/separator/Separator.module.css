@@ -1,0 +1,9 @@
+
+.separator {
+    align-self: stretch;
+
+    width: 1px;
+    margin: 4px 5px;
+
+    background-color: #ddd;
+}
