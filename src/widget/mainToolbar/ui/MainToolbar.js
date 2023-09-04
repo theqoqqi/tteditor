@@ -1,6 +1,5 @@
 import styles from './MainToolbar.module.css';
 import React from 'react';
-import {ToolbarGroup} from '../../../shared/ui';
 import ResetLevelButton from './level/ResetLevelButton';
 import SaveLevelButton from './level/SaveLevelButton';
 import DownloadLevelButton from './level/DownloadLevelButton';
@@ -17,28 +16,28 @@ function MainToolbar() {
 
     return (
         <div className={styles.mainToolbar}>
-            <ToolbarGroup>
+            <>
                 <ResetLevelButton />
                 <SaveLevelButton />
                 <DownloadLevelButton />
-            </ToolbarGroup>
+            </>
             <Separator />
-            <ToolbarGroup>
+            <>
                 <Undo />
                 <Redo />
-            </ToolbarGroup>
+            </>
             <Separator />
-            <ToolbarGroup>
+            <>
                 {Object.keys(pointerModes).map(mode => (
                     <PointerModeButton key={mode} mode={mode} />
                 ))}
-            </ToolbarGroup>
+            </>
             <Separator />
-            <ToolbarGroup>
+            <>
                 {layerTags.map(layerTag => (
                     <ToggleLayerButton key={layerTag} tag={layerTag} />
                 ))}
-            </ToolbarGroup>
+            </>
         </div>
     );
 }
