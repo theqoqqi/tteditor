@@ -10,18 +10,20 @@ import {
     useObserver
 } from '../../../../../../shared/lib';
 import {Toolbar, ToolbarIconButton, ToolbarSeparator} from '../../../../../../shared/ui';
-import {BsPlusCircle, BsXCircleFill} from 'react-icons/bs';
+import {BsEyeFill, BsEyeSlashFill, BsPlusCircle, BsXCircleFill} from 'react-icons/bs';
 import {useDispatch} from 'react-redux';
 import {focusCameraAtMapNode} from '../../../../../../entities/focus';
 import classNames from 'classnames';
+import {toggleMapNodeVisibility} from '../../../../../../entities/hiddenNodes';
 
 NodeListItem.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
     selected: PropTypes.bool,
     focused: PropTypes.bool,
+    hidden: PropTypes.bool,
 };
 
-function NodeListItem({ mapNode, selected, focused }) {
+function NodeListItem({ mapNode, selected, focused, hidden }) {
     /** @type React.Ref<HTMLDivElement> */
     let ref = useRef();
     let isVisible = useFirstIntersection(ref);
@@ -42,6 +44,12 @@ function NodeListItem({ mapNode, selected, focused }) {
         }
     }, [focused]);
 
+    let onToggle = useCallback(e => {
+        e.stopPropagation();
+
+        dispatch(toggleMapNodeVisibility(mapNode));
+    }, [dispatch, mapNode]);
+
     let onFocus = useCallback(e => {
         e.stopPropagation();
 
@@ -61,6 +69,7 @@ function NodeListItem({ mapNode, selected, focused }) {
             itemRef={ref}
             className={classNames(styles.nodeListItem, {
                 [styles.selected]: selected,
+                [styles.hidden]: hidden,
             })}
             onDoubleClick={onFocus}
         >
@@ -83,6 +92,17 @@ function NodeListItem({ mapNode, selected, focused }) {
                     {y}
                 </span>
                 <ToolbarSeparator className={styles.separator} />
+                <ToolbarIconButton
+                    className={classNames(styles.button, {
+                        [styles.active]: !hidden,
+                    })}
+                    iconClassName={styles.buttonIcon}
+                    toggle
+                    active={!hidden}
+                    title={hidden ? 'Показать объект' : 'Скрыть объект'}
+                    icon={hidden ? BsEyeSlashFill : BsEyeFill}
+                    onClick={onToggle}
+                />
                 <ToolbarIconButton
                     className={styles.button}
                     iconClassName={styles.buttonIcon}

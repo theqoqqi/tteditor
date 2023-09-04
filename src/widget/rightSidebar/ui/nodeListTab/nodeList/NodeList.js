@@ -11,6 +11,7 @@ import {isHotkeyPressed} from 'react-hotkeys-hook';
 import classNames from 'classnames';
 import {sort} from 'mathjs';
 import {selectNodeListFocusAtId} from '../../../../../entities/focus';
+import {selectHiddenMapNodes} from '../../../../../entities/hiddenNodes';
 
 NodeList.propTypes = {
     mapNodes: PropTypes.arrayOf(PropTypes.instanceOf(MapNode)),
@@ -30,6 +31,7 @@ function NodeList({ mapNodes }) {
         return a.editorId - b.editorId;
     });
     let selectedMapNodes = useSelector(selectSelectedMapNodes);
+    let hiddenMapNodes = useSelector(selectHiddenMapNodes);
     let focusAtId = useSelector(selectNodeListFocusAtId);
     let selectMapNode = useSelectMapNodeCallback(() => {
         if (isHotkeyPressed('shift')) {
@@ -82,6 +84,7 @@ function NodeList({ mapNodes }) {
                     mapNode={mapNode}
                     selected={isSelected}
                     focused={mapNode.editorId === focusAtId}
+                    hidden={hiddenMapNodes.includes(mapNode)}
                 />
             )}
         />
