@@ -1,7 +1,10 @@
-import useCompositeObserver from './useCompositeObserver';
+import useCompositeObserver, {useTargetArray} from './useCompositeObserver';
 
-export default function useObserver(target, propertyPath) {
-    let state = useCompositeObserver(target, propertyPath, false);
+export default function useObserver(targets, propertyPath) {
+    let targetArray = useTargetArray(targets);
+    let state = useCompositeObserver(targetArray, propertyPath, false);
 
-    return state.value;
+    return Array.isArray(targets)
+        ? state.values
+        : state.values[0];
 }
