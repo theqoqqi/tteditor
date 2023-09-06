@@ -9,6 +9,16 @@ export default class SetMapNodesPropertyCommand extends SetPropertiesCommand {
     }
 
     setPropertyValue(mapNode, propertyName, value) {
+        if (propertyName === 'x') {
+            this.editor.context.setMapNodePosition(mapNode, value, mapNode.y);
+            return;
+        }
+
+        if (propertyName === 'y') {
+            this.editor.context.setMapNodePosition(mapNode, mapNode.x, value);
+            return;
+        }
+
         mapNode[propertyName] = value;
     }
 
