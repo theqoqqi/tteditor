@@ -51,10 +51,12 @@ export const nodeControls = [
             {
                 type: 'number',
                 name: 'x',
+                debounce: 500,
             },
             {
                 type: 'number',
                 name: 'y',
+                debounce: 500,
             },
         ]
     },
