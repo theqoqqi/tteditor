@@ -21,42 +21,52 @@ let tags = {
     landmark: {
         title: 'Декорации',
         icon: BsLayersFill,
+        properties: ['tag', 'type', 'group', 'x', 'y'],
     },
     structure: {
         title: 'Объекты',
         icon: BsTreeFill,
+        properties: ['tag', 'type', 'group', 'x', 'y', 'hint'],
     },
     building: {
         title: 'Здания',
         icon: BsHouseFill,
+        properties: ['tag', 'type', 'group', 'x', 'y', 'owner', 'hint'],
     },
     unit: {
         title: 'Юниты',
         icon: BsPersonFill,
+        properties: ['tag', 'type', 'subId', 'x', 'y'],
     },
     item: {
         title: 'Предметы',
         icon: BsSearch,
+        properties: ['tag', 'type', 'x', 'y'],
     },
     chest: {
         title: 'Сундуки',
         icon: BsLockFill,
+        properties: ['tag', 'type', 'group', 'x', 'y', 'owner'],
     },
     magic: {
         title: 'Эффекты',
         icon: BsStars,
+        properties: ['tag', 'type', 'x', 'y', 'owner'],
     },
     ambient: {
         title: 'Звуки',
         icon: BsVolumeUp,
+        properties: ['tag', 'type', 'x', 'y', 'owner'],
     },
     waypoint: {
         title: 'Точки пути',
         icon: BsRecord2,
+        properties: ['tag', 'x', 'y'],
     },
     area: {
         title: 'Зоны',
         icon: BsCircle,
+        properties: ['tag', 'group', 'name', 'x', 'y', 'radius', 'owner'],
     },
     composition: {
         title: 'Группы',
@@ -70,4 +80,8 @@ export function getPluralTagTitle(tag) {
 
 export function getTagIconComponent(tag) {
     return tags[tag]?.icon ?? null;
+}
+
+export function getAllowedProperties(tag) {
+    return tags[tag]?.properties ?? null;
 }

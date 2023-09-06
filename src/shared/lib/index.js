@@ -1,4 +1,4 @@
-import {getPluralTagTitle, getTagIconComponent} from './tags';
+import {getPluralTagTitle, getTagIconComponent, getAllowedProperties} from './tags';
 import {getCommandIconComponent} from './commands';
 import useSelectorWithParams from './hooks/useSelectorWithParams';
 import useFirstIntersection from './hooks/useFirstIntersection';
@@ -52,6 +52,7 @@ import EditorProvider from './context/provider';
 export {
     getPluralTagTitle,
     getTagIconComponent,
+    getAllowedProperties,
     getCommandIconComponent,
     useSelectorWithParams,
     useFirstIntersection,
