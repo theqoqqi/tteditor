@@ -23,6 +23,9 @@ function MarkerNode({ className, mapNode, selected, nodeProps }) {
     let type = useObserver(mapNode, 'type');
     let name = useObserver(mapNode, 'name');
 
+    useObserver(mapNode, 'radius');
+    useObserver(mapNode, 'hint');
+
     let layerZ = RenderContext.getLayerZForTagName(tag);
     let iconRadius = RenderContext.getIconRadius(tag);
     let { radiusX, radiusY } = renderContext.getAreaRadiusSizesFor(mapNode);

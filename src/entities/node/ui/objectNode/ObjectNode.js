@@ -30,6 +30,7 @@ function ObjectNode({ className, mapNode, nodeXml, isChild = false, zIndex, sele
 
     useObserver(mapNode, 'x');
     useObserver(mapNode, 'y');
+    useObserver(mapNode, 'hint');
 
     let { x, y, z } = renderContext.getCoordsForNode(tag, mapNode, nodeXml, isChild, zIndex);
     let style = createObjectNodeStyles(x, y);
