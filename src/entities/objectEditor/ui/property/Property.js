@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {FormControl, FormSelect} from 'react-bootstrap';
 import classNames from 'classnames';
 import getUniqueProperty, {differentValues} from '../../lib/getUniqueProperty';
+import useDebouncedOnChange from '../../lib/useDebouncedOnChange';
 
 Property.propTypes = {
     name: PropTypes.string,
@@ -11,22 +12,33 @@ Property.propTypes = {
     objects: PropTypes.arrayOf(PropTypes.object),
     options: PropTypes.object,
     readonly: PropTypes.bool,
+    debounce: PropTypes.number,
     onChange: PropTypes.func,
 };
 
-function Property({ name, type, objects, options, readonly, onChange }) {
+function Property({ name, type, objects, options, readonly, debounce = 0, onChange }) {
 
     let propertyValue = getUniqueProperty(objects, name, '');
     let hasDifferences = propertyValue === differentValues;
 
-    let onInputChange = useCallback(e => {
-        let oldValue = propertyValue;
-        let newValue = type === 'number'
-            ? +e.target.value
-            : e.target.value;
+    let onChangeWithCast = useCallback((newValue, oldValue, event) => {
+        let castedNewValue = type === 'number'
+            ? +newValue
+            : newValue;
 
-        onChange(newValue, oldValue, e);
-    }, [onChange, type, propertyValue]);
+        onChange(castedNewValue, oldValue, event);
+    }, [type, onChange]);
+
+    let shouldDebounce = useCallback(e => {
+        return e.nativeEvent instanceof InputEvent;
+    }, []);
+
+    let [inputValue, onInputChange] = useDebouncedOnChange({
+        storedValue: propertyValue,
+        millis: debounce,
+        shouldDebounce: shouldDebounce,
+        onChange: onChangeWithCast,
+    });
 
     let differentValuesPlaceholder = '<разные>';
 
@@ -38,7 +50,7 @@ function Property({ name, type, objects, options, readonly, onChange }) {
         return (
             <FormSelect
                 className={classNames(classes, styles.select)}
-                value={hasDifferences ? differentValues.toString() : propertyValue}
+                value={hasDifferences ? differentValues.toString() : inputValue}
                 onChange={onInputChange}
                 disabled={readonly}
             >
@@ -56,7 +68,7 @@ function Property({ name, type, objects, options, readonly, onChange }) {
         );
     }
 
-    let value = hasDifferences ? '' : propertyValue;
+    let value = hasDifferences ? '' : inputValue;
     let placeholder = hasDifferences ? differentValuesPlaceholder : null;
 
     return (
