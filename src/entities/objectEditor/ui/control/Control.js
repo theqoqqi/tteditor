@@ -23,15 +23,19 @@ function Control({ title, objects, property, properties, nullable, onChange }) {
 
     let onToggleCallback = useCallback(e => {
         if (e.target.checked) {
-            for (const p of properties) {
-                onChange(p, p.defaultValue ?? '', null, e);
-            }
+            onChange(properties.map(p => ({
+                property: p,
+                newValue: p.defaultValue ?? '',
+                oldValue: null,
+                event: e,
+            })));
         } else {
-            for (const p of properties) {
-                let value = getUniqueProperty(objects, p.name);
-
-                onChange(p, null, value, e);
-            }
+            onChange(properties.map(p => ({
+                property: p,
+                newValue: null,
+                oldValue: getUniqueProperty(objects, p.name),
+                event: e,
+            })));
         }
     }, [objects, onChange, properties]);
 
@@ -45,7 +49,16 @@ function Control({ title, objects, property, properties, nullable, onChange }) {
                     <Property
                         key={property.name}
                         objects={objects}
-                        onChange={(...args) => onChange(property, ...args)}
+                        onChange={(newValue, oldValue, event) => {
+                            return onChange([
+                                {
+                                    property,
+                                    newValue,
+                                    oldValue,
+                                    event
+                                },
+                            ]);
+                        }}
                         {...property}
                         readonly={property.readonly || (nullable && isNull(objects, property))}
                     />
