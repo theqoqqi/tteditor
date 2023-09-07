@@ -32,6 +32,9 @@ function Map() {
 
     useArrowMovement(selectedMapNodes);
 
+    useMapObserver('width');
+    useMapObserver('height');
+
     if (!map) {
         return null;
     }
