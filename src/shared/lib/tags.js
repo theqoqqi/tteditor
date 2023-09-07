@@ -36,17 +36,17 @@ let tags = {
     unit: {
         title: 'Юниты',
         icon: BsPersonFill,
-        properties: ['tag', 'type', 'subId', 'x', 'y'],
+        properties: ['tag', 'type', 'group', 'x', 'y', 'owner'],
     },
     item: {
         title: 'Предметы',
         icon: BsSearch,
-        properties: ['tag', 'type', 'x', 'y'],
+        properties: ['tag', 'type', 'subId', 'x', 'y'],
     },
     chest: {
         title: 'Сундуки',
         icon: BsLockFill,
-        properties: ['tag', 'type', 'group', 'x', 'y', 'owner'],
+        properties: ['tag', 'type', 'x', 'y'],
     },
     magic: {
         title: 'Эффекты',
