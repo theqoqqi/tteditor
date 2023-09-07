@@ -1,4 +1,3 @@
-import {getProperty} from 'dot-prop';
 import Observable from './util/observables/Observable';
 
 export default class LevelEditor extends Observable {
@@ -11,45 +10,12 @@ export default class LevelEditor extends Observable {
         this.map = null;
     }
 
-    #mapPropertySources = {
-        width: 'map',
-        height: 'map',
-        startX: 'map',
-        startY: 'map',
-        playerBaseX: 'map',
-        playerBaseY: 'map',
-
-        id: 'map.options',
-        music: 'map.options',
-        coloring: 'map.options',
-        fowClearColor: 'map.options',
-        randomizers: 'map.options',
-    };
-
     setMap(map) {
         this.map = map;
     }
 
     getMap() {
         return this.map;
-    }
-
-    setMapPropertyValue(propertyName, value) {
-        let propertyHolder = this.#getPropertyHolder(propertyName);
-
-        propertyHolder[propertyName] = value;
-    }
-
-    getMapPropertyValue(propertyName) {
-        let propertyHolder = this.#getPropertyHolder(propertyName);
-
-        return propertyHolder[propertyName];
-    }
-
-    #getPropertyHolder(propertyName) {
-        let sourcePath = this.#mapPropertySources[propertyName];
-
-        return getProperty(this, sourcePath);
     }
 
     indexOfNode(node) {
