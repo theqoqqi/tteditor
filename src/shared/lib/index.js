@@ -25,6 +25,7 @@ import RemoveRandomizersCommand from './editor/commands/map/RemoveRandomizersCom
 import RemoveTriggersCommand from './editor/commands/map/RemoveTriggersCommand';
 import SetMapNodesPropertyCommand from './editor/commands/map/SetMapNodesPropertyCommand';
 import SetMapPropertiesCommand from './editor/commands/map/SetMapPropertiesCommand';
+import SetMapOptionsPropertiesCommand from './editor/commands/map/SetMapOptionsPropertiesCommand';
 import SetRandomizerPropertyCommand from './editor/commands/map/SetRandomizerPropertyCommand';
 import SetTerrainCommand from './editor/commands/map/SetTerrainCommand';
 import SetTriggerEnabledCommand from './editor/commands/map/SetTriggerEnabledCommand';
@@ -82,6 +83,7 @@ export {
     RemoveTriggersCommand,
     SetMapNodesPropertyCommand,
     SetMapPropertiesCommand,
+    SetMapOptionsPropertiesCommand,
     SetRandomizerPropertyCommand,
     SetTerrainCommand,
     SetTriggerEnabledCommand,

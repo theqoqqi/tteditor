@@ -8,6 +8,7 @@ import RemoveRandomizersCommand from './editor/commands/map/RemoveRandomizersCom
 import RemoveTriggersCommand from './editor/commands/map/RemoveTriggersCommand';
 import SetMapNodesPropertyCommand from './editor/commands/map/SetMapNodesPropertyCommand';
 import SetMapPropertiesCommand from './editor/commands/map/SetMapPropertiesCommand';
+import SetMapOptionsPropertiesCommand from './editor/commands/map/SetMapOptionsPropertiesCommand';
 import SetRandomizerPropertyCommand from './editor/commands/map/SetRandomizerPropertyCommand';
 import SetTerrainCommand from './editor/commands/map/SetTerrainCommand';
 import SetTriggerEnabledCommand from './editor/commands/map/SetTriggerEnabledCommand';
@@ -26,7 +27,8 @@ import {
     BsPatchCheckFill,
     BsPatchMinusFill,
     BsPatchPlusFill,
-    BsSquareFill
+    BsSquareFill,
+    BsTools
 } from 'react-icons/bs';
 
 let icons = new Map([
@@ -40,6 +42,7 @@ let icons = new Map([
     [RemoveTriggersCommand, BsFileEarmarkMinusFill],
     [SetMapNodesPropertyCommand, BsGearFill],
     [SetMapPropertiesCommand, BsBorderOuter],
+    [SetMapOptionsPropertiesCommand, BsTools],
     [SetRandomizerPropertyCommand, BsPatchCheckFill],
     [SetTerrainCommand, BsSquareFill],
     [SetTriggerEnabledCommand, BsFileEarmarkCheckFill],
