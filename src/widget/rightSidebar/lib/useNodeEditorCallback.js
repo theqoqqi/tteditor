@@ -23,7 +23,7 @@ function getRelativeNumericChange(oldValue, newValue) {
     return newValue - old;
 }
 
-export default function usePropertyChangedCallback(mapNodes) {
+export default function useNodeEditorCallback(mapNodes) {
     let editor = useEditor();
     let editorContext = useEditorContext();
 

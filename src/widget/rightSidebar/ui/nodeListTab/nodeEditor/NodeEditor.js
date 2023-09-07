@@ -6,7 +6,7 @@ import {MapNode, useObserver} from '../../../../../shared/lib';
 import {BsGearFill} from 'react-icons/bs';
 import {PanelHeader} from '../../../../../shared/ui';
 import {getVisibleControls} from '../../../lib/nodeControls';
-import usePropertyChangedCallback from '../../../lib/usePropertyChangedCallback';
+import useNodeEditorCallback from '../../../lib/useNodeEditorCallback';
 
 NodeEditor.propTypes = {
     mapNodes: PropTypes.arrayOf(PropTypes.instanceOf(MapNode)),
@@ -25,7 +25,7 @@ function NodeEditor({ mapNodes }) {
     useObserver(mapNodes, 'owner');
     useObserver(mapNodes, 'subId');
 
-    let onChange = usePropertyChangedCallback(mapNodes);
+    let onChange = useNodeEditorCallback(mapNodes);
 
     let visibleControls = getVisibleControls(tags);
 
