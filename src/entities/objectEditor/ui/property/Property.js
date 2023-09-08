@@ -1,12 +1,9 @@
-import styles from './Property.module.css';
 import React, {useCallback} from 'react';
 import PropTypes from 'prop-types';
-import {FormControl, FormSelect} from 'react-bootstrap';
-import classNames from 'classnames';
 import getUniqueProperty, {differentValues} from '../../lib/getUniqueProperty';
 import useDebouncedOnChange from '../../lib/useDebouncedOnChange';
-import {ColorInput} from '../../../../shared/ui';
 import {colorsUtils} from '../../../../shared/lib';
+import PropertyInput from '../propertyInput/PropertyInput';
 
 Property.propTypes = {
     name: PropTypes.string,
@@ -50,17 +47,17 @@ function Property({ name, type, objects, options, readonly, debounce = 0, onChan
 
     let differentValuesPlaceholder = '<разные>';
 
-    let classes = classNames(styles.property, {
-        [styles.readonly]: readonly,
-    });
+    let inputProps = {
+        type: type,
+        readonly: readonly,
+        onChange: onInputChange,
+    };
 
     if (type === 'select') {
         return (
-            <FormSelect
-                className={classNames(classes, styles.select)}
+            <PropertyInput
+                {...inputProps}
                 value={hasDifferences ? differentValues.toString() : inputValue}
-                onChange={onInputChange}
-                disabled={readonly}
             >
                 {hasDifferences && (
                     <option disabled value={differentValues.toString()}>
@@ -72,7 +69,7 @@ function Property({ name, type, objects, options, readonly, debounce = 0, onChan
                         {title}
                     </option>
                 ))}
-            </FormSelect>
+            </PropertyInput>
         );
     }
 
@@ -81,24 +78,19 @@ function Property({ name, type, objects, options, readonly, debounce = 0, onChan
 
     if (type === 'color') {
         return (
-            <ColorInput
-                className={classNames(classes, styles.input, styles.color)}
+            <PropertyInput
+                {...inputProps}
                 value={colorsUtils.colorToHexColor(value) ?? ''}
-                onChange={onInputChange}
                 placeholder={placeholder}
-                readonly={readonly}
             />
         );
     }
 
     return (
-        <FormControl
-            className={classNames(classes, styles.input)}
-            type={type}
+        <PropertyInput
+            {...inputProps}
             value={value}
             placeholder={placeholder}
-            onChange={onInputChange}
-            readOnly={readonly}
         />
     );
 }

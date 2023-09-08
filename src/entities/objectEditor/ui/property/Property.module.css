@@ -1,26 +1,4 @@
 
 .property {
-    display: flex;
-    flex: 1;
 
-    height: 28px;
-    margin: 3px;
-}
-
-.property.readonly {
-    opacity: 0.5;
-}
-
-
-
-.input {
-    padding: 0 8px 2px;
-}
-
-.select {
-    padding: 0 36px 0 8px;
-}
-
-.color {
-    font-family: monospace;
 }
