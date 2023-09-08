@@ -4,18 +4,28 @@ import {useDispatch} from 'react-redux';
 import {setSelectedPaletteItem} from '../../../../entities/palette';
 import {setBrushMapNodes} from '../../../../entities/brush';
 import {pointerModes, setPointerMode} from '../../../../entities/pointerMode';
+import useAudioPlayer from './useAudioPlayer';
 
 export default function useOnSelectPaletteItem(tabId, itemId, tag, type, mapNodes) {
     let editor = useEditor();
     let editorContext = useEditorContext();
     let map = useMap();
     let dispatch = useDispatch();
+    let audioPlayer = useAudioPlayer();
 
     let onSelect = useCallback(async () => {
         dispatch(setSelectedPaletteItem({
             tabId,
             itemId,
         }));
+
+        if (tag === 'ambient') {
+            let sound = await editorContext.getSoundFor(tag, type);
+
+            if (sound) {
+                audioPlayer.play(sound);
+            }
+        }
 
         if (!map) {
             return;
@@ -29,7 +39,7 @@ export default function useOnSelectPaletteItem(tabId, itemId, tag, type, mapNode
             dispatch(setPointerMode(pointerModes.insert.name));
             dispatch(setBrushMapNodes(mapNodes.map(mapNode => mapNode.clone())));
         }
-    }, [dispatch, editor, editorContext, map, tabId, itemId, tag, type, mapNodes]);
+    }, [dispatch, editor, editorContext, map, tabId, itemId, tag, type, mapNodes, audioPlayer]);
 
     return onSelect;
 }
