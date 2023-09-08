@@ -5,6 +5,8 @@ import {FormControl, FormSelect} from 'react-bootstrap';
 import classNames from 'classnames';
 import getUniqueProperty, {differentValues} from '../../lib/getUniqueProperty';
 import useDebouncedOnChange from '../../lib/useDebouncedOnChange';
+import {ColorInput} from '../../../../shared/ui';
+import {colorsUtils} from '../../../../shared/lib';
 
 Property.propTypes = {
     name: PropTypes.string,
@@ -22,9 +24,15 @@ function Property({ name, type, objects, options, readonly, debounce = 0, onChan
     let hasDifferences = propertyValue === differentValues;
 
     let onChangeWithCast = useCallback((newValue, oldValue, event) => {
-        let castedNewValue = type === 'number'
-            ? +newValue
-            : newValue;
+        let castedNewValue = newValue;
+
+        if (type === 'number') {
+            castedNewValue = +newValue;
+        }
+
+        if (type === 'color') {
+            castedNewValue = colorsUtils.hexColorToColor(newValue) ?? oldValue;
+        }
 
         onChange(castedNewValue, oldValue, event);
     }, [type, onChange]);
@@ -70,6 +78,18 @@ function Property({ name, type, objects, options, readonly, debounce = 0, onChan
 
     let value = hasDifferences ? '' : inputValue;
     let placeholder = hasDifferences ? differentValuesPlaceholder : null;
+
+    if (type === 'color') {
+        return (
+            <ColorInput
+                className={classNames(classes, styles.input, styles.color)}
+                value={colorsUtils.colorToHexColor(value) ?? ''}
+                onChange={onInputChange}
+                placeholder={placeholder}
+                readonly={readonly}
+            />
+        );
+    }
 
     return (
         <FormControl
