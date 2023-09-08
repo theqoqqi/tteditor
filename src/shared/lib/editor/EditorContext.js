@@ -171,6 +171,11 @@ export default class EditorContext {
     async getSoundFor(tagName, typeName) {
         let nodeMetadata = this.getNodeMetadataByName(tagName, typeName);
         let effectPath = getTextContent(nodeMetadata, 'effect');
+
+        if (!effectPath) {
+            return null;
+        }
+
         let effect = await this.loadXml(effectPath);
         let sounds = effect.querySelectorAll('node > prototype > sound');
 
@@ -185,7 +190,7 @@ export default class EditorContext {
 
         let randomIndex = Math.floor(Math.random() * sounds.length);
 
-        return sounds[randomIndex]?.textContent;
+        return EditorContext.#normalizeDataPath(sounds[randomIndex]?.textContent);
     }
 
     async getNodeXmlByName(tagName, typeName) {
