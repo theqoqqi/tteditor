@@ -3,6 +3,7 @@ import {rootReducer} from './rootReducer';
 import {selectionSlice} from '../entities/selection';
 import {brushSlice} from '../entities/brush';
 import {hiddenNodesSlice} from '../entities/hiddenNodes';
+import {triggerListSlice} from '../entities/triggerList';
 
 function makeStore() {
     let store = configureStore({
@@ -13,6 +14,7 @@ function makeStore() {
                     selectionSlice.name,
                     brushSlice.name,
                     hiddenNodesSlice.name,
+                    triggerListSlice.name,
                 ],
                 ignoreActions: true,
             },

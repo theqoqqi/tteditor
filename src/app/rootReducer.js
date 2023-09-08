@@ -8,6 +8,7 @@ import {paletteSlice} from '../entities/palette';
 import {brushSlice} from '../entities/brush';
 import {focusSlice} from '../entities/focus';
 import {hiddenNodesSlice} from '../entities/hiddenNodes';
+import {triggerListSlice} from '../entities/triggerList';
 
 export const rootReducer = combineReducers({
     [workspaceSlice.name]: workspaceSlice.reducer,
@@ -19,4 +20,5 @@ export const rootReducer = combineReducers({
     [brushSlice.name]: brushSlice.reducer,
     [focusSlice.name]: focusSlice.reducer,
     [hiddenNodesSlice.name]: hiddenNodesSlice.reducer,
+    [triggerListSlice.name]: triggerListSlice.reducer,
 });
