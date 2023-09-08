@@ -7,14 +7,14 @@ export default function useDebouncedOnChange({ storedValue, millis, shouldDeboun
     let [event, setEvent] = useState(null);
 
     let onInputChange = useCallback(e => {
-        if (!shouldDebounce(e)) {
+        if (!millis || !shouldDebounce(e)) {
             onChange(e.target.value, storedValue, e);
             return;
         }
 
         setInputValue(e.target.value);
         setEvent(e);
-    }, [onChange, shouldDebounce, storedValue]);
+    }, [onChange, millis, shouldDebounce, storedValue]);
 
     useDebounce(() => {
         if (event) {
