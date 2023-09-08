@@ -1,0 +1,19 @@
+
+.triggerEditor {
+    display: flex;
+    flex-direction: column;
+
+    height: 450px;
+
+    background-color: #eee;
+}
+
+.statementsInput {
+    flex: 1;
+
+    border: none;
+    border-radius: 0;
+
+    font-family: Consolas, monospace;
+    font-size: 12px;
+}
