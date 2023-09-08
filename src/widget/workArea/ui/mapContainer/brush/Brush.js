@@ -1,24 +1,19 @@
 import styles from './Brush.module.css';
-import React, {useCallback, useEffect, useRef} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {AddNodesCommand, useEditor} from '../../../../../shared/lib';
 import {Node} from '../../../../../entities/node';
-import {useMouse} from 'react-use';
 import ClickReceiver from './clickReceiver/ClickReceiver';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectBrushMapNodes, setBrushPosition} from '../../../../../entities/brush';
 import {pointerModes, setPointerMode, usePointerMode} from '../../../../../entities/pointerMode';
+import {selectPointerPositionOnMap} from '../../../../../entities/pointerPosition';
 
 function Brush() {
     let editor = useEditor();
-    let parentRef = useRef(null);
-    let mouse = useMouse(parentRef);
     let mapNodes = useSelector(selectBrushMapNodes);
     let pointerMode = usePointerMode();
+    let pointerPositionOnMap = useSelector(selectPointerPositionOnMap);
     let dispatch = useDispatch();
-
-    let onRefChanged = useCallback(node => {
-        parentRef.current = node?.parentNode ?? null;
-    }, [parentRef]);
 
     let onPlace = useCallback(mapNodes => {
         editor.executeCommand(new AddNodesCommand(mapNodes));
@@ -29,21 +24,18 @@ function Brush() {
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(setBrushPosition({
-            x: mouse.elX,
-            y: mouse.elY,
-        }));
-    }, [dispatch, mouse.elX, mouse.elY]);
+        dispatch(setBrushPosition(pointerPositionOnMap));
+    }, [dispatch, pointerPositionOnMap]);
 
     if (pointerMode !== pointerModes.insert) {
         return null;
     }
 
     return (
-        <div ref={onRefChanged} className={styles.brush}>
+        <div className={styles.brush}>
             <ClickReceiver
-                x={mouse.elX}
-                y={mouse.elY}
+                x={pointerPositionOnMap.x}
+                y={pointerPositionOnMap.y}
                 mapNodes={mapNodes}
                 onPlace={onPlace}
                 onCancel={onCancel}
