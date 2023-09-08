@@ -4,6 +4,7 @@ import {SidebarTab} from './sidebarTab';
 import {Tabs} from './tabs';
 import {PanelHeader} from './panelHeader';
 import {ColorInput} from './colorInput';
+import {CompactListItem, IconButton, Separator} from './compactListItem';
 
 export {
     List,
@@ -12,4 +13,7 @@ export {
     Tabs,
     PanelHeader,
     ColorInput,
+    CompactListItem,
+    IconButton,
+    Separator,
 };

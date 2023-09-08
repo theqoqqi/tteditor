@@ -1,31 +1,4 @@
 
-.nodeListItem {
-    display: flex;
-    align-items: center;
-
-    min-height: 22px;
-    padding-left: 6px;
-
-    background-color: transparent;
-
-    box-sizing: content-box;
-    user-select: none;
-
-    z-index: 120000;
-}
-
-.nodeListItem.hidden:not(:hover):not(.selected) {
-    opacity: 0.25;
-}
-
-.separator {
-    align-self: stretch;
-
-    margin: 4px 5px;
-
-    background-color: #ddd;
-}
-
 .icon {
     width: 20px;
 }

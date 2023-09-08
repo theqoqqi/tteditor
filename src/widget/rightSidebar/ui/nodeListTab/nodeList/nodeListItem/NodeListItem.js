@@ -12,10 +12,8 @@ import {
 import {BsEyeFill, BsEyeSlashFill, BsPlusCircle, BsXCircleFill} from 'react-icons/bs';
 import {useDispatch} from 'react-redux';
 import {focusCameraAtMapNode} from '../../../../../../entities/focus';
-import classNames from 'classnames';
 import {toggleMapNodeVisibility} from '../../../../../../entities/hiddenNodes';
-import Separator from './separator/Separator';
-import IconButton from './iconButton/IconButton';
+import {CompactListItem, IconButton, Separator} from '../../../../../../shared/ui';
 
 NodeListItem.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
@@ -66,12 +64,10 @@ function NodeListItem({ mapNode, selected, focused, hidden }) {
     let Icon = getTagIconComponent(tag);
 
     return (
-        <div
-            ref={ref}
-            className={classNames(styles.nodeListItem, {
-                [styles.selected]: selected,
-                [styles.hidden]: hidden,
-            })}
+        <CompactListItem
+            itemRef={ref}
+            selected={selected}
+            hidden={hidden}
             onDoubleClick={onFocus}
         >
             {isVisible && <>
@@ -114,7 +110,7 @@ function NodeListItem({ mapNode, selected, focused, hidden }) {
                     onClick={onRemove}
                 />
             </>}
-        </div>
+        </CompactListItem>
     );
 }
 

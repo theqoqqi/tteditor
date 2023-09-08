@@ -1,6 +1,6 @@
 import styles from './IconButton.module.css';
 import React from 'react';
-import {Button} from '../../../../../../../shared/ui';
+import {Button} from '../../button';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -11,12 +11,13 @@ IconButton.propTypes = {
     ...Button.propTypes,
 };
 
-function IconButton({ className, iconClassName, icon, itemSelected, active, ...buttonProps }) {
+function IconButton({ className, iconClassName, icon, itemSelected, toggle, active, ...buttonProps }) {
     let Icon = icon;
 
     return (
         <Button
             className={classNames(styles.iconButton, className, {
+                [styles.toggle]: toggle,
                 [styles.active]: active,
                 [styles.itemSelected]: itemSelected,
             })}

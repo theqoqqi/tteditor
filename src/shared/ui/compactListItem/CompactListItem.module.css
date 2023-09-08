@@ -1,0 +1,19 @@
+
+.compactListItem {
+    display: flex;
+    align-items: center;
+
+    min-height: 22px;
+    padding-left: 6px;
+
+    background-color: transparent;
+
+    box-sizing: content-box;
+    user-select: none;
+
+    z-index: 120000;
+}
+
+.compactListItem.hidden:not(:hover):not(.selected) {
+    opacity: 0.25;
+}
