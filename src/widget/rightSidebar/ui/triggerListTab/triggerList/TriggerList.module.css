@@ -1,0 +1,14 @@
+
+.triggerList {
+    flex: 1;
+
+    max-height: 100%;
+
+    overflow: hidden scroll;
+}
+
+.selected {
+    margin-top: 0 !important;
+
+    background-color: #57bdff !important;
+}

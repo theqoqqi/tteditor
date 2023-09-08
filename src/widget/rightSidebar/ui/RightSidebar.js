@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {BsBorderOuter, BsGridFill, BsPlayCircleFill} from 'react-icons/bs';
 import {SidebarTab, Tabs} from '../../../shared/ui';
 import NodeListTab from './nodeListTab/NodeListTab';
+import TriggerListTab from './triggerListTab/TriggerListTab';
 import MapOptionsTab from './mapOptionsTab/MapOptionsTab';
 
 const allTabs = [
@@ -14,7 +15,7 @@ const allTabs = [
     {
         key: 'triggerList',
         tab: <SidebarTab side='right' title='Триггеры' icon={<BsPlayCircleFill />} />,
-        content: <b>Триггеры</b>,
+        content: <TriggerListTab />,
     },
     {
         key: 'mapOptions',
