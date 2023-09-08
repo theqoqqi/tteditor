@@ -1,0 +1,24 @@
+
+.controlContainer {
+    display: flex;
+}
+
+.controlContainer:hover {
+    background-color: #ddd;
+}
+
+.heading {
+    display: flex;
+    align-items: center;
+
+    flex: 1;
+}
+
+.items {
+    display: flex;
+
+    flex: 1.375;
+
+    width: 220px;
+    gap: 6px;
+}

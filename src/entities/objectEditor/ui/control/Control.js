@@ -40,38 +40,39 @@ function Control({ title, objects, property, properties, nullable, onChange }) {
     }, [objects, onChange, properties]);
 
     return (
-        <div className={styles.control}>
-            <label className={styles.title}>
-                {title}
-            </label>
-            <div className={styles.propertyList}>
-                {properties.map(property => (
-                    <Property
-                        key={property.name}
-                        objects={objects}
-                        onChange={(newValue, oldValue, event) => {
-                            return onChange([
-                                {
-                                    property,
-                                    newValue,
-                                    oldValue,
-                                    event
-                                },
-                            ]);
-                        }}
-                        {...property}
-                        readonly={property.readonly || (nullable && isNull(objects, property))}
-                    />
-                ))}
-                {nullable && (
-                    <FormCheckInput
-                        className={styles.nullCheckbox}
-                        checked={!isNull(objects, properties[0])}
-                        onChange={onToggleCallback}
-                    />
-                )}
-            </div>
-        </div>
+        <ControlContainer
+            heading={(
+                <label className={styles.title}>
+                    {title}
+                </label>
+            )}
+        >
+            {properties.map(property => (
+                <Property
+                    key={property.name}
+                    objects={objects}
+                    onChange={(newValue, oldValue, event) => {
+                        return onChange([
+                            {
+                                property,
+                                newValue,
+                                oldValue,
+                                event
+                            },
+                        ]);
+                    }}
+                    {...property}
+                    readonly={property.readonly || (nullable && isNull(objects, property))}
+                />
+            ))}
+            {nullable && (
+                <FormCheckInput
+                    className={styles.nullCheckbox}
+                    checked={!isNull(objects, properties[0])}
+                    onChange={onToggleCallback}
+                />
+            )}
+        </ControlContainer>
     );
 }
 
