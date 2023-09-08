@@ -168,23 +168,6 @@ export default class EditorContext {
         return this.imageSizes[imagePath.toLowerCase()];
     }
 
-    async playSoundFor(tagName, typeName) {
-        let randomSound = await this.getSoundFor(tagName, typeName);
-
-        this.playSound(randomSound);
-    }
-
-    playSound(path) {
-        if (this.currentAudio) {
-            this.currentAudio.pause();
-        }
-
-        let normalizedPath = EditorContext.#normalizeDataPath(path);
-
-        this.currentAudio = new Audio(`${this.workspacePath}/${normalizedPath}`);
-        this.currentAudio.play();
-    }
-
     async getSoundFor(tagName, typeName) {
         let nodeMetadata = this.getNodeMetadataByName(tagName, typeName);
         let effectPath = getTextContent(nodeMetadata, 'effect');
