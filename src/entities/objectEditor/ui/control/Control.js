@@ -54,6 +54,7 @@ function Control({ title, objects, property, properties, nullable, onChange }) {
                     onChange={(newValue, oldValue, event) => {
                         return onChange([
                             {
+                                objects,
                                 property,
                                 newValue,
                                 oldValue,
