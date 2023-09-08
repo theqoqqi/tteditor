@@ -11,9 +11,8 @@
 .statementsInput {
     flex: 1;
 
-    border: none;
-    border-radius: 0;
+    width: initial !important;
+    height: initial !important;
 
-    font-family: Consolas, monospace;
-    font-size: 12px;
+    border-top: 1px solid #ddd;
 }

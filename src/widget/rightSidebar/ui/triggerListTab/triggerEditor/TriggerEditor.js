@@ -7,8 +7,8 @@ import {ObjectEditor} from '../../../../../entities/objectEditor';
 import useTriggerEditorCallback from '../../../lib/useTriggerEditorCallback';
 import {PanelHeader} from '../../../../../shared/ui';
 import {BsPlayCircleFill} from 'react-icons/bs';
-import {FormControl} from 'react-bootstrap';
 import useTriggerStatementsEditorCallback from '../../../lib/useTriggerStatementsEditorCallback';
+import AceEditor from 'react-ace';
 
 TriggerEditor.propTypes = {
     trigger: PropTypes.instanceOf(Trigger),
@@ -39,11 +39,37 @@ function TriggerEditor({ trigger }) {
                 controls={triggerControls}
                 onChange={onChange}
             />
-            <FormControl
-                as='textarea'
+            <AceEditor
+                mode='xml'
+                theme='chrome'
                 className={styles.statementsInput}
                 value={statementsText}
                 onChange={onChangeStatements}
+                setOptions={{
+                    // editor options
+                    selectionStyle: 'line',
+                    highlightActiveLine: true,
+                    highlightSelectedWord: true,
+                    cursorStyle: 'ace',
+                    behavioursEnabled: true,
+                    tabSize: 2,
+                    useSoftTabs: true,
+                    enableMultiselect: true,
+                    vScrollBarAlwaysVisible: true,
+
+                    // renderer options
+                    highlightGutterLine: true,
+                    fontSize: 12,
+                    fontFamily: `'Consolas', monospace`,
+                    scrollPastEnd: true,
+
+                    // session options
+                    // empty
+
+                    // extension options
+                    enableBasicAutocompletion: true,
+                    enableLiveAutocompletion: true,
+                }}
             />
         </div>
     );
