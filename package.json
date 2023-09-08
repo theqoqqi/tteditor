@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
+    "ace-builds": "^1.24.2",
     "bootstrap": "^5.3.1",
     "classnames": "^2.3.2",
     "dot-prop": "^8.0.2",
@@ -14,6 +15,7 @@
     "mathjs": "^11.9.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
+    "react-ace": "^10.1.0",
     "react-bootstrap": "^2.8.0",
     "react-dom": "^18.2.0",
     "react-hotkeys-hook": "^4.4.1",
