@@ -3,6 +3,7 @@ import {Button} from './button';
 import {SidebarTab} from './sidebarTab';
 import {Tabs} from './tabs';
 import {PanelHeader} from './panelHeader';
+import {ColorInput} from './colorInput';
 
 export {
     List,
@@ -10,4 +11,5 @@ export {
     SidebarTab,
     Tabs,
     PanelHeader,
+    ColorInput,
 };
