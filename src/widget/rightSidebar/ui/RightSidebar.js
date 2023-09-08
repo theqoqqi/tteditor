@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {BsBorderOuter, BsGridFill, BsPlayCircleFill} from 'react-icons/bs';
 import {SidebarTab, Tabs} from '../../../shared/ui';
 import NodeListTab from './nodeListTab/NodeListTab';
+import MapOptionsTab from './mapOptionsTab/MapOptionsTab';
 
 const allTabs = [
     {
@@ -18,7 +19,7 @@ const allTabs = [
     {
         key: 'mapOptions',
         tab: <SidebarTab side='right' title='Карта' icon={<BsBorderOuter />} />,
-        content: <b>Карта</b>,
+        content: <MapOptionsTab />,
     },
 ];
 
