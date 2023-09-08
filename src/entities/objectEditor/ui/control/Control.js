@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Property from '../property/Property';
 import FormCheckInput from 'react-bootstrap/FormCheckInput';
 import getUniqueProperty from '../../lib/getUniqueProperty';
+import {BsXCircleFill} from 'react-icons/bs';
+import ControlContainer from '../controlContainer/ControlContainer';
 
 function isNull(objects, property) {
     return getUniqueProperty(objects, property.name) === null;
@@ -15,10 +17,12 @@ Control.propTypes = {
     property: PropTypes.shape(Property.propTypes),
     properties: PropTypes.arrayOf(PropTypes.shape(Property.propTypes)),
     nullable: PropTypes.bool,
+    removable: PropTypes.bool,
     onChange: PropTypes.func,
+    onRemove: PropTypes.func,
 };
 
-function Control({ title, objects, property, properties, nullable, onChange }) {
+function Control({ title, objects, property, properties, nullable, removable, onChange, onRemove }) {
     properties ??= [property];
 
     let onToggleCallback = useCallback(e => {
@@ -38,6 +42,10 @@ function Control({ title, objects, property, properties, nullable, onChange }) {
             })));
         }
     }, [objects, onChange, properties]);
+
+    let onRemoveCallback = useCallback(() => {
+        onRemove({ objects, properties });
+    }, [onRemove, objects, properties]);
 
     return (
         <ControlContainer
@@ -71,6 +79,12 @@ function Control({ title, objects, property, properties, nullable, onChange }) {
                     className={styles.nullCheckbox}
                     checked={!isNull(objects, properties[0])}
                     onChange={onToggleCallback}
+                />
+            )}
+            {removable && (
+                <BsXCircleFill
+                    className={styles.removeIcon}
+                    onClick={onRemoveCallback}
                 />
             )}
         </ControlContainer>

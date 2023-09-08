@@ -6,10 +6,17 @@
     padding-right: 10px;
 }
 
+.removeIcon,
 .nullCheckbox {
     flex: 0 0 20px;
 
     width: 20px;
     height: 20px;
     margin: 7px 7px 7px 0;
+}
+
+.removeIcon:hover {
+    color: #d72e2c;
+
+    cursor: pointer
 }
