@@ -1,19 +1,13 @@
 import styles from './NodeListItem.module.css';
 import React, {memo, useCallback, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
-import {
-    getTagIconComponent,
-    MapNode,
-    RemoveNodesCommand,
-    useEditor,
-    useFirstIntersection,
-    useObserver
-} from '../../../../../../shared/lib';
+import {getTagIconComponent, MapNode, useFirstIntersection, useObserver} from '../../../../../../shared/lib';
 import {BsEyeFill, BsEyeSlashFill, BsPlusCircle, BsXCircleFill} from 'react-icons/bs';
 import {useDispatch} from 'react-redux';
 import {focusCameraAtMapNode} from '../../../../../../entities/focus';
 import {toggleMapNodeVisibility} from '../../../../../../entities/hiddenNodes';
 import {CompactListItem, IconButton, Separator} from '../../../../../../shared/ui';
+import {useRemoveMapNodes} from '../../../../../../features/node';
 
 NodeListItem.propTypes = {
     mapNode: PropTypes.instanceOf(MapNode),
@@ -26,13 +20,13 @@ function NodeListItem({ mapNode, selected, focused, hidden }) {
     /** @type React.Ref<HTMLDivElement> */
     let ref = useRef();
     let isVisible = useFirstIntersection(ref);
-    let editor = useEditor();
     let x = useObserver(mapNode, 'x');
     let y = useObserver(mapNode, 'y');
     let tag = useObserver(mapNode, 'tag');
     let type = useObserver(mapNode, 'type');
     let name = useObserver(mapNode, 'name');
     let dispatch = useDispatch();
+    let removeMapNodes = useRemoveMapNodes();
 
     useEffect(() => {
         if (focused) {
@@ -58,8 +52,8 @@ function NodeListItem({ mapNode, selected, focused, hidden }) {
     let onRemove = useCallback(e => {
         e.stopPropagation();
 
-        editor.executeCommand(new RemoveNodesCommand([mapNode]));
-    }, [editor, mapNode]);
+        removeMapNodes([mapNode]);
+    }, [removeMapNodes, mapNode]);
 
     let Icon = getTagIconComponent(tag);
 
