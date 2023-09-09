@@ -9,6 +9,7 @@ const hotkeys = {
 
     save: 'ctrl+s',
 
+    selectAll: 'ctrl+a',
     delete: 'delete',
 };
 

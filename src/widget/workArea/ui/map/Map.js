@@ -13,6 +13,7 @@ import useFocusNodeListAtId from '../../lib/useFocusNodeListAtId';
 import {useMouse} from 'react-use';
 import {setPointerPositionOnMap} from '../../../../entities/pointerPosition';
 import useRemoveMapNodesHotkeys from '../../lib/useRemoveMapNodesHotkeys';
+import useSelectAllMapNodesHotkeys from '../../lib/useSelectAllMapNodesHotkeys';
 
 function Map() {
     let ref = useRef(null);
@@ -37,6 +38,7 @@ function Map() {
     let onDoubleClick = useFocusNodeListAtId();
 
     useArrowMovement(selectedMapNodes);
+    useSelectAllMapNodesHotkeys();
     useRemoveMapNodesHotkeys(selectedMapNodes);
 
     useMapObserver('width');
