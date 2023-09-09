@@ -2,6 +2,7 @@ import React, {useCallback} from 'react';
 import {BsArrowClockwise} from 'react-icons/bs';
 import {useEditorObserver, useListObserver, useObserver} from '../../../../shared/lib';
 import IconButton from '../iconButton/IconButton';
+import {hotkeys} from '../../../../features/globalHotkeys';
 
 function RedoButton() {
     let commandExecutor = useEditorObserver('commandExecutor');
@@ -17,6 +18,7 @@ function RedoButton() {
     return (
         <IconButton
             title='Повторить отмененное действие'
+            hotkey={hotkeys.redo}
             icon={BsArrowClockwise}
             disabled={!canRedo}
             onClick={onClick}
