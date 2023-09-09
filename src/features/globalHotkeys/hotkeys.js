@@ -6,6 +6,8 @@ const hotkeys = {
 
     undo: 'ctrl+z',
     redo: 'ctrl+shift+z',
+
+    save: 'ctrl+s',
 };
 
 export default hotkeys;

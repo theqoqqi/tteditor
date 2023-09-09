@@ -3,6 +3,7 @@ import {BsFileEarmarkCheckFill} from 'react-icons/bs';
 import {useSaveLevel} from '../../../../features/level';
 import {useMap} from '../../../../shared/lib';
 import IconButton from '../iconButton/IconButton';
+import {hotkeys} from '../../../../features/globalHotkeys';
 
 function SaveLevelButton() {
     let map = useMap();
@@ -11,6 +12,7 @@ function SaveLevelButton() {
     return (
         <IconButton
             title='Сохранить уровень'
+            hotkey={hotkeys.save}
             icon={BsFileEarmarkCheckFill}
             onClick={saveLevel}
             disabled={!map}
