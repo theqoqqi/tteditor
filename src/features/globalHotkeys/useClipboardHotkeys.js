@@ -1,5 +1,5 @@
 import {useHotkeys} from 'react-hotkeys-hook';
-import {RemoveNodesCommand, useEditor, xmlUtils} from '../../shared/lib';
+import {xmlUtils} from '../../shared/lib';
 import {setBrushMapNodes} from '../../entities/brush';
 import {pointerModes, setPointerMode} from '../../entities/pointerMode';
 import {useDispatch, useSelector} from 'react-redux';
@@ -9,6 +9,7 @@ import MapReader from '../../shared/lib/editor/MapReader';
 import MapWriter from '../../shared/lib/editor/MapWriter';
 import {useCallback} from 'react';
 import hotkeys from './hotkeys';
+import {useRemoveMapNodes} from '../node';
 
 function serializeMapNodes(mapNodes) {
     let xmlSerializer = new XMLSerializer();
@@ -62,15 +63,15 @@ function withPreventDefault(callback) {
 }
 
 export default function useClipboardHotkeys() {
-    let editor = useEditor();
     let selectedMapNodes = useSelector(selectSelectedMapNodes);
     let dispatch = useDispatch();
     let [clipboardState, copyToClipboard] = useCopyToClipboard();
+    let removeMapNodes = useRemoveMapNodes();
 
     let cut = useCallback(() => {
-        editor.executeCommand(new RemoveNodesCommand(selectedMapNodes));
+        removeMapNodes(selectedMapNodes);
         copyToClipboard(serializeMapNodes(selectedMapNodes));
-    }, [editor, copyToClipboard, selectedMapNodes]);
+    }, [removeMapNodes, copyToClipboard, selectedMapNodes]);
 
     let copy = useCallback(() => {
         copyToClipboard(serializeMapNodes(selectedMapNodes));
