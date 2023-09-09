@@ -8,6 +8,8 @@ const hotkeys = {
     redo: 'ctrl+shift+z',
 
     save: 'ctrl+s',
+
+    delete: 'delete',
 };
 
 export default hotkeys;
