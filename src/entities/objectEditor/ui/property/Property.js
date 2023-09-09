@@ -18,7 +18,6 @@ Property.propTypes = {
 function Property({ name, type, objects, options, readonly, debounce = 0, onChange }) {
 
     let propertyValue = getUniqueProperty(objects, name, '');
-    let hasDifferences = propertyValue === differentValues;
 
     let onChangeWithCast = useCallback((newValue, oldValue, event) => {
         let castedNewValue = newValue;
@@ -45,6 +44,7 @@ function Property({ name, type, objects, options, readonly, debounce = 0, onChan
         onChange: onChangeWithCast,
     });
 
+    let hasDifferences = inputValue === differentValues;
     let differentValuesPlaceholder = '<разные>';
 
     let inputProps = {
