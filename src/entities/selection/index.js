@@ -3,6 +3,7 @@ import {
     addToSelection,
     clearSelection,
     removeFromSelection,
+    removeAllFromSelection,
     selectionSlice,
     selectSelectedMapNodes,
     setSelection,
@@ -17,5 +18,6 @@ export {
     addToSelection,
     addAllToSelection,
     removeFromSelection,
+    removeAllFromSelection,
     toggleSelection,
 };

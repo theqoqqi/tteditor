@@ -3,6 +3,7 @@ import castArray from 'lodash.castarray';
 import uniq from 'lodash.uniq';
 import union from 'lodash.union';
 import pull from 'lodash.pull';
+import pullAll from 'lodash.pullall';
 
 const initialState = {
     selectedMapNodes: [],
@@ -29,6 +30,9 @@ export const selectionSlice = createSlice({
         removeFromSelection(state, action) {
             pull(state.selectedMapNodes, action.payload);
         },
+        removeAllFromSelection(state, action) {
+            pullAll(state.selectedMapNodes, action.payload);
+        },
         toggleSelection(state, action) {
             if (state.selectedMapNodes.includes(action.payload)) {
                 pull(state.selectedMapNodes, action.payload);
@@ -52,5 +56,6 @@ export const {
     addToSelection,
     addAllToSelection,
     removeFromSelection,
+    removeAllFromSelection,
     toggleSelection,
 } = selectionSlice.actions;
