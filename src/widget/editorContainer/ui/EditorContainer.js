@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {useDispatch} from 'react-redux';
 import {setWorkspacePath} from '../../../entities/workspace';
+import {useGlobalHotkeys} from '../../../features/globalHotkeys';
 
 EditorContainer.propTypes = {
     className: PropTypes.any,
@@ -20,6 +21,8 @@ function EditorContainer({ className, top, left, center, right, bottom }) {
     useEffect(() => {
         dispatch(setWorkspacePath('test'));
     }, [dispatch]);
+
+    useGlobalHotkeys();
 
     return (
         <div className={classNames(styles.editorContainer, className)}>
