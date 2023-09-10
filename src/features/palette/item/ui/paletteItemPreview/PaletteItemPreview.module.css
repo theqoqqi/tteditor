@@ -21,6 +21,10 @@
     position: absolute;
 }
 
+.hidden {
+    visibility: hidden;
+}
+
 .scalingWrapper {
     position: absolute;
 
