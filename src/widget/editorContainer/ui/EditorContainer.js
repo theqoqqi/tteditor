@@ -2,8 +2,8 @@ import styles from './EditorContainer.module.css';
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {useDispatch} from 'react-redux';
-import {setWorkspacePath} from '../../../entities/workspace';
+import {useDispatch, useSelector} from 'react-redux';
+import {selectWorkspacePath, setWorkspacePath} from '../../../entities/workspace';
 import {useGlobalHotkeys} from '../../../features/globalHotkeys';
 
 EditorContainer.propTypes = {
@@ -16,11 +16,18 @@ EditorContainer.propTypes = {
 };
 
 function EditorContainer({ className, top, left, center, right, bottom }) {
+    let workspacePath = useSelector(selectWorkspacePath);
     let dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(setWorkspacePath('test'));
+        let workspaceToLoad = localStorage.getItem('workspacePath') ?? 'test';
+
+        dispatch(setWorkspacePath(workspaceToLoad));
     }, [dispatch]);
+
+    useEffect(() => {
+        localStorage.setItem('workspacePath', workspacePath);
+    }, [workspacePath]);
 
     useGlobalHotkeys();
 
