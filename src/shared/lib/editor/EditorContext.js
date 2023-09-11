@@ -433,7 +433,7 @@ export default class EditorContext {
     }
 
     async saveLevel(filename, map) {
-        let responseText = await this.post('files', {
+        let responseText = await this.post('xmls', {
             path: filename,
             contents: this.writeLevel(map),
         });
@@ -472,7 +472,7 @@ export default class EditorContext {
             return parser.parseFromString(responseText, 'text/xml');
         }
 
-        let promise = this.get('files', {
+        let promise = this.get('xmls', {
             path: filename,
         });
 

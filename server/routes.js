@@ -37,13 +37,13 @@ export default function initRoutes(app) {
         }
     });
 
-    app.get('/files', withWorkspace(async function (request, response, workspace) {
+    app.get('/xmls', withWorkspace(async function (request, response, workspace) {
         let path = request.query.path;
 
         return await responseXml(response, workspace, path);
     }));
 
-    app.post('/files', withWorkspace(async function (request, response, workspace) {
+    app.post('/xmls', withWorkspace(async function (request, response, workspace) {
         try {
             let path = request.body.path;
             let contents = request.body.contents;
