@@ -168,6 +168,12 @@ export default class EditorContext {
         return this.imageSizes[imagePath.toLowerCase()];
     }
 
+    getFileUrl(path) {
+        let normalizedPath = EditorContext.normalizeDataPath(path);
+
+        return `${this.serverUrl}/files?workspace=${this.workspacePath}&path=${normalizedPath}`;
+    }
+
     async getSoundFor(tagName, typeName) {
         let nodeMetadata = this.getNodeMetadataByName(tagName, typeName);
         let effectPath = getTextContent(nodeMetadata, 'effect');
