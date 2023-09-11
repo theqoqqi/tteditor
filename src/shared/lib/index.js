@@ -1,3 +1,4 @@
+import * as env from './env';
 import {getPluralTagTitle, getTagIconComponent, getAllowedProperties} from './tags';
 import {getCommandIconComponent} from './commands';
 import useSelectorWithParams from './hooks/useSelectorWithParams';
@@ -51,6 +52,8 @@ import editorInstance from './context/instance';
 import EditorProvider from './context/provider';
 
 export {
+    env,
+
     getPluralTagTitle,
     getTagIconComponent,
     getAllowedProperties,
