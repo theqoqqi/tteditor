@@ -1,12 +1,13 @@
 import styles from './ScrollableMapContainer.module.css';
-import React, {useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import {usePointerMode} from '../../../../entities/pointerMode';
 import {useMap, useMapObserver, useObserver} from '../../../../shared/lib';
 import MapContainer from '../mapContainer/MapContainer';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {selectCameraFocusPosition} from '../../../../entities/focus';
 import FowClear from './fowClear/FowClear';
+import {clearSelection} from '../../../../entities/selection';
 
 function ScrollableMapContainer() {
     /** @type React.Ref<HTMLElement> */
@@ -18,6 +19,11 @@ function ScrollableMapContainer() {
     let pointerMode = usePointerMode();
     let focusPosition = useSelector(selectCameraFocusPosition);
     let fowClearColor = useObserver(options, 'fowClearColor');
+    let dispatch = useDispatch();
+
+    let onClickCallback = useCallback(() => {
+        dispatch(clearSelection());
+    }, [dispatch]);
 
     useEffect(() => {
         if (focusPosition) {
@@ -51,7 +57,7 @@ function ScrollableMapContainer() {
                 cursor: pointerMode.cursor,
             }}
         >
-            <div ref={overscrollRef} className={styles.overscrollArea}>
+            <div ref={overscrollRef} className={styles.overscrollArea} onClick={onClickCallback}>
                 {map && <MapContainer />}
             </div>
             <FowClear color={fowClearColor} />
