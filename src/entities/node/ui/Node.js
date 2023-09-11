@@ -23,7 +23,11 @@ function Node({ mapNode, selected, onClick, onPointerDown, onDoubleClick, hidden
     let nodeXml = useNodeXml(tag, type);
 
     let nodeProps = {
-        onClick: () => onClick?.(mapNode),
+        onClick: e => {
+            e.stopPropagation();
+
+            onClick?.(mapNode);
+        },
         onPointerDown: e => onPointerDown?.(e, { mapNode, isSelected: selected }),
         onDoubleClick: () => onDoubleClick?.(mapNode),
     };
