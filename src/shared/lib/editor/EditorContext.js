@@ -110,6 +110,10 @@ export default class EditorContext {
         this.setImageSizes(imageSizes);
     }
 
+    async installAndRun() {
+        return this.post('run');
+    }
+
     async createTerrainByName(terrainName) {
         let terrain = new MapTerrain(terrainName);
         let terrainXml = await this.getNodeXmlByName('terrain', terrainName);

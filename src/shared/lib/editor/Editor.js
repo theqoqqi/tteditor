@@ -145,6 +145,10 @@ export default class Editor extends Observable {
         this.setLevelClear();
     }
 
+    async installAndRun() {
+        return await this.context.installAndRun();
+    }
+
     get loadedLevelPath() {
         return this.#loadedLevelPath;
     }
