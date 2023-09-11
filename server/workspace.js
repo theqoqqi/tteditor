@@ -27,10 +27,10 @@ export default class Workspace {
     }
 
     async create() {
-        let publicDataPath = '../public/data';
-        let dataPath = this.#rootPath + '/data';
+        let templateDataPath = 'templateData';
+        let workspaceDataPath = this.#rootPath + '/data';
 
-        await fs.cp(publicDataPath, dataPath, {
+        await fs.cp(templateDataPath, workspaceDataPath, {
             recursive: true,
         });
     }
