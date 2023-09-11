@@ -171,6 +171,10 @@ export default class Workspace {
         return await this.fileExists(normalizedPath);
     }
 
+    getAbsolutePath(path) {
+        return this.#normalize(path);
+    }
+
     #normalize(path) {
         if (!Paths.isAbsolute(path)) {
             path = this.toAbsolute(path);

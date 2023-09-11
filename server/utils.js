@@ -43,6 +43,25 @@ export async function responseXml(response, workspace, path) {
     }
 }
 
+export async function responseFile(response, workspace, path) {
+    if (!await workspace.fileExists(path)) {
+        return responseJson(response, 404, {
+            reason: 'FILE_NOT_FOUND',
+        });
+    }
+
+    try {
+        let absolutePath = workspace.getAbsolutePath(path);
+
+        return responseSendFile(response, 200, absolutePath);
+    } catch (e) {
+        return responseJson(response, 500, {
+            reason: 'UNABLE_TO_READ_FILE',
+            error: e.message,
+        });
+    }
+}
+
 export function responseJson(response, status, json = {}) {
     responseJsonText(response, status, JSON.stringify(json, null, 4));
 }
@@ -61,6 +80,10 @@ export function responseXmlText(response, status, json) {
     });
     response.write(json);
     response.end();
+}
+
+export function responseSendFile(response, status, path) {
+    response.sendFile(path, null, () => response.end());
 }
 
 export function responseEmpty(response, status) {

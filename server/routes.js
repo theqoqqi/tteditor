@@ -1,4 +1,4 @@
-import {responseEmpty, responseJson, responseXml, withWorkspace} from './utils.js';
+import {responseEmpty, responseFile, responseJson, responseXml, withWorkspace} from './utils.js';
 import Workspace from './workspace.js';
 
 export default function initRoutes(app) {
@@ -36,6 +36,12 @@ export default function initRoutes(app) {
             });
         }
     });
+
+    app.get('/files', withWorkspace(async function (request, response, workspace) {
+        let path = request.query.path;
+
+        await responseFile(response, workspace, path);
+    }));
 
     app.get('/xmls', withWorkspace(async function (request, response, workspace) {
         let path = request.query.path;
