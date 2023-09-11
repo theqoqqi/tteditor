@@ -1,5 +1,6 @@
 import {responseEmpty, responseFile, responseJson, responseXml, withWorkspace} from './utils.js';
 import Workspace from './workspace.js';
+import installAndRun from './installAndRun.js';
 
 export default function initRoutes(app) {
     app.get('/ping', function (request, response) {
@@ -36,6 +37,23 @@ export default function initRoutes(app) {
             });
         }
     });
+
+    app.post('/run', withWorkspace(async function (request, response, workspace) {
+        try {
+            await installAndRun({
+                workspacePath: workspace.rootPath,
+                gamePath: process.env.GAME_PATH,
+                gameDataPath: process.env.GAME_DATA_PATH,
+            });
+
+            return responseEmpty(response, 200);
+        } catch (e) {
+            return responseJson(response, 500, {
+                reason: 'UNABLE_TO_RUN_GAME',
+                error: e.message,
+            });
+        }
+    }));
 
     app.get('/files', withWorkspace(async function (request, response, workspace) {
         let path = request.query.path;
