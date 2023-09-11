@@ -13,6 +13,9 @@ function SaveLevelButton() {
         <IconButton
             title='Сохранить уровень'
             hotkey={hotkeys.save}
+            hotkeyOptions={{
+                enableOnFormTags: true,
+            }}
             icon={BsFileEarmarkCheckFill}
             onClick={saveLevel}
             disabled={!map}
