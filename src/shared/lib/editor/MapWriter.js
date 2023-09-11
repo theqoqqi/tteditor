@@ -177,7 +177,7 @@ export default class MapWriter {
     createElementFromNode(node) {
         let nodeElement = this.mapDocument.createElement(node.tag);
 
-        if (node.subId) {
+        if (node.subId !== null) {
             nodeElement.setAttribute('sub_id', node.subId);
         }
 
