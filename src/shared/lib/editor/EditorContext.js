@@ -164,7 +164,7 @@ export default class EditorContext {
     }
 
     getImageSize(imagePath) {
-        imagePath = EditorContext.#normalizeDataPath(imagePath);
+        imagePath = EditorContext.normalizeDataPath(imagePath);
         return this.imageSizes[imagePath.toLowerCase()];
     }
 
@@ -190,7 +190,7 @@ export default class EditorContext {
 
         let randomIndex = Math.floor(Math.random() * sounds.length);
 
-        return EditorContext.#normalizeDataPath(sounds[randomIndex]?.textContent);
+        return EditorContext.normalizeDataPath(sounds[randomIndex]?.textContent);
     }
 
     async getNodeXmlByName(tagName, typeName) {
@@ -458,7 +458,7 @@ export default class EditorContext {
     }
 
     async loadXml(filename) {
-        filename = EditorContext.#normalizeDataPath(filename);
+        filename = EditorContext.normalizeDataPath(filename);
 
         if (this.loadedXmlFiles[filename]) {
             return this.loadedXmlFiles[filename];
@@ -525,7 +525,7 @@ export default class EditorContext {
         return await rawResponse.text();
     }
 
-    static #normalizeDataPath(path) {
+    static normalizeDataPath(path) {
         if (!path) {
             return '';
         }
