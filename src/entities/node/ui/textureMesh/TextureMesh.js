@@ -1,6 +1,6 @@
 import styles from './TextureMesh.module.css';
 import React from 'react';
-import {RenderContext, useRenderContext} from '../../../../shared/lib';
+import {RenderContext, useEditorContext, useRenderContext} from '../../../../shared/lib';
 import PropTypes from 'prop-types';
 import {getMeshXml} from '../../lib/xmlUtils';
 import {createMeshStyles} from '../../lib/cssUtils';
@@ -18,6 +18,7 @@ TextureMesh.propTypes = {
 };
 
 function TextureMesh({ tag, type, nodeXml, zIndex, style }) {
+    let editorContext = useEditorContext();
     let renderContext = useRenderContext();
     let meshXml = getMeshXml(nodeXml);
     let asyncMeshStyle = useAsync(
@@ -26,11 +27,12 @@ function TextureMesh({ tag, type, nodeXml, zIndex, style }) {
     );
 
     let texturePath = RenderContext.getTexturePath(nodeXml);
+    let textureUrl = editorContext.getFileUrl(texturePath);
 
     return (
         <img
             className={styles.mesh}
-            src={texturePath ?? '/img/empty.png'}
+            src={textureUrl ?? '/img/empty.png'}
             style={{ ...asyncMeshStyle.value, ...{ zIndex }, ...style }}
             alt=''
         />

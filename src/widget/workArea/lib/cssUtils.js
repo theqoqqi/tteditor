@@ -1,6 +1,6 @@
 import {createBackgroundStyle, createTintStyle} from '../../../shared/lib/cssUtils';
 
-export function createTerrainStyles(terrain) {
+export function createTerrainStyles(editorContext, terrain) {
     let hasTexture = terrain.texture !== null;
     let hasColor = terrain.color !== null;
 
@@ -14,8 +14,10 @@ export function createTerrainStyles(terrain) {
         ? createTintStyle(terrain.color)
         : null;
 
+    let textureUrl = editorContext.getFileUrl(terrain.texture);
+
     return {
-        backgroundImage: `url('data${terrain.texture}')`,
+        backgroundImage: `url('${textureUrl}')`,
         ...tintStyles,
     };
 }
