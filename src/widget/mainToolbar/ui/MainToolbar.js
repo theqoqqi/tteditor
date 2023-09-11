@@ -10,9 +10,11 @@ import {EditorContext} from '../../../shared/lib';
 import UndoButton from './undoRedo/UndoButton';
 import RedoButton from './undoRedo/RedoButton';
 import Separator from './separator/Separator';
+import RunButton from './runButton/RunButton';
 
 function MainToolbar() {
     let layerTags = EditorContext.getLayerTagNames();
+    let isLocalhost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
 
     return (
         <div className={styles.mainToolbar}>
@@ -38,6 +40,10 @@ function MainToolbar() {
                     <ToggleLayerButton key={layerTag} tag={layerTag} />
                 ))}
             </>
+            {isLocalhost && <>
+                <Separator />
+                <RunButton />
+            </>}
         </div>
     );
 }
