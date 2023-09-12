@@ -18,12 +18,19 @@ function PaletteTab() {
         let configItems = config.querySelectorAll(':scope > *');
         let additionalItems = tab.additionalItems ?? [];
 
-        let paletteItemProps = Array.from(configItems)
-            .filter(item => {
-                let typeName = item.getAttribute('name');
-                let paletteItemNames = editorContext.getPaletteItemList(item.tagName);
+        let listedInPalette = item => {
+            let typeName = item.getAttribute('name');
+            let paletteItemNames = editorContext.getPaletteItemList(item.tagName);
 
-                return typeName === null || paletteItemNames.includes(typeName);
+            return paletteItemNames.includes(typeName);
+        };
+
+        let paletteItemProps = Array.from(configItems)
+            .sort((a, b) => {
+                let compareByA = +!listedInPalette(a);
+                let compareByB = +!listedInPalette(b);
+
+                return compareByA - compareByB;
             })
             .map(item => ({
                 nodeMetadata: item,
