@@ -10,7 +10,9 @@ import {EditorContext} from '../../../shared/lib';
 import UndoButton from './undoRedo/UndoButton';
 import RedoButton from './undoRedo/RedoButton';
 import Separator from './separator/Separator';
-import RunButton from './runButton/RunButton';
+import InstallTestProfileButton from './gameOperations/InstallTestProfileButton';
+import InstallToGameButton from './gameOperations/InstallToGameButton';
+import RunGameButton from './gameOperations/RunGameButton';
 
 function MainToolbar() {
     let layerTags = EditorContext.getLayerTagNames();
@@ -42,7 +44,9 @@ function MainToolbar() {
             </>
             {isLocalhost && <>
                 <Separator />
-                <RunButton />
+                <InstallTestProfileButton />
+                <InstallToGameButton />
+                <RunGameButton />
             </>}
         </div>
     );

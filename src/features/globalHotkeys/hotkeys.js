@@ -9,7 +9,9 @@ const hotkeys = {
 
     save: 'ctrl+s',
 
-    run: 'f9',
+    installTestProfile: 'f7',
+    installToGame: 'f8',
+    runGame: 'f9',
 
     selectAll: 'ctrl+a',
     delete: 'delete',
