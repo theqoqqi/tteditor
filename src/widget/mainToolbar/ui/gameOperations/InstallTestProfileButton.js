@@ -1,15 +1,16 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {BsPersonFillUp} from 'react-icons/bs';
 import {useEditor} from '../../../../shared/lib';
 import IconButton from '../iconButton/IconButton';
 import {hotkeys} from '../../../../features/globalHotkeys';
 import {useSelector} from 'react-redux';
 import {selectWorkspacePath} from '../../../../entities/workspace';
+import {useAsyncFn} from 'react-use';
 
 function RunButton() {
     let editor = useEditor();
     let workspacePath = useSelector(selectWorkspacePath);
-    let onClick = useCallback(() => editor.installTestProfile(), [editor]);
+    let [{ loading }, onClick] = useAsyncFn(() => editor.installTestProfile(), [editor]);
 
     return (
         <IconButton
@@ -17,7 +18,7 @@ function RunButton() {
             hotkey={hotkeys.installTestProfile}
             icon={BsPersonFillUp}
             onClick={onClick}
-            disabled={!workspacePath}
+            disabled={!workspacePath || loading}
         />
     );
 }
