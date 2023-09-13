@@ -111,7 +111,9 @@ export default class EditorContext {
     }
 
     async installAndRun() {
-        return this.post('run');
+        await this.post('game/install-workspace');
+        await this.post('game/install-test-profile');
+        await this.post('game/run');
     }
 
     async createTerrainByName(terrainName) {

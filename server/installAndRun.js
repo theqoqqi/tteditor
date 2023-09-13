@@ -4,7 +4,7 @@ import { exec } from 'child_process';
 import fs from 'fs';
 import { glob } from 'glob';
 
-async function reflectFiles(workspacePath, gamePath) {
+export async function installWorkspace(workspacePath, gamePath) {
     let { err } = await reflect({
         src: path.resolve(workspacePath, 'data'),
         dest: path.resolve(gamePath, 'data'),
@@ -18,7 +18,7 @@ async function reflectFiles(workspacePath, gamePath) {
     }
 }
 
-async function initTestPlayer(gameDataPath) {
+export async function installTestProfile(gameDataPath) {
     let originalProfilePath = path.resolve(gameDataPath, 'profiles.dat');
     let testProfilePath = path.resolve('testData/profiles.dat');
     let questFilesWildcard = path.resolve(gameDataPath, 'quest-*.dat');
@@ -45,15 +45,8 @@ async function fileExists(path) {
     }
 }
 
-function runGame(gamePath) {
+export function runGame(gamePath) {
     exec('".\\Totem Tribe Gold.exe"', {
         cwd: gamePath,
     }, (...args) => console.log(...args));
-}
-
-export default async function installAndRun({ workspacePath, gamePath, gameDataPath }) {
-    await reflectFiles(workspacePath, gamePath);
-    await initTestPlayer(gameDataPath);
-
-    runGame(gamePath);
 }
