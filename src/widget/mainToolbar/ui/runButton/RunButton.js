@@ -9,7 +9,11 @@ import {selectWorkspacePath} from '../../../../entities/workspace';
 function RunButton() {
     let editor = useEditor();
     let workspacePath = useSelector(selectWorkspacePath);
-    let installAndRun = useCallback(() => editor.installAndRun(), [editor]);
+    let installAndRun = useCallback(async () => {
+        await editor.installToGame();
+        await editor.installTestProfile();
+        await editor.runGame();
+    }, [editor]);
 
     return (
         <IconButton

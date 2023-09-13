@@ -110,10 +110,16 @@ export default class EditorContext {
         this.setImageSizes(imageSizes);
     }
 
-    async installAndRun() {
-        await this.post('game/install-workspace');
-        await this.post('game/install-test-profile');
-        await this.post('game/run');
+    async installToGame() {
+        return this.post('game/install-workspace');
+    }
+
+    async installTestProfile() {
+        return this.post('game/install-test-profile');
+    }
+
+    async runGame() {
+        return this.post('game/run');
     }
 
     async createTerrainByName(terrainName) {

@@ -145,8 +145,16 @@ export default class Editor extends Observable {
         this.setLevelClear();
     }
 
-    async installAndRun() {
-        return await this.context.installAndRun();
+    async installToGame() {
+        return await this.context.installToGame();
+    }
+
+    async installTestProfile() {
+        return await this.context.installTestProfile();
+    }
+
+    async runGame() {
+        return await this.context.runGame();
     }
 
     get loadedLevelPath() {
