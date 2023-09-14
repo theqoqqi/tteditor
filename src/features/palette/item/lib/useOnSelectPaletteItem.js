@@ -23,7 +23,9 @@ export default function useOnSelectPaletteItem(tabId, itemId, tag, type, mapNode
             let sound = await editorContext.getSoundFor(tag, type);
 
             if (sound) {
-                audioPlayer.play(sound);
+                let soundUrl = editorContext.getFileUrl(sound);
+
+                audioPlayer.play(soundUrl);
             }
         }
 
