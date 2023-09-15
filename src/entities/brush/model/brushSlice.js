@@ -26,10 +26,13 @@ export const brushSlice = createSlice({
             state.mapNodeOffsets = [];
         },
         setBrushPosition(state, action) {
+            let {x: brushX, y: brushY} = editorInstance.context
+                .alignPositionToGrid(action.payload.x, action.payload.y);
+
             state.mapNodes.forEach((mapNode, index) => {
                 let offset = state.mapNodeOffsets[index];
-                let x = (offset?.x ?? 0) + action.payload.x;
-                let y = (offset?.y ?? 0) + action.payload.y;
+                let x = (offset?.x ?? 0) + brushX;
+                let y = (offset?.y ?? 0) + brushY;
 
                 editorInstance.context.setMapNodePosition(mapNode, x, y);
             });
