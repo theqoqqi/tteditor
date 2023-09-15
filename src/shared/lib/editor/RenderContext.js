@@ -34,7 +34,7 @@ export default class RenderContext {
 
     getDeclaredRadius(mapNode) {
         if (mapNode.radius) {
-            return mapNode.radius / 2;
+            return +mapNode.radius;
         }
 
         let nodeMetadata = this.context.getNodeMetadataByName(mapNode.tag, mapNode.type);
