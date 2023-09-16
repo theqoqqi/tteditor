@@ -3,6 +3,8 @@ import {getPluralTagTitle, getTagIconComponent, getAllowedProperties} from './ta
 import {getCommandIconComponent} from './commands';
 import useSelectorWithParams from './hooks/useSelectorWithParams';
 import useFirstIntersection from './hooks/useFirstIntersection';
+import Analyser from './analysis/Analyser';
+import AnalysisData from './analysis/AnalysisData';
 import Editor from './editor/Editor';
 import EditorContext from './editor/EditorContext';
 import RenderContext from './editor/RenderContext';
@@ -60,6 +62,9 @@ export {
     getCommandIconComponent,
     useSelectorWithParams,
     useFirstIntersection,
+
+    Analyser,
+    AnalysisData,
 
     Editor,
     LevelEditor,
