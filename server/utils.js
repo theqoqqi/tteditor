@@ -1,4 +1,5 @@
 import Workspace from './workspace.js';
+import fs from 'fs/promises';
 
 export function withWorkspace(handler) {
     return async (request, response) => {
@@ -33,6 +34,29 @@ export async function responseXml(response, workspace, path) {
 
     try {
         let fileContents = await workspace.getFileContents(path, 'utf8');
+
+        return responseXmlText(response, 200, fileContents);
+    } catch (e) {
+        return responseJson(response, 500, {
+            reason: 'UNABLE_TO_READ_FILE',
+            error: e.message,
+        });
+    }
+}
+
+export async function responseTemplateXml(response, path) {
+    let templatePath = `template/${path}`;
+
+    try {
+        await fs.access(templatePath);
+    } catch (e) {
+        return responseJson(response, 404, {
+            reason: 'FILE_NOT_FOUND',
+        });
+    }
+
+    try {
+        let fileContents = await fs.readFile(templatePath, 'utf8');
 
         return responseXmlText(response, 200, fileContents);
     } catch (e) {

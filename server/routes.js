@@ -1,6 +1,6 @@
-import {responseEmpty, responseFile, responseJson, responseXml, withWorkspace} from './utils.js';
+import {responseEmpty, responseFile, responseJson, responseTemplateXml, responseXml, withWorkspace} from './utils.js';
 import Workspace from './workspace.js';
-import {installWorkspace, installTestProfile, runGame} from './installAndRun.js';
+import {installTestProfile, installWorkspace, runGame} from './installAndRun.js';
 
 export default function initRoutes(app) {
     app.get('/ping', function (request, response) {
@@ -82,6 +82,19 @@ export default function initRoutes(app) {
 
         await responseFile(response, workspace, path);
     }));
+
+    app.get('/xmls/template', async function (request, response) {
+        try {
+            let path = request.query.path;
+
+            return await responseTemplateXml(response, path);
+        } catch (e) {
+            return responseJson(response, 500, {
+                reason: 'UNABLE_TO_READ_TEMPLATE_FILE',
+                error: e.message,
+            });
+        }
+    });
 
     app.get('/xmls', withWorkspace(async function (request, response, workspace) {
         let path = request.query.path;
