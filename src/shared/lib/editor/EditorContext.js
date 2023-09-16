@@ -504,6 +504,17 @@ export default class EditorContext {
         return this.loadedXmlFiles[filename];
     }
 
+    async loadTemplateXml(filename) {
+        filename = EditorContext.normalizeDataPath(filename);
+
+        let parser = new DOMParser();
+        let responseText = await this.get('xmls/template', {
+            path: filename,
+        });
+
+        return parser.parseFromString(responseText, 'text/xml');
+    }
+
     async get(url, params = null) {
         return this.executeHttpRequest('GET', url, { params });
     }
