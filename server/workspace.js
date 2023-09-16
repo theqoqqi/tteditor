@@ -27,7 +27,7 @@ export default class Workspace {
     }
 
     async create() {
-        let templateDataPath = 'templateData';
+        let templateDataPath = 'template/data';
         let workspaceDataPath = this.#rootPath + '/data';
 
         await fs.cp(templateDataPath, workspaceDataPath, {
