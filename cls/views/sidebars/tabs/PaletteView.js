@@ -174,11 +174,22 @@ export default class PaletteView extends AbstractView {
         let config = this.context.getConfigByName(configName);
         let items = config.querySelectorAll(':scope > *');
 
-        return Array.from(items).filter(item => {
+        return this.sortItems(Array.from(items));
+    }
+
+    sortItems(items) {
+        let listedInPalette = item => {
             let typeName = item.getAttribute('name');
             let paletteItemNames = this.context.getPaletteItemList(item.tagName);
 
-            return typeName === null || paletteItemNames.includes(typeName);
+            return paletteItemNames.includes(typeName);
+        };
+
+        return items.sort((a, b) => {
+            let compareByA = +!listedInPalette(a);
+            let compareByB = +!listedInPalette(b);
+
+            return compareByA - compareByB;
         });
     }
 
