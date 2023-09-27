@@ -92,7 +92,7 @@ export default class UINodeFactory {
 
     getDeclaredRadius(mapNode) {
         if (mapNode.radius) {
-            return mapNode.radius / 2;
+            return mapNode.radius;
         }
 
         let nodeInfo = this.context.getNodeInfoByName(mapNode.tag, mapNode.type);
