@@ -458,7 +458,7 @@ export default class MapEditor {
         mapNode.y = y;
 
         if (this.context.shouldMapNodeAlignToGrid(mapNode)) {
-            this.context.alignNodeToGrid(mapNode);
+            this.context.alignMapNodePositionToGrid(mapNode);
         }
     }
 
